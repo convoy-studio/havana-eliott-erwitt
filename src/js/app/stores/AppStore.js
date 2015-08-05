@@ -15,6 +15,9 @@ function _getPageContent() {
 function _getMenuContent() {
     return data.menu
 }
+function _getFooterMenuContent() {
+    return data['footer-menu']
+}
 function _getAppData() {
     return data
 }
@@ -34,6 +37,9 @@ var AppStore = assign({}, EventEmitter2.prototype, {
     },
     menuContent: function() {
         return _getMenuContent()
+    },
+    footerMenuContent: function() {
+        return _getFooterMenuContent()
     },
     appData: function() {
         return _getAppData()

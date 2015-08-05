@@ -4,13 +4,16 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 
 export default class Contact extends Page {
+	constructor(props) {
+		super(props)
+	}
 	render() {
 		var content = AppStore.pageContent()
 		return (
 			<div id='contact-page' ref='page-wrapper' className='page-wrapper'>
 				<div className="vertical-center-parent">
 					<p className="vertical-center-child">
-						This is a {content.title}
+						This is an {content.title}
 					</p>
 				</div>
 			</div>
@@ -18,6 +21,9 @@ export default class Contact extends Page {
 	}
 	componentDidMount() {
 		super.componentDidMount()
+	}
+	didTransitionOutComplete() {
+		super.didTransitionOutComplete()
 	}
 	resize() {
 		var windowW = AppStore.Window.w

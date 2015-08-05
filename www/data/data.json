@@ -5,31 +5,66 @@
 
 	"menu": [
 		{
-			"id": "work",
-			"name": "Work",
-			"url": "/works"
+			"id": "fellowship",
+			"name": "Fellowship",
+			"url": "/fellowship"
 		},{
-			"id": "about",
-			"name": "About",
-			"url": "/about"
+			"id": "projects",
+			"name": "Projects",
+			"url": "/projects"
 		},{
-			"id": "contact",
-			"name": "Contact",
-			"url": "/contact"
+			"id": "shop",
+			"name": "Shop",
+			"url": "/shop"
+		},{
+			"id": "news",
+			"name": "News",
+			"url": "/news"
 		}
 	],
 
-	"default-route": "/works",
+	"footer-menu": [
+		{
+			"id": "contact",
+			"name": "Contact",
+			"url": "/contact"
+		},{
+			"id": "legal",
+			"name": "Legal",
+			"url": "/legal"
+		},{
+			"id": "privacy",
+			"name": "Privacy",
+			"url": "/privacy"
+		}
+	],
+
+	"default-route": "/home",
 
 	"routing": {
-		"/works": {
-			"title": "works page",
+		"/home": {
+			"title": "homepage",
 		},
-		"/about": {
-			"title": "about page",
-        },
-        "/contact": {
-        	"title": "contact page",
-        }
+		"/fellowship": {
+			"title": "fellowship page",
+		},
+		"/projects": {
+			"title": "projects page",
+		},
+		"/shop": {
+			"title": "shop page",
+		},
+		"/news": {
+			"title": "news page",
+		},
+		"/contact": {
+			"title": "contact page",
+		},
+		"/legal": {
+			"title": "legal page",
+		},
+		"/privacy": {
+			"title": "privacy page",
+		}
 	}
 }

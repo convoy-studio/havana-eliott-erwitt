@@ -4,8 +4,13 @@ import AppConstants from 'AppConstants'
 import AppStore from 'AppStore'
 import Router from 'Router'
 import Home from 'Home'
-import About from 'About'
+import Fellowship from 'Fellowship'
+import Projects from 'Projects'
+import Shop from 'Shop'
+import News from 'News'
 import Contact from 'Contact'
+import Legal from 'Legal'
+import Privacy from 'Privacy'
 
 export default class PagesContainer extends BasePager {
 	constructor(props) {
@@ -24,13 +29,28 @@ export default class PagesContainer extends BasePager {
 		var hash = Router.getNewHash()
 		var type = undefined
 		switch(hash.parent) {
-			case 'about':
-				type = About
+			case 'fellowship':
+				type = Fellowship
+				break
+			case 'projects':
+				type = Projects
+				break
+			case 'shop':
+				type = Shop
+				break
+			case 'news':
+				type = News
 				break
 			case 'contact':
 				type = Contact
 				break
-			case 'works':
+			case 'legal':
+				type = Legal
+				break
+			case 'privacy':
+				type = Privacy
+				break
+			case 'home':
 				type = Home
 				break
 			default:

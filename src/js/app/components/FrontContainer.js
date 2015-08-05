@@ -11,21 +11,34 @@ export default class FrontContainer extends BaseComponent {
 		AppStore.on(AppConstants.PAGE_HASHER_CHANGED, this.didHasherChange)
 	}
 	render() {
-		var menuData = AppStore.menuContent()
-		var menuItems = menuData.map((item, index)=>{
-			var pathUrl = '#' + item.url
+		let menuData = AppStore.menuContent()
+		let menuItems = menuData.map((item, index)=>{
+			let pathUrl = '#' + item.url
 			return(
 				<li key={index}><a href={pathUrl}>{item.name}</a></li>
 			)
 		})
+		let footerMenuData = AppStore.footerMenuContent()
+		let footerMenuItems = footerMenuData.map((item, index)=>{
+			let pathUrl = '#' + item.url
+			return(
+				<li key={index}><a href={pathUrl}>{item.name}</a></li>
+			)
+		})
+
 		return (
 			<div id='front-container' ref='front-container'>
 				<header id="header">
+					<h1 className='header-title'><a href='#/home'>Elliot Erwitt — Havana Club 7 — Fellowship</a></h1>
 					<ul>
 						{menuItems}
 					</ul>
 				</header>
-				<footer id="footer">Footer</footer>
+				<footer id="footer">
+					<ul>
+						{footerMenuItems}
+					</ul>
+				</footer>
 			</div>
 		)
 	}

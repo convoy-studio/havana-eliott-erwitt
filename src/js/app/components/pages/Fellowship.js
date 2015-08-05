@@ -1,20 +1,19 @@
 import React from 'react'
 import Page from 'Page'
-import AppStore from 'AppStore'
 import dom from 'domquery'
-import AppConstants from 'AppConstants'
+import AppStore from 'AppStore'
 
-export default class Home extends Page {
+export default class Fellowship extends Page {
 	constructor(props) {
 		super(props)
 	}
 	render() {
 		var content = AppStore.pageContent()
 		return (
-			<div id='home-page' ref='page-wrapper' className='page-wrapper'>
-				<div className='vertical-center-parent'>
-					<p className='vertical-center-child'>
-						This is a {content.title}
+			<div id='fellowship-page' ref='page-wrapper' className='page-wrapper'>
+				<div className="vertical-center-parent">
+					<p className="vertical-center-child">
+						This is an {content.title}
 					</p>
 				</div>
 			</div>
@@ -22,9 +21,6 @@ export default class Home extends Page {
 	}
 	componentDidMount() {
 		super.componentDidMount()
-	}
-	didTransitionInComplete() {
-		super.didTransitionInComplete()
 	}
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
@@ -35,4 +31,3 @@ export default class Home extends Page {
 		super.resize()
 	}
 }
-
