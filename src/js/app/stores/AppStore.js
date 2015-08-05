@@ -8,67 +8,74 @@ import Router from 'Router'
 function _pageRouteIdChanged(id) {
 }
 function _getPageContent() {
-    var hashObj = Router.getNewHash()
-    var content = data.routing[hashObj.hash]
-    return content
+	// console.log(data)
+	var hashObj = Router.getNewHash()
+	var content = data.routes.routing[hashObj.hash]
+	return content
 }
 function _getMenuContent() {
-    return data.menu
+	return data.routes.menu
 }
 function _getFooterMenuContent() {
-    return data['footer-menu']
+	return data.routes['footer-menu']
 }
 function _getAppData() {
-    return data
+	return data.routes
 }
 function _getDefaultRoute() {
-    return data['default-route']
+	return data.routes['default-route']
 }
 function _getGlobalContent() {
-    return data.content
+	return data.routes.content
+}
+function _getNews() {
+    return data.news
 }
 
 var AppStore = assign({}, EventEmitter2.prototype, {
-    emitChange: function(type, item) {
-        this.emit(type, item)
-    },
-    pageContent: function() {
-        return _getPageContent()
-    },
-    menuContent: function() {
-        return _getMenuContent()
-    },
-    footerMenuContent: function() {
-        return _getFooterMenuContent()
-    },
-    appData: function() {
-        return _getAppData()
-    },
-    defaultRoute: function() {
-        return _getDefaultRoute()
-    },
-    globalContent: function() {
-        return _getGlobalContent()
-    },
-    Window: {
-        w: window.innerWidth,
-        h: window.innerHeight
-    },
-    dispatcherIndex: AppDispatcher.register(function(payload){
-        var action = payload.action
-        switch(action.actionType) {
-            case AppConstants.PAGE_HASHER_CHANGED:
-                _pageRouteIdChanged(action.item)
-                AppStore.emitChange(action.actionType)
-                break
-            case AppConstants.WINDOW_RESIZE:
-                AppStore.Window.w = action.item.windowW
-                AppStore.Window.h = action.item.windowH
-                AppStore.emitChange(action.actionType)
-                break
-        }
-        return true
-    })
+	emitChange: function(type, item) {
+		this.emit(type, item)
+	},
+	pageContent: function() {
+		return _getPageContent()
+	},
+	menuContent: function() {
+		return _getMenuContent()
+	},
+	footerMenuContent: function() {
+		return _getFooterMenuContent()
+	},
+	appData: function() {
+		return _getAppData()
+	},
+	defaultRoute: function() {
+		return _getDefaultRoute()
+	},
+	globalContent: function() {
+		return _getGlobalContent()
+	},
+	newsContent: function() {
+		return _getNews()
+	},
+	Window: {
+		w: window.innerWidth,
+		h: window.innerHeight
+	},
+	dispatcherIndex: AppDispatcher.register(function(payload){
+		var action = payload.action
+		switch(action.actionType) {
+			case AppConstants.PAGE_HASHER_CHANGED:
+				_pageRouteIdChanged(action.item)
+				AppStore.emitChange(action.actionType)
+				break
+			case AppConstants.WINDOW_RESIZE:
+				AppStore.Window.w = action.item.windowW
+				AppStore.Window.h = action.item.windowH
+				AppStore.emitChange(action.actionType)
+				break
+		}
+		return true
+	})
 })
 
 

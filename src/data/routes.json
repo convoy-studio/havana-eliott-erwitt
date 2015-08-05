@@ -1,0 +1,70 @@
+{
+	"content": {
+		"mytext": "some global text"
+	},
+
+	"menu": [
+		{
+			"id": "fellowship",
+			"name": "Fellowship",
+			"url": "/fellowship"
+		},{
+			"id": "projects",
+			"name": "Projects",
+			"url": "/projects"
+		},{
+			"id": "shop",
+			"name": "Shop",
+			"url": "/shop"
+		},{
+			"id": "news",
+			"name": "News",
+			"url": "/news"
+		}
+	],
+
+	"footer-menu": [
+		{
+			"id": "contact",
+			"name": "Contact",
+			"url": "/contact"
+		},{
+			"id": "legal",
+			"name": "Legal",
+			"url": "/legal"
+		},{
+			"id": "privacy",
+			"name": "Privacy",
+			"url": "/privacy"
+		}
+	],
+
+	"default-route": "/home",
+
+	"routing": {
+		"/home": {
+			"title": "homepage"
+		},
+		"/fellowship": {
+			"title": "fellowship page"
+		},
+		"/projects": {
+			"title": "projects page"
+		},
+		"/shop": {
+			"title": "shop page"
+		},
+		"/news": {
+			"title": "news page"
+		},
+		"/contact": {
+			"title": "contact page"
+		},
+		"/legal": {
+			"title": "legal page"
+		},
+		"/privacy": {
+			"title": "privacy page"
+		}
+	}
+}

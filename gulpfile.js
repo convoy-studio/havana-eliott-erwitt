@@ -16,6 +16,7 @@ var imagemin = require('gulp-imagemin')
 var sourcemaps = require('gulp-sourcemaps')
 var postcss = require('gulp-postcss')
 var bundle = require('gulp-bundle-assets')
+var jsoncombine = require('gulp-jsoncombine')
 
 // tranforms
 var browserify = require('browserify')
@@ -158,6 +159,13 @@ var tasks = {
         
         return rebundle();
     },
+    json: function() {
+        return gulp.src('./src/data/*.json')
+            .pipe(jsoncombine('data.json',function(data){
+                return new Buffer(JSON.stringify(data));
+            }))
+            .pipe(gulp.dest('./www/data'));
+    },
 
     optimize: function() {
 
@@ -286,6 +294,7 @@ gulp.task('watch', function() {
     gulp.watch('./src/scss/**/*.scss', ['reload-sass']);
     // gulp.watch('./src/js/**/*.js', ['watch-js']);
     gulp.watch('./www/**/*.html', ['reload-templates']);
+    gulp.watch('./src/data/*.json', ['json']);
     gutil.log(gutil.colors.bgRed('Watching for changes...'));
 });
 
@@ -293,6 +302,7 @@ gulp.task('clean', tasks.clean);
 gulp.task('sass', tasks.sass);
 gulp.task('clearJs', tasks.clearJs);
 gulp.task('browserify', tasks.browserify);
+gulp.task('json', tasks.json);
 gulp.task('deployDir', tasks.deployDir);
 gulp.task('deployCopy', tasks.deployCopy);
 gulp.task('transform', tasks.transform);
@@ -303,6 +313,7 @@ gulp.task('build-app', tasks.buildApp);
 gulp.task('build', [
     'browser-sync',
     'sass',
+    'json',
     'build-vendor',
     'build-app'
 ]);

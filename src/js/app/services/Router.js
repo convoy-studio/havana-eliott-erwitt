@@ -6,7 +6,7 @@ import AppStore from 'AppStore'
 
 class Router {
 	init() {
-		this.routing = data.routing
+		this.routing = data.routes.routing
 		this.defaultRoute = this.routing['/']
 		this.newHashFounded = false
 		hasher.newHash = undefined
@@ -75,7 +75,7 @@ class Router {
 		return hasher.getHash()
 	}
 	static getRoutes() {
-		return data.routing
+		return data.routes.routing
 	}
 	static getNewHash() {
 		return hasher.newHash
