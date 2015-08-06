@@ -21,9 +21,9 @@ class Router {
 	}
 	_setupCrossroads() {
 		let basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 3)
-		basicSection.rules = {
-			page : ['home', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
-		}
+		// basicSection.rules = {
+		// 	page : ['home', '404', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
+		// }
 
 		let detailSection = crossroads.addRoute('{page}/{id}', this._onFirstDegreeURLHandler.bind(this), 3)
 		let validIDs = []

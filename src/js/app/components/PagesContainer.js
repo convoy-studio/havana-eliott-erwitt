@@ -12,6 +12,7 @@ import News from 'News'
 import Contact from 'Contact'
 import Legal from 'Legal'
 import Privacy from 'Privacy'
+import Notfound from 'Notfound'
 
 export default class PagesContainer extends BasePager {
 	constructor(props) {
@@ -60,7 +61,7 @@ export default class PagesContainer extends BasePager {
 				type = Home
 				break
 			default:
-				type = Home
+				type = Notfound
 		}
 		this.setupNewComponent(hash.parent, type, id)
 	}
