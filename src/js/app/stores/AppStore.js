@@ -31,6 +31,9 @@ function _getGlobalContent() {
 function _getNews() {
     return data.news
 }
+function _getArtists() {
+    return data.artists
+}
 
 var AppStore = assign({}, EventEmitter2.prototype, {
 	emitChange: function(type, item) {
@@ -56,6 +59,9 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 	},
 	newsContent: function() {
 		return _getNews()
+	},
+	artistsContent: function() {
+		return _getArtists()
 	},
 	Window: {
 		w: window.innerWidth,

@@ -6,13 +6,22 @@ import AppStore from 'AppStore'
 export default class Projects extends Page {
 	constructor(props) {
 		super(props)
+		dom('body')
+			.removeClass('body--black')
+			.addClass('body--white')
 	}
 	render() {
-		var content = AppStore.pageContent()
+		let artistsData = AppStore.artistsContent()
+		let artistsItems = artistsData.map((item, index)=>{
+			return(
+				<p key={index}>{item.name}</p>
+			)
+		})
+		let content = AppStore.pageContent()
 		return (
-			<div id='projectsPage' ref='page-wrapper' className='page'>
+			<div id='projectsPage' ref='page-wrapper' className='page page--white'>
 				<div className='page__content'>
-					This is an {content.title}
+					{artistsItems}
 				</div>
 			</div>
 		)
@@ -20,6 +29,9 @@ export default class Projects extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 	}
+	// componentWillUnmount() {
+	// 	dom('body').removeClass('body--white')
+	// }
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
 	}
