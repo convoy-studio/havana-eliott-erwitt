@@ -12,6 +12,9 @@ export default class Home extends Page {
 		let content = AppStore.pageContent()
 		return (
 			<div id='homepage' ref='page-wrapper' className='page'>
+				<div className='video'>
+					<video className='video__file' src='./assets/videos/bg-home.mp4'></video>
+				</div>
 				<div className='page__content'>
 					<p dangerouslySetInnerHTML={{__html: content.content}} />
 				</div>
