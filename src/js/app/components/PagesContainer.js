@@ -6,6 +6,7 @@ import Router from 'Router'
 import Home from 'Home'
 import Fellowship from 'Fellowship'
 import Projects from 'Projects'
+import Project from 'Project'
 import Shop from 'Shop'
 import News from 'News'
 import Contact from 'Contact'
@@ -26,14 +27,19 @@ export default class PagesContainer extends BasePager {
 		super.componentWillUnmount()
 	}
 	didHasherChange() {
-		var hash = Router.getNewHash()
-		var type = undefined
+		let hash = Router.getNewHash()
+		let type = undefined
+		let id = undefined
 		switch(hash.parent) {
 			case 'fellowship':
 				type = Fellowship
 				break
 			case 'projects':
 				type = Projects
+				break
+			case 'project':
+				type = Project
+				id = hash.parts[1]
 				break
 			case 'shop':
 				type = Shop
@@ -56,7 +62,7 @@ export default class PagesContainer extends BasePager {
 			default:
 				type = Home
 		}
-		this.setupNewComponent(hash.parent, type)
+		this.setupNewComponent(hash.parent, type, id)
 	}
 }
 

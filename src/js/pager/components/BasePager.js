@@ -25,7 +25,7 @@ export default class BasePager extends React.Component {
 		PagerStore.on(PagerConstants.PAGE_TRANSITION_IN, this.willPageTransitionIn)
 		PagerStore.on(PagerConstants.PAGE_TRANSITION_OUT, this.willPageTransitionOut)
 	}
-	setupNewComponent(hash, Type) {
+	setupNewComponent(hash, Type, idSection) {
 		var id = _capitalize(hash.replace("/", ""))
 		this.oldPageDivRef = this.currentPageDivRef
 		this.currentPageDivRef = (this.currentPageDivRef === 'page-a') ? 'page-b' : 'page-a'
@@ -35,6 +35,7 @@ export default class BasePager extends React.Component {
 				id={this.currentPageDivRef} 
 				isReady={this.onPageReady} 
 				hash={hash}
+				idSection={idSection}
 				didTransitionInComplete={this.didPageTransitionInComplete.bind(this)}
 				didTransitionOutComplete={this.didPageTransitionOutComplete.bind(this)}
 			/>

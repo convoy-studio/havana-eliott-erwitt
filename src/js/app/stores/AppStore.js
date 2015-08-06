@@ -34,6 +34,9 @@ function _getNews() {
 function _getArtists() {
     return data.artists
 }
+function _getArtist(id) {
+    return data.artists[id]
+}
 
 var AppStore = assign({}, EventEmitter2.prototype, {
 	emitChange: function(type, item) {
@@ -62,6 +65,10 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 	},
 	artistsContent: function() {
 		return _getArtists()
+	},
+	artistContent: function(id) {
+		console.log(id)
+		return _getArtist(id)
 	},
 	Window: {
 		w: window.innerWidth,

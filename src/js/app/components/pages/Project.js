@@ -3,26 +3,22 @@ import Page from 'Page'
 import dom from 'domquery'
 import AppStore from 'AppStore'
 
-export default class Projects extends Page {
+export default class Project extends Page {
 	constructor(props) {
 		super(props)
+		this.props = props
 		dom('body')
 			.removeClass('body--black')
 			.addClass('body--white')
 	}
 	render() {
-		let artistsData = AppStore.artistsContent()
-		let artistsItems = []
-		for (let artist in artistsData) {
-			artistsItems.push(<li key={artist}><a href={'#/project/'+artist}>{artistsData[artist].name}</a></li>)
-		}
+		let artistData = AppStore.artistContent(this.props.idSection)
 		let content = AppStore.pageContent()
 		return (
-			<div id='projectsPage' ref='page-wrapper' className='page page--white'>
+			<div id='projectPage' ref='page-wrapper' className='page page--white'>
 				<div className='page__content'>
-					<ul>
-						{artistsItems}
-					</ul>
+					<h2>{artistData.name}</h2>
+					<p>{artistData.bio}</p>
 				</div>
 			</div>
 		)

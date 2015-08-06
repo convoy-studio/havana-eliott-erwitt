@@ -20,9 +20,19 @@ class Router {
 		hasher.init()
 	}
 	_setupCrossroads() {
-		var basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 3)
+		let basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 3)
 		basicSection.rules = {
 			page : ['home', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
+		}
+
+		let detailSection = crossroads.addRoute('{page}/{id}', this._onFirstDegreeURLHandler.bind(this), 3)
+		let validIDs = []
+		for (let artist in data.artists) {
+			validIDs.push(artist)
+		}
+		detailSection.rules = {
+			page : ['project'],
+			id : validIDs
 		}
 	}
 	_onFirstDegreeURLHandler(pageId) {
@@ -38,13 +48,13 @@ class Router {
 		this._sendToDefault()
 	}
 	_assignRoute(id) {
-		var hash = hasher.getHash()
-		var parts = this._getURLParts(hash)
+		let hash = hasher.getHash()
+		let parts = this._getURLParts(hash)
 		this._updatePageRoute(hash, parts, parts[0], id)
 		this.newHashFounded = true
 	}
 	_getURLParts(url) {
-		var hash = url
+		let hash = url
 		hash = hash.substr(1)
 		return hash.split('/')
 	}
