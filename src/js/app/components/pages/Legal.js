@@ -10,11 +10,9 @@ export default class Legal extends Page {
 	render() {
 		var content = AppStore.pageContent()
 		return (
-			<div id='legal-page' ref='page-wrapper' className='page-wrapper'>
-				<div className="vertical-center-parent">
-					<p className="vertical-center-child">
-						This is an {content.title}
-					</p>
+			<div id='legalPage' ref='page-wrapper' className='page'>
+				<div className='page__content'>
+					This is an {content.title}
 				</div>
 			</div>
 		)

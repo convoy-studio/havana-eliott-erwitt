@@ -7,7 +7,7 @@ import PagesContainer from 'PagesContainer'
 export default class AppTemplate extends React.Component {
 	render() {
 		return (
-			<div id='app-template'>
+			<div id='template'>
 				<FrontContainer />
 				<PagesContainer />
 			</div>

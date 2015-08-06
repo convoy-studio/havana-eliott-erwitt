@@ -15,7 +15,7 @@ export default class BasePager extends React.Component {
 	}
 	render() {
 		return (
-			<div id='pages-container'>
+			<div id='pagesContainer'>
 				<div style={this.divStyle} ref='page-a'></div>
 				<div style={this.divStyle} ref='page-b'></div>
 			</div>

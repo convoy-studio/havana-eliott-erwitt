@@ -9,13 +9,11 @@ export default class Home extends Page {
 		super(props)
 	}
 	render() {
-		var content = AppStore.pageContent()
+		let content = AppStore.pageContent()
 		return (
-			<div id='home-page' ref='page-wrapper' className='page-wrapper'>
-				<div className='vertical-center-parent'>
-					<p className='vertical-center-child'>
-						This is a {content.title}
-					</p>
+			<div id='homepage' ref='page-wrapper' className='page'>
+				<div className='page__content'>
+					<p dangerouslySetInnerHTML={{__html: content.content}} />
 				</div>
 			</div>
 		)

@@ -20,7 +20,7 @@ class App {
 		// Render react
 		React.render(
 			<AppTemplate />,
-			document.getElementById('app-container')
+			document.getElementById('container')
 		)
 
 		// Start routing

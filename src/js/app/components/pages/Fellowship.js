@@ -10,12 +10,8 @@ export default class Fellowship extends Page {
 	render() {
 		var content = AppStore.pageContent()
 		return (
-			<div id='fellowship-page' ref='page-wrapper' className='page-wrapper'>
-				<div className="vertical-center-parent">
-					<p className="vertical-center-child">
-						This is an {content.title}
-					</p>
-				</div>
+			<div id='fellowshipPage' ref='page-wrapper' className='page'>
+				<div className='page__content'>{content.content}</div>
 			</div>
 		)
 	}
