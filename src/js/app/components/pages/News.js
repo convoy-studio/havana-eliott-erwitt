@@ -6,6 +6,9 @@ import AppStore from 'AppStore'
 export default class News extends Page {
 	constructor(props) {
 		super(props)
+		dom('body')
+			.removeClass('body--white')
+			.addClass('body--black')
 	}
 	render() {
 		let newsData = AppStore.newsContent()

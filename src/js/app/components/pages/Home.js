@@ -7,6 +7,22 @@ import AppConstants from 'AppConstants'
 export default class Home extends Page {
 	constructor(props) {
 		super(props)
+		dom('body')
+			.removeClass('body--white')
+			.addClass('body--black')
+	}
+	setupAnimations() {
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
+
+		// transition In
+		this.tlIn.from(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut })
+
+		// transition Out
+		this.tlOut.to(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut })
+
+		// reset
+		this.tlIn.pause(0)
+		this.tlOut.pause(0)
 	}
 	render() {
 		let content = AppStore.pageContent()

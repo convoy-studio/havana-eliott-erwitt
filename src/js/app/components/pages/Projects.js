@@ -29,9 +29,6 @@ export default class Projects extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 	}
-	// componentWillUnmount() {
-	// 	dom('body').removeClass('body--white')
-	// }
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
 	}

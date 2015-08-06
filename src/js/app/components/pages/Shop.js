@@ -6,6 +6,9 @@ import AppStore from 'AppStore'
 export default class Shop extends Page {
 	constructor(props) {
 		super(props)
+		dom('body')
+			.removeClass('body--black')
+			.addClass('body--white')
 	}
 	render() {
 		var content = AppStore.pageContent()

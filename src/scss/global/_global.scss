@@ -1,5 +1,6 @@
 
 html, body {
+	@extend .full;
 	padding: 0;
 	margin: 0;
 	font-family: "CircularBook";
@@ -8,9 +9,25 @@ html, body {
 }
 
 html {
-	@extend .full;
+	// @extend .full;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+.body--white {
+	background-color: $white;
+	color: $black;
+	a {
+		color: $black;
+	}
+}
+
+.body--black {
+	background-color: $black;
+	color: $white;
+	a {
+		color: $white;
+	}
 }
 
 #container  {
@@ -43,7 +60,11 @@ html {
 	@extend .full;
 	position: absolute;
 	// padding: 0 $overallMargin;
-	color: $white;
+	// color: $white;
+}
+
+.page--white {
+	background-color: $white
 }
 
 .page__content {
@@ -55,6 +76,6 @@ html {
 	
 	font-size: 46px;
 	
-	color: $white;
+	// color: $white;
 }
 
