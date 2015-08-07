@@ -18,7 +18,7 @@ export default class Projects extends Page {
 		}
 		let content = AppStore.pageContent()
 		return (
-			<div id='projectsPage' ref='page-wrapper' className='page page--white'>
+			<div id='projectsPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
 					<ul>
 						{artistsItems}

@@ -22,7 +22,8 @@ export default class Project extends Page {
 			photos.push(<div className='project__photo' key={i}><img src={'./assets/images/albums/'+project.album+'/'+file+'.jpg'}></img></div>)
 		}
 		return (
-			<div id='projectPage' ref='page-wrapper' className='page page--white'>
+			<div id='projectPage' ref='page-wrapper' className='page'>
+				<div className='submenu'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
 				<div className='page__content'>
 					<section className='project'>
 						<h2 className='project__artist text text--title'>{artistData.name}</h2>

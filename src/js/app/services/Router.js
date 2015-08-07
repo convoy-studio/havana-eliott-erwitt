@@ -25,18 +25,29 @@ class Router {
 		// 	page : ['home', '404', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
 		// }
 
-		let detailSection = crossroads.addRoute('{page}/{id}', this._onFirstDegreeURLHandler.bind(this), 3)
+		let projectSection = crossroads.addRoute('{page}/{id}', this._onSecondDegreeURLHandler.bind(this), 3)
 		let validIDs = []
 		for (let artist in data.artists) {
 			validIDs.push(artist)
 		}
-		detailSection.rules = {
+		projectSection.rules = {
 			page : ['project'],
+			id : validIDs
+		}
+
+		let gallerySection = crossroads.addRoute('{page}/{id}/{sectionId}', this._onThirdDegreeURLHandler.bind(this), 5)
+		gallerySection.rules = {
 			id : validIDs
 		}
 	}
 	_onFirstDegreeURLHandler(pageId) {
 		this._assignRoute(pageId)
+	}
+	_onSecondDegreeURLHandler(pageId, detailId) {
+		this._assignRoute(detailId)
+	}
+	_onThirdDegreeURLHandler(pageId, detailId, sectionId) {
+		this._assignRoute(detailId)
 	}
 	_onWorksURLHandler(workId) {
 		this._assignRoute(workId)

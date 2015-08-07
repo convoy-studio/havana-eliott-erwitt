@@ -8,7 +8,6 @@ import Router from 'Router'
 function _pageRouteIdChanged(id) {
 }
 function _getPageContent() {
-	// console.log(data)
 	var hashObj = Router.getNewHash()
 	var content = data.routes.routing[hashObj.hash]
 	return content

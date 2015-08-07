@@ -7,6 +7,7 @@ import Home from 'Home'
 import Fellowship from 'Fellowship'
 import Projects from 'Projects'
 import Project from 'Project'
+import Gallery from 'Gallery'
 import Shop from 'Shop'
 import News from 'News'
 import Contact from 'Contact'
@@ -39,8 +40,17 @@ export default class PagesContainer extends BasePager {
 				type = Projects
 				break
 			case 'project':
-				type = Project
-				id = hash.parts[1]
+				if (hash.parts.length > 2) {
+					if (hash.parts[2] === 'gallery') {
+						type = Gallery
+						id = hash.targetId
+					} else {
+						// zoom sur une photo
+					}
+				} else {
+					type = Project
+					id = hash.targetId
+				}
 				break
 			case 'shop':
 				type = Shop
