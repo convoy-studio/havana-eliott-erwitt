@@ -12,13 +12,28 @@ export default class Project extends Page {
 			.addClass('body--white')
 	}
 	render() {
-		let artistData = AppStore.artistContent(this.props.idSection)
-		let content = AppStore.pageContent()
+		let content = AppStore.pageContent(),
+			artistData = AppStore.artistContent(this.props.idSection),
+			project = artistData.projects[0],
+			photos = [],
+			file = undefined
+		for (let i=1; i<=project.nPhotos; ++i) {
+			file = (i<10)?'0'+i:i
+			photos.push(<div className='project__photo' key={i}><img src={'./assets/images/albums/'+project.album+'/'+file+'.jpg'}></img></div>)
+		}
 		return (
 			<div id='projectPage' ref='page-wrapper' className='page page--white'>
 				<div className='page__content'>
-					<h2>{artistData.name}</h2>
-					<p>{artistData.bio}</p>
+					<section className='project'>
+						<h2 className='project__artist text text--title'>{artistData.name}</h2>
+						<h1 className='project__title text text--subtitle'>{project.title}</h1>
+						<p className='project__desc text text--small'>{project.desc}</p>
+						<div className='project__album'>
+							{photos}
+						</div>
+						<h2 className='project__artist text text--title'>{artistData.name}</h2>
+						<p className='project__bio text text--small'>{artistData.bio}</p>
+					</section>
 				</div>
 			</div>
 		)

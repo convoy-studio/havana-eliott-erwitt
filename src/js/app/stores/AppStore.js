@@ -67,7 +67,6 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 		return _getArtists()
 	},
 	artistContent: function(id) {
-		console.log(id)
 		return _getArtist(id)
 	},
 	Window: {

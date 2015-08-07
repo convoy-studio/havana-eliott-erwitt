@@ -29,7 +29,7 @@ export default class Home extends Page {
 		return (
 			<div id='homepage' ref='page-wrapper' className='page'>
 				<div className='video'>
-					<video className='video__file' src='./assets/videos/bg-home.mp4'></video>
+					<video autoPlay loop className='video__file' src='./assets/videos/bg-home.mp4'></video>
 				</div>
 				<div className='page__content'>
 					<p dangerouslySetInnerHTML={{__html: content.content}} />
