@@ -49,17 +49,23 @@ export default class Gallery extends Page {
 			fileUrl = './assets/images/albums/'+project.album+'/'+filename+'.jpg'
 
 			file = new Image();
-			file.onload = this.onImageLoaded.bind(this, {
-				url: fileUrl,
-				index: i
-			});
+			// file.onload = this.onImageLoaded.bind(this, {
+			// 	url: fileUrl,
+			// 	index: i
+			// });
+			file.onload = this.onImageLoaded.bind(this);
 			file.src = fileUrl;
 		}
 	}
 	
 	onImageLoaded(params) {
-		this.nImageLoaded++
-		this.photos.push(<div className='gallery__item' key={params.index}><img className='gallery__image' src={params.url}></img></div>)
+		this.nImageLoaded++;
+
+		if (params.path[0].height >= params.path[0].width*1.5) {
+			this.photos.push(<div className='gallery__item' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
+		} else {
+			this.photos.push(<div className='gallery__item gallery__item--large' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
+		}
 		
 		if (this.nImageLoaded >= this.max) {
 			this.setState({
