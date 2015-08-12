@@ -24,6 +24,32 @@ var controller = {
 				return reply(Boom.badImplementation(err)); // HTTP 500
 			});
 		}
+	},
+
+	getByArtist : {
+		handler : function(request, reply){
+			// Print.find({})
+			// 	.populate('artist', 'slug')
+			// 	.exec(function (err, item) {
+			// 		if (!err) {
+			// 			item.find({ slug: request.params.slug }, function(err, prints) {
+			// 				if (!err) {
+			// 					return reply(prints);
+			// 				}
+			// 				return reply(Boom.badImplementation(err)); // HTTP 500
+			// 			})
+			// 			// return reply(item);
+			// 		}
+			// 		return reply(Boom.badImplementation(err)); // HTTP 500
+			// 	});
+
+			Print.find({ slugArtist: request.params.slug }, function(err, items) {
+				if (!err) {
+					return reply(items);
+				}
+				return reply(Boom.badImplementation(err)); // HTTP 500
+			});
+		}
 	}
 
 	// create : {

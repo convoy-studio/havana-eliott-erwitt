@@ -21,6 +21,17 @@ module.exports = {
 			// })
 	},
 
+	getByArtist : function(artist) {
+		fetch(config.siteurl + '/api/prints/' + artist)
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				PrintActions.receiveAll(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
 	create : function(print){
 		fetch(config.siteurl + '/api/prints', {
 			method: 'post',

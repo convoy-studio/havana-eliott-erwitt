@@ -23,7 +23,6 @@ let ArtistStore = assign({}, EventEmitter2.prototype, {
 		return _artists
 	},
 	getOne: function() {
-		console.log(_artist)
 		return _artist;
 	},
 	// Emit Change event
@@ -40,7 +39,6 @@ let ArtistStore = assign({}, EventEmitter2.prototype, {
 	},
 	dispatcherIndex: AppDispatcher.register(function(payload){
 		let action = payload.action
-		console.log(action)
 		switch(action.actionType) {
 			case ArtistConstants.RECEIVE_ALL_ARTISTS:
 				_addArtists(action.item);
@@ -48,7 +46,6 @@ let ArtistStore = assign({}, EventEmitter2.prototype, {
 				break
 			case ArtistConstants.RECEIVE_ARTIST:
 				_artist = action.item;
-				console.log(_artist)
 				ArtistStore.emitChange();
 				break;
 		}

@@ -3,8 +3,9 @@ var Artist = require('./artist');
 var Project = require('./project');
 
 var itemSchema = new mongoose.Schema({
-	artist 	: {type: mongoose.Schema.Types.ObjectId, ref: 'Artist'},
-	project : {type: mongoose.Schema.Types.ObjectId, ref: 'Project'},
+	slugArtist	: String,
+	// artist 	: {type: mongoose.Schema.Types.ObjectId, ref: 'Artist'},
+	// project : {type: mongoose.Schema.Types.ObjectId, ref: 'Project'},
 	desc 	: String,
 	price 	: Number,
 	city 	: String,

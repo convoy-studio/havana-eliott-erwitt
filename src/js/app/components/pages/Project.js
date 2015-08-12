@@ -23,11 +23,14 @@ export default class Project extends Page {
 			prints: {}
 		};
 
-		ArtistApi.getBySlug('elliott-erwitt');
-		ArtistStore.addChangeListener(this._onStoreChange.bind(this, null));
+		ArtistApi.getBySlug(props.idSection);
+		ArtistStore.addChangeListener(this._onArtistStoreChange.bind(this, null));
 
 		// PrintApi.getAll();
 		// PrintStore.addChangeListener(this._onStoreChange.bind(this, null));
+
+		PrintApi.getByArtist(props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
 
 		// create print
 		// let print = {
@@ -42,17 +45,17 @@ export default class Project extends Page {
 	}
 
 	render() {
-		let that = this
-		let content = AppStore.pageContent(),
-			artistData = AppStore.artistContent(this.props.idSection),
-			project = artistData.projects[0],
-			photos = [],
-			file = undefined
-		for (let i=1; i<=project.nPhotos; ++i) {
-			file = (i<10)?'0'+i:i
-			photos.push(<div className='project__photo' key={i}><img src={'./assets/images/albums/'+project.album+'/'+file+'.jpg'}></img></div>)
-		}
+		// let content = AppStore.pageContent(),
+		// 	artistData = AppStore.artistContent(this.props.idSection),
+		// 	project = artistData.projects[0],
+		// 	photos = [],
+		// 	file = undefined
+		// for (let i=1; i<=project.nPhotos; ++i) {
+		// 	file = (i<10)?'0'+i:i
+		// 	photos.push(<div className='project__photo' key={i}><img src={'./assets/images/albums/'+project.album+'/'+file+'.jpg'}></img></div>)
+		// }
 
+		let that = this
 		let name, bio, projectTitle, projectDesc
 		if (this.state.artist) {
 			name = this.state.artist.name
@@ -66,19 +69,16 @@ export default class Project extends Page {
 				<div className='submenu'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
 				<div className='page__content'>
 					<section className='project'>
-						<div className='project__album'>
-							{Object.keys(this.state.prints).map(function(index){
-								let src = that.state.prints[index]._id;
-								return (
-									<div className='project__photo' key={index}><img src={'./assets/images/'+src+'.jpg'}></img></div>
-								)
-							})}
-						</div>
 						<h2 className='project__artist text text--title'>{name}</h2>
 						<h1 className='project__title text text--subtitle'>{projectTitle}</h1>
 						<p className='project__desc text text--small'>{projectDesc}</p>
 						<div className='project__album'>
-							{photos}
+							{Object.keys(this.state.prints).map(function(index){
+								let file = that.state.prints[index].file;
+								return (
+									<div className='project__photo' key={index}><img src={'./assets/images/prints/'+file}></img></div>
+								)
+							})}
 						</div>
 						<h2 className='project__artist text text--title'>{name}</h2>
 						<p className='project__bio text text--small'>{bio}</p>
@@ -102,13 +102,15 @@ export default class Project extends Page {
 		super.resize()
 	}
 
-	_onStoreChange() {
-		// this.setState({
-		// 	prints: PrintStore.getAll(),
-		// })	
-console.log('store change')
+	_onArtistStoreChange() {
 		this.setState({
 			artist: ArtistStore.getOne()
+		})
+	}
+
+	_onPrintStoreChange() {
+		this.setState({
+			prints: PrintStore.getAll()
 		})
 	}
 }
