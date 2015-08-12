@@ -5,6 +5,8 @@ import AppStore from 'AppStore'
 import AppActions from 'AppActions'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+import ArtistStore from 'ArtistStore'
+import ArtistApi from 'ArtistApi'
 
 export default class Project extends Page {
 	constructor(props) {
@@ -17,11 +19,15 @@ export default class Project extends Page {
 			.addClass('body--white')
 
 		this.state = { 
+			artist: undefined,
 			prints: {}
 		};
 
-		PrintApi.getAll();
-		PrintStore.addChangeListener(this._onStoreChange.bind(this, null));
+		ArtistApi.getBySlug('elliott-erwitt');
+		ArtistStore.addChangeListener(this._onStoreChange.bind(this, null));
+
+		// PrintApi.getAll();
+		// PrintStore.addChangeListener(this._onStoreChange.bind(this, null));
 
 		// create print
 		// let print = {
@@ -46,6 +52,15 @@ export default class Project extends Page {
 			file = (i<10)?'0'+i:i
 			photos.push(<div className='project__photo' key={i}><img src={'./assets/images/albums/'+project.album+'/'+file+'.jpg'}></img></div>)
 		}
+
+		let name, bio, projectTitle, projectDesc
+		if (this.state.artist) {
+			name = this.state.artist.name
+			bio = this.state.artist.bio
+			projectTitle = this.state.artist.project.title
+			projectDesc = this.state.artist.project.desc
+		}
+
 		return (
 			<div id='projectPage' ref='page-wrapper' className='page'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
@@ -59,14 +74,14 @@ export default class Project extends Page {
 								)
 							})}
 						</div>
-						<h2 className='project__artist text text--title'>{artistData.name}</h2>
-						<h1 className='project__title text text--subtitle'>{project.title}</h1>
-						<p className='project__desc text text--small'>{project.desc}</p>
+						<h2 className='project__artist text text--title'>{name}</h2>
+						<h1 className='project__title text text--subtitle'>{projectTitle}</h1>
+						<p className='project__desc text text--small'>{projectDesc}</p>
 						<div className='project__album'>
 							{photos}
 						</div>
-						<h2 className='project__artist text text--title'>{artistData.name}</h2>
-						<p className='project__bio text text--small'>{artistData.bio}</p>
+						<h2 className='project__artist text text--title'>{name}</h2>
+						<p className='project__bio text text--small'>{bio}</p>
 					</section>
 				</div>
 			</div>
@@ -88,8 +103,12 @@ export default class Project extends Page {
 	}
 
 	_onStoreChange() {
+		// this.setState({
+		// 	prints: PrintStore.getAll(),
+		// })	
+console.log('store change')
 		this.setState({
-			prints: PrintStore.getAll()
+			artist: ArtistStore.getOne()
 		})
 	}
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "mongod --fork --logpath /dev/null",
     "start": "gulp start",
-    "dev": "sudo gulp default",
+    "dev": "sudo gulp --watch",
     "stop": "mongo admin --eval 'db.shutdownServer()' > /dev/null"
   },
   "dependencies": {

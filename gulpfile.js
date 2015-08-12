@@ -265,9 +265,10 @@ var tasks = {
 
 gulp.task('browser-sync', function() {
 	browserSync.init({
-		server: {
-			baseDir: './www',
-		},
+		// server: {
+		// 	baseDir: './www',
+		// },
+		proxy: 'localhost:9000',
 		open: false,
 		notify: false,
 		port: process.env.PORT || 3000,
@@ -288,8 +289,12 @@ gulp.task('watch-js', [
 	'reload'
 ]);
 
+// gulp.task('watch-js', function() {
+// 	tasks.browserify();
+// 	browserSync.reload();
+// });
+
 bundler.on('update', function() {
-	console.log('update');
 	tasks.browserify();
 	browserSync.reload();
 });
