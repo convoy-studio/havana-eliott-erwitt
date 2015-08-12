@@ -2,6 +2,9 @@ import React from 'react'
 import Page from 'Page'
 import dom from 'domquery'
 import AppStore from 'AppStore'
+import PrintStore from 'PrintStore'
+import PrintApi from 'PrintApi'
+let _ = require('lodash');
 
 export default class Gallery extends Page {
 	constructor(props) {
@@ -13,9 +16,16 @@ export default class Gallery extends Page {
 			.removeClass('body--white')
 			.addClass('body--black')
 
+		this.loaded = false
+		this.nImageLoaded = 0
+		this.prints = []
 		this.state = { 
-			photos: []
+			prints: [],
+			loadedPrints: []
 		};
+
+		PrintApi.getByArtist(props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
 	}
 	
 
@@ -26,7 +36,7 @@ export default class Gallery extends Page {
 				<div className='submenu'><a href={'#/project/'+this.props.idSection}>Back to gallery</a></div>
 				<div className='page__content'>
 					<div className='gallery'>
-						{this.state.photos}
+						{this.state.loadedPrints}
 					</div>
 				</div>
 			</div>
@@ -35,41 +45,34 @@ export default class Gallery extends Page {
 
 	componentDidMount() {
 		super.componentDidMount()
-
-		let artistData = AppStore.artistContent(this.props.idSection),
-			project = artistData.projects[0],
-			filename, file, fileUrl
-		
-		this.photos = []
-		this.nImageLoaded = 0
-		this.max = project.nPhotos
-		
-		for (let i=1; i<=this.max; ++i) {
-			filename = (i<10)?'0'+i:i
-			fileUrl = './assets/images/albums/'+project.album+'/'+filename+'.jpg'
-
-			file = new Image();
-			// file.onload = this.onImageLoaded.bind(this, {
-			// 	url: fileUrl,
-			// 	index: i
-			// });
-			file.onload = this.onImageLoaded.bind(this);
-			file.src = fileUrl;
-		}
 	}
 	
+	componentDidUpdate() {
+		let that = this, file
+		this.max = _.size(this.state.prints)
+
+		if (this.max > 0 && !this.loaded) {
+			this.loaded = true
+			_(this.state.prints).forEach(function(print) {
+				file = new Image()
+				file.onload = that.onImageLoaded.bind(that)
+				file.src = './assets/images/prints/'+print.file
+			}).value();
+		}
+	}
+
 	onImageLoaded(params) {
 		this.nImageLoaded++;
 
-		if (params.path[0].height >= params.path[0].width*1.5) {
-			this.photos.push(<div className='gallery__item' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
+		if (params.path[0].height >= params.path[0].width*1.2) {
+			this.prints.push(<div className='gallery__item' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
 		} else {
-			this.photos.push(<div className='gallery__item gallery__item--large' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
+			this.prints.push(<div className='gallery__item gallery__item--large' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
 		}
 		
 		if (this.nImageLoaded >= this.max) {
 			this.setState({
-				'photos': this.photos
+				'loadedPrints': this.prints
 			});
 		}
 	}
@@ -82,5 +85,12 @@ export default class Gallery extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+	}
+
+	_onPrintStoreChange() {
+		console.log('store')
+		this.setState({
+			prints: PrintStore.getAll()
+		})
 	}
 }
