@@ -27,6 +27,10 @@ export default class Print extends Page {
 		super.componentDidMount()
 	}
 
+	componentWillUnmount() {
+		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+	}
+
 	render() {
 		let that = this
 

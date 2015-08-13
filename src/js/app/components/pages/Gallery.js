@@ -27,7 +27,14 @@ export default class Gallery extends Page {
 		PrintApi.getByArtist(props.idSection);
 		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
 	}
+
+	componentDidMount() {
+		super.componentDidMount()
+	}
 	
+	componentWillUnmount() {
+		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+	}
 
 	render() {
 		let content = AppStore.pageContent()
@@ -41,10 +48,6 @@ export default class Gallery extends Page {
 				</div>
 			</div>
 		)
-	}
-
-	componentDidMount() {
-		super.componentDidMount()
 	}
 	
 	componentDidUpdate() {
@@ -88,7 +91,6 @@ export default class Gallery extends Page {
 	}
 
 	_onPrintStoreChange() {
-		console.log('store')
 		this.setState({
 			prints: PrintStore.getAll()
 		})

@@ -44,6 +44,15 @@ export default class Project extends Page {
 		// PrintApi.create(print);
 	}
 
+	componentDidMount() {
+		super.componentDidMount()
+	}
+
+	componentWillUnmount() {
+		ArtistStore.removeChangeListener(this._onArtistStoreChange.bind(this, null));	
+		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+	}
+
 	render() {
 		// let content = AppStore.pageContent(),
 		// 	artistData = AppStore.artistContent(this.props.idSection),
@@ -86,10 +95,6 @@ export default class Project extends Page {
 				</div>
 			</div>
 		)
-	}
-
-	componentDidMount() {
-		super.componentDidMount()
 	}
 
 	didTransitionOutComplete() {

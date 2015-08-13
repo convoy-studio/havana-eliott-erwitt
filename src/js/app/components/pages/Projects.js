@@ -21,6 +21,14 @@ export default class Projects extends Page {
 		ArtistStore.addChangeListener(this._onStoreChange.bind(this, null));
 	}
 
+	componentDidMount() {
+		super.componentDidMount()
+	}
+
+	componentWillUnmount() {
+		ArtistStore.removeChangeListener(this._onStoreChange.bind(this, null));	
+	}
+
 	render() {
 		let that = this
 		// let artistsData = AppStore.artistsContent()
@@ -43,10 +51,6 @@ export default class Projects extends Page {
 				</div>
 			</div>
 		)
-	}
-
-	componentDidMount() {
-		super.componentDidMount()
 	}
 
 	didTransitionOutComplete() {
