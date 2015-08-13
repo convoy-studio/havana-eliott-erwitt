@@ -32,6 +32,17 @@ module.exports = {
 			});
 	},
 
+	getOne : function(id) {
+		fetch(config.siteurl + '/api/print/' + id)
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				PrintActions.receive(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
 	create : function(print){
 		fetch(config.siteurl + '/api/prints', {
 			method: 'post',

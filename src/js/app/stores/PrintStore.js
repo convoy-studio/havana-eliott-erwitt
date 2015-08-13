@@ -8,6 +8,7 @@ import Router from 'Router'
 const CHANGE_EVENT = 'change';
 
 let _prints = {};
+let _print = {};
 
 function _addPrints(prints) {
 	prints.forEach(function(print) { // change forEach to lodash
@@ -20,6 +21,9 @@ function _addPrints(prints) {
 let PrintStore = assign({}, EventEmitter2.prototype, {
 	getAll: function() {
 		return _prints
+	},
+	getOne: function() {
+		return _print
 	},
 	// Emit Change event
 	emitChange: function() {
@@ -39,8 +43,11 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 			case PrintConstants.RECEIVE_ALL_PRINTS:
 				_addPrints(action.item);
 				PrintStore.emitChange();
-				// PrintStore.emitChange(action.actionType)
 				break
+			case PrintConstants.RECEIVE_PRINT:
+				_print = action.item;
+				PrintStore.emitChange();
+				break;
 		}
 		return true
 	})

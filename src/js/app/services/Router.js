@@ -30,8 +30,9 @@ class Router {
 		for (let artist in data.artists) {
 			validIDs.push(artist)
 		}
+		validIDs.push('55cb17192da00698d0ecead7');
 		projectSection.rules = {
-			page : ['project'],
+			page : ['project', 'shop'],
 			id : validIDs
 		}
 

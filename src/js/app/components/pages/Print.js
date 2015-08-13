@@ -4,8 +4,9 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+let _ = require('lodash')
 
-export default class Shop extends Page {
+export default class Print extends Page {
 	
 	constructor(props) {
 		super(props)
@@ -15,10 +16,10 @@ export default class Shop extends Page {
 			.addClass('body--white')
 
 		this.state = { 
-			prints: {}
+			print: undefined
 		};
 
-		PrintApi.getAll();
+		PrintApi.getOne(props.idSection);
 		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
 	}
 
@@ -30,19 +31,16 @@ export default class Shop extends Page {
 		let that = this
 
 		return (
-			<div id='shopPage' ref='page-wrapper' className='page'>
+			<div id='printPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
-					<div className='shop'>
-						{Object.keys(this.state.prints).map(function(index){
-							let file = that.state.prints[index].file;
-							let id = that.state.prints[index]._id;
-							return (
-								<div className='shop__print' key={index}>
-									<a href={'#/shop/'+id}><img src={'./assets/images/prints/'+file}></img></a> 
-								</div>
-							)
-						})}
-					</div>
+					{(() => {
+						if (this.state.print) return (
+							<div className='print'>
+								<img src={'./assets/images/prints/'+this.state.print.file}></img>
+								<h1>{this.state.print.city}</h1>
+							</div>
+						)
+					})()}
 				</div>
 			</div>
 		)
@@ -60,7 +58,7 @@ export default class Shop extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			prints: PrintStore.getAll()
+			print: PrintStore.getOne()
 		})
 	}
 }

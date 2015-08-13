@@ -9,6 +9,7 @@ import Projects from 'Projects'
 import Project from 'Project'
 import Gallery from 'Gallery'
 import Shop from 'Shop'
+import Print from 'Print'
 import News from 'News'
 import Contact from 'Contact'
 import Legal from 'Legal'
@@ -53,7 +54,12 @@ export default class PagesContainer extends BasePager {
 				}
 				break
 			case 'shop':
-				type = Shop
+				if (hash.parts.length > 1) {
+					type = Print
+					id = hash.targetId
+				} else {
+					type = Shop
+				}
 				break
 			case 'news':
 				type = News
