@@ -13,12 +13,13 @@ export default class Projects extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 		this.state = { 
 			artists: {}
 		};
 
 		ArtistApi.getAll();
-		ArtistStore.addChangeListener(this._onStoreChange.bind(this, null));
+		ArtistStore.addChangeListener(this._onStoreChangeBinded);
 	}
 
 	componentDidMount() {
@@ -26,7 +27,7 @@ export default class Projects extends Page {
 	}
 
 	componentWillUnmount() {
-		ArtistStore.removeChangeListener(this._onStoreChange.bind(this, null));	
+		ArtistStore.removeChangeListener(this._onStoreChangeBinded);
 	}
 
 	render() {

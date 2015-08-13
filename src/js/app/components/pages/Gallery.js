@@ -16,6 +16,7 @@ export default class Gallery extends Page {
 			.removeClass('body--white')
 			.addClass('body--black')
 
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.loaded = false
 		this.nImageLoaded = 0
 		this.prints = []
@@ -24,20 +25,19 @@ export default class Gallery extends Page {
 			loadedPrints: []
 		};
 
-		PrintApi.getByArtist(props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
+		PrintApi.getByArtist(this.props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
 	}
-	
+
 	componentWillUnmount() {
-		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
 	render() {
-		let content = AppStore.pageContent()
 		return (
 			<div id='galleryPage' ref='page-wrapper' className='page'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection}>Back to gallery</a></div>
@@ -92,7 +92,7 @@ export default class Gallery extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			prints: PrintStore.getAll()
+			prints: PrintStore.getArtistPrints()
 		})
 	}
 }

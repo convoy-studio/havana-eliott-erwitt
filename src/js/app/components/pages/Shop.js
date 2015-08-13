@@ -14,12 +14,13 @@ export default class Shop extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
-			prints: {}
+			photos: {}
 		};
 
 		PrintApi.getAll();
-		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentDidMount() {
@@ -27,7 +28,7 @@ export default class Shop extends Page {
 	}
 
 	componentWillUnmount() {
-		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
 	render() {
@@ -37,9 +38,9 @@ export default class Shop extends Page {
 			<div id='shopPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
 					<div className='shop'>
-						{Object.keys(this.state.prints).map(function(index){
-							let file = that.state.prints[index].file;
-							let id = that.state.prints[index]._id;
+						{Object.keys(this.state.photos).map(function(index){
+							let file = that.state.photos[index].file;
+							let id = that.state.photos[index]._id;
 							return (
 								<div className='shop__print' key={index}>
 									<a href={'#/shop/'+id}><img src={'./assets/images/prints/'+file}></img></a> 
@@ -64,7 +65,7 @@ export default class Shop extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			prints: PrintStore.getAll()
+			photos: PrintStore.getAll()
 		})
 	}
 }

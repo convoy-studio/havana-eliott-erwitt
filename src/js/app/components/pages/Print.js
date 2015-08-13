@@ -15,12 +15,13 @@ export default class Print extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
 			print: undefined
 		};
 
-		PrintApi.getOne(props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
+		PrintApi.getOne(this.props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentDidMount() {
@@ -28,7 +29,7 @@ export default class Print extends Page {
 	}
 
 	componentWillUnmount() {
-		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
 	render() {

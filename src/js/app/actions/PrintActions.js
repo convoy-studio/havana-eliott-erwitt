@@ -4,44 +4,37 @@ import 'fetch'
 
 var PrintActions = {
 
-    receiveAll : function(prints){
-        AppDispatcher.handleServerAction({
-            actionType: PrintConstants.RECEIVE_ALL_PRINTS,
-            item: prints
-        });
-    },
+	receiveAll : function(prints){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_ALL_PRINTS,
+			item: prints
+		});
+	},
 
-    receive : function(print){
-        AppDispatcher.handleServerAction({
-            actionType: PrintConstants.RECEIVE_PRINT,
-            item: print
-        });
-    },
+	receiveFromArtist : function(prints){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_ARTIST_PRINTS,
+			item: prints
+		});
+	},
 
-    receiveError : function(error){
-        AppDispatcher.handleServerAction({
-            actionType: PrintConstants.ERROR,
-            item: error
-        });
-    }
+	receive : function(print){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_PRINT,
+			item: print
+		});
+	},
 
-    // pageHasherChanged: function(pageId) {
-    //     AppDispatcher.handleViewAction({
-    //         actionType: AppConstants.PAGE_HASHER_CHANGED,
-    //         item: pageId
-    //     })  
-    // },
-
-    // windowResize: function(windowW, windowH) {
-    //     AppDispatcher.handleViewAction({
-    //         actionType: AppConstants.WINDOW_RESIZE,
-    //         item: { windowW:windowW, windowH:windowH }
-    //     })
-    // },
+	receiveError : function(error){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.ERROR,
+			item: error
+		});
+	}
 
 }
 
 export default PrintActions
 
 
-      
+	  

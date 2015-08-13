@@ -26,7 +26,7 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				PrintActions.receiveAll(json)
+				PrintActions.receiveFromArtist(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
 			});

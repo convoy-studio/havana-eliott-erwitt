@@ -17,31 +17,20 @@ export default class Project extends Page {
 		dom('body')
 			.removeClass('body--black')
 			.addClass('body--white')
-
+		
 		this.state = { 
 			artist: undefined,
 			prints: {}
 		};
 
-		ArtistApi.getBySlug(props.idSection);
-		ArtistStore.addChangeListener(this._onArtistStoreChange.bind(this, null));
+		this._onArtistStoreChangeBinded = this._onArtistStoreChange.bind(this)
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 
-		// PrintApi.getAll();
-		// PrintStore.addChangeListener(this._onStoreChange.bind(this, null));
+		ArtistApi.getBySlug(this.props.idSection);
+		ArtistStore.addChangeListener(this._onArtistStoreChangeBinded);
 
-		PrintApi.getByArtist(props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChange.bind(this, null));
-
-		// create print
-		// let print = {
-		// 	copies: 10,
-		// 	price: 900,
-		// 	desc: 'Lorem impsum dolor sit amet.',
-		// 	artist: 'Elliott Erwitt',
-		// 	city : 'Cuba',
-		// 	year : '1964'
-		// };
-		// PrintApi.create(print);
+		PrintApi.getByArtist(this.props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentDidMount() {
@@ -49,8 +38,8 @@ export default class Project extends Page {
 	}
 
 	componentWillUnmount() {
-		ArtistStore.removeChangeListener(this._onArtistStoreChange.bind(this, null));	
-		PrintStore.removeChangeListener(this._onPrintStoreChange.bind(this, null));	
+		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);	
+		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
 	render() {
@@ -115,7 +104,7 @@ export default class Project extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			prints: PrintStore.getAll()
+			prints: PrintStore.getArtistPrints()
 		})
 	}
 }

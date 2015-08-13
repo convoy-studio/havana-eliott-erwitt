@@ -9,7 +9,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				console.log(json)
 				ArtistActions.receiveAll(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
