@@ -1,0 +1,21 @@
+.cart {
+	position: fixed;
+	top: 24px;
+	right: 24px;
+}
+
+.cart--enabled {
+	.cart__content {
+		display: block;
+	}
+}
+
+.cart__close {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.cart__content {
+	display: none;
+}

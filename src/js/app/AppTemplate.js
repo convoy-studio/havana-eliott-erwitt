@@ -3,17 +3,54 @@ import AppConstants from 'AppConstants'
 import AppStore from 'AppStore'
 import FrontContainer from 'FrontContainer'
 import PagesContainer from 'PagesContainer'
+import Cart from 'Cart'
+import CartStore from 'CartStore'
+
+function _getCartState() {
+	return {
+		cartItems: CartStore.getCartItems(),
+		cartCount: CartStore.getCartCount(),
+		cartTotal: CartStore.getCartTotal(),
+		cartVisible: CartStore.getCartVisible()
+	}
+}
 
 export default class AppTemplate extends React.Component {
+	
+	constructor(props) {
+		super(props)
+
+		this.state = _getCartState()
+		this._onStoreChangeBinded = this._onStoreChange.bind(this)
+
+		CartStore.addChangeListener(this._onStoreChangeBinded);
+	}
+
+	componentWillUnmount() {
+		CartStore.removeChangeListener(this._onStoreChangeBinded);
+	}
+
 	render() {
 		return (
 			<div id='template'>
 				<FrontContainer />
 				<PagesContainer />
+				<Cart
+					products={(this.state) ? this.state.cartItems : ''}
+					count={(this.state) ? this.state.cartCount : ''}
+					total={(this.state) ? this.state.cartTotal : ''}
+					visible={(this.state) ? this.state.cartVisible : ''}
+				/>
 			</div>
 		)
 	}
+
 	componentDidMount() {
 		GlobalEvents.resize()
 	}
+
+	_onStoreChange() {
+		this.setState(_getCartState())
+	}
+
 }

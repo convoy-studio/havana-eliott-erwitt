@@ -8,9 +8,9 @@
 
 .header__title {
 	position: absolute;
-	left: 0;
+	left: 50%;
 	top: 36px;
-	width: 100%;
+	transform: translate(-50%, 0);
 
 	text-align: center;
 	text-transform: uppercase;

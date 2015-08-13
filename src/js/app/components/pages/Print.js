@@ -4,6 +4,7 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+import CartActions from 'CartActions'
 let _ = require('lodash')
 
 export default class Print extends Page {
@@ -15,6 +16,7 @@ export default class Print extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._addToCartBinded = this._addToCart.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
 			print: undefined
@@ -41,6 +43,7 @@ export default class Print extends Page {
 					{(() => {
 						if (this.state.print) return (
 							<div className='print'>
+								<a href='#' onClick={that._addToCartBinded}>Buy print</a>
 								<img src={'./assets/images/prints/'+this.state.print.file}></img>
 								<h1>{this.state.print.city}</h1>
 							</div>
@@ -49,6 +52,19 @@ export default class Print extends Page {
 				</div>
 			</div>
 		)
+	}
+
+	_addToCart(e) {
+		e.preventDefault()
+
+		let printId = this.state.print._id;
+		let update = {
+			city: this.state.print.city,
+			year: this.state.print.year,
+			price: this.state.print.price
+		}
+		CartActions.addToCart(printId, update);
+		CartActions.updateCartVisible(true);
 	}
 
 	didTransitionOutComplete() {
