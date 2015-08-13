@@ -11,7 +11,8 @@ function _getCartState() {
 		cartItems: CartStore.getCartItems(),
 		cartCount: CartStore.getCartCount(),
 		cartTotal: CartStore.getCartTotal(),
-		cartVisible: CartStore.getCartVisible()
+		cartVisible: CartStore.getCartVisible(),
+		cartEnabled: CartStore.getCartEnabled()
 	}
 }
 
@@ -40,6 +41,7 @@ export default class AppTemplate extends React.Component {
 					count={(this.state) ? this.state.cartCount : ''}
 					total={(this.state) ? this.state.cartTotal : ''}
 					visible={(this.state) ? this.state.cartVisible : ''}
+					enabled={(this.state) ? this.state.cartEnabled : ''}
 				/>
 			</div>
 		)

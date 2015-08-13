@@ -2,6 +2,11 @@
 	position: fixed;
 	top: 24px;
 	right: 24px;
+	display: none;
+}
+
+.cart--visible {
+	display: block;
 }
 
 .cart--enabled {

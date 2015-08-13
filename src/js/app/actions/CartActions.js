@@ -22,7 +22,6 @@ var CartActions = {
 
 	// Add item to cart
 	addToCart: function(printId, update) {
-		console.log(printId, update)
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_ADD,
 			printId: printId,
@@ -43,6 +42,14 @@ var CartActions = {
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_VISIBLE,
 			cartVisible: cartVisible
+		})
+	},
+
+	// Update cart enabled status
+	updateCartEnabled: function(cartEnabled) {
+		AppDispatcher.handleServerAction({
+			actionType: CartConstants.CART_ENABLED,
+			cartEnabled: cartEnabled
 		})
 	}
 

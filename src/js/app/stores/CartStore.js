@@ -9,7 +9,7 @@ let _ = require('lodash')
 const CHANGE_EVENT = 'change';
 
 // Define initial data points
-let _products = {}, _cartVisible = false;
+let _products = {}, _cartVisible = true, _cartEnabled = false;
 
 // Add product to cart
 function _add(printId, update) {
@@ -20,6 +20,11 @@ function _add(printId, update) {
 // Set cart visibility
 function _setCartVisible(cartVisible) {
 	_cartVisible = cartVisible;
+}
+
+// Set cart enabled
+function _setCartEnabled(cartEnabled) {
+	_cartEnabled = cartEnabled;
 }
 
 // Remove item from cart
@@ -46,6 +51,9 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 	getCartVisible: function() {
 		return _cartVisible;
 	},
+	getCartEnabled: function() {
+		return _cartEnabled;
+	},
 	// Emit Change event
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -68,6 +76,10 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 				break
 			case CartConstants.CART_VISIBLE:
 				_setCartVisible(action.cartVisible)
+				CartStore.emitChange()
+				break
+			case CartConstants.CART_ENABLED:
+				_setCartEnabled(action.cartEnabled)
 				CartStore.emitChange()
 				break
 			case CartConstants.CART_REMOVE:

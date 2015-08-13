@@ -9,20 +9,21 @@ export default class Cart {
 	}
 
 	open() {
-		CartActions.updateCartVisible(true)
+		CartActions.updateCartEnabled(true)
 	}
 
 	close() {
-		CartActions.updateCartVisible(false)
+		CartActions.updateCartEnabled(false)
 	}
 
 	render() {
 		return (
-			<div className={'cart ' + (this.props.visible ? 'cart--enabled' : '')} ref='cart'>
+			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
 				<div className='cart__count' onClick={this.open}>Cart — <span>{this.props.count}</span></div>
 				<div className='cart__content'>
 					<div className='cart__close' onClick={this.close}>x</div>
 					<div className='cart__subtotal'>Subtotal: <span>{this.props.total}</span></div>
+					<a href='#/payment' className='cart__checkout'>Check out</a>
 				</div>
 			</div>
 		)

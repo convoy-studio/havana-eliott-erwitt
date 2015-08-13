@@ -11,6 +11,7 @@ import Gallery from 'Gallery'
 import Shop from 'Shop'
 import Print from 'Print'
 import News from 'News'
+import Payment from 'Payment'
 import Contact from 'Contact'
 import Legal from 'Legal'
 import Privacy from 'Privacy'
@@ -33,7 +34,11 @@ export default class PagesContainer extends BasePager {
 		let hash = Router.getNewHash()
 		let type = undefined
 		let id = undefined
+
 		switch(hash.parent) {
+			case 'home':
+				type = Home
+				break
 			case 'fellowship':
 				type = Fellowship
 				break
@@ -64,6 +69,9 @@ export default class PagesContainer extends BasePager {
 			case 'news':
 				type = News
 				break
+			case 'payment':
+				type = Payment
+				break
 			case 'contact':
 				type = Contact
 				break
@@ -72,9 +80,6 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'privacy':
 				type = Privacy
-				break
-			case 'home':
-				type = Home
 				break
 			default:
 				type = Notfound
