@@ -20,41 +20,34 @@ class Router {
 		hasher.init()
 	}
 	_setupCrossroads() {
-		let basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 3)
-		// basicSection.rules = {
+		let basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 1)
+		// firstDegreeSection.rules = {
 		// 	page : ['home', '404', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
 		// }
 
-		let projectSection = crossroads.addRoute('{page}/{id}', this._onSecondDegreeURLHandler.bind(this), 3)
-		let validIDs = []
-		for (let artist in data.artists) {
-			validIDs.push(artist)
-		}
-		validIDs.push('55cb17192da00698d0ecead7');
+		let projectSection = crossroads.addRoute('project/{id}', this._onProjectURLHandler.bind(this), 2)
 		projectSection.rules = {
-			page : ['project', 'shop'],
-			id : validIDs
+			id : /^[a-z]/
 		}
 
-		let gallerySection = crossroads.addRoute('{page}/{id}/{sectionId}', this._onThirdDegreeURLHandler.bind(this), 5)
+		let gallerySection = crossroads.addRoute('project/{id}/gallery', this._onProjectURLHandler.bind(this), 3)
 		gallerySection.rules = {
-			id : validIDs
+			id : /^[a-z]/
+		}
+
+		let shopSection = crossroads.addRoute('/shop/{id}', this._onShopURLHandler.bind(this), 2)
+		shopSection.rules = {
+			id : /^[0-9]/
 		}
 	}
 	_onFirstDegreeURLHandler(pageId) {
 		this._assignRoute(pageId)
 	}
-	_onSecondDegreeURLHandler(pageId, detailId) {
-		this._assignRoute(detailId)
+	_onProjectURLHandler(projectId) {
+		this._assignRoute(projectId)
 	}
-	_onThirdDegreeURLHandler(pageId, detailId, sectionId) {
-		this._assignRoute(detailId)
-	}
-	_onWorksURLHandler(workId) {
-		this._assignRoute(workId)
-	}
-	_onBlogPostURLHandler(postId) {
-		this._assignRoute(postId)
+	_onShopURLHandler(printId) {
+		this._assignRoute(printId)
 	}
 	_onDefaultURLHandler() {
 		this._sendToDefault()
@@ -78,7 +71,7 @@ class Router {
 			parent: parent,
 			targetId: targetId
 		}
-		AppActions.pageHasherChanged()
+		AppActions.pageHasherChanged(targetId)
 	}
 	_didHasherChange(newHash, oldHash) {
 		this.newHashFounded = false
