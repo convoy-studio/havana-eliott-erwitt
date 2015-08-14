@@ -27,6 +27,9 @@ function _getDefaultRoute() {
 function _getGlobalContent() {
 	return data.routes.content
 }
+function _getHome() {
+    return data.home
+}
 function _getNews() {
     return data.news
 }
@@ -58,6 +61,9 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 	},
 	globalContent: function() {
 		return _getGlobalContent()
+	},
+	homeContent: function() {
+		return _getHome()
 	},
 	newsContent: function() {
 		return _getNews()

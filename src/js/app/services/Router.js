@@ -20,6 +20,8 @@ class Router {
 		hasher.init()
 	}
 	_setupCrossroads() {
+		let homeSection = crossroads.addRoute('', this._onHomeURLHandler.bind(this), 1)
+
 		let basicSection = crossroads.addRoute('{page}', this._onFirstDegreeURLHandler.bind(this), 1)
 		// firstDegreeSection.rules = {
 		// 	page : ['home', '404', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
@@ -39,6 +41,9 @@ class Router {
 		shopSection.rules = {
 			id : /^[0-9]/
 		}
+	}
+	_onHomeURLHandler() {
+		this._assignRoute('home')
 	}
 	_onFirstDegreeURLHandler(pageId) {
 		this._assignRoute(pageId)

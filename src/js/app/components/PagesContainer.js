@@ -36,7 +36,7 @@ export default class PagesContainer extends BasePager {
 		let id = undefined
 
 		switch(hash.parent) {
-			case 'home':
+			case '':
 				type = Home
 				break
 			case 'fellowship':

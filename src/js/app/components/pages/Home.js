@@ -25,14 +25,14 @@ export default class Home extends Page {
 		this.tlOut.pause(0)
 	}
 	render() {
-		let content = AppStore.pageContent()
+		let homeData = AppStore.homeContent()
 		return (
 			<div id='homepage' ref='page-wrapper' className='page'>
 				<div className='video'>
 					<video autoPlay loop className='video__file' src='./assets/videos/bg-home.mp4'></video>
 				</div>
 				<div className='page__content'>
-					<p dangerouslySetInnerHTML={{__html: content.content}} />
+					<p dangerouslySetInnerHTML={{__html: homeData.content}} />
 				</div>
 			</div>
 		)
