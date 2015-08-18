@@ -15,8 +15,8 @@ export default class Project extends Page {
 		this.props = props
 
 		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
+			.removeClass('body--white')
+			.addClass('body--black')
 		
 		this.state = { 
 			artist: undefined,
@@ -63,25 +63,20 @@ export default class Project extends Page {
 		}
 
 		return (
-			<div id='projectPage' ref='page-wrapper' className='page'>
+			<div id='page' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
-				<div className='page__content'>
-					<section className='project'>
-						<h2 className='project__artist text text--title'>{name}</h2>
-						<h1 className='project__title text text--subtitle'>{projectTitle}</h1>
-						<p className='project__desc text text--small'>{projectDesc}</p>
-						<div className='project__album'>
-							{Object.keys(this.state.prints).map(function(index){
-								let file = that.state.prints[index].file;
-								return (
-									<div className='project__photo' key={index}><img src={'./assets/images/prints/'+file}></img></div>
-								)
-							})}
-						</div>
-						<h2 className='project__artist text text--title'>{name}</h2>
-						<p className='project__bio text text--small'>{bio}</p>
-					</section>
-				</div>
+				<section className='project'>
+					<h2 className='project__artist'>{name}</h2>
+					<p className='project__desc text text--medium'>{projectDesc}</p>
+					<div className='project__album'>
+						{Object.keys(this.state.prints).map(function(index){
+							let file = that.state.prints[index].file;
+							return (
+								<div className='project__photo' key={index}><img src={'./assets/images/prints/'+file}></img></div>
+							)
+						})}
+					</div>
+				</section>
 			</div>
 		)
 	}

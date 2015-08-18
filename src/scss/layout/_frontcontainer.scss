@@ -45,9 +45,23 @@
 
 	&:first-child {
 		text-align: left;
+		a {
+			float: left;
+			clear: left;
+		}
 	}
 	&:last-child {
 		text-align: right;
+		a {
+			float: right;
+			clear: right;
+		}
+	}
+
+	a {
+		display: table;
+		line-height: 28px;
+		margin: 0 auto;
 	}
 }
 

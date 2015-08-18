@@ -15,14 +15,14 @@ export default class FrontContainer extends BaseComponent {
 		let menuItems = menuData.map((item, index)=>{
 			let pathUrl = '#' + item.url
 			return(
-				<li className='header__item' key={index}><a href={pathUrl}>{item.name}</a></li>
+				<li className='header__item' key={index}><a href={pathUrl} className='button button--small'>{item.name}</a></li>
 			)
 		}).reverse()
 		let footerMenuData = AppStore.footerMenuContent()
 		let footerMenuItems = footerMenuData.map((item, index)=>{
 			let pathUrl = '#' + item.url
 			return(
-				<li key={index}><a href={pathUrl}>{item.name}</a></li>
+				<li key={index} className='button button--right button--small'><a href={pathUrl}>{item.name}</a></li>
 			)
 		})
 
