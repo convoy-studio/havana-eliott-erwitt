@@ -13,10 +13,12 @@
 	transform: translate(-50%, 0);
 
 	text-align: center;
-	text-transform: uppercase;
-	font-size: 16px;
-    font-weight: 600;
+	font-size: 24px;
     line-height: 24px;
+}
+
+.heaser__subtitle {
+	font-family: 'Stanley';
 }
 
 .header__menu {
@@ -62,9 +64,10 @@
 
 .footer {
 	position: fixed;
-	right: 36px;
-	bottom: 36px;
+	right: 40px;
+	bottom: 40px;
 
-	font-size: 14px;
-	line-height: 18px;
+	font-size: 12px;
+	line-height: 14px;
+	text-align: right;
 }

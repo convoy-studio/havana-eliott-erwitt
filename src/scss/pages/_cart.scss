@@ -1,8 +1,11 @@
 .cart {
 	position: fixed;
-	top: 24px;
-	right: 24px;
+	top: 40px;
+	right: 40px;
+	z-index: 100;
 	display: none;
+
+	font-size: 14px;
 }
 
 .cart--visible {

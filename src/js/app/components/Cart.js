@@ -18,10 +18,11 @@ export default class Cart {
 
 	render() {
 		let that = this
+		let itemLabel = (this.props.count > 1) ? 'items' : 'item'
 
 		return (
 			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
-				<div className='cart__count' onClick={this.open}>Cart — <span>{this.props.count}</span></div>
+				<div className='cart__count' onClick={this.open}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				<div className='cart__content'>
 					<div className='cart__close' onClick={this.close}>x</div>
 					<ul className='payment__products'>

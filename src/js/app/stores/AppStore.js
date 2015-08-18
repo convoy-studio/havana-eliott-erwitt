@@ -30,6 +30,9 @@ function _getGlobalContent() {
 function _getHome() {
     return data.home
 }
+function _getFellowship() {
+    return data.fellowship
+}
 function _getNews() {
     return data.news
 }
@@ -64,6 +67,9 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 	},
 	homeContent: function() {
 		return _getHome()
+	},
+	fellowshipContent: function() {
+		return _getFellowship()
 	},
 	newsContent: function() {
 		return _getNews()

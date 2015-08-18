@@ -29,13 +29,13 @@
 			"name": "Contact",
 			"url": "/contact"
 		},{
-			"id": "legal",
-			"name": "Legal",
-			"url": "/legal"
-		},{
 			"id": "privacy",
 			"name": "Privacy",
 			"url": "/privacy"
+		},{
+			"id": "legal",
+			"name": "Legal",
+			"url": "/legal"
 		}
 	],
 
