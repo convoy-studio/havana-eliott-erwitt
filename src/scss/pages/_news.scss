@@ -1,0 +1,52 @@
+.page--news {
+	width: 958px;
+	margin: 0 auto;
+	padding-top: 160px;
+}
+
+.news__item {
+	display: table;
+	width: 100%;
+	margin-bottom: 100px;
+}
+
+.news__item--left {
+	.news__content {
+		font-family: 'PxGrotesk';
+		padding-left: 55px;
+	}
+	.news__date {
+		font-family: 'Stanley';
+		padding-right: 55px;
+	}
+}
+
+.news__item--right {
+	.news__content {
+		font-family: 'Stanley';
+		padding-right: 55px;
+	}
+	.news__date {
+		font-family: 'PxGrotesk';
+		padding-left: 55px;
+	}
+}
+
+.news__content {
+	display: table-cell;
+	width: 50%;
+	box-sizing: border-box;
+
+	font-size: 24px;
+	line-height: 28px;
+}
+
+.news__date {
+	display: table-cell;
+	width: 50%;
+	box-sizing: border-box;
+	vertical-align: middle;
+
+	text-align: center;
+	font-size: 60px;
+}

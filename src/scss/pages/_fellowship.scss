@@ -1,16 +1,17 @@
-// .fellowship {
+.page--fellowship {
+	position: absolute;
 	
-// 	&:after {
-// 		content: '';
-// 		position: fixed;
-// 		left: 0;
-// 		top: 0;
-// 		width: 100%;
-// 		height: 100%;
-// 		background-image: url('../assets/images/bg-fellowship.jpg');
-// 		background-size: cover;
-// 	}
-// }
+	// &:after {
+	// 	content: '';
+	// 	position: fixed;
+	// 	left: 0;
+	// 	top: 0;
+	// 	width: 100%;
+	// 	height: 100%;
+	// 	background-image: url('../assets/images/bg-fellowship.jpg');
+	// 	background-size: cover;
+	// }
+}
 
 .fellowship__presentation {
 	position: relative;

@@ -27,11 +27,11 @@ export default class Home extends Page {
 	render() {
 		let homeData = AppStore.homeContent()
 		return (
-			<div className='page homepage' ref='page-wrapper'>
+			<div className='page page--home' ref='page-wrapper'>
 				<div className='video'>
 					<video autoPlay loop className='video__file' src='./assets/videos/bg-home.mp4'></video>
 				</div>
-				<div className='homepage__content'>
+				<div className='home__content'>
 					<p className='text text--title' dangerouslySetInnerHTML={{__html: homeData.content}} />
 				</div>
 			</div>

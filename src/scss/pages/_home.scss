@@ -1,8 +1,9 @@
-.homepage {
+.page--home {
 	@extend .full;
+	position: absolute;
 }
 
-.homepage__content {
+.home__content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -12,7 +13,7 @@
 	line-height: 42px;
 }
 
-.homepage a {
+.home__content a {
 	position: relative;
 	font-family: 'PxGrotesk';
 	font-size: 32px;

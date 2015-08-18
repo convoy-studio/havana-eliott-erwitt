@@ -45,7 +45,7 @@ export default class Fellowship extends Page {
 		console.log(this.state)
 
 		return (
-			<div className='page fellowship' ref='page-wrapper'>
+			<div className='page page--fellowship' ref='page-wrapper'>
 
 				<section className='fellowship__presentation'>
 					<div className='video'>

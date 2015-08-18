@@ -39,7 +39,7 @@ export default class Projects extends Page {
 		// }
 		let content = AppStore.pageContent()
 		return (
-			<div className='page projects' ref='page-wrapper'>
+			<div className='page page--projects' ref='page-wrapper'>
 				<div className='projects__content'>
 					<h2 className='projects__title text text--title'>Fellows:</h2>
 					<ul>

@@ -63,7 +63,7 @@ export default class Project extends Page {
 		}
 
 		return (
-			<div id='page' ref='page-wrapper'>
+			<div id='page page--project' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
 				<section className='project'>
 					<h2 className='project__artist'>{name}</h2>

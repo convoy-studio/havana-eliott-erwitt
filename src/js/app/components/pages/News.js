@@ -11,21 +11,24 @@ export default class News extends Page {
 			.addClass('body--black')
 	}
 	render() {
+		let side
 		let newsData = AppStore.newsContent()
 		let newsItems = newsData.map((item, index)=>{
-			return(
-				<article key={index}>
+			if (index % 2 === 0) { return (
+				<article key={index} className='news__item news__item--right'>
+					<div className='news__content'>{item.content}</div>
+					<div className='news__date'>{item.date}</div>
+				</article>
+			)} else { return (
+				<article key={index} className='news__item news__item--left'>
 					<div className='news__date'>{item.date}</div>
 					<div className='news__content'>{item.content}</div>
 				</article>
-			)
+			)}
 		})
-		let content = AppStore.pageContent()
 		return (
-			<div id='newsPage' ref='page-wrapper' className='page'>
-				<div className="page__content">
-					<section className='news'>{newsItems}</section>
-				</div>
+			<div className='page page--news' ref='page-wrapper'>
+				<section className='news'>{newsItems}</section>
 			</div>
 		)
 	}
