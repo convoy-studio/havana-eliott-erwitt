@@ -15,7 +15,7 @@ var controller = {
 	},
 
 	getOne : {
-		handler : function(request, reply){
+		handler : function(request, reply) {
 			Print.findById(request.params.id, function (err, item) {
 				if (!err) {
 					return reply(item);
@@ -26,7 +26,7 @@ var controller = {
 	},
 
 	getByArtist : {
-		handler : function(request, reply){
+		handler : function(request, reply) {
 			// Print.find({})
 			// 	.populate('artist', 'slug')
 			// 	.exec(function (err, item) {
@@ -47,6 +47,28 @@ var controller = {
 					return reply(items);
 				}
 				return reply(Boom.badImplementation(err)); // HTTP 500
+			});
+		}
+	},
+
+	order : {
+		handler : function(request, reply) {
+			Print.findById(request.params.id, function (err, item) {
+				if (!err) {
+					var index = item.serials.indexOf(request.payload.serial);
+					if (index > -1) {
+						item.serials.splice(index, 1);
+					}
+					item.save(function(err){
+						if(!err){
+							return reply(item);
+						} else {
+							return reply('Order failed');
+						}
+					});
+				} else {
+					return reply(Boom.badRequest(err)); // HTTP 500
+				}
 			});
 		}
 	}

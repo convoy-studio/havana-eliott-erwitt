@@ -4,6 +4,9 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import CartActions from 'CartActions'
 import CartStore from 'CartStore'
+import CartApi from 'CartApi'
+import PrintApi from 'PrintApi'
+let _ = require('lodash')
 
 function _getCartState() {
 	return {
@@ -41,7 +44,7 @@ export default class Payment extends Page {
 
 	render() {
 		let that = this
-		
+
 		return (
 			<div id='paymentPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
@@ -61,9 +64,21 @@ export default class Payment extends Page {
 						</ul>
 						<div className='cart__subtotal'>Subtotal: <span>{this.state.cartTotal}</span></div>
 					</div>
+
+					<a href='' onClick={this.pay.bind(this)}>Proceed to payment</a>
 				</div>
 			</div>
 		)
+	}
+
+	pay(e) {
+		e.preventDefault()
+
+		_(this.state.cartItems).forEach((item, index) => {
+			PrintApi.order(index, item.serial)
+		}).value();
+		// CartApi.pay()
+		// CartApi.generatePayButton()
 	}
 
 	didTransitionOutComplete() {

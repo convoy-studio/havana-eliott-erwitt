@@ -30,7 +30,7 @@ export default class Cart {
 							return (
 								<li key={id} className='payment__product'>
 									{product.city} - {product.year}
-									<div>quantity: <span>{product.quantity}</span></div>
+									<div>quantity: <span>{product.quantity} ({product.serial})</span></div>
 									<div onClick={that.removeItem.bind(this, id)}>Remove item</div>
 								</li>
 							)

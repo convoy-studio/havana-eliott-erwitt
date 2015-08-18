@@ -19,7 +19,8 @@ export default class Print extends Page {
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
-			print: undefined
+			print: undefined,
+			serial: undefined
 		};
 
 		PrintApi.getOne(this.props.idSection);
@@ -43,7 +44,25 @@ export default class Print extends Page {
 					{(() => {
 						if (this.state.print) return (
 							<div className='print'>
-								<a href='#' onClick={that._addToCartBinded}>Buy print</a>
+								<div className='serials'>
+										{(() => {
+											if (that.state.print.serials.length > 0) { return (
+												<div>
+													<ul>
+														{Object.keys(that.state.print.serials).map(function(index){
+															let serial = that.state.print.serials[index];
+															return (
+																<li className={(serial === that.state.serial) ? 'serial serial--enabled' : 'serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
+															)
+														})}
+													</ul>
+													<a href='#' onClick={that._addToCartBinded}>Buy print</a>
+												</div>
+											)} else { return (
+												<div>Out of stock</div>
+											)}
+										})()}
+								</div>
 								<img src={'./assets/images/prints/'+this.state.print.file}></img>
 								<h1>{this.state.print.city}</h1>
 							</div>
@@ -54,6 +73,14 @@ export default class Print extends Page {
 		)
 	}
 
+	_selectSerial(serial, e) {
+		dom('.serial--enabled').removeClass('serial--enabled')
+		dom(e.target).addClass('serial--enabled')
+		this.setState({
+			serial: serial
+		})
+	}
+
 	_addToCart(e) {
 		e.preventDefault()
 
@@ -61,10 +88,18 @@ export default class Print extends Page {
 		let update = {
 			city: this.state.print.city,
 			year: this.state.print.year,
-			price: this.state.print.price
+			price: this.state.print.price,
+			serial: this.state.serial
 		}
 		CartActions.addToCart(printId, update);
 		CartActions.updateCartVisible(true);
+
+		let serials = [1,2,3,4,5,6,7,8,9,10]
+		let index = serials.indexOf(this.state.serial);
+		if (index > -1) {
+			serials.splice(index, 1);
+		}
+		console.log(serials)
 	}
 
 	didTransitionOutComplete() {
@@ -80,6 +115,10 @@ export default class Print extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			print: PrintStore.getOne()
+		}, () => {
+			this.setState({
+				serial: this.state.print.serials[0]
+			})
 		})
 	}
 }

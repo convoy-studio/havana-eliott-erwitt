@@ -43,6 +43,20 @@ module.exports = {
 			});
 	},
 
+	order : function(id, serial) {
+		console.log(serial)
+		fetch(config.siteurl + '/api/print/' + id, {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'serial' : serial
+			})
+		})
+	},
+
 	create : function(print){
 		fetch(config.siteurl + '/api/prints', {
 			method: 'post',
