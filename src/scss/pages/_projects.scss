@@ -1,8 +1,8 @@
-#projectsPage {
+.projects {
 	@extend .full;
 }
 
-#projectsPage .page__content {
+.projects__content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -10,4 +10,12 @@
 	padding: 0;
 
 	text-align: center;
+}
+
+.projects__title {
+	margin-bottom: 12px;
+}
+
+.projects__item {
+	font-size: 72px;
 }

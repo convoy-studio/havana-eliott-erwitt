@@ -10,8 +10,8 @@ export default class Projects extends Page {
 		super(props)
 
 		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
+			.removeClass('body--white')
+			.addClass('body--black')
 
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 		this.state = { 
@@ -39,13 +39,14 @@ export default class Projects extends Page {
 		// }
 		let content = AppStore.pageContent()
 		return (
-			<div id='projectsPage' ref='page-wrapper' className='page'>
-				<div className='page__content'>
+			<div className='page projects' ref='page-wrapper'>
+				<div className='projects__content'>
+					<h2 className='projects__title text text--title'>Fellows:</h2>
 					<ul>
 						{Object.keys(this.state.artists).map(function(index){
 							let artist = that.state.artists[index];
 							return (
-								<li key={index}><a href={'#/project/'+artist.slug}>{artist.name}</a></li>
+								<li key={index} className='projects__item'><a href={'#/project/'+artist.slug}>{artist.name}</a></li>
 							)
 						})}
 					</ul>
