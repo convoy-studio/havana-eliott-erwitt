@@ -34,6 +34,7 @@ export default class AppTemplate extends React.Component {
 	render() {
 		return (
 			<div id='template'>
+				<canvas ref='canvas' className='canvas'></canvas>
 				<FrontContainer />
 				<PagesContainer />
 				<Cart

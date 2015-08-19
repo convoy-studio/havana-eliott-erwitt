@@ -49,7 +49,7 @@ export default class Fellowship extends Page {
 
 				<section className='fellowship__presentation'>
 					<div className='video'>
-						<video autoPlay loop className='video__file' src='./assets/videos/bg-fellowship.mp4'></video>
+						<video autoPlay loop muted className='video__file' src='./assets/videos/bg-fellowship.mp4'></video>
 					</div>
 					<div className='fellowship__desc fellowship--text text text--big'>
 						{Object.keys(fellowshipData.fellowship.paragraphs).map((index) => {
