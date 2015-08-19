@@ -13,12 +13,17 @@ module.exports = {
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
 			});
-			// .then(function(response) {
-			// 	let prints = JSON.parse(response)
-			// 	PrintActions.receiveAll(prints)
-			// }).catch(function(error) {
-			// 	console.log('request failed', error)
-			// })
+	},
+
+	getForSale : function() {
+		fetch(config.siteurl + '/api/prints/forsale')
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				PrintActions.receiveForSale(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
 	},
 
 	getByArtist : function(artist) {

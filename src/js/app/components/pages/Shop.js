@@ -11,15 +11,15 @@ export default class Shop extends Page {
 		super(props)
 
 		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
+			.removeClass('body--white')
+			.addClass('body--black')
 
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
-			photos: {}
+			prints: {}
 		};
 
-		PrintApi.getAll();
+		PrintApi.getForSale();
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
@@ -33,21 +33,36 @@ export default class Shop extends Page {
 
 	render() {
 		let that = this
+		let shopData = AppStore.shopContent()
 
 		return (
-			<div id='shopPage' ref='page-wrapper' className='page'>
-				<div className='page__content'>
-					<div className='shop'>
-						{Object.keys(this.state.photos).map(function(index){
-							let file = that.state.photos[index].file;
-							let id = that.state.photos[index]._id;
-							return (
-								<div className='shop__print' key={index}>
-									<a href={'#/shop/'+id}><img src={'./assets/images/prints/'+file}></img></a> 
-								</div>
-							)
-						})}
-					</div>
+			<div id='page page--shop' ref='page-wrapper'>
+				<div className='shop__intro text text--bigger'>
+					{Object.keys(shopData.intro.paragraphs).map((index) => {
+						return (
+							<p className='shop__paragraph' key={index}>{shopData.intro.paragraphs[index]}</p>
+						)
+					})}
+				</div>
+				<div className='shop'>
+					{Object.keys(this.state.prints).map(function(index){
+						let print = that.state.prints[index]
+						let file = print.file + '_min.jpg'
+						let id = print._id
+						return (
+							<div className='shop__print' key={index}>
+								<a href={'#/shop/'+id}>
+									<img src={'./assets/images/prints/'+file}></img>
+									<div className='shop__hover'>
+										<div className='shop__detail'>
+											<div className='shop__city'>{print.city}</div>, <div className='shop__year'>{print.year}</div>
+											<div className='shop__price'>{print.price}€</div>
+										</div>
+									</div>
+								</a> 
+							</div>
+						)
+					})}
 				</div>
 			</div>
 		)
@@ -65,7 +80,7 @@ export default class Shop extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			photos: PrintStore.getAll()
+			prints: PrintStore.getForSale()
 		})
 	}
 }

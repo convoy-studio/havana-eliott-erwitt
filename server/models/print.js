@@ -10,7 +10,8 @@ var itemSchema = new mongoose.Schema({
 	year 		: String,
 	file		: String,
 	copies		: Number,
-	serials		: [Number]
+	serials		: [Number],
+	forSale		: Boolean
 });
 
 module.exports = mongoose.model('Print', itemSchema, 'prints');

@@ -123,13 +123,13 @@ html {
 
 		background-color: $white;
 
-		animation: buttonOut 0.4s ease-out forwards;
+		animation: buttonOut 0.2s ease-out forwards;
 
 	}
 
 	&:hover {
 		&:after {
-			animation: buttonHover 0.4s ease-out forwards;
+			animation: buttonHover 0.2s ease-out forwards;
 		}
 	} 
 }

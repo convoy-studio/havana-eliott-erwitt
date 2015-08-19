@@ -8,6 +8,7 @@ import Router from 'Router'
 const CHANGE_EVENT = 'change';
 
 let _prints = {};
+let _printsForSale = {};
 let _artistPrints = {};
 let _print = {};
 
@@ -15,6 +16,14 @@ function _addPrints(prints) {
 	prints.forEach(function(print) { // change forEach to lodash
 		if (!_prints[print._id]) {
 			_prints[print._id] = print;
+		}
+	});
+}
+
+function _addPrintsForSale(prints) {
+	prints.forEach(function(print) { // change forEach to lodash
+		if (!_printsForSale[print._id]) {
+			_printsForSale[print._id] = print;
 		}
 	});
 }
@@ -30,6 +39,9 @@ function _addArtistPrints(prints) {
 let PrintStore = assign({}, EventEmitter2.prototype, {
 	getAll: function() {
 		return _prints
+	},
+	getForSale: function() {
+		return _printsForSale
 	},
 	getArtistPrints: function() {
 		return _artistPrints
@@ -54,6 +66,10 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 		switch(action.actionType) {
 			case PrintConstants.RECEIVE_ALL_PRINTS:
 				_addPrints(action.item);
+				PrintStore.emitChange();
+				break
+			case PrintConstants.RECEIVE_PRINTS_FORSALE:
+				_addPrintsForSale(action.item);
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_ARTIST_PRINTS:

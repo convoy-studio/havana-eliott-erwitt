@@ -13,14 +13,15 @@ export default class Print extends Page {
 		super(props)
 
 		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
+			.removeClass('body--white')
+			.addClass('body--black')
 
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
 			print: undefined,
-			serial: undefined
+			serial: undefined,
+			loadedPrint: undefined
 		};
 
 		PrintApi.getOne(this.props.idSection);
@@ -39,36 +40,40 @@ export default class Print extends Page {
 		let that = this
 
 		return (
-			<div id='printPage' ref='page-wrapper' className='page'>
-				<div className='page__content'>
-					{(() => {
-						if (this.state.print) return (
-							<div className='print'>
+			<div className='page page--print' ref='page-wrapper'>
+				{(() => {
+					if (this.state.print) return (
+						<div className='print'>
+							{this.state.loadedPrint}
+							<div className='print__infos'>
+								<h2 className='print__artist'>Elliott Erwitt</h2>
+								<h3 className='print__details'>
+									<span className='print__city'>{that.state.print.city}</span>, {that.state.print.year}
+								</h3>
+								<div className='print__price text text--small'>{that.state.print.price}€</div>
 								<div className='serials'>
-										{(() => {
-											if (that.state.print.serials.length > 0) { return (
-												<div>
-													<ul>
-														{Object.keys(that.state.print.serials).map(function(index){
-															let serial = that.state.print.serials[index];
-															return (
-																<li className={(serial === that.state.serial) ? 'serial serial--enabled' : 'serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
-															)
-														})}
-													</ul>
-													<a href='#' onClick={that._addToCartBinded}>Buy print</a>
-												</div>
-											)} else { return (
-												<div>Out of stock</div>
-											)}
-										})()}
+									{(() => {
+										if (that.state.print.serials.length > 0) { return (
+											<div>
+												<ul>
+													{Object.keys(that.state.print.serials).map(function(index){
+														let serial = that.state.print.serials[index];
+														return (
+															<li className={(serial === that.state.serial) ? 'serial serial--enabled' : 'serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
+														)
+													})}
+												</ul>
+												<a href='#' className='print__buy text text--small button button--center button--small' onClick={that._addToCartBinded}>Buy print</a>
+											</div>
+										)} else { return (
+											<div>Out of stock</div>
+										)}
+									})()}
 								</div>
-								<img src={'./assets/images/prints/'+this.state.print.file}></img>
-								<h1>{this.state.print.city}</h1>
 							</div>
-						)
-					})()}
-				</div>
+						</div>
+					)
+				})()}
 			</div>
 		)
 	}
@@ -102,13 +107,32 @@ export default class Print extends Page {
 		console.log(serials)
 	}
 
+	_loadImage() {
+		let that = this, file
+
+		file = new Image()
+		file.onload = that._onImageLoaded.bind(that)
+		file.src = './assets/images/prints/'+this.state.print.file+'.jpg'
+	}
+
+	_onImageLoaded(params) {
+		if (params.path[0].height >= params.path[0].width*1.2) {
+			this.print = <div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'.jpg'}></img></div>
+		} else {
+			this.print = <div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'.jpg'}></img></div>
+		}
+		this.setState({
+			'loadedPrint': this.print
+		});
+	}
+
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
 	}
 
 	resize() {
-		var windowW = AppStore.Window.w
-		var windowH = AppStore.Window.h
+		let windowW = AppStore.Window.w
+		let windowH = AppStore.Window.h
 		super.resize()
 	}
 
@@ -116,6 +140,7 @@ export default class Print extends Page {
 		this.setState({
 			print: PrintStore.getOne()
 		}, () => {
+			this._loadImage()
 			this.setState({
 				serial: this.state.print.serials[0]
 			})

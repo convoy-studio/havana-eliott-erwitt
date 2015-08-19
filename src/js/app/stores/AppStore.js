@@ -28,19 +28,22 @@ function _getGlobalContent() {
 	return data.routes.content
 }
 function _getHome() {
-    return data.home
+	return data.home
 }
 function _getFellowship() {
-    return data.fellowship
+	return data.fellowship
+}
+function _getShop() {
+	return data.shop
 }
 function _getNews() {
-    return data.news
+	return data.news
 }
 function _getArtists() {
-    return data.artists
+	return data.artists
 }
 function _getArtist(id) {
-    return data.artists[id]
+	return data.artists[id]
 }
 
 var AppStore = assign({}, EventEmitter2.prototype, {
@@ -70,6 +73,9 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 	},
 	fellowshipContent: function() {
 		return _getFellowship()
+	},
+	shopContent: function() {
+		return _getShop()
 	},
 	newsContent: function() {
 		return _getNews()

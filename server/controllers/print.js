@@ -25,6 +25,17 @@ var controller = {
 		}
 	},
 
+	getForSale : {
+		handler : function(request, reply) {
+			Print.find({ forSale: true }, function(err, items) {
+				if (!err) {
+					return reply(items);
+				}
+				return reply(Boom.badImplementation(err)); // HTTP 500
+			});
+		}
+	},
+
 	getByArtist : {
 		handler : function(request, reply) {
 			// Print.find({})

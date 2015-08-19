@@ -12,3 +12,61 @@
 .serial--enabled {
 	font-weight: bold;
 }
+
+.print {
+	display: table;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 958px;
+}
+
+.print__image {
+	width: 50%;
+	display: table-cell;
+}
+
+.print__image--portrait {
+	img {
+		width: 60%;
+		float: right;
+		margin-right: 24px;
+	}
+}
+
+.print__infos {
+	width: 50%;
+	display: table-cell;
+	vertical-align: middle;
+
+	text-align: center;
+}
+
+.print__artist {
+	font-size: 30px;
+	line-height: 36px;
+}
+
+.print__details {
+	font-family: 'Stanley';
+	font-size: 30px;
+	line-height: 36px;
+}
+
+.print__city {
+	font-style: italic;
+}
+
+.print__price {
+	margin: 60px 0;
+
+	font-family: 'Stanley';
+	font-size: 16px;
+}
+
+.print__buy {
+	margin-top: 60px;
+
+	line-height: 24px;
+}

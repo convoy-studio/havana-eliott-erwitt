@@ -39,12 +39,10 @@ export default class Gallery extends Page {
 
 	render() {
 		return (
-			<div id='galleryPage' ref='page-wrapper' className='page'>
+			<div id='page page--gallery' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection}>Back to gallery</a></div>
-				<div className='page__content'>
-					<div className='gallery'>
-						{this.state.loadedPrints}
-					</div>
+				<div className='gallery'>
+					{this.state.loadedPrints}
 				</div>
 			</div>
 		)
@@ -59,7 +57,7 @@ export default class Gallery extends Page {
 			_(this.state.prints).forEach(function(print) {
 				file = new Image()
 				file.onload = that.onImageLoaded.bind(that)
-				file.src = './assets/images/prints/'+print.file
+				file.src = './assets/images/prints/'+print.file+'.jpg'
 			}).value();
 		}
 	}
@@ -73,11 +71,11 @@ export default class Gallery extends Page {
 			this.prints.push(<div className='gallery__item gallery__item--large' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
 		}
 		
-		if (this.nImageLoaded >= this.max) {
+		// if (this.nImageLoaded >= this.max) {
 			this.setState({
 				'loadedPrints': this.prints
 			});
-		}
+		// }
 	}
 
 	didTransitionOutComplete() {

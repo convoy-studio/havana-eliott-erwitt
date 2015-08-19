@@ -11,6 +11,13 @@ var PrintActions = {
 		});
 	},
 
+	receiveForSale : function(prints){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_PRINTS_FORSALE,
+			item: prints
+		});
+	},
+
 	receiveFromArtist : function(prints){
 		AppDispatcher.handleServerAction({
 			actionType: PrintConstants.RECEIVE_ARTIST_PRINTS,
