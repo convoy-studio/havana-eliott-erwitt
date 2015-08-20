@@ -32,7 +32,7 @@ class Router {
 			id : /^[a-z]/
 		}
 
-		let gallerySection = crossroads.addRoute('project/{id}/gallery', this._onProjectURLHandler.bind(this), 3)
+		let gallerySection = crossroads.addRoute('project/{id}/contact-sheet', this._onProjectURLHandler.bind(this), 3)
 		gallerySection.rules = {
 			id : /^[a-z]/
 		}

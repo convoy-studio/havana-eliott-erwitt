@@ -47,7 +47,7 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'project':
 				if (hash.parts.length > 2) {
-					if (hash.parts[2] === 'gallery') {
+					if (hash.parts[2] === 'contact-sheet') {
 						type = Gallery
 						id = hash.targetId
 					} else {
