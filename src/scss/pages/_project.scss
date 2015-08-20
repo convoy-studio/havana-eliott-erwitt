@@ -12,7 +12,47 @@
 	margin: 0 auto;
 }
 
-.project__album {
+.project__slideshow {
+	position: relative;
 	width: 716px;
+	height: 478px;
 	margin: 0 auto;
+}
+
+.project__prints {
+	width: 100%;
+}
+
+.project__print {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	transform: translate(-50%, 0);
+	height: 100%;
+	width: auto;
+}
+
+.project__image {
+	height: 100%;
+	width: auto;		
+}
+
+.project__print--prev, .project__print--next {
+	display: none;
+}
+
+.project__prev, .project__next {
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	
+	cursor: pointer;
+}
+
+.project__prev {
+	left: -120px;
+}
+
+.project__next {
+	right: -120px;
 }

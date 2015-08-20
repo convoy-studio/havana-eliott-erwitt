@@ -18,6 +18,13 @@ var PrintActions = {
 		});
 	},
 
+	receiveSlideshow : function(prints){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_PRINTS_SLIDESHOW,
+			item: prints
+		});
+	},
+
 	receiveFromArtist : function(prints){
 		AppDispatcher.handleServerAction({
 			actionType: PrintConstants.RECEIVE_ARTIST_PRINTS,

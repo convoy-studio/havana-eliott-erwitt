@@ -4,36 +4,42 @@ import {EventEmitter2} from 'eventemitter2'
 import assign from 'object-assign'
 import data from 'GlobalData'
 import Router from 'Router'
+let _ = require('lodash')
 
 const CHANGE_EVENT = 'change';
 
 let _prints = {};
 let _printsForSale = {};
+let _printsSlideshow = {};
 let _artistPrints = {};
 let _print = {};
 
 function _addPrints(prints) {
-	prints.forEach(function(print) { // change forEach to lodash
+	_(prints).forEach((print) => {
 		if (!_prints[print._id]) {
 			_prints[print._id] = print;
 		}
-	});
+	}).value()
 }
 
 function _addPrintsForSale(prints) {
-	prints.forEach(function(print) { // change forEach to lodash
+	_(prints).forEach((print) => {
 		if (!_printsForSale[print._id]) {
 			_printsForSale[print._id] = print;
 		}
-	});
+	}).value()
+}
+
+function _addPrintsSlideshow(result) {
+	_printsSlideshow = result
 }
 
 function _addArtistPrints(prints) {
-	prints.forEach(function(print) { // change forEach to lodash
+	_(prints).forEach((print) => {
 		if (!_artistPrints[print._id]) {
 			_artistPrints[print._id] = print;
 		}
-	});
+	}).value()
 }
 
 let PrintStore = assign({}, EventEmitter2.prototype, {
@@ -42,6 +48,9 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 	},
 	getForSale: function() {
 		return _printsForSale
+	},
+	getSlideshow: function() {
+		return _printsSlideshow
 	},
 	getArtistPrints: function() {
 		return _artistPrints
@@ -70,6 +79,10 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 				break
 			case PrintConstants.RECEIVE_PRINTS_FORSALE:
 				_addPrintsForSale(action.item);
+				PrintStore.emitChange();
+				break
+			case PrintConstants.RECEIVE_PRINTS_SLIDESHOW:
+				_addPrintsSlideshow(action.item);
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_ARTIST_PRINTS:

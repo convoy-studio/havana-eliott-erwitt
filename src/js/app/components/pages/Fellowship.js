@@ -76,7 +76,7 @@ export default class Fellowship extends Page {
 							</div>
 						)} else { return (
 							<div className='fellowship__interview'>
-								<video autoPlay className='fellowship__video' src='./assets/videos/bg-fellowship.mp4'></video>
+								<video autoPlay className='fellowship__video' src='./assets/videos/bg-home.webmsd.webm'></video>
 							</div>
 						)}
 					})()}

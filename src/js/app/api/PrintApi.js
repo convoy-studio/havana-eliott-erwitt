@@ -26,6 +26,17 @@ module.exports = {
 			});
 	},
 
+	getSlideshow : function(artist) {
+		fetch(config.siteurl + '/api/prints/' + artist + '/slideshow')
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				PrintActions.receiveSlideshow(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
 	getByArtist : function(artist) {
 		fetch(config.siteurl + '/api/prints/' + artist)
 			.then(function(response) {

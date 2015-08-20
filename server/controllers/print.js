@@ -25,6 +25,32 @@ var controller = {
 		}
 	},
 
+	getSlideshow : {
+		handler : function(request, reply) {
+			Print.find({ slugArtist: request.params.slug })
+				 .sort({ year: 'asc'})
+				 .exec(function(err, items) {
+					if (!err) {
+						var result = {
+							refs: [],
+							prints: {
+								prev: items[items.length-1],
+								current: items[0],
+								next: items[1]
+							}
+						};
+
+						for(i = 0; i < items.length; i++){
+							result.refs.push(items[i]._id);
+						}
+
+						return reply(result);
+					}
+					return reply(Boom.badImplementation(err)); // HTTP 500
+				}); 
+		}
+	},
+
 	getForSale : {
 		handler : function(request, reply) {
 			Print.find({ forSale: true }, function(err, items) {
@@ -38,27 +64,14 @@ var controller = {
 
 	getByArtist : {
 		handler : function(request, reply) {
-			// Print.find({})
-			// 	.populate('artist', 'slug')
-			// 	.exec(function (err, item) {
-			// 		if (!err) {
-			// 			item.find({ slug: request.params.slug }, function(err, prints) {
-			// 				if (!err) {
-			// 					return reply(prints);
-			// 				}
-			// 				return reply(Boom.badImplementation(err)); // HTTP 500
-			// 			})
-			// 			// return reply(item);
-			// 		}
-			// 		return reply(Boom.badImplementation(err)); // HTTP 500
-			// 	});
-
-			Print.find({ slugArtist: request.params.slug }, function(err, items) {
-				if (!err) {
-					return reply(items);
-				}
-				return reply(Boom.badImplementation(err)); // HTTP 500
-			});
+			Print.find({ slugArtist: request.params.slug })
+				 .sort({ year: 'asc'})
+				 .exec(function(err, items) {
+					if (!err) {
+						return reply(items);
+					}
+					return reply(Boom.badImplementation(err)); // HTTP 500
+				});
 		}
 	},
 
