@@ -36,7 +36,7 @@ export default class Home extends Page {
 		return (
 			<div className='page page--home' ref='page-wrapper'>
 				<div className='video'>
-					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.mp4'></video>
+					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webmsd.webm'></video>
 				</div>
 				<div className='home__content'>
 					<p className='text text--title' dangerouslySetInnerHTML={{__html: homeData.content}} />

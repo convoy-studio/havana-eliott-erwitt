@@ -70,7 +70,7 @@ export default class Project extends Page {
 					<p className='project__desc text text--medium'>{projectDesc}</p>
 					<div className='project__album'>
 						{Object.keys(this.state.prints).map(function(index){
-							let file = that.state.prints[index].file + '.jpg';
+							let file = that.state.prints[index].file + '_min.jpg';
 							return (
 								<div className='project__photo' key={index}><img src={'./assets/images/prints/'+file}></img></div>
 							)
