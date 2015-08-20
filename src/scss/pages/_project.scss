@@ -76,8 +76,7 @@
 
 .project__prev, .project__next {
 	position: absolute;
-	top: 50%;
-	transform: translate(0, -50%);
+	top: calc(50% - 18px);
 	width: 36px;
 	height: 36px;
 	
@@ -91,11 +90,11 @@
 }
 
 .project__prev {
-	left: -120px;
+	left: 260px;
 }
 
 .project__next {
-	right: -120px;
+	right: 260px;
 	transform-origin: 50% 50%;
 	transform: rotate(180deg) translate(0, -50%);
 }
