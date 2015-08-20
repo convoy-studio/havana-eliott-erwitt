@@ -22,6 +22,7 @@ export default class Home extends Page {
 		this._canvas = document.querySelector('.canvas')
 
 		if (this._canvas) {
+			this._canvas.style.display = 'block';
 			TweenMax.set(dom('.front-container'), {opacity: 0});
 			TweenMax.set(dom('.home__content'), {opacity: 0});
 			TweenMax.set(dom('.cart'), {opacity: 0});
