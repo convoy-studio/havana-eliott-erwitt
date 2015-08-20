@@ -47,6 +47,11 @@
 	// width: 220px;
 }
 
+.gallery__item--disabled {
+	cursor: default;
+	&:after, &:hover:after { border: none; }
+}
+
 .gallery__image {
 	width: 100%;
 	position: absolute;

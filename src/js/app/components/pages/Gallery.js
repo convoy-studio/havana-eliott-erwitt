@@ -47,7 +47,7 @@ export default class Gallery extends Page {
 					{Object.keys(this.state.loadedPrints).map((year, i) => {
 						return (
 							<div className='gallery__grid' key={year+'_'+i}>
-								<div className='gallery__item gallery__item--large'>{year}</div>
+								<div className='gallery__item gallery__item--large gallery__item--disabled'>{year}</div>
 								{Object.keys(that.state.loadedPrints[year]).map((printId, i) => { 
 									let print = that.state.loadedPrints[year][printId]
 									let src = './assets/images/prints/'+print.file+'_min.jpg'
