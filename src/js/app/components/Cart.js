@@ -6,6 +6,16 @@ export default class Cart {
 
 	constructor(props) {
 		this.props = props
+		this.showed = false
+
+		this.toggleBinded = this.toggle.bind(this)
+	}
+
+	toggle() {
+		if (this.props.count > 0) {
+			this.showed = !this.showed
+			CartActions.updateCartEnabled(this.showed)
+		}
 	}
 
 	open() {
@@ -22,9 +32,8 @@ export default class Cart {
 
 		return (
 			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
-				<div className='cart__count' onClick={this.open}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
+				<div className='cart__count' onClick={this.toggleBinded}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				<div className='cart__content'>
-					<div className='cart__close' onClick={this.close}>x</div>
 					<ul className='payment__products'>
 						{Object.keys(this.props.products).map(function(id){
 							let product = that.props.products[id];
@@ -37,8 +46,10 @@ export default class Cart {
 							)
 						})}
 					</ul>
-					<div className='cart__subtotal'>Subtotal: <span>{this.props.total}</span></div>
-					<a href='#/payment' className='cart__checkout'>Check out</a>
+					<div className='cart__subtotal'>Subtotal: <span>{this.props.total}€</span></div>
+					<div className='cart__checkout'>
+						<a href='#/payment' className='cart__button button button--center button--small'>Check out</a>
+					</div>
 				</div>
 			</div>
 		)
