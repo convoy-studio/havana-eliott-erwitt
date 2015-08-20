@@ -3,6 +3,7 @@ import {PagerStore, PagerActions, PagerConstants, PagerDispatcher} from 'Pager'
 import _capitalize from 'lodash/String/capitalize'
 
 export default class BasePager extends React.Component {
+
 	constructor(props) {
 		super(props)
 		this.currentPageDivRef = 'page-b'
@@ -13,24 +14,27 @@ export default class BasePager extends React.Component {
 			'old-component': undefined
 		}
 	}
+
 	render() {
 		return (
 			<div id='pagesContainer'>
-				<div style={this.divStyle} ref='page-a'></div>
-				<div style={this.divStyle} ref='page-b'></div>
+				<div className='pages' ref='page-a'></div>
+				<div className='pages' ref='page-b'></div>
 			</div>
 		)
 	}
+
 	componentWillMount() {
 		PagerStore.on(PagerConstants.PAGE_TRANSITION_IN, this.willPageTransitionIn)
 		PagerStore.on(PagerConstants.PAGE_TRANSITION_OUT, this.willPageTransitionOut)
 	}
+
 	setupNewComponent(hash, Type, idSection) {
-		var id = _capitalize(hash.replace("/", ""))
+		let id = _capitalize(hash.replace("/", ""))
 		this.oldPageDivRef = this.currentPageDivRef
 		this.currentPageDivRef = (this.currentPageDivRef === 'page-a') ? 'page-b' : 'page-a'
-		var el = React.findDOMNode(this.refs[this.currentPageDivRef])
-		var page = 
+		let el = React.findDOMNode(this.refs[this.currentPageDivRef])
+		let page = 
 			<Type 
 				id={this.currentPageDivRef} 
 				isReady={this.onPageReady} 
@@ -45,31 +49,39 @@ export default class BasePager extends React.Component {
 			this.components['old-component'].forceUnmount()
 		}
 	}
+
 	onPageReady(hash) {
 		PagerActions.onPageReady(hash)
 	}
+
 	willPageTransitionIn() {
 		this.switchPagesDivIndex()
 		this.components['new-component'].willTransitionIn()
 	}
+
 	willPageTransitionOut() {
 		this.components['old-component'].willTransitionOut()
 	}
+
 	didPageTransitionInComplete() {
 		// console.log('didPageTransitionInComplete')
 		PagerActions.pageTransitionDidFinish()
 		this.unmountComponent('old-component')
 	}
+
 	didPageTransitionOutComplete() {
+		window.scrollTo(0, 0)
 		// console.log('didPageTransitionOutComplete')
 		PagerActions.onTransitionOutComplete()
 	}
+
 	switchPagesDivIndex() {
 		var newEl = React.findDOMNode(this.refs[this.currentPageDivRef])
 		var oldEl = React.findDOMNode(this.refs[this.oldPageDivRef])
 		newEl.style.zIndex = 2
 		oldEl.style.zIndex = 1
 	}
+
 	unmountComponent(ref) {
 		if(this.components[ref] !== undefined) {
 			var id = this.components[ref].props.id
@@ -77,6 +89,7 @@ export default class BasePager extends React.Component {
 			React.unmountComponentAtNode(domToRemove)
 		}
 	}
+
 	componentWillUnmount() {
 		PagerStore.off(PagerConstants.PAGE_TRANSITION_IN, this.willPageTransitionIn)
 		PagerStore.off(PagerConstants.PAGE_TRANSITION_OUT, this.willPageTransitionOut)

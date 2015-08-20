@@ -56,9 +56,14 @@ html {
 	@extend .full;
 }
 
+.pages {
+	@extend .full;
+	position: absolute;
+}
+
 .page {
 	@extend .full;
-	// position: absolute;
+	position: absolute;
 	// padding: 0 $overallMargin;
 	// color: $white;
 }
