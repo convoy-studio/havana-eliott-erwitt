@@ -83,7 +83,8 @@ export default class Gallery extends Page {
 	onImageLoaded(print, e) {
 		this.nImageLoaded++;
 
-		if (e.path[0].height >= e.path[0].width*1.2) print.size = 'small'
+		let path = e.explicitOriginalTarget || e.path[0]
+		if (path.height >= path.width*1.2) print.size = 'small'
 		else print.size = 'large'
 		
 		if (this.nImageLoaded >= this.max) {
