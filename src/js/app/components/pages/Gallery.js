@@ -5,6 +5,7 @@ import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
 let _ = require('lodash');
+let Masonry = require('masonry-layout');
 
 export default class Gallery extends Page {
 	constructor(props) {
@@ -38,11 +39,25 @@ export default class Gallery extends Page {
 	}
 
 	render() {
+		let that = this
 		return (
 			<div id='page page--gallery' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection}>Back to gallery</a></div>
 				<div className='gallery'>
-					{this.state.loadedPrints}
+					{Object.keys(this.state.loadedPrints).map((year, i) => {
+						return (
+							<div className='gallery__grid' key={year+'_'+i}>
+								<div className='gallery__item gallery__item--large'>{year}</div>
+								{Object.keys(that.state.loadedPrints[year]).map((printId, i) => { 
+									let print = that.state.loadedPrints[year][printId]
+									let src = './assets/images/prints/'+print.file+'_min.jpg'
+									return (
+										<div className={'gallery__item gallery__item--'+print.size} key={i}><img className='gallery__image' src={src}></img></div>
+									)
+								})}
+							</div>
+						)
+					})}
 				</div>
 			</div>
 		)
@@ -51,31 +66,40 @@ export default class Gallery extends Page {
 	componentDidUpdate() {
 		let that = this, file
 		this.max = _.size(this.state.prints)
-
+		this.printsDate = {};
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true
-			_(this.state.prints).forEach(function(print) {
+			_(this.state.prints).forEach((print, index) => {
+				if (!this.printsDate[print.year]) this.printsDate[print.year] = {}
+				this.printsDate[print.year][index] = print
+
 				file = new Image()
-				file.onload = that.onImageLoaded.bind(that)
-				file.src = './assets/images/prints/'+print.file+'.jpg'
+				file.onload = that.onImageLoaded.bind(that, this.printsDate[print.year][index])
+				file.src = './assets/images/prints/'+print.file+'_min.jpg'
 			}).value();
 		}
 	}
 
-	onImageLoaded(params) {
+	onImageLoaded(print, e) {
 		this.nImageLoaded++;
 
-		if (params.path[0].height >= params.path[0].width*1.2) {
-			this.prints.push(<div className='gallery__item' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
-		} else {
-			this.prints.push(<div className='gallery__item gallery__item--large' key={this.nImageLoaded}><img className='gallery__image' src={params.path[0].src}></img></div>)
-		}
+		if (e.path[0].height >= e.path[0].width*1.2) print.size = 'small'
+		else print.size = 'large'
 		
-		// if (this.nImageLoaded >= this.max) {
+		if (this.nImageLoaded >= this.max) {
 			this.setState({
-				'loadedPrints': this.prints
+				'loadedPrints': this.printsDate
+			}, () => {
+				let grids = document.querySelectorAll('.gallery__grid');
+				_(grids).forEach((grid) => {
+					let iso = new Masonry(grid, {
+						itemSelector: '.gallery__item',
+						columnWidth: 96,
+						gutter: 24
+					});
+				}).value();
 			});
-		// }
+		}
 	}
 
 	didTransitionOutComplete() {

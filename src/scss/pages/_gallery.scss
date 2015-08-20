@@ -7,10 +7,19 @@
 .gallery__item {
 	position: relative;
 	float: left;
+	// width: 12.5%;
 	width: calc(12.5% - 24px);
+	// width: 98px;
 	height: 146px;
 	overflow: hidden;
-	margin: 0 24px 24px 0;
+	margin: 0 0 24px 0;
+
+	background-color: $black;
+
+	font-family: 'Stanley';
+	font-size: 30px;
+	text-align: center;
+	line-height: 146px;
 
 	cursor: pointer;
 
@@ -33,7 +42,9 @@
 }
 
 .gallery__item--large {
+	// width: 25%;
 	width: calc(25% - 24px);
+	// width: 220px;
 }
 
 .gallery__image {

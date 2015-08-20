@@ -112,7 +112,7 @@ export default class Print extends Page {
 
 		file = new Image()
 		file.onload = that._onImageLoaded.bind(that)
-		file.src = './assets/images/prints/'+this.state.print.file+'.jpg'
+		file.src = './assets/images/prints/'+this.state.print.file+'_medium.jpg'
 	}
 
 	_onImageLoaded(params) {
