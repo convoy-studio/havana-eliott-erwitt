@@ -29,6 +29,7 @@ export default class Project extends Page {
 		this.slideshowPrints = {}
 		this.action = 'init'
 		this.currentIndex = 0
+		this.toggleStoryBinded = this.toggleStory.bind(this)
 		this._prevBinded = this.prev.bind(this)
 		this._nextBinded = this.next.bind(this)
 		this._onArtistStoreChangeBinded = this._onArtistStoreChange.bind(this)
@@ -52,7 +53,7 @@ export default class Project extends Page {
 
 	render() {
 		let that = this
-		let name, bio, projectTitle, projectDesc
+		let name, bio, city, story, forSale, year, projectTitle, projectDesc = []
 		if (this.state.artist) {
 			name = this.state.artist.name
 			bio = this.state.artist.bio
@@ -76,12 +77,26 @@ export default class Project extends Page {
 			}
 		}
 
+		if (_.size(this.slideshowPrints) > 0) {
+			city = this.slideshowPrints.current.city
+			year = this.slideshowPrints.current.year
+			story = this.slideshowPrints.current.desc
+			forSale = this.slideshowPrints.current.forSale
+		}
+
 		return (
 			<div id='page page--project' ref='page-wrapper'>
 				<div className='submenu button button--right button--small'><a href={'#/project/'+this.props.idSection+'/gallery'}>Contact sheet</a></div>
 				<section className='project'>
 					<h2 className='project__artist'>{name}</h2>
-					<p className='project__desc text text--medium'>{projectDesc}</p>
+					<p className='project__desc text text--medium'>
+						{Object.keys(projectDesc).map((index) => {
+							return (
+								<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+							)
+						})}
+					</p>
+					<div className='project__discover'><div className='arrow'></div></div>
 					<div className='project__slideshow'>
 						<div className='project__prints'>
 							{Object.keys(this.slideshowPrints).map((index) => {
@@ -91,10 +106,32 @@ export default class Project extends Page {
 									<div className={'project__print project__print--'+status} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
 								)
 							})}
+							<div className='project__story text text--big'>
+								<p>{story}</p>
+							</div>
+							<div className='project__nav'>
+								<div className='project__prev' onClick={this._prevBinded}><div className='arrow'></div></div>
+								<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
+							</div>
 						</div>
-						<div className='project__nav'>
-							<div className='project__prev' onClick={this._prevBinded}>prev</div>
-							<div className='project__next' onClick={this._nextBinded}>next</div>
+						<div className='project__footer'>
+							<div className='project__section'>
+								<a href='#' className='project__share button button--left button--small'>Share</a>
+							</div>
+							<div className='project__section project__infos'>
+								<h2 className='print__artist print__artist--small'>{name}</h2>
+								<h3 className='print__details print__details--small'>
+									<span className='print__city'>{city}</span>, {year}
+								</h3>
+							</div>
+							<div className='project__section'>
+								<div className='project__reveal button button--left button--small' onClick={this.toggleStoryBinded}>The story</div>
+								{(() => {
+									if (forSale) return (
+										<div className='project__buy button button--right button--small'>Buy print</div>
+									)
+								})()}
+							</div>
 						</div>
 					</div>
 				</section>
@@ -102,9 +139,19 @@ export default class Project extends Page {
 		)
 	}
 
+	toggleStory() {
+		console.log('toggle')
+		dom('.project__story').toggleClass('enabled')
+	}
+
+	hideStory() {
+		dom('.project__story').removeClass('enabled')
+	}
+
 	prev() {
 		let that = this
 
+		this.hideStory()
 		Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 0, onComplete: () => {
 			that.currentIndex = that.getPrevIndex()
 			that.action = 'prev'
@@ -115,6 +162,7 @@ export default class Project extends Page {
 	next() {
 		let that = this
 
+		this.hideStory()
 		Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 0, onComplete: () => {
 			that.currentIndex = that.getNextIndex()
 			that.action = 'next'

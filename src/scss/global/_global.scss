@@ -173,3 +173,32 @@ html {
 		left: 100%;
 	}
 }
+
+$border-width: 1px;
+.arrow {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 6px;
+	height: 6px;
+  	
+  	border: 0 solid $white;
+	border-width: $border-width 0 0 $border-width;
+	
+	transform-origin: top left;
+	transform: rotate(-45deg) translate(-50%, -50%);
+	
+	&:before {
+		content: '';
+		display: block;
+		width: 20px;
+
+		border: 0 solid $white;
+		border-top-width: $border-width;
+
+		transform-origin: top left;
+		transform: rotate(45deg) translate(0, ($border-width/2)*-1);
+
+		transition: width 0.3s ease-out;
+	}
+}
