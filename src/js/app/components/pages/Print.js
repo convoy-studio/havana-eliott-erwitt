@@ -117,9 +117,9 @@ export default class Print extends Page {
 
 	_onImageLoaded(params) {
 		if (params.path[0].height >= params.path[0].width*1.2) {
-			this.print = <div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'.jpg'}></img></div>
+			this.print = <div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img></div>
 		} else {
-			this.print = <div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'.jpg'}></img></div>
+			this.print = <div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img></div>
 		}
 		this.setState({
 			'loadedPrint': this.print
