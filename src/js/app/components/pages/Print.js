@@ -99,7 +99,9 @@ export default class Print extends Page {
 			city: this.state.print.city,
 			year: this.state.print.year,
 			price: this.state.print.price,
-			serial: this.state.serial
+			serial: this.state.serial,
+			file: this.state.print.file,
+			copies: this.state.print.copies
 		}
 		CartActions.addToCart(printId, update);
 		CartActions.updateCartVisible(true);

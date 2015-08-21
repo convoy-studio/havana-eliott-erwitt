@@ -110,7 +110,7 @@ export default class Payment extends Page {
 								<label className='form__label' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
 							</div>
 
-							<h3 className='form__title'>Payment method</h3>
+							<h3 className='payment__method form__title'>Payment method</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro'/>
@@ -135,19 +135,51 @@ export default class Payment extends Page {
 
 						<div className='payment__column'>
 							<h3 className='form__title'>Order summary</h3>
-							<ul className='payment__products'>
+							<ul className='payment__products cart__products'>
 								{Object.keys(this.state.cartItems).map(function(index){
 									let product = that.state.cartItems[index];
 									return (
-										<li key={index} className='payment__product'>
-											{product.city} - {product.year}
-											<div>quantity: <span>{product.quantity}</span></div>
+										<li key={index} className='cart__product'>
+											<div className='cart__column'>
+												<div className='cart__artist'></div>
+												<div className='cart__details'>
+													<div className='cart__city'>{product.city}</div>, <div className='cart__year'>{product.year}</div>
+												</div>
+												<div className='cart__quantity'>Quantity: {product.quantity}</div>
+												<div className='cart__serial'>Serial <span className='cart__number'>{product.serial}/{product.copies}</span></div>
+												<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
+											</div>
+											<div className='cart__column'>
+												<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
+												<a href='#' className='cart__remove button button--left button--small'>Remove item</a>
+											</div>
 										</li>
 									)
 								})}
 							</ul>
-							<div className='cart__subtotal'>Subtotal: <span>{this.state.cartTotal}</span></div>
-							<a href='' onClick={this.pay.bind(this)}>Proceed to payment</a>
+							<div className='payment__total cart__total'>
+								<div className='payment__subtotal cart__subtotal'>
+									<div className='cart__column'>Subtotal:</div>
+									<div className='cart__column'>{this.state.cartTotal}<span className='cart__currency'>€</span></div>
+								</div>
+								<div className='cart__tva'>
+									<div className='cart__column'>Included TVA:</div>
+									<div className='cart__column'>{this.state.cartTotal}<span className='cart__currency'>€</span></div>
+								</div>
+							</div>
+							<div className='cart__bigtotal'>
+								<div className='cart__column'>Grand total:</div>
+								<div className='cart__column'>{this.state.cartTotal}<span className='cart__currency'>€</span></div>
+							</div>
+							<div className='form__row'>
+								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
+								<label className='form__label form__label--grotesk' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
+							</div>
+							<div className='form__row'>
+								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
+								<label className='form__label form__label--grotesk' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
+							</div>
+							<a href='' className='payment__pay button button--center button--small' onClick={this.pay.bind(this)}>Proceed to payment</a>
 						</div>
 					</form>
 				</div>

@@ -46,14 +46,87 @@
 	cursor: pointer;
 }
 
-.payment__products {
-	padding: 20px;
+.cart__product {
+	padding: 16px 0;
+	border-bottom: 1px solid $white;
+	font-size: 14px;
+	line-height: 16px;
+
+	&:first-child {
+		padding: 0 0 16px 0;
+	}
+
+	&:last-child {
+		margin-bottom: 16px;
+	}
+}
+
+.cart__column {
+	width: 50%;
+	display: inline-block;
+	vertical-align: top;
+
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.cart__details {
+	font-family: 'Stanley';
+	font-size: 14px;
+	margin-bottom: 18px;
+}
+
+.cart__city, .cart__year {
+	display: inline-block;
+}
+
+.cart__city {
+	font-style: italic;
+}
+
+.cart__quantity, .cart__number, .cart__price {
+	font-family: 'Stanley';
+}
+
+.cart__currency {
+	font-family: 'PxGrotesk';
+}
+
+.cart__print {
+	width: 100%;
+	height: 84px;
+	margin-bottom: 12px;
+}
+
+.cart__image {
+	width: auto;
+	height: 100%;
+}
+
+.cart__remove {
+	font-size: 12px;
+	line-height: 14px;
 }
 
 .cart__subtotal {
 	padding: 20px;
 	
 	border-top: 1px solid transparent;
+}
+
+.payment__total {
+	padding: 0 0 16px 0;
+	margin-bottom: 16px;
+	border-bottom: 1px solid $white;
+}
+
+.payment__subtotal {
+	padding: 0;
+	border-top: 0;
+}
+
+.cart__bigtotal {
+	margin-bottom: 30px;
 }
 
 .cart__checkout {
