@@ -51,15 +51,20 @@ export default class Print extends Page {
 									<span className='print__city'>{that.state.print.city}</span>, {that.state.print.year}
 								</h3>
 								<div className='print__price text text--small'>{that.state.print.price}€</div>
-								<div className='serials'>
+								<p className='print__desc text text--small'>{that.state.print.desc}</p>
+								<div className='print__serials'>
 									{(() => {
 										if (that.state.print.serials.length > 0) { return (
 											<div>
-												<ul>
+												<div className='print__serial-opt'>
+													Serial option
+													<div className='print__count'>/{that.state.print.copies}</div>
+												</div>
+												<ul className='print__serial-list'>
 													{Object.keys(that.state.print.serials).map(function(index){
 														let serial = that.state.print.serials[index];
 														return (
-															<li className={(serial === that.state.serial) ? 'serial serial--enabled' : 'serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
+															<li className={(serial === that.state.serial) ? 'print__serial print__serial--enabled' : 'print__serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
 														)
 													})}
 												</ul>
