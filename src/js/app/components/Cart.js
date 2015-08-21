@@ -34,19 +34,32 @@ export default class Cart {
 			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
 				<div className='cart__count' onClick={this.toggleBinded}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				<div className='cart__content'>
-					<ul className='payment__products'>
-						{Object.keys(this.props.products).map(function(id){
-							let product = that.props.products[id];
+					<ul className='payment__products cart__products'>
+						{Object.keys(this.props.products).map(function(index){
+							let product = that.props.products[index];
 							return (
-								<li key={id} className='payment__product'>
-									{product.city} - {product.year}
-									<div>quantity: <span>{product.quantity} ({product.serial})</span></div>
-									<div onClick={that.removeItem.bind(this, id)}>Remove item</div>
+								<li key={index} className='cart__product'>
+									<div className='cart__column'>
+										<div className='cart__artist'></div>
+										<div className='cart__details'>
+											<div className='cart__city'>{product.city}</div>, <div className='cart__year'>{product.year}</div>
+										</div>
+										<div className='cart__quantity'>Quantity: {product.quantity}</div>
+										<div className='cart__serial'>Serial <span className='cart__number'>{product.serial}/{product.copies}</span></div>
+										<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
+									</div>
+									<div className='cart__column'>
+										<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
+										<a href='#' className='cart__remove button button--left button--small'>Remove item</a>
+									</div>
 								</li>
 							)
 						})}
 					</ul>
-					<div className='cart__subtotal'>Subtotal: <span>{this.props.total}€</span></div>
+					<div className='cart__subtotal'>
+						<div className='cart__column'>Subtotal:</div>
+						<div className='cart__column'>{this.props.total}<span className='cart__currency'>€</span></div>
+					</div>
 					<div className='cart__checkout'>
 						<a href='#/payment' className='cart__button button button--center button--small'>Check out</a>
 					</div>

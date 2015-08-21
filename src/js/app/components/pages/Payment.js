@@ -139,7 +139,7 @@ export default class Payment extends Page {
 								{Object.keys(this.state.cartItems).map(function(index){
 									let product = that.state.cartItems[index];
 									return (
-										<li key={index} className='cart__product'>
+										<li key={index} className='payment__product cart__product'>
 											<div className='cart__column'>
 												<div className='cart__artist'></div>
 												<div className='cart__details'>
