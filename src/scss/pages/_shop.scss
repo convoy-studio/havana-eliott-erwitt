@@ -69,13 +69,14 @@
 	transform: translate(-50%, -50%);
 	width: 100%;
 
+	font-family: 'Stanley';
 	text-align: center;
+	font-size: 16px;
 }
 
 .shop__city {
 	display: inline-block;
 
-	font-family: 'Stanley';
 	font-style: italic;
 	font-size: 30px;
 }
@@ -83,12 +84,13 @@
 .shop__year {
 	display: inline-block;
 	
-	font-family: 'Stanley';
 	font-size: 30px;
 }
 
 .shop__price {
-	margin-top: 24px;
-	font-family: 'Stanley';
-	font-size: 16px;
+	margin: 24px 0;
+}
+
+.shop__details {
+	line-height: 20px;
 }
