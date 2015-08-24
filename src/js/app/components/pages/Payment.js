@@ -114,21 +114,21 @@ export default class Payment extends Page {
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro'/>
-									<label className='form__label' htmlFor='maestro'>Maestro</label>
+									<label className='form__label' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='visa'/>
-									<label className='form__label' htmlFor='visa'>Visa</label>
+									<label className='form__label' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='paypal'/>
-									<label className='form__label' htmlFor='paypal'>Paypal</label>
+									<label className='form__label' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='americanExpress'/>
-									<label className='form__label' htmlFor='americanExpress'>American Express</label>
+									<label className='form__label' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
 								</div>
 							</div>
 						</div>

@@ -8,7 +8,6 @@
 	box-sizing: border-box;
 
 	border: 1px solid transparent;
-	background-color: $black;
 
 	font-size: 14px;
 }
@@ -47,16 +46,14 @@
 	cursor: pointer;
 }
 
-.payment__product {
-	padding: 16px 0;
-	
-	&:first-child {
-		padding: 0 0 16px 0;
-	}
+.cart__products {
+	height: 142px;
+	overflow: scroll;
+}
 
-	&:last-child {
-		margin-bottom: 16px;
-	}
+.payment__products {
+	height: inherit;
+	overflow: auto;
 }
 
 .cart__product {
@@ -64,6 +61,31 @@
 	border-bottom: 1px solid $white;
 	font-size: 14px;
 	line-height: 16px;
+	
+	&:last-child {
+		border-bottom: 0;
+		height: 143px;
+	}
+
+	&:first-child {
+		height: 142px;
+	}
+}
+
+.payment__product {
+	height: inherit;
+	padding: 16px 0;
+	
+	&:first-child {
+		padding: 0 0 16px 0;
+		height: inherit;
+	}
+
+	&:last-child {
+		margin-bottom: 16px;
+		border-bottom: 1px solid $white;
+		height: inherit;
+	}
 }
 
 .cart__column {

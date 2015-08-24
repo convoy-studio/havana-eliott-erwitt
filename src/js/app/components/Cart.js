@@ -34,7 +34,7 @@ export default class Cart {
 			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
 				<div className='cart__count' onClick={this.toggleBinded}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				<div className='cart__content'>
-					<ul className='payment__products cart__products'>
+					<ul className='cart__products'>
 						{Object.keys(this.props.products).map(function(index){
 							let product = that.props.products[index];
 							return (
