@@ -58,7 +58,10 @@ export default class Fellowship extends Page {
 							)
 						})}
 					</div>
-					<div className='fellowship__discover'>Discover Elliott Erwitt's biography</div>
+					<div className='fellowship__discover'>
+						Discover Elliott Erwitt's biography
+						<div className='fellowship__scroll'><div className='arrow'></div></div>
+					</div>
 				</section>
 
 				<section className='fellowship__artist'>

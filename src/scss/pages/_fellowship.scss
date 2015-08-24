@@ -75,6 +75,23 @@
 	font-size: 18px;
 }
 
+.fellowship__scroll {
+	width: 36px;
+	height: 36px;
+	margin: 0 auto;
+
+	cursor: pointer;
+
+	transform-origin: 50% 50%;
+	transform: rotate(-90deg) translate(-50%, 0);
+
+	&:hover {
+		.arrow:before {
+			width: 30px;
+		}
+	}
+}
+
 .fellowship__background {
 	position: absolute;
 	left: 0;
