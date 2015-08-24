@@ -12,7 +12,7 @@ export default class Legal extends Page {
 		return (
 			<div id='legalPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
-					This is an {content.title}
+					{content.title}
 				</div>
 			</div>
 		)

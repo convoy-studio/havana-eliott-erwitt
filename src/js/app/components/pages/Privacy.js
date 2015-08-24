@@ -12,7 +12,7 @@ export default class Privacy extends Page {
 		return (
 			<div id='privacyPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
-					This is an {content.title}
+					{content.title}
 				</div>
 			</div>
 		)

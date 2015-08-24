@@ -12,7 +12,7 @@ export default class Contact extends Page {
 		return (
 			<div id='contactPage' ref='page-wrapper' className='page'>
 				<div className='page__content'>
-					This is an {content.title}
+					{content.title}
 				</div>
 			</div>
 		)
