@@ -104,7 +104,7 @@ export default class Print extends Page {
 			copies: this.state.print.copies
 		}
 		CartActions.addToCart(printId, update);
-		CartActions.updateCartVisible(true);
+		CartActions.updateCartEnabled(true);
 
 		let serials = [1,2,3,4,5,6,7,8,9,10]
 		let index = serials.indexOf(this.state.serial);
