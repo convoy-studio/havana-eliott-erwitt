@@ -76,7 +76,7 @@ class Router {
 			parent: parent,
 			targetId: targetId
 		}
-		AppActions.pageHasherChanged(targetId)
+		AppActions.pageHasherChanged(hasher.newHash)
 	}
 	_didHasherChange(newHash, oldHash) {
 		this.newHashFounded = false

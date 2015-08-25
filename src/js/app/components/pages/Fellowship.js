@@ -42,7 +42,6 @@ export default class Fellowship extends Page {
 	render() {
 		let that = this
 		let fellowshipData = AppStore.fellowshipContent()
-		console.log(this.state)
 
 		return (
 			<div className='page page--fellowship' ref='page-wrapper'>

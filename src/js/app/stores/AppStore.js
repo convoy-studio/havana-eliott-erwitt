@@ -5,7 +5,10 @@ import assign from 'object-assign'
 import data from 'GlobalData'
 import Router from 'Router'
 
-function _pageRouteIdChanged(id) {
+let _hash
+
+function _pageRouteIdChanged(hash) {
+	_hash = hash.item.parent
 }
 function _getPageContent() {
 	var hashObj = Router.getNewHash()
@@ -49,6 +52,9 @@ function _getArtist(id) {
 var AppStore = assign({}, EventEmitter2.prototype, {
 	emitChange: function(type, item) {
 		this.emit(type, item)
+	},
+	hash: function() {
+		return _hash
 	},
 	pageContent: function() {
 		return _getPageContent()
@@ -94,7 +100,7 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 		var action = payload.action
 		switch(action.actionType) {
 			case AppConstants.PAGE_HASHER_CHANGED:
-				_pageRouteIdChanged(action.item)
+				_pageRouteIdChanged(action)
 				AppStore.emitChange(action.actionType)
 				break
 			case AppConstants.WINDOW_RESIZE:

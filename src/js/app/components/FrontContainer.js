@@ -4,25 +4,35 @@ import AppStore from 'AppStore'
 import AppConstants from 'AppConstants'
 
 export default class FrontContainer extends BaseComponent {
+
 	constructor(props) {
 		super(props)
+
+		this.didHasherChangeBinded = this.didHasherChange.bind(this)
+		this.state = {
+			hash: undefined
+		}
 	}
+
 	componentWillMount() {
-		AppStore.on(AppConstants.PAGE_HASHER_CHANGED, this.didHasherChange)
+		AppStore.on(AppConstants.PAGE_HASHER_CHANGED, this.didHasherChangeBinded)
 	}
+
 	render() {
 		let menuData = AppStore.menuContent()
 		let menuItems = menuData.map((item, index)=>{
 			let pathUrl = '#' + item.url
+			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li className='header__item' key={index}><a href={pathUrl} className='button button--small'>{item.name}</a></li>
+				<li className={'header__item ' + classes} key={index}><a href={pathUrl} className='button button--small'>{item.name}</a></li>
 			)
 		}).reverse()
 		let footerMenuData = AppStore.footerMenuContent()
 		let footerMenuItems = footerMenuData.map((item, index)=>{
 			let pathUrl = '#' + item.url
+			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li key={index} className='button button--right button--small'><a href={pathUrl}>{item.name}</a></li>
+				<li key={index} className={'button button--right button--small ' + classes}><a href={pathUrl}>{item.name}</a></li>
 			)
 		})
 
@@ -44,7 +54,11 @@ export default class FrontContainer extends BaseComponent {
 			</div>
 		)
 	}
+
 	didHasherChange() {
-		// Update or highlight parts of interface depends the route
+		this.setState({
+			hash: AppStore.hash()
+		})
 	}
+
 }

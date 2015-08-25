@@ -139,6 +139,20 @@ html {
 	} 
 }
 
+.button--enabled {
+	a {
+		cursor: default;
+		&:after, &:hover:after {
+			left: 0;
+			animation: none;
+		}
+	}
+	&:after, &:hover:after {
+		left: 0;
+		animation: none;
+	}
+}
+
 .button--small {
 	&:after {
 		height: 1px;
