@@ -38,7 +38,7 @@ export default class Shop extends Page {
 	}
 
 	componentWillUnmount() {
-		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
+		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	render() {

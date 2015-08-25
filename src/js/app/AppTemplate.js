@@ -1,6 +1,4 @@
 import React from 'react'
-import AppConstants from 'AppConstants'
-import AppStore from 'AppStore'
 import FrontContainer from 'FrontContainer'
 import PagesContainer from 'PagesContainer'
 import Cart from 'Cart'
@@ -23,7 +21,7 @@ export default class AppTemplate extends React.Component {
 
 		this.state = _getCartState()
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
-
+		
 		CartStore.addChangeListener(this._onStoreChangeBinded);
 	}
 

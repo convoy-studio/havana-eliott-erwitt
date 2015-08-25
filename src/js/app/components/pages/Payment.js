@@ -31,15 +31,15 @@ export default class Payment extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 
-		let hack = setTimeout(function() {
-			CartActions.updateCartEnabled(false)
-			CartActions.updateCartVisible(false)
-			clearTimeout(hack)
-		}, 0);
+		// let hack = setTimeout(function() {
+		// 	CartActions.updateCartEnabled(false)
+		// 	CartActions.updateCartVisible(false)
+		// 	clearTimeout(hack)
+		// }, 0);
 	}
 
 	componentWillUnmount() {
-		CartActions.updateCartVisible(true)
+		// CartActions.updateCartVisible(true)
 	}
 
 	render() {

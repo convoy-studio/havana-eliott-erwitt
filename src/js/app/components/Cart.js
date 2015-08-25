@@ -1,14 +1,25 @@
 import React from 'react'
 import dom from 'domquery'
 import CartActions from 'CartActions'
+import AppStore from 'AppStore'
+import AppConstants from 'AppConstants'
 
-export default class Cart {
+export default class Cart extends React.Component {
 
 	constructor(props) {
+		super(props)
 		this.props = props
 		this.showed = false
+		this.state = {
+			hash: undefined
+		}
 
 		this.toggleBinded = this.toggle.bind(this)
+		this._didHasherChangeBinded = this._didHasherChange.bind(this)
+	}
+
+	componentWillMount() {
+		AppStore.on(AppConstants.PAGE_HASHER_CHANGED, this._didHasherChangeBinded)	
 	}
 
 	toggle() {
@@ -29,9 +40,10 @@ export default class Cart {
 	render() {
 		let that = this
 		let itemLabel = (this.props.count > 1) ? 'items' : 'item'
+		let classes = (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible && this.state.hash === 'shop' ? 'cart--visible' : '')
 
 		return (
-			<div className={'cart ' + (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible ? 'cart--visible' : '')} ref='cart'>
+			<div className={'cart ' + classes} ref='cart'>
 				<div className='cart__count' onClick={this.toggleBinded}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				<div className='cart__content'>
 					<ul className='cart__products'>
@@ -70,6 +82,12 @@ export default class Cart {
 
 	removeItem(id) {
 		CartActions.removeFromCart(id)
+	}
+
+	_didHasherChange() {
+		this.setState({
+			hash: AppStore.hash()
+		})
 	}
 
 }
