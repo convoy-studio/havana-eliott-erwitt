@@ -29,6 +29,10 @@
 	font-size: 14px;
 }
 
+.form__label--pointer {
+	cursor: pointer;
+}
+
 .form__label--grotesk {
 	font-family: 'PxGrotesk';
 }
@@ -73,6 +77,10 @@ input[type=radio] + label .form__text {
 	vertical-align: middle;
 
 	line-height: 16px;
+
+	img {
+		width: auto;
+	}
 }
 
 input[type=checkbox] + label::before,

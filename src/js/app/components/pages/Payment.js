@@ -91,7 +91,7 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='billAddress'/>
-								<label className='form__label' htmlFor='billAddress'><p className='form__text'>Bill to the same address</p></label>
+								<label className='form__label form__label--pointer' htmlFor='billAddress'><p className='form__text'>Bill to the same address</p></label>
 							</div>
 						</div>
 
@@ -99,36 +99,36 @@ export default class Payment extends Page {
 							<h3 className='form__title'>Shipping method</h3>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard'/>
-								<label className='form__label' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, 10 €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, 10 €</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsExpress'/>
-								<label className='form__label' htmlFor='upsExpress'><p className='form__text'>UPS Express - Delivery within 2-3 business days, 20 €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='upsExpress'><p className='form__text'>UPS Express - Delivery within 2-3 business days, 20 €</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='freeShipping'/>
-								<label className='form__label' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
 							</div>
 
 							<h3 className='payment__method form__title'>Payment method</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro'/>
-									<label className='form__label' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='visa'/>
-									<label className='form__label' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='paypal'/>
-									<label className='form__label' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='americanExpress'/>
-									<label className='form__label' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
 								</div>
 							</div>
 						</div>
@@ -173,11 +173,11 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
-								<label className='form__label form__label--grotesk' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
+								<label className='form__label form__label--pointer form__label--grotesk' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
-								<label className='form__label form__label--grotesk' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
+								<label className='form__label form__label--pointer form__label--grotesk' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
 							</div>
 							<a href='' className='payment__pay button button--center button--small' onClick={this.pay.bind(this)}>Proceed to payment</a>
 						</div>
