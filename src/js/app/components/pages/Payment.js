@@ -133,7 +133,7 @@ export default class Payment extends Page {
 							</div>
 						</div>
 
-						<div className='payment__column'>
+						<div className='payment__column cart--black'>
 							<h3 className='form__title'>Order summary</h3>
 							<ul className='payment__products cart__products'>
 								{Object.keys(this.state.cartItems).map(function(index){

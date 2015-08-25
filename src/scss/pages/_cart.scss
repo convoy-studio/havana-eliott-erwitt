@@ -9,9 +9,25 @@ $cartColor: $black;
 	display: none;
 	box-sizing: border-box;
 
+	background-color: $white;
 	border: 1px solid transparent;
 
 	font-size: 14px;
+}
+
+.cart--black {
+	$cartColor: $white;
+	background-color: none;
+	.cart--enabled {
+		border: 1px solid $cartColor;
+		.cart__count { border-bottom: 1px solid $cartColor; }
+		.cart__checkout, .cart__subtotal { border-top: 1px solid $cartColor; }
+	}
+	.cart__product { border-bottom: 1px solid $cartColor; }
+	.payment__product {
+		&:last-child { border-bottom: 1px solid $cartColor; }
+	}
+	.payment__total { border-bottom: 1px solid $cartColor; }
 }
 
 .cart--visible {
