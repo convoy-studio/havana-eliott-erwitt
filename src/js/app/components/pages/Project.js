@@ -105,21 +105,21 @@ export default class Project extends Page {
 					</p>
 					<div className='project__discover'><div className='arrow'></div></div>
 					<div className='project__slideshow'>
-						<div className='project__prints' onClick={this.toggleZoomBinded}>
+						<div className='project__prints'>
 							{Object.keys(this.slideshowPrints).map((index) => {
 								let file = this.slideshowPrints[index].file + '.jpg'
 								let status = index
 								return (
-									<div className={'project__print project__print--'+status} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
+									<div className={'project__print project__print--'+status} onClick={that.toggleZoomBinded} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
 								)
 							})}
 							<div className='project__story text text--big'>
 								<p>{story}</p>
 							</div>
-						</div>
-						<div className='project__nav'>
-							<div className='project__prev' onClick={this._prevBinded}><div className='arrow'></div></div>
-							<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
+							<div className='project__nav'>
+								<div className='project__prev' onClick={this._prevBinded}><div className='arrow'></div></div>
+								<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
+							</div>
 						</div>
 						<div className='project__footer'>
 							<div className='project__section'>
@@ -164,9 +164,9 @@ export default class Project extends Page {
 			dom('.cart'),
 			dom('.project__contact')
 		], 0.4, {opacity: 0}, 0)
-		this.tlZoomIn.to(dom('.project__prints'), 0.4, {scale: 1.35, ease: Power2.easeOut}, 0)
-		this.tlZoomIn.to(dom('.project__prev'), 0.4, {x: -70, ease: Power2.easeOut}, 0)
-		this.tlZoomIn.to(dom('.project__next'), 0.4, {x: 70, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.to(dom('.project__print'), 0.4, {scale: 1.35, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.to(dom('.project__prev'), 0.4, {x: -80, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.to(dom('.project__next'), 0.4, {x: 80, ease: Power2.easeOut}, 0)
 		this.tlZoomIn.addCallback(() => {
 			document.querySelector('.project__contact').style.display = 'none'
 			document.querySelector('.project__back').style.display = 'block'
@@ -193,7 +193,7 @@ export default class Project extends Page {
 			document.querySelector('.project__back').style.display = 'none'
 		}, 0.4)
 		this.tlZoomOut.to(dom('.project__contact'), 0.4, {opacity: 1}, 0.4)
-		this.tlZoomOut.to(dom('.project__prints'), 0.4, {scale: 1, ease: Power2.easeOut}, 0)
+		this.tlZoomOut.to(dom('.project__print'), 0.4, {scale: 1, ease: Power2.easeOut}, 0)
 		this.tlZoomOut.to(dom('.project__prev'), 0.4, {x: 0, ease: Power2.easeOut}, 0)
 		this.tlZoomOut.to(dom('.project__next'), 0.4, {x: 0, ease: Power2.easeOut}, 0)
 

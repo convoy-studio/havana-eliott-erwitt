@@ -22,9 +22,6 @@
 }
 
 .project__discover {
-	// position: absolute;
-	// left: 50%;
-	// bottom: 100px;
 	margin: 0 auto;
 	width: 36px;
 	height: 36px;
@@ -58,12 +55,10 @@
 }
 
 .project__print {
-	position: absolute;
-	left: 50%;
-	top: 0;
-	transform: translate(-50%, 0);
 	height: 100%;
 	width: auto;
+	margin: 0 auto;
+	text-align: center;
 
 	cursor: pointer;
 }
@@ -93,11 +88,11 @@
 }
 
 .project__prev {
-	left: 260px;
+	left: -100px;
 }
 
 .project__next {
-	right: 260px;
+	right: -100px;
 	transform-origin: 50% 50%;
 	transform: rotate(180deg) translate(0, -50%);
 }
