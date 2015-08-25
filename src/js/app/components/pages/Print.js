@@ -13,8 +13,8 @@ export default class Print extends Page {
 		super(props)
 
 		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
+			.removeClass('body--black')
+			.addClass('body--white')
 
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)

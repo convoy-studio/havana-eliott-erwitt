@@ -20,6 +20,11 @@ html {
 	a {
 		color: $black;
 	}
+	.button {
+		&:after {
+			background-color: $black;
+		}
+	}
 }
 
 .body--black {
