@@ -67,30 +67,32 @@ export default class Fellowship extends Page {
 					<div className='fellowship__background'>
 						<img className='fellowship__elliott' src='../assets/images/elliott-erwitt.jpg' />
 					</div>
-					{(() => {
-						if (that.state.view === 'biography') { return (
-							<div className='fellowship__biography fellowship--text text text--medium'>
-								{Object.keys(fellowshipData.biography.paragraphs).map((index) => {
-									return (
-										<p className='fellowship__paragraph' key={index}>{fellowshipData.biography.paragraphs[index]}</p>
-									)
-								})}
-							</div>
-						)} else { return (
-							<div className='fellowship__interview'>
-								<video autoPlay className='fellowship__video' src='./assets/videos/bg-home.webmsd.webm'></video>
-							</div>
-						)}
-					})()}
-					<div className='fellowship__links'>
+					<div className='fellowship__content'>
 						{(() => {
 							if (that.state.view === 'biography') { return (
-								<div className='fellowship__link button button--center button--small' onClick={that.showInterviewBinded}>Video interview</div>
+								<div className='fellowship__biography fellowship--text text text--medium'>
+									{Object.keys(fellowshipData.biography.paragraphs).map((index) => {
+										return (
+											<p className='fellowship__paragraph' key={index}>{fellowshipData.biography.paragraphs[index]}</p>
+										)
+									})}
+								</div>
 							)} else { return (
-								<div className='fellowship__link button button--center button--small' onClick={that.showBiographyBinded}>Biography</div>
+								<div className='fellowship__interview'>
+									<video autoPlay className='fellowship__video' src='./assets/videos/bg-home.webmsd.webm'></video>
+								</div>
 							)}
 						})()}
-						<a href='#/project/elliott-erwitt' className='fellowship__link button button--center button--small'>His project</a>
+						<div className='fellowship__links'>
+							{(() => {
+								if (that.state.view === 'biography') { return (
+									<div className='fellowship__link button button--center button--small' onClick={that.showInterviewBinded}>Video interview</div>
+								)} else { return (
+									<div className='fellowship__link button button--center button--small' onClick={that.showBiographyBinded}>Biography</div>
+								)}
+							})()}
+							<a href='#/project/elliott-erwitt' className='fellowship__link button button--center button--small'>His project</a>
+						</div>
 					</div>
 				</section>
 

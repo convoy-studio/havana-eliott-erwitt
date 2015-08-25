@@ -44,12 +44,19 @@
 	transform: translate(-50%, -50%);
 }
 
-.fellowship__biography {
+.fellowship__content {
 	position: absolute;
 	left: 50%;
-	top: 50%;
+	top: calc(50% + 60px);
 	height: auto;
 	transform: translate(-50%, -50%);
+}
+.fellowship__biography {
+	// position: absolute;
+	// left: 50%;
+	// top: 50%;
+	// height: auto;
+	// transform: translate(-50%, -50%);
 }
 
 .fellowship__biography--hidden {
@@ -123,10 +130,11 @@
 }
 
 .fellowship__links {
-	position: absolute;
-	left: 50%;
-	bottom: 60px;
-	transform: translate(-50%, 0);
+	margin-top: 60px;
+	// position: absolute;
+	// left: 50%;
+	// bottom: 60px;
+	// transform: translate(-50%, 0);
 }
 
 .fellowship__link {
@@ -148,10 +156,10 @@
 }
 
 .fellowship__video {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	// position: absolute;
+	// left: 50%;
+	// top: 50%;
+	// transform: translate(-50%, -50%);
 	width: 716px;
 	height: auto;
 }
