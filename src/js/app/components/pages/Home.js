@@ -82,7 +82,8 @@ export default class Home extends Page {
 		ctx.font = "400 72px 'Stanley'";
 		ctx.fillText('Fellowship', vw/2, vh/2 + 68);
 
-		TweenMax.to(this._canvas, 4, {x: -vw, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
+		// TweenMax.to(this._canvas, 4, {x: -vw, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
+		TweenMax.to(this._canvas, 2, {opacity: 0, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
 	}
 	
 	showPage() {
