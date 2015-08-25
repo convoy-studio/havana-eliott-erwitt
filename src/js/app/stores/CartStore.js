@@ -37,7 +37,12 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 		return _products;
 	},
 	getCartCount: function() {
-		return Object.keys(_products).length;
+		let count = 0
+		_(_products).forEach((product, index) => {
+			count += product.quantity
+		}).value()
+		return count;
+		// return Object.keys(_products).length;
 	},
 	getCartTotal: function() {
 		let total = 0;

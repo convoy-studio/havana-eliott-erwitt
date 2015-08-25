@@ -111,7 +111,6 @@ export default class Print extends Page {
 		if (index > -1) {
 			serials.splice(index, 1);
 		}
-		console.log(serials)
 	}
 
 	_loadImage() {
