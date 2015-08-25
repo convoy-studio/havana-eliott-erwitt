@@ -140,16 +140,12 @@ html {
 }
 
 .button--enabled {
-	a {
+	a, p {
 		cursor: default;
-		&:after, &:hover:after {
+		&:after {
 			left: 0;
-			animation: none;
+			animation: none !important;
 		}
-	}
-	&:after, &:hover:after {
-		left: 0;
-		animation: none;
 	}
 }
 

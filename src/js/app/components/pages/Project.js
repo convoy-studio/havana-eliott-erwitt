@@ -92,8 +92,8 @@ export default class Project extends Page {
 
 		return (
 			<div id='page page--project' ref='page-wrapper'>
-				<div className='submenu project__contact button button--right button--small'><a href={'#/project/'+this.props.idSection+'/contact-sheet'}>Contact sheet</a></div>
-				<div className='submenu project__back button button--right button--small'><a href='#' onClick={this._backToGalleryBinded}>Back to gallery</a></div>
+				<div className='submenu project__contact '><a href={'#/project/'+this.props.idSection+'/contact-sheet'}><p className='button button--small'>Contact sheet</p></a></div>
+				<div className='submenu project__back '><a href='#' onClick={this._backToGalleryBinded}><p className='button button--small'>Back to gallery</p></a></div>
 				<section className='project'>
 					<h2 className='project__artist'>{name}</h2>
 					<p className='project__desc text text--medium'>
