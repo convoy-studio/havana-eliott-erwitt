@@ -26,12 +26,15 @@ export default class Project extends Page {
 			print: {}
 		};
 
+		// this.initTimelines()
+
 		this.zoom = false
 		this.slideshowPrints = {}
 		this.action = 'init'
 		this.currentIndex = 0
 		this.toggleZoomBinded = this.toggleZoom.bind(this)
 		this.toggleStoryBinded = this.toggleStory.bind(this)
+		this._backToGalleryBinded = this.backToGallery.bind(this)
 		this._prevBinded = this.prev.bind(this)
 		this._nextBinded = this.next.bind(this)
 		this._onArtistStoreChangeBinded = this._onArtistStoreChange.bind(this)
@@ -89,7 +92,8 @@ export default class Project extends Page {
 
 		return (
 			<div id='page page--project' ref='page-wrapper'>
-				<div className='submenu button button--right button--small'><a href={'#/project/'+this.props.idSection+'/contact-sheet'}>Contact sheet</a></div>
+				<div className='submenu project__contact button button--right button--small'><a href={'#/project/'+this.props.idSection+'/contact-sheet'}>Contact sheet</a></div>
+				<div className='submenu project__back button button--right button--small'><a href='#' onClick={this._backToGalleryBinded}>Back to gallery</a></div>
 				<section className='project'>
 					<h2 className='project__artist'>{name}</h2>
 					<p className='project__desc text text--medium'>
@@ -142,31 +146,65 @@ export default class Project extends Page {
 		)
 	}
 
+	initTimelines() {
+	}
+
 	toggleZoom() {
-		if (this.zoom) {
-			Tweenmax.staggerTo([
-				dom('.front-container'),
-				dom('.project__share'),
-				dom('.project__infos'),
-				dom('.project__reveal'),
-				dom('.cart')
-			], 0.4, {opacity: 1});
-			Tweenmax.to(dom('.project__prints'), 0.4, {scale: 1, ease: Power2.easeOut});
-			Tweenmax.to(dom('.project__prev'), 0.4, {x: 0, ease: Power2.easeOut});
-			Tweenmax.to(dom('.project__next'), 0.4, {x: 0, ease: Power2.easeOut});
-		} else {
-			Tweenmax.staggerTo([
-				dom('.front-container'),
-				dom('.project__share'),
-				dom('.project__infos'),
-				dom('.project__reveal'),
-				dom('.cart')
-			], 0.4, {opacity: 0});
-			Tweenmax.to(dom('.project__prints'), 0.4, {scale: 1.35, ease: Power2.easeOut});
-			Tweenmax.to(dom('.project__prev'), 0.4, {x: -70, ease: Power2.easeOut});
-			Tweenmax.to(dom('.project__next'), 0.4, {x: 70, ease: Power2.easeOut});
-		}
+		if (this.zoom) this.zoomOut()
+		else this.zoomIn()
+	}
+
+	zoomIn() {
+		this.tlZoomIn = new TimelineMax({paused: true})
+		this.tlZoomIn.staggerTo([
+			dom('.front-container'),
+			dom('.project__share'),
+			dom('.project__infos'),
+			dom('.project__reveal'),
+			dom('.cart'),
+			dom('.project__contact')
+		], 0.4, {opacity: 0}, 0)
+		this.tlZoomIn.to(dom('.project__prints'), 0.4, {scale: 1.35, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.to(dom('.project__prev'), 0.4, {x: -70, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.to(dom('.project__next'), 0.4, {x: 70, ease: Power2.easeOut}, 0)
+		this.tlZoomIn.addCallback(() => {
+			document.querySelector('.project__contact').style.display = 'none'
+			document.querySelector('.project__back').style.display = 'block'
+		}, 0.4)
+		this.tlZoomIn.to(dom('.project__back'), 0.4, {opacity: 1}, 0.4)
+		
+		this.tlZoomIn.play()
+
 		this.zoom = !this.zoom
+	}
+
+	zoomOut() {
+		this.tlZoomOut = new TimelineMax({paused: true})
+		this.tlZoomOut.staggerTo([
+			dom('.front-container'),
+			dom('.project__share'),
+			dom('.project__infos'),
+			dom('.project__reveal'),
+			dom('.cart')
+		], 0.4, {opacity: 1}, 0)
+		this.tlZoomOut.to(dom('.project__back'), 0.4, {opacity: 0}, 0)
+		this.tlZoomOut.addCallback(() => {
+			document.querySelector('.project__contact').style.display = 'block'
+			document.querySelector('.project__back').style.display = 'none'
+		}, 0.4)
+		this.tlZoomOut.to(dom('.project__contact'), 0.4, {opacity: 1}, 0.4)
+		this.tlZoomOut.to(dom('.project__prints'), 0.4, {scale: 1, ease: Power2.easeOut}, 0)
+		this.tlZoomOut.to(dom('.project__prev'), 0.4, {x: 0, ease: Power2.easeOut}, 0)
+		this.tlZoomOut.to(dom('.project__next'), 0.4, {x: 0, ease: Power2.easeOut}, 0)
+
+		this.tlZoomOut.play()
+
+		this.zoom = !this.zoom
+	}
+
+	backToGallery(e) {
+		e.preventDefault()
+		this.zoomOut()
 	}
 
 	toggleStory() {
@@ -220,7 +258,7 @@ export default class Project extends Page {
 
 	_onArtistStoreChange() {
 		this.setState({
-			artist: ArtistStore.getOne()
+			artist: ArtistStore.getOne() // TODO: afficher l'image suivante uniquement quand elle est chargée
 		})
 	}
 
