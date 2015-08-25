@@ -29,6 +29,7 @@ export default class Home extends Page {
 
 			this.showPageBinded = this.showPage.bind(this)
 			this.initCanvas()
+			this.initAnimation()
 		}
 	}
 
@@ -81,9 +82,19 @@ export default class Home extends Page {
 		ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
 		ctx.font = "400 72px 'Stanley'";
 		ctx.fillText('Fellowship', vw/2, vh/2 + 68);
+	}
 
+	initAnimation() {
+		let that = this
+		
+		this.tlEntry = new TimelineMax({delay: 4, onComplete: () => {
+			that._canvas.remove()
+		}});
+		this.tlEntry.to(this._canvas, 2, {opacity: 0, ease: Power2.easeOut});
+		this.tlEntry.to(dom('.front-container'), 0.8, {opacity: 1}, 1.6)
+		this.tlEntry.to(dom('.home__content'), 0.8, {opacity: 1}, 1.6)
+		this.tlEntry.to(dom('.cart'), 0.8, {opacity: 1}, 1.6)
 		// TweenMax.to(this._canvas, 4, {x: -vw, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
-		TweenMax.to(this._canvas, 2, {opacity: 0, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
 	}
 	
 	showPage() {

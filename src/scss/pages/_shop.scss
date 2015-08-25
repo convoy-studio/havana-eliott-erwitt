@@ -43,7 +43,7 @@
 		.shop__hover {
 			visibility: visible;
 			opacity: 1;
-			transition: opacity 800ms $easeOutCubic, visibility 800ms steps(1, start);
+			transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 		}
 	}
 }
@@ -59,7 +59,7 @@
 
 	visibility: hidden;
 	opacity: 0;
-	transition: opacity 800ms $easeOutCubic, visibility 800ms steps(1, end);
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
 }
 
 .shop__detail {
@@ -92,5 +92,6 @@
 }
 
 .shop__details {
-	line-height: 20px;
+	// line-height: 20px;
+	padding-bottom: 6px;
 }

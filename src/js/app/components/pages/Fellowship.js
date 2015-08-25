@@ -85,12 +85,12 @@ export default class Fellowship extends Page {
 					<div className='fellowship__links'>
 						{(() => {
 							if (that.state.view === 'biography') { return (
-								<div className='fellowship__link button button--center' onClick={that.showInterviewBinded}>Video interview</div>
+								<div className='fellowship__link button button--center button--small' onClick={that.showInterviewBinded}>Video interview</div>
 							)} else { return (
-								<div className='fellowship__link button button--center' onClick={that.showBiographyBinded}>Biography</div>
+								<div className='fellowship__link button button--center button--small' onClick={that.showBiographyBinded}>Biography</div>
 							)}
 						})()}
-						<a href='#/project/elliott-erwitt' className='fellowship__link button button--center'>His project</a>
+						<a href='#/project/elliott-erwitt' className='fellowship__link button button--center button--small'>His project</a>
 					</div>
 				</section>
 
