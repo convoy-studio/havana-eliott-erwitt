@@ -59,6 +59,30 @@
 .fellowship__interview {
 	width: 100%;
 	padding-left: 64px;
+
+	cursor: pointer;
+}
+
+.fellowship__play {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translate(0, -50%);
+	width: 100%;
+	padding-left: 64px;
+
+	text-align: center;
+
+	cursor: pointer;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+
+	&.enabled {
+		visibility: visible;
+		opacity: 1;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	}
 }
 
 .paragraph, .paragraph__row {
@@ -90,13 +114,6 @@
 	line-height: 28px;
 }
 
-.paragraph--verysmall {
-	width: 474px;
-
-	font-size: 14px;
-	padding-bottom: 10px;
-}
-
 .paragraph--center {
 	margin-left: auto;
 	margin-right: auto;
@@ -109,8 +126,10 @@
 }
 
 .paragraph__column {
+	position: relative;
 	display: table-cell;
 	vertical-align: middle;
+	box-sizing: border-box;
 }
 
 .paragraph__column--left {

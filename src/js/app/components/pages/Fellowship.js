@@ -28,14 +28,13 @@ export default class Fellowship extends Page {
 		}
 		
 		this.opacityMarge = window.innerHeight
-
+		this.videoPlayed = false
 		this.scrollIndex = 0
 		this.scrollOk = false
 		
 		this.transform = Utils.GetSupportedPropertyName('transform')
 		
-		this.showBiographyBinded = this.showBiography.bind(this)
-		this.showInterviewBinded = this.showInterview.bind(this)
+		this.toggleVideoBinded = this.toggleVideo.bind(this)
 		
 		this.rafBinded = this.raf.bind(this)
 		
@@ -92,8 +91,9 @@ export default class Fellowship extends Page {
 							<div className='paragraph__column'>
 								<p className='paragraph paragraph--small'>Elliott Erwitt is one of the world’s most popular and admired photographers. A visual poet and humorist of everyday life, he has created some of the most memorable images of our time, from his observations of daily life at street level, to portraits of the iconic personalities including Marilyn Monroe on the set of the film The Misfits and Truman Capote’s epic 1966 Black and White Ball in New York City. He has photographed Khrushchev and Nixon arguing in Moscow, Fidel Castro and Che Guevara in Havana and President JFK in the Oval office.</p>
 							</div>
-							<div className='paragraph__column'>
+							<div className='paragraph__column' onClick={this.toggleVideoBinded}>
 								<video className='fellowship__interview' src='./assets/videos/bg-home.webm'></video>
+								<p className='fellowship__play enabled'>play video</p>
 							</div>
 						</div>
 						<p className='paragraph paragraph--small paragraph--center'>Born in Paris in 1928 to Russian parents, Erwitt moved to the US with his family in 1939 and it was there that he met Edward Steichen and Roy Stryker. Recruited to Magnum Photos by Robert Capa in 1953 Erwitt has been a member of the prestigious agency ever since and has served several terms as its president.</p>
@@ -132,29 +132,15 @@ export default class Fellowship extends Page {
 		}
 	}
 
-	showInterview() {
-		this.hideBiography()
-		this.setState({
-			view: 'interview'
-		})
-	}
-
-	hideInterview() {
-		dom('.fellowship__interview').addClass('fellowship__interview--hidden')
-		// TweenMax.to(dom('.fellowship__interview'), 0.4, {opacity: 0});
-	}
-
-	showBiography() {
-		this.hideInterview()
-		this.setState({
-			view: 'biography'
-		})
-	}
-
-	hideBiography() {
-		dom('.fellowship__biography').addClass('fellowship__biography--hidden')
-		// console.log('hide bio')
-		// TweenMax.to(dom('.fellowship__biography'), 0.4, {opacity: 0});
+	toggleVideo() {
+		this.videoPlayed = !this.videoPlayed
+		if (this.videoPlayed) {
+			document.querySelector('.fellowship__interview').pause()
+			dom('.fellowship__play').addClass('enabled')
+		} else {
+			document.querySelector('.fellowship__interview').play()
+			dom('.fellowship__play').removeClass('enabled')
+		}
 	}
 
 	didTransitionOutComplete() {
