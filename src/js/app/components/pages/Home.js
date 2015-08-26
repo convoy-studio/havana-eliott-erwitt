@@ -38,13 +38,18 @@ export default class Home extends Page {
 		return (
 			<div className='page page--home' ref='page-wrapper'>
 				<div className='video'>
-					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webmsd.webm'></video>
+					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webm'></video>
 				</div>
 				<div className='home__content'>
-					<p className='text text--title' dangerouslySetInnerHTML={{__html: homeData.content}} />
+					{Object.keys(homeData.paragraphs).map((index) => {
+						return (
+							<p className='home__paragraph text text--big' key={index}>{homeData.paragraphs[index]}</p>
+						)
+					})}
 				</div>
 			</div>
 		)
+					// <p className='text text--big' dangerouslySetInnerHTML={{__html: homeData.content}} />
 	}
 
 	// setupAnimations() {
@@ -76,10 +81,11 @@ export default class Home extends Page {
 		ctx.fill();
 
 		// crop logo
-		ctx.font = "400 72px 'PxGrotesk'";
+		ctx.font = "400 72px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
-		ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
+		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
+		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', vw/2, vh/2 - 16);
 		ctx.font = "400 72px 'Stanley'";
 		ctx.fillText('Fellowship', vw/2, vh/2 + 68);
 	}

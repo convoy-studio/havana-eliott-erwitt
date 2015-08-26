@@ -22,8 +22,8 @@ export default class Payment extends Page {
 		super(props)
 
 		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
+			.removeClass('body--black')
+			.addClass('body--white')
 
 		this.state = _getCartState()
 	}
@@ -114,21 +114,21 @@ export default class Payment extends Page {
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro'/>
-									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro-black.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='visa'/>
-									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa-black.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='paypal'/>
-									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal-black.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='americanExpress'/>
-									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/american-black.png'></img></p></label>
 								</div>
 							</div>
 						</div>

@@ -17,5 +17,8 @@
 }
 
 .projects__item {
+	padding-bottom: 10px;
+	
 	font-size: 72px;
+	@extend .title-font;
 }

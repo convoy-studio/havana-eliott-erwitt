@@ -45,7 +45,15 @@ export default class Shop extends Page {
 	// 	let wrapper = React.findDOMNode(this.refs['page-wrapper'])
 
 	// 	// transition In
-	// 	this.tlIn.from(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut })
+	// 	this.tlIn.to(dom('.front-container'), 0.4, {opacity: 0}, 0);
+	// 	this.tlIn.from(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut}, 0.4)
+	// 	this.tlIn.addCallback(() => {
+	// 		console.log('call')
+	// 		dom('body')
+	// 			.removeClass('body--black')
+	// 			.addClass('body--white')
+	// 	}, 1.4)
+	// 	this.tlIn.to(dom('.front-container'), 0.4, {opacity: 1}, 1.4);
 
 	// 	// transition Out
 	// 	this.tlOut.to(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut })
@@ -59,8 +67,9 @@ export default class Shop extends Page {
 		let that = this
 		let shopData = AppStore.shopContent()
 
+					// <h2 className='shop__title text text--bigtitle'>{shopData.intro.title}</h2>
 		return (
-			<div id='page page--shop' ref='page-wrapper'>
+			<div className='page page--shop' ref='page-wrapper'>
 				<div className='shop__intro text text--bigger'>
 					{Object.keys(shopData.intro.paragraphs).map((index) => {
 						return (

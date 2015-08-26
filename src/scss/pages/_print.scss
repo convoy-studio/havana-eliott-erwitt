@@ -40,7 +40,7 @@
 }
 
 .print__details {
-	font-family: 'Stanley';
+	font-family: $text-font;
 	font-size: 30px;
 	line-height: 36px;
 }
@@ -57,7 +57,7 @@
 .print__price {
 	margin: 40px 0;
 
-	font-family: 'Stanley';
+	font-family: $text-font;
 	font-size: 16px;
 }
 
@@ -85,7 +85,7 @@
 	right: -36px;
 	bottom: -12px;
 	
-	font-family: 'PxGrotesk';
+	@extend .title-font;
 	font-size: 12px;
 }
 
@@ -98,7 +98,7 @@
 	display: inline-block;
 	margin-right: 24px;
 
-	font-family: 'Stanley';
+	font-family: $text-font;
 	font-size: 16px;
 
 	cursor: pointer;

@@ -15,10 +15,14 @@
 	text-align: center;
 	font-size: 24px;
     line-height: 24px;
+	@extend .title-font;
 }
 
-.heaser__subtitle {
-	font-family: 'Stanley';
+.header__subtitle {
+	padding-top: 6px;
+	
+	font-family: $text-font;
+	text-transform: initial;
 }
 
 .header__menu {
@@ -38,10 +42,11 @@
 
 .header__item {
 	display: inline-block;
-	margin-right: calc(100% / 3 - 417px / 3); // 217px = somme width menu items
+	margin-right: calc(100% / 3 - 468px / 3); // 217px = somme width menu items
 	
+	@extend .title-font;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 
 	&:first-child {
 		text-align: left;
@@ -85,7 +90,8 @@
 	transform: rotate(-90deg) translate(50%, -50%);
 	z-index: 100;
 
-	font-size: 16px;
+	@extend .title-font;
+	font-size: 18px;
 
 	a {
 		display: block;
@@ -109,6 +115,7 @@
 	right: 40px;
 	bottom: 40px;
 
+	font-family: $text-font;
 	font-size: 12px;
 	line-height: 14px;
 	text-align: right;

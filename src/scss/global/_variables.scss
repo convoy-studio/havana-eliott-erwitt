@@ -1,3 +1,14 @@
+// fonts
+$title-font: 'hc7modern';
+$text-font: 'Stanley';
+
+.title-font {
+	font-family: 'hc7modern';
+	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
 // Custom vars
 $min-middle-width: 960px;
 $globalFontSize: 20px;

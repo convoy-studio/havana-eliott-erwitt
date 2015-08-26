@@ -39,7 +39,7 @@ export default class FrontContainer extends BaseComponent {
 		return (
 			<div id='frontContainer' className='front-container' ref='front-container'>
 				<header id='header' className='header'>
-					<h1 className='header__title'><a href='#/'>Elliott Erwitt Havana Club 7<div className='heaser__subtitle'>Fellowship</div></a></h1>
+					<h1 className='header__title'><a href='#/'>Elliott Erwitt Havana Club 7<div className='header__subtitle'>Fellowship</div></a></h1>
 					<nav className='header__menu'>
 						<ul className='header__list'>
 							{menuItems}

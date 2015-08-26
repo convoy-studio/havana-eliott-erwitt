@@ -11,22 +11,22 @@
 
 .news__item--left {
 	.news__content {
-		font-family: 'PxGrotesk';
+		@extend .title-font;
 		padding-left: 55px;
 	}
 	.news__date {
-		font-family: 'Stanley';
+		font-family: $text-font;
 		padding-right: 55px;
 	}
 }
 
 .news__item--right {
 	.news__content {
-		font-family: 'Stanley';
+		font-family: $text-font;
 		padding-right: 55px;
 	}
 	.news__date {
-		font-family: 'PxGrotesk';
+		@extend .title-font;
 		padding-left: 55px;
 	}
 }

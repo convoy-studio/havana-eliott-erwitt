@@ -8,14 +8,23 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 716px;
+	width: 474px;
 
-	line-height: 42px;
+	line-height: 28px;
+}
+
+.home__paragraph {
+	margin-bottom: 40px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .home__content a {
 	position: relative;
-	font-family: 'PxGrotesk';
+
+	@extend .title-font;
 	font-size: 32px;
 
 	&:after {

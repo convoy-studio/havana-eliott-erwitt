@@ -9,7 +9,6 @@ $cartColor: $black;
 	display: none;
 	box-sizing: border-box;
 
-	background-color: $white;
 	border: 1px solid transparent;
 
 	font-size: 14px;
@@ -35,6 +34,7 @@ $cartColor: $black;
 }
 
 .cart--enabled {
+	background-color: $white;
 	border: 1px solid $cartColor;
 	
 	.cart__content {
@@ -116,7 +116,7 @@ $cartColor: $black;
 }
 
 .cart__details {
-	font-family: 'Stanley';
+	font-family: $text-font;
 	font-size: 14px;
 	margin-bottom: 18px;
 }
@@ -130,11 +130,11 @@ $cartColor: $black;
 }
 
 .cart__quantity, .cart__number, .cart__price {
-	font-family: 'Stanley';
+	font-family: $text-font;
 }
 
 .cart__currency {
-	font-family: 'PxGrotesk';
+	@extend .title-font;
 }
 
 .cart__print {
@@ -181,7 +181,7 @@ $cartColor: $black;
 }
 
 .cart__button {
-	font-family: 'Stanley';
+	font-family: $text-font;
 	font-size: 14px;
 	line-height: 24px;
 }

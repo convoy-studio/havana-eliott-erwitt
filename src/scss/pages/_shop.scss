@@ -1,3 +1,10 @@
+.page--shop {
+	// height: auto;
+	
+	// background-color: $white;
+	// color: $black;
+}
+
 .shop__intro {
 	width: 716px;
 	margin: 0 auto;
@@ -69,7 +76,7 @@
 	transform: translate(-50%, -50%);
 	width: 100%;
 
-	font-family: 'Stanley';
+	font-family: $text-font;
 	text-align: center;
 	font-size: 16px;
 }

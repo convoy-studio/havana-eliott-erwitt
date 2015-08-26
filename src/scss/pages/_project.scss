@@ -5,6 +5,7 @@
 .project__artist {
 	margin-bottom: 40px;
 
+	@extend .title-font;
 	text-align: center;
 	font-size: 72px;
 }

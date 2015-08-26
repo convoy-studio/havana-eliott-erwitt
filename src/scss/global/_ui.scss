@@ -86,7 +86,14 @@ a {
 }
 
 .text {
-	font-family: 'Stanley';
+	font-family: $text-font;
+}
+
+.text--bigtitle {
+	font-family: $title-font;
+	font-size: 70px;
+	font-weight: 900;
+	text-transform: uppercase;
 }
 
 .text--title {

@@ -1,4 +1,4 @@
-@include font-face('PxGrotesk', '../font/px-grotesk/Px-Grotesk_Regular');
+@include font-face('hc7modern', '../font/hc7modern/HC7Modern-bold');
 @include font-face('Stanley', '../font/stanley/Stanley_Regular');
 
 #font-charger {
@@ -6,8 +6,8 @@
 	top: -10000px;
 	position: absolute;
 	@include opacity(0);
-	#PxGrotesk {
-		font-family: 'PxGrotesk';
+	#hc7modern {
+		font-family: 'hc7modern';
 	}
 	#Stanley {
 		font-family: 'Stanley';

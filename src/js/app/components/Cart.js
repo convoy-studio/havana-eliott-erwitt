@@ -9,7 +9,6 @@ export default class Cart extends React.Component {
 	constructor(props) {
 		super(props)
 		this.props = props
-		this.showed = false
 		this.state = {
 			hash: undefined
 		}
@@ -24,8 +23,7 @@ export default class Cart extends React.Component {
 
 	toggle() {
 		if (this.props.count > 0) {
-			this.showed = !this.showed
-			CartActions.updateCartEnabled(this.showed)
+			CartActions.updateCartEnabled(!this.props.enabled)
 		}
 	}
 
