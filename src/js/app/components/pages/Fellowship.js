@@ -58,6 +58,7 @@ export default class Fellowship extends Page {
 		return (
 			<div className='page page--fellowship' ref='page-wrapper'>
 
+				<div className='submenu'><a href='#/friends'><p className='button button--small'>Friends of the fellowship</p></a></div>
 				<div className='fellowship'>
 					<div className='video fellowship__video'>
 						<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webm'></video>
@@ -86,9 +87,9 @@ export default class Fellowship extends Page {
 						</div>
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
 					</section>
-					<div className='fellowship__discover' onClick={this.goToBiographyBinded}>
+					<div className='discover fellowship__discover' onClick={this.goToBiographyBinded}>
 						Discover Elliott Erwitt's biography
-						<div className='fellowship__scroll'><div className='arrow'></div></div>
+						<div className='discover__arrow'><div className='arrow'></div></div>
 					</div>
 					<section className='fellowship__artist'>
 						<p className='fellowship__artistname paragraph paragraph--big paragraph--center'>ELLIOTT ERWITT’S BIOGRAPHY</p>
@@ -110,6 +111,7 @@ export default class Fellowship extends Page {
 								<p className='paragraph paragraph--small'>To date Erwitt has produced more than 25 photography books including Eastern Europe (1965), The Private Experience (1974), Personal Exposures (1988), To the Dogs (1992), and Personal Best (2010). His photographs have been featured in solo shows all over the world, including at the ICP and The Museum of Modern Art, New York; The Art Institute of Chicago; The Barbican, London, and The Reina Sofia Museum, Madrid. Erwitt lives and works in New York City and likes children and dogs.</p>
 							</div>
 						</div>
+						<a href='#/project/elliott-erwitt' className='fellowship__button button button--center button--small'>Discover his project</a>
 					</section>
 				</div>
 			</div>

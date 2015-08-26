@@ -7,17 +7,36 @@
 	width: 958px;
 }
 
-.print__image {
+.print__left {
+	position: relative;
 	width: 50%;
 	display: table-cell;
 	vertical-align: middle;
 }
 
+.print__image {
+	position: relative;
+}
+
 .print__image--portrait {
-	img {
-		width: 60%;
-		float: right;
-		margin-right: 24px;
+	width: 60%;
+	float: right;
+	margin-right: 24px;
+}
+
+.print__tech {
+	position: absolute;
+	left: 0;
+	bottom: -24px;
+	transform: translate(0, 100%);
+	width: 110%;
+	margin-left: -5%;
+	
+	font-size: 14px;
+	text-align: center;
+
+	p {
+		line-height: 16px;
 	}
 }
 
@@ -39,10 +58,10 @@
 	line-height: 18px;
 }
 
-.print__details {
+.print__location, .print__artist, .print__title {
 	font-family: $text-font;
-	font-size: 30px;
-	line-height: 36px;
+	font-size: 24px;
+	line-height: 28px;
 }
 
 .print__details--small {
@@ -50,9 +69,16 @@
 	line-height: 18px;
 }
 
-.print__city {
-	font-style: italic;
+.print__title {
+	margin-bottom: 10px;
+	
+	@extend .title-font;
+	font-size: 16px;
 }
+
+// .print__city {
+// 	font-style: italic;
+// }
 
 .print__price {
 	margin: 40px 0;
@@ -130,5 +156,5 @@
 
 .print__buy {
 	margin-top: 40px;
-	line-height: 24px;
+	padding-bottom: 10px;
 }

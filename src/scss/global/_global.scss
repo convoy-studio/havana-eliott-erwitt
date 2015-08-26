@@ -246,3 +246,30 @@ $border-width: 1px;
 		transition: width 0.3s ease-out;
 	}
 }
+
+.arrow--black, .arrow--black:before { border-color: $black; }
+
+.discover {
+    position: relative;
+    // margin-bottom: 80px;
+	
+	font-size: 16px;
+	text-align: center;
+}
+
+.discover__arrow {
+	width: 36px;
+	height: 36px;
+	margin: 0 auto;
+
+	cursor: pointer;
+
+	transform-origin: 50% 50%;
+	transform: rotate(-90deg) translate(-50%, 0);
+
+	&:hover {
+		.arrow:before {
+			width: 30px;
+		}
+	}
+}

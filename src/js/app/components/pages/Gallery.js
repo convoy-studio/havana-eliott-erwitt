@@ -51,8 +51,9 @@ export default class Gallery extends Page {
 								{Object.keys(that.state.loadedPrints[year]).map((printId, i) => { 
 									let print = that.state.loadedPrints[year][printId]
 									let src = './assets/images/prints/'+print.file+'_min.jpg'
+									let random = Math.floor(Math.random()*6)
 									return (
-										<div className={'gallery__item gallery__item--'+print.size} key={i}><img className='gallery__image' src={src}></img></div>
+										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} key={i}><img className='gallery__image' src={src}></img></div>
 									)
 								})}
 							</div>

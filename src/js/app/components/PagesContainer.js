@@ -5,6 +5,7 @@ import AppStore from 'AppStore'
 import Router from 'Router'
 import Home from 'Home'
 import Fellowship from 'Fellowship'
+import Friends from 'Friends'
 import Projects from 'Projects'
 import Project from 'Project'
 import Gallery from 'Gallery'
@@ -41,6 +42,9 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'fellowship':
 				type = Fellowship
+				break
+			case 'friends':
+				type = Friends
 				break
 			case 'projects':
 				type = Projects

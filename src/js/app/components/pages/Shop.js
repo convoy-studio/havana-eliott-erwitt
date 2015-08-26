@@ -8,6 +8,7 @@ import Utils from 'Utils'
 import offset from 'offset'
 let scroll = Utils.Scroll()
 let _ = require('lodash')
+let Masonry = require('masonry-layout');
 
 export default class Shop extends Page {
 	
@@ -76,20 +77,25 @@ export default class Shop extends Page {
 							<p className='shop__paragraph text text--big' key={index}>{shopData.intro.paragraphs[index]}</p>
 						)
 					})}
+					<div className='discover shop__discover' onClick={this.goToBiographyBinded}>
+						Discover Elliott Erwitt's prints
+						<div className='discover__arrow'><div className='arrow arrow--black'></div></div>
+					</div>
 				</div>
 				<div className='shop'>
 					{Object.keys(this.state.prints).map(function(id, index){
 						let print = that.state.prints[id]
 						// let file = print.file + '_min.jpg'
 						let file = print.file + '_medium.jpg'
-						let speed = (index % 2 === 0) ? 'fast' : 'slow'
+						// let speed = (index % 2 === 0) ? 'fast' : 'slow'
 						return (
-							<div className={'shop__print js-'+speed} key={id}>
+							<div className='shop__print' key={id}>
 								<a href={'#/shop/'+id}>
 									<img src={'./assets/images/prints/'+file}></img>
 									<div className='shop__hover'>
 										<div className='shop__detail'>
-											<div className='shop__city'>{print.city}</div>, <div className='shop__year'>{print.year}</div>
+											<div className='print__title'>{print.title}</div>
+											<div className='print__location'><div className='shop__city'>{print.city}, {print.country},</div> <div className='shop__year'>{print.year}</div></div>
 											<div className='shop__price'>{print.price}€</div>
 											<div className='shop__details button button--center button--small'>More details</div>
 										</div>
@@ -156,6 +162,14 @@ export default class Shop extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			prints: PrintStore.getForSale()
+		}, () => {
+			// let grid = dom('.shop')
+			// if (grid) {
+			// 	let iso = new Masonry(grid, {
+			// 		itemSelector: '.shop__print',
+			// 		columnWidth: 479
+			// 	});
+			// }
 		})
 	}
 }
