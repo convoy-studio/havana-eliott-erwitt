@@ -6,21 +6,27 @@
 }
 
 .shop__intro {
-	width: 716px;
+	width: 474px;
 	margin: 0 auto;
-	padding-top: 230px;
+	padding-top: 160px;
 }
 
 .shop__paragraph {
-	margin-bottom: 12px;
+	margin-bottom: 24px;
 	&:last-child { margin-bottom: 0; }
-
-	text-indent: 50px;
 }
 
 .shop {
 	width: 958px;
 	margin: 230px auto 100px;
+}
+
+.shop__title {
+	margin-bottom: 84px;
+
+	@extend .title-font;
+	font-size: 72px;
+	line-height: 86px;
 }
 
 // .shop__print {

@@ -67,13 +67,13 @@ export default class Shop extends Page {
 		let that = this
 		let shopData = AppStore.shopContent()
 
-					// <h2 className='shop__title text text--bigtitle'>{shopData.intro.title}</h2>
 		return (
 			<div className='page page--shop' ref='page-wrapper'>
-				<div className='shop__intro text text--bigger'>
+				<div className='shop__intro'>
+					<h2 className='shop__title'>{shopData.intro.title}</h2>
 					{Object.keys(shopData.intro.paragraphs).map((index) => {
 						return (
-							<p className='shop__paragraph' key={index}>{shopData.intro.paragraphs[index]}</p>
+							<p className='shop__paragraph text text--big' key={index}>{shopData.intro.paragraphs[index]}</p>
 						)
 					})}
 				</div>
