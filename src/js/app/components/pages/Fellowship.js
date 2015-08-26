@@ -34,6 +34,7 @@ export default class Fellowship extends Page {
 		
 		this.transform = Utils.GetSupportedPropertyName('transform')
 		
+		this.goToBiographyBinded = this.goToBiography.bind(this)
 		this.toggleVideoBinded = this.toggleVideo.bind(this)
 		
 		this.rafBinded = this.raf.bind(this)
@@ -44,6 +45,7 @@ export default class Fellowship extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 
+		this._limit = document.querySelector('.js-limit')
 		this._artistSection = document.querySelector('.fellowship__artist')
 		this._video = document.querySelector('.fellowship__video')
 		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
@@ -65,7 +67,7 @@ export default class Fellowship extends Page {
 						<p className='paragraph paragraph--big paragraph--center'>A fellowship is a communion of people sharing a common passion.</p>
 						<p className='paragraph paragraph--small paragraph--center'>In Cuba generations of aspiring distillers have followed the example of a seasoned rum master and so learnt to develop and perfect their craft. The Elliott Erwitt Havana Club 7 Fellowship combines this rich history and tradition with a passion for documentary photography.</p>
 						<p className='paragraph paragraph--medium paragraph--center'>Master photographer Elliott Erwitt’s lifelong love of photography and Cuba has brought him back to Cuba again after 51 years – this time to initiate the fellowship with Havana Club 7.</p>
-						<div className='paragraph__row'>
+						<div className='paragraph__row js-limit'>
 							<div className='paragraph__column paragraph__column--left'>
 								<img className='fellowship__elliott' src='../assets/images/elliott-erwitt.jpg' />
 							</div>
@@ -84,7 +86,10 @@ export default class Fellowship extends Page {
 						</div>
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
 					</section>
-					
+					<div className='fellowship__discover' onClick={this.goToBiographyBinded}>
+						Discover Elliott Erwitt's biography
+						<div className='fellowship__scroll'><div className='arrow'></div></div>
+					</div>
 					<section className='fellowship__artist'>
 						<p className='fellowship__artistname paragraph paragraph--big paragraph--center'>ELLIOTT ERWITT’S BIOGRAPHY</p>
 						<div className='paragraph__row'>
@@ -99,7 +104,7 @@ export default class Fellowship extends Page {
 						<p className='paragraph paragraph--small paragraph--center'>Born in Paris in 1928 to Russian parents, Erwitt moved to the US with his family in 1939 and it was there that he met Edward Steichen and Roy Stryker. Recruited to Magnum Photos by Robert Capa in 1953 Erwitt has been a member of the prestigious agency ever since and has served several terms as its president.</p>
 						<div className='paragraph__row'>
 							<div className='paragraph__column'>
-								<p className='paragraph'><a className='fellowship__button button button--center button--small' href='http://www.elliotterwitt.com'>Elliott Erwitt official website</a></p>
+								<p className='paragraph'><a className='fellowship__button button button--center button--small' href='http://www.elliotterwitt.com' target='_blank'>Elliott Erwitt official website</a></p>
 							</div>
 							<div className='paragraph__column'>
 								<p className='paragraph paragraph--small'>To date Erwitt has produced more than 25 photography books including Eastern Europe (1965), The Private Experience (1974), Personal Exposures (1988), To the Dogs (1992), and Personal Best (2010). His photographs have been featured in solo shows all over the world, including at the ICP and The Museum of Modern Art, New York; The Art Institute of Chicago; The Barbican, London, and The Reina Sofia Museum, Madrid. Erwitt lives and works in New York City and likes children and dogs.</p>
@@ -125,15 +130,16 @@ export default class Fellowship extends Page {
 	}
 
 	handleScroll() {
-		if (this._video && this._artistSection) {
-			this.artistOffset = offset(this._artistSection)
-			this.videoOpacity = 1 - (this.artistOffset.top - this.opacityMarge) / (-this.opacityMarge)
+		if (this._video && this._limit) {
+			this.limitOffset = offset(this._limit)
+			this.limitTop = this.limitOffset.top + this.limitOffset.height / 2
+			// this.videoOpacity = 1 - (this.limitOffset.top - this.opacityMarge) / (-this.opacityMarge)
+			this.videoOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
 			this._video.style.opacity = this.videoOpacity
 		}
 	}
 
 	toggleVideo() {
-		this.videoPlayed = !this.videoPlayed
 		if (this.videoPlayed) {
 			document.querySelector('.fellowship__interview').pause()
 			dom('.fellowship__play').addClass('enabled')
@@ -141,6 +147,11 @@ export default class Fellowship extends Page {
 			document.querySelector('.fellowship__interview').play()
 			dom('.fellowship__play').removeClass('enabled')
 		}
+		this.videoPlayed = !this.videoPlayed
+	}
+
+	goToBiography() {
+		// TweenMax.to(window, 0.6, {scrollTo:{y: (this.artistOffsetTop - 20)}, ease:Power2.easeOut})
 	}
 
 	didTransitionOutComplete() {
