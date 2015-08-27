@@ -4,8 +4,11 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+import Utils from 'Utils'
+import offset from 'offset'
 let _ = require('lodash');
 let Masonry = require('masonry-layout');
+let scroll = Utils.Scroll()
 
 export default class Gallery extends Page {
 	constructor(props) {
@@ -13,11 +16,15 @@ export default class Gallery extends Page {
 
 		this.props = props
 
+		this.OPACITY_MARGE = 30
+		this.OPACITY_DURATION = 300
+
 		dom('body')
 			.removeClass('body--white')
 			.addClass('body--black')
 
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this.rafBinded = this.raf.bind(this)
 		this.loaded = false
 		this.nImageLoaded = 0
 		this.prints = []
@@ -25,6 +32,11 @@ export default class Gallery extends Page {
 			prints: [],
 			loadedPrints: []
 		};
+		this.scrollIndex = 0
+		this.scrollOk = false
+		this.transform = Utils.GetSupportedPropertyName('transform')
+
+		this.raf()
 
 		PrintApi.getByArtist(this.props.idSection);
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
@@ -38,11 +50,25 @@ export default class Gallery extends Page {
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
+	setupAnimations() {
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
+
+		// transition In
+		this.tlIn.from(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
+
+		// transition Out
+		this.tlOut.to(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
+
+		// reset
+		this.tlIn.pause(0)
+		this.tlOut.pause(0)
+	}
+
 	render() {
 		let that = this
 		return (
 			<div className='page page--gallery' ref='page-wrapper'>
-				<div className='submenu button button--right button--small'><a href={'#/project/'+this.props.idSection}>Back to gallery</a></div>
+				<div className='submenu'><a href={'#/project/'+this.props.idSection}><p className='button button--small'>Back to gallery</p></a></div>
 				<div className='gallery'>
 					{Object.keys(this.state.loadedPrints).map((year, i) => {
 						return (
@@ -53,7 +79,7 @@ export default class Gallery extends Page {
 									let src = './assets/images/prints/'+print.file+'_min.jpg'
 									let random = Math.floor(Math.random()*6)
 									return (
-										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} key={i}><img className='gallery__image' src={src}></img></div>
+										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={i}><img className='gallery__image' src={src}></img></div>
 									)
 								})}
 							</div>
@@ -62,6 +88,30 @@ export default class Gallery extends Page {
 				</div>
 			</div>
 		)
+	}
+
+	raf() {
+		if (this.scrollIndex % 3) this.scrollOk = true
+		else this.scrollOk = true
+		this.scrollIndex++
+
+		if (this.scrollOk) {
+			// let top = window.pageYOffset;
+			this.handleScroll()
+		}
+
+		scroll(this.rafBinded);
+	}
+
+	handleScroll() {
+		_(dom('.gallery__item')).forEach((el, index) => {
+			this.limitOffset = offset(el)
+			this.limitTop = this.limitOffset.top - window.innerHeight + this.OPACITY_MARGE
+			this.elOpacity = Utils.Interval(this.limitTop / (-this.OPACITY_DURATION), 0, 1)
+			this.elY = (1-this.elOpacity) * 50
+			el.style.opacity = this.elOpacity
+			el.style[this.transform] = ('translate(0px, '+ this.elY +'px) translateZ(0px)')
+		}).value();
 	}
 	
 	componentDidUpdate() {
@@ -84,6 +134,7 @@ export default class Gallery extends Page {
 	onImageLoaded(print, e) {
 		this.nImageLoaded++;
 
+		let that = this
 		let path = e.explicitOriginalTarget || e.path[0]
 		if (path.height >= path.width*1.2) print.size = 'small'
 		else print.size = 'large'
@@ -117,6 +168,8 @@ export default class Gallery extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			prints: PrintStore.getArtistPrints()
+		}, () => {
+
 		})
 	}
 }
