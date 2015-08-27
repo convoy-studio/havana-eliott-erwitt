@@ -1,11 +1,26 @@
+.page--project {
+	height: 100%;
+}
+
 .project {
+	height: 100%;
+	position: relative;
 }
 
 .project__intro {
+	position: relative;
 	min-height: 100vh;
 	padding-top: 176px;
 	box-sizing: border-box;
+	z-index: 10;
 } 
+
+.project__content {
+	position: absolute;
+	left: 50%;
+	top: calc(50% + 40px);
+	transform: translate(-50%, -50%);
+}
 
 .project__artist {
 	margin-bottom: 40px;
@@ -48,8 +63,9 @@
 .project__slideshow {
 	position: relative;
 	width: 100%;
-	// min-height: 100vh;
-	transform: translate(0, -40px);
+	min-height: 100vh;
+	$top: calc(-20vh - 40px);
+	transform: translate(0, $top);
 }
 
 .project__prints {

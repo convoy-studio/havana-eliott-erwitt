@@ -107,7 +107,7 @@ export default class Project extends Page {
 		}
 
 		return (
-			<div id='page page--project' ref='page-wrapper'>
+			<div className='page page--project' ref='page-wrapper'>
 				
 				<div className='submenu project__contact '><a href={'#/project/'+this.props.idSection+'/contact-sheet'}><p className='button button--small'>Contact sheet</p></a></div>
 				<div className='submenu project__back '><a href='#' onClick={this._backToGalleryBinded}><p className='button button--small'>Back to gallery</p></a></div>
@@ -115,51 +115,55 @@ export default class Project extends Page {
 				<section className='project'>
 					
 					<div className='project__intro'>
-						<h2 className='project__artist'>{name}</h2>
-						<p className='project__desc text text--medium'>
-							{Object.keys(projectDesc).map((index) => {
-								return (
-									<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
-								)
-							})}
-						</p>
-						<div className='project__discover' onClick={this.showSlideshowBinded}><div className='arrow'></div></div>
+						<div className='project__content'>
+							<h2 className='project__artist'>{name}</h2>
+							<p className='project__desc text text--medium'>
+								{Object.keys(projectDesc).map((index) => {
+									return (
+										<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+									)
+								})}
+							</p>
+							<div className='project__discover' onClick={this.showSlideshowBinded}><div className='arrow'></div></div>
+						</div>
 					</div>
 
 					<div className='project__slideshow'>
-						<div className='project__prints'>
-							{Object.keys(this.slideshowPrints).map((index) => {
-								let file = this.slideshowPrints[index].file + '.jpg'
-								let status = index
-								return (
-									<div className={'project__print project__print--'+status} onClick={that.toggleZoomBinded} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
-								)
-							})}
-							<div className='project__story text text--big'>
-								<p>{story}</p>
-							</div>
-							<div className='project__nav'>
-								<div className='project__prev' onClick={this._prevBinded}><div className='arrow'></div></div>
-								<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
-							</div>
-						</div>
-						<div className='project__footer'>
-							<div className='project__section'>
-								<a href='#' className='project__share button button--left button--small'>Share</a>
-							</div>
-							<div className='project__section project__infos'>
-								<h2 className='print__artist print__artist--small'>{name}</h2>
-								<h3 className='print__details print__details--small'>
-									<span className='print__city'>{city}</span>, {year}
-								</h3>
-							</div>
-							<div className='project__section'>
-								<div className='project__reveal button button--left button--small' onClick={this.toggleStoryBinded}>The story</div>
-								{(() => {
-									if (forSale) return (
-										<a href={url} className='project__buy button button--right button--small'>Buy print</a>
+						<div className='project__content'>
+							<div className='project__prints'>
+								{Object.keys(this.slideshowPrints).map((index) => {
+									let file = this.slideshowPrints[index].file + '.jpg'
+									let status = index
+									return (
+										<div className={'project__print project__print--'+status} onClick={that.toggleZoomBinded} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
 									)
-								})()}
+								})}
+								<div className='project__story text text--big'>
+									<p>{story}</p>
+								</div>
+								<div className='project__nav'>
+									<div className='project__prev' onClick={this._prevBinded}><div className='arrow'></div></div>
+									<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
+								</div>
+							</div>
+							<div className='project__footer'>
+								<div className='project__section'>
+									<a href='#' className='project__share button button--left button--small'>Share</a>
+								</div>
+								<div className='project__section project__infos'>
+									<h2 className='print__artist print__artist--small'>{name}</h2>
+									<h3 className='print__details print__details--small'>
+										<span className='print__city'>{city}</span>, {year}
+									</h3>
+								</div>
+								<div className='project__section'>
+									<div className='project__reveal button button--left button--small' onClick={this.toggleStoryBinded}>The story</div>
+									{(() => {
+										if (forSale) return (
+											<a href={url} className='project__buy button button--right button--small'>Buy print</a>
+										)
+									})()}
+								</div>
 							</div>
 						</div>
 					</div>
