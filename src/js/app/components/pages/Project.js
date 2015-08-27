@@ -8,7 +8,11 @@ import PrintApi from 'PrintApi'
 import ArtistStore from 'ArtistStore'
 import ArtistApi from 'ArtistApi'
 import Tweenmax from 'gsap'
+import Utils from 'Utils'
+import offset from 'offset'
+import scrollTo from 'scrollTo'
 let _ = require('lodash')
+let scroll = Utils.Scroll()
 
 export default class Project extends Page {
 	constructor(props) {
@@ -19,6 +23,8 @@ export default class Project extends Page {
 		dom('body')
 			.removeClass('body--white')
 			.addClass('body--black')
+
+		dom('.header__title').addClass('header__title--fixed')
 		
 		this.state = { 
 			artist: undefined,
@@ -32,6 +38,7 @@ export default class Project extends Page {
 		this.slideshowPrints = {}
 		this.action = 'init'
 		this.currentIndex = 0
+		this.showSlideshowBinded = this.showSlideshow.bind(this)
 		this.toggleZoomBinded = this.toggleZoom.bind(this)
 		this.toggleStoryBinded = this.toggleStory.bind(this)
 		this._backToGalleryBinded = this.backToGallery.bind(this)
@@ -39,6 +46,10 @@ export default class Project extends Page {
 		this._nextBinded = this.next.bind(this)
 		this._onArtistStoreChangeBinded = this._onArtistStoreChange.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this.rafBinded = this.raf.bind(this)
+		this.scrollIndex = 0
+		this.scrollOk = false
+		this.transform = Utils.GetSupportedPropertyName('transform')
 
 		ArtistApi.getBySlug(this.props.idSection);
 		ArtistStore.addChangeListener(this._onArtistStoreChangeBinded);
@@ -49,9 +60,13 @@ export default class Project extends Page {
 
 	componentDidMount() {
 		super.componentDidMount()
+		
+		this._intro = document.querySelector('.project__intro')
+		this.raf()
 	}
 
 	componentWillUnmount() {
+		dom('.header__title').removeClass('header__title--fixed')
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);	
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
@@ -80,6 +95,7 @@ export default class Project extends Page {
 				this.slideshowPrints.current = this.slideshowPrints.next
 				this.slideshowPrints.next = this.state.print
 			}
+			Tweenmax.to(dom('.project__print'), 0.4, {opacity: 1});
 		}
 
 		if (_.size(this.slideshowPrints) > 0) {
@@ -92,18 +108,24 @@ export default class Project extends Page {
 
 		return (
 			<div id='page page--project' ref='page-wrapper'>
+				
 				<div className='submenu project__contact '><a href={'#/project/'+this.props.idSection+'/contact-sheet'}><p className='button button--small'>Contact sheet</p></a></div>
 				<div className='submenu project__back '><a href='#' onClick={this._backToGalleryBinded}><p className='button button--small'>Back to gallery</p></a></div>
+				
 				<section className='project'>
-					<h2 className='project__artist'>{name}</h2>
-					<p className='project__desc text text--medium'>
-						{Object.keys(projectDesc).map((index) => {
-							return (
-								<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
-							)
-						})}
-					</p>
-					<div className='project__discover'><div className='arrow'></div></div>
+					
+					<div className='project__intro'>
+						<h2 className='project__artist'>{name}</h2>
+						<p className='project__desc text text--medium'>
+							{Object.keys(projectDesc).map((index) => {
+								return (
+									<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+								)
+							})}
+						</p>
+						<div className='project__discover' onClick={this.showSlideshowBinded}><div className='arrow'></div></div>
+					</div>
+
 					<div className='project__slideshow'>
 						<div className='project__prints'>
 							{Object.keys(this.slideshowPrints).map((index) => {
@@ -141,11 +163,48 @@ export default class Project extends Page {
 							</div>
 						</div>
 					</div>
+
 				</section>
 			</div>
 		)
 	}
 
+	raf() {
+		if (this.scrollIndex % 3) this.scrollOk = true
+		else this.scrollOk = true
+		this.scrollIndex++
+
+		if (this.scrollOk) {
+			// let top = window.pageYOffset;
+			this.handleScroll()
+		}
+
+		scroll(this.rafBinded);
+	}
+
+	handleScroll() {
+
+		this.opacityMarge = window.innerHeight/2
+		this.limitOffset = offset(this._intro)
+		this.limitTop = this.limitOffset.top + this.limitOffset.height / 1.5
+		this.introOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
+		this._intro.style.opacity = this.introOpacity
+
+		// this.limitOffset = offset(document.querySelector('.project__intro'))
+		// this.OPACITY_MARGE = this.limitOffset.height
+		// console.log(this.limitOffset)
+		// this.limitTop = this.limitOffset.top - window.innerHeight + this.OPACITY_MARGE
+		// this.elOpacity = Utils.Interval(this.limitTop / (-this.OPACITY_DURATION), 0, 1)
+		// // this.elY = (1-this.elOpacity) * 50
+		// document.querySelector('.project__intro').style.opacity = this.elOpacity
+		// el.style[this.transform] = ('translate(0px, '+ this.elY +'px) translateZ(0px)')
+	}
+
+	showSlideshow() {
+		this.slideshowOffsetTop = document.querySelector('.project__slideshow').offsetTop
+		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop}, ease:Power2.easeOut})
+	}
+	
 	initTimelines() {
 	}
 
@@ -220,7 +279,7 @@ export default class Project extends Page {
 		let that = this
 
 		this.hideStory()
-		Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 0, onComplete: () => {
+		Tweenmax.to(dom('.project__print'), 0.4, {opacity: 0, onComplete: () => {
 			that.currentIndex = that.getPrevIndex()
 			that.action = 'prev'
 			PrintApi.getOne(that.state.slideshow.refs[that.getPrevIndex()]); // TODO: mettre en cache pour éviter les doublons de requêtes
@@ -231,7 +290,14 @@ export default class Project extends Page {
 		let that = this
 
 		this.hideStory()
-		Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 0, onComplete: () => {
+		// that.currentIndex = that.getNextIndex()
+		// that.action = 'next'
+		// PrintApi.getOne(that.state.slideshow.refs[that.getNextIndex()]); // TODO: mettre en cache pour éviter les doublons de requêtes
+		// Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 0, onComplete: () => {
+		// 	that.complete = true
+		// 	Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 1});
+		// }});
+		Tweenmax.to(dom('.project__print'), 0.4, {opacity: 0, onComplete: () => {
 			that.currentIndex = that.getNextIndex()
 			that.action = 'next'
 			PrintApi.getOne(that.state.slideshow.refs[that.getNextIndex()]); // TODO: mettre en cache pour éviter les doublons de requêtes
@@ -267,7 +333,7 @@ export default class Project extends Page {
 			slideshow: PrintStore.getSlideshow(),
 			print: PrintStore.getOne()
 		}, () => {
-			Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 1});
+			// Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 1});
 		})
 	}
 }

@@ -168,6 +168,18 @@ body {
 	} 
 }
 
+.button--reverse {
+	&:after {
+		left: 0;
+		animation: buttonReverseOut 0.2s ease-out forwards;
+	}
+	&:hover {
+		&:after {
+			animation: buttonReverseHover 0.2s ease-out forwards;
+		}
+	} 
+}
+
 .button--enabled {
 	a, p {
 		cursor: default;
@@ -215,6 +227,24 @@ body {
 	}
 	100% {
 		left: 101%;
+	}
+}
+
+@keyframes buttonReverseHover {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: 101%;
+	}
+}
+
+@keyframes buttonReverseOut {
+	0% {
+		left: -101%;
+	}
+	100% {
+		left: 0;
 	}
 }
 

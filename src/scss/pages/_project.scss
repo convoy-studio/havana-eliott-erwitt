@@ -1,6 +1,11 @@
 .project {
-	padding-top: 176px;
 }
+
+.project__intro {
+	min-height: 100vh;
+	padding-top: 176px;
+	box-sizing: border-box;
+} 
 
 .project__artist {
 	margin-bottom: 40px;
@@ -18,7 +23,7 @@
 .project__paragraph {
 	margin-bottom: 12px;
 
-	text-indent: 50px;
+	// text-indent: 50px;
 	line-height: 22px;
 }
 
@@ -30,7 +35,8 @@
 	cursor: pointer;
 
 	transform-origin: 50% 50%;
-	transform: rotate(-90deg) translate(-50%, 0);
+	// transform: rotate(-90deg) translate(-50%, 0);
+	transform: rotate(-90deg);
 
 	&:hover {
 		.arrow:before {
@@ -42,16 +48,19 @@
 .project__slideshow {
 	position: relative;
 	width: 100%;
-	height: 100vh;
+	// min-height: 100vh;
+	transform: translate(0, -40px);
 }
 
 .project__prints {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	position: relative;
+	// position: absolute;
+	// left: 50%;
+	// top: 50%;
+	// transform: translate(-50%, -50%);
 	width: 716px;
-	height: 478px;
+	max-height: 478px;
+	height: 60vh;
 	margin: 0 auto;
 }
 
@@ -143,11 +152,12 @@
 .project__footer {
 	display: table;
 	table-layout: fixed;
-	position: absolute;
-	left: 50%;
-	bottom: 40px;
-	transform: translate(-50%, 0);
+	// position: absolute;
+	// left: 50%;
+	// bottom: 40px;
+	// transform: translate(-50%, 0);
 	width: 716px;
+	margin: 40px auto 0;
 
 	font-size: 16px;
 }
@@ -158,6 +168,7 @@
 }
 
 .project__share {
+	display: none;
 	line-height: 28px;
 	transform: translate(0, 6px);
 }
@@ -167,6 +178,7 @@
 }
 
 .project__reveal {
+	display: none;
 	line-height: 28px;
 	transform: translate(0, 6px);
 }
