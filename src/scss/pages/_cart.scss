@@ -6,12 +6,15 @@ $cartColor: $black;
 	right: 20px;
 	z-index: 100;
 	width: 274px;
-	display: none;
 	box-sizing: border-box;
 
 	border: 1px solid transparent;
 
 	font-size: 14px;
+
+	visibility: hidden;
+	opacity: 0;
+	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, end);
 }
 
 .cart--black {
@@ -30,7 +33,9 @@ $cartColor: $black;
 }
 
 .cart--visible {
-	display: block;
+	visibility: visible;
+	opacity: 1;
+	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 }
 
 .cart--enabled {
@@ -38,20 +43,26 @@ $cartColor: $black;
 	border: 1px solid $cartColor;
 	
 	.cart__content {
-		display: block;
+		visibility: visible;
+		opacity: 1;
+		transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 	}
 
 	.cart__count { 
 		border-bottom: 1px solid $cartColor;
+		transition: border 0.4s ease-out;
 	}
 
 	.cart__checkout, .cart__subtotal {
 		border-top: 1px solid $cartColor;
+		transition: border 0.4s ease-out;
 	}
 }
 
 .cart__content {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, end);
 }
 
 .cart__count {
@@ -62,6 +73,8 @@ $cartColor: $black;
 	text-align: right;
 
 	cursor: pointer;
+
+	transition: border 0.4s ease-out;
 }
 
 .cart__products {
@@ -157,6 +170,8 @@ $cartColor: $black;
 	padding: 20px;
 	
 	border-top: 1px solid transparent;
+
+	transition: border 0.4s ease-out;
 }
 
 .payment__total {
@@ -178,7 +193,15 @@ $cartColor: $black;
 	padding: 20px;
 	
 	border-top: 1px solid transparent;
+
+	transition: border 0.4s ease-out;
 }
+
+.cart__empty {
+	padding: 20px;
+
+	text-align: center;
+} 
 
 .cart__button {
 	font-family: $text-font;
