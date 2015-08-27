@@ -48,6 +48,10 @@
 	}
 }
 
+.gallery__width {
+	width: calc(12.5% - 24px);
+}
+
 .gallery__item--small {
 	&.gallery__item--0:after { background-image: url('../assets/images/handwritings/handwriting-small_0.png'); }
 	&.gallery__item--1:after { background-image: url('../assets/images/handwritings/handwriting-small_1.png'); }

@@ -80,6 +80,7 @@ export default class Gallery extends Page {
 					{Object.keys(this.state.loadedPrints).map((year, i) => {
 						return (
 							<div className='gallery__grid' key={year+'_'+i}>
+								<div className='gallery__width'></div>
 								<div className='gallery__item gallery__item--large gallery__item--disabled'>{year}</div>
 								{Object.keys(that.state.loadedPrints[year]).map((printId, i) => { 
 									let print = that.state.loadedPrints[year][printId]
@@ -154,7 +155,7 @@ export default class Gallery extends Page {
 				_(grids).forEach((grid) => {
 					let iso = new Masonry(grid, {
 						itemSelector: '.gallery__item',
-						columnWidth: 96,
+						columnWidth: '.gallery__width',
 						gutter: 24
 					});
 				}).value();
