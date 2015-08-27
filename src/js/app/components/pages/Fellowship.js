@@ -88,7 +88,7 @@ export default class Fellowship extends Page {
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
 					</section>
 					<div className='discover fellowship__discover' onClick={this.goToBiographyBinded}>
-						Discover Elliott Erwitt's biography
+						<div className='shop__scroll button button--center button--small'>Discover Elliott Erwitt's biography</div>
 						<div className='discover__arrow'><div className='arrow'></div></div>
 					</div>
 					<section className='fellowship__artist'>

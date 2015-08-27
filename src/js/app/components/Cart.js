@@ -22,8 +22,8 @@ export default class Cart extends React.Component {
 	}
 
 	componentDidMount() {
-		// document.addEventListener('click', this.handleClickOutside.bind(this))
-		// document.querySelector('.cart').addEventListener('click', this.handleClickInside.bind(this))
+		dom('body').on('click', this.handleClickOutside.bind(this))
+		dom('.cart__content').on('click', this.handleClickInside.bind(this))
 	}
 
 	toggle() {
@@ -31,11 +31,13 @@ export default class Cart extends React.Component {
 	}
 
 	open() {
-		CartActions.updateCartEnabled(true)
+		this.props.enabled = true
+		CartActions.updateCartEnabled(this.props.enabled)
 	}
 
 	close() {
-		CartActions.updateCartEnabled(false)
+		this.props.enabled = false
+		CartActions.updateCartEnabled(this.props.enabled)
 	}
 
 	render() {
@@ -45,7 +47,7 @@ export default class Cart extends React.Component {
 
 		return (
 			<div className={'cart ' + classes} ref='cart'>
-				<div className='cart__count' onClick={this.toggleBinded}>Cart —<span>{this.props.count}</span> {itemLabel}</div>
+				<div className='cart__count'>Cart —<span>{this.props.count}</span> {itemLabel}</div>
 				{(() => {
 					if (this.props.count > 0) {
 						return (
@@ -100,15 +102,11 @@ export default class Cart extends React.Component {
 	}
 
 	handleClickOutside(e) {
-		console.log('outside')
-		if (this.props.enabled) {
-			console.log('close')
-			this.close()
-		}
+		if (e.target.parentNode.classList.contains('cart__count')) this.toggle()
+		else this.close()
 	}
 
 	handleClickInside(e) {
-		console.log('inside')
 		e.stopPropagation()
 	}
 
