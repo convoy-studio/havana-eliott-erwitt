@@ -38,7 +38,7 @@ export default class Project extends Page {
 		this.zoom = false
 		this.slideshowPrints = {}
 		this.action = 'init'
-		this.currentIndex = 0
+		this.currentIndex = -1
 		this.showSlideshowBinded = this.showSlideshow.bind(this)
 		this.toggleZoomBinded = this.toggleZoom.bind(this)
 		this.toggleStoryBinded = this.toggleStory.bind(this)
@@ -293,7 +293,6 @@ export default class Project extends Page {
 	}
 
 	toggleStory() {
-		console.log('toggle')
 		dom('.project__story').toggleClass('enabled')
 	}
 
@@ -359,6 +358,7 @@ export default class Project extends Page {
 			slideshow: PrintStore.getSlideshow(),
 			print: PrintStore.getOne()
 		}, () => {
+			if (this.currentIndex === -1) this.currentIndex = this.state.slideshow.currentIndex
 			// Tweenmax.to(dom('.project__prints'), 0.4, {opacity: 1});
 		})
 	}

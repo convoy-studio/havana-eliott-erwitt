@@ -44,11 +44,11 @@ var controller = {
 
 						if (index) {
 							prev = (index-1 < 0) ? items.length-1 : index-1;
-							next = (index+1 > items.length) ? 0 : index+1;
+							next = (index+1 >= items.length) ? 0 : index+1;
 						} else {
 							index = 0;
 							prev = items.length-1;
-							next: 1;
+							next = 1;
 						}
 
 						result.prints = {
@@ -56,6 +56,8 @@ var controller = {
 							current: items[index],
 							next: items[next]
 						}
+
+						result.currentIndex = index;
 
 						return reply(result);
 					}
