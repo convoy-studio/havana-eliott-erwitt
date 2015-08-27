@@ -102,12 +102,14 @@ export default class Cart extends React.Component {
 	}
 
 	handleClickOutside(e) {
-		if (e.target.parentNode.classList.contains('cart__count')) this.toggle()
-		else this.close()
+		if (!e.target.classList.contains('cart__remove') && !e.target.classList.contains('cart__button')) {
+			if (e.target.parentNode.classList.contains('cart__count')) this.toggle()
+			else this.close()
+		}
 	}
 
 	handleClickInside(e) {
-		e.stopPropagation()
+		if (!e.target.classList.contains('cart__remove')) e.stopPropagation()
 	}
 
 	_didHasherChange() {
