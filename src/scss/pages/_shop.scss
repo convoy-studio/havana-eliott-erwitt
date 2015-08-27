@@ -33,6 +33,10 @@
 	margin: 80px auto;
 }
 
+.shop__scroll {
+	padding-bottom: 10px;
+}
+
 // .shop__print {
 // 	position: relative;
 // 	width: 200px;
@@ -50,11 +54,9 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
-	width: 50%;
+	width: calc(50% - 25px);
 	box-sizing: border-box;
-	padding: 0 50px 0 0;
-	// margin: 0 100px 100px 0;
-	margin: 0 0 100px 0;
+	margin: 0 0 60px 0;
 
 	&:hover {
 		.shop__hover {

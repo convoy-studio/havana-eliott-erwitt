@@ -6,6 +6,8 @@ import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
 import Utils from 'Utils'
 import offset from 'offset'
+import TweenMax from 'gsap'
+import scrollTo from 'scrollTo'
 let scroll = Utils.Scroll()
 let _ = require('lodash')
 let Masonry = require('masonry-layout');
@@ -19,7 +21,10 @@ export default class Shop extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._showPrintsBinded = this._showPrints.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this.nImageLoaded = 0
+		this.loaded = false
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
@@ -77,8 +82,8 @@ export default class Shop extends Page {
 							<p className='shop__paragraph text text--big' key={index}>{shopData.intro.paragraphs[index]}</p>
 						)
 					})}
-					<div className='discover shop__discover' onClick={this.goToBiographyBinded}>
-						Discover Elliott Erwitt's prints
+					<div className='discover shop__discover' onClick={this._showPrintsBinded}>
+						<div className='shop__scroll button button--center button--small'>Discover Elliott Erwitt's prints</div>
 						<div className='discover__arrow'><div className='arrow arrow--black'></div></div>
 					</div>
 				</div>
@@ -107,6 +112,33 @@ export default class Shop extends Page {
 				</div>
 			</div>
 		)
+	}
+
+	componentDidUpdate() {
+		let that = this, file
+		this.max = _.size(this.state.prints)
+		if (this.max > 0 && !this.loaded) {
+			this.loaded = true
+			_(this.state.prints).forEach((print, index) => {
+				file = new Image()
+				file.onload = that.onImageLoaded.bind(that)
+				file.src = './assets/images/prints/'+print.file+'_min.jpg'
+			}).value();
+		}
+	}
+
+	onImageLoaded(e) {
+		this.nImageLoaded++;
+		if (this.nImageLoaded >= this.max) {
+			let grid = document.querySelector('.shop')
+			if (grid) {
+				let iso = new Masonry(grid, {
+					itemSelector: '.shop__print',
+					columnWidth: '.shop__print',
+					gutter: 50
+				});
+			}
+		}
 	}
 
 	raf() {
@@ -149,6 +181,11 @@ export default class Shop extends Page {
 		// }
 	}
 
+	_showPrints() {
+		this.slideshowOffsetTop = document.querySelector('.shop').offsetTop
+		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop - 40}, ease:Power2.easeOut})
+	}
+
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
 	}
@@ -162,14 +199,6 @@ export default class Shop extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			prints: PrintStore.getForSale()
-		}, () => {
-			// let grid = dom('.shop')
-			// if (grid) {
-			// 	let iso = new Masonry(grid, {
-			// 		itemSelector: '.shop__print',
-			// 		columnWidth: 479
-			// 	});
-			// }
 		})
 	}
 }
