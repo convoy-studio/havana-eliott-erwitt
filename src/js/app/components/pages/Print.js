@@ -16,6 +16,7 @@ export default class Print extends Page {
 			.removeClass('body--black')
 			.addClass('body--white')
 
+		this._toggleListBinded = this._toggleList.bind(this)
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this.state = { 
@@ -57,19 +58,24 @@ export default class Print extends Page {
 									{(() => {
 										if (that.state.print.serials.length > 0) { return (
 											<div>
-												<div className='print__serial-opt'>
-													Serial option
-													<div className='print__count'>/{that.state.print.copies}</div>
+												<div className='print__serial-opt'>Serial option</div>
+												<div className='print__select'>
+													<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.state.serial}</div>
+													<ul className='print__serial-list'>
+														{Object.keys(that.state.print.serials).map((index) => {
+															let enabled = that.state.print.serials[index]
+															let serial = parseInt(index)+1
+															// let classSelected = (serial === that.state.serial) ? 'print__serial--selected' : ''
+															// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+															if (enabled) {
+																return (<li className='print__serial' onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>)
+															} else {
+																return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
+															}
+														})}
+													</ul>
 												</div>
-												<ul className='print__serial-list'>
-													{Object.keys(that.state.print.serials).map(function(index){
-														let serial = that.state.print.serials[index];
-														return (
-															<li className={(serial === that.state.serial) ? 'print__serial print__serial--enabled' : 'print__serial'} onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>
-														)
-													})}
-												</ul>
-												<a href='#' className='print__buy text text--small button button--center button--small' onClick={that._addToCartBinded}>Buy print</a>
+												<a href='#' className='print__buy text text--small button button--center button--small button--reverse' onClick={that._addToCartBinded}>Buy print</a>
 											</div>
 										)} else { return (
 											<div>Out of stock</div>
@@ -84,7 +90,12 @@ export default class Print extends Page {
 		)
 	}
 
+	_toggleList() {
+		dom('.print__serial-list').toggleClass('enabled')
+	}
+
 	_selectSerial(serial, e) {
+		this._toggleList()
 		dom('.serial--enabled').removeClass('serial--enabled')
 		dom(e.target).addClass('serial--enabled')
 		this.setState({
@@ -93,6 +104,7 @@ export default class Print extends Page {
 	}
 
 	_addToCart(e) {
+		e.stopPropagation()
 		e.preventDefault()
 
 		let printId = this.state.print._id;
@@ -112,6 +124,8 @@ export default class Print extends Page {
 		if (index > -1) {
 			serials.splice(index, 1);
 		}
+
+		// TODO: update temp list
 	}
 
 	_loadImage() {

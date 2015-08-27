@@ -12,7 +12,7 @@ var itemSchema = new mongoose.Schema({
 	year 		: String,
 	file		: String,
 	copies		: Number,
-	serials		: [Number],
+	serials		: [Boolean],
 	forSale		: Boolean
 });
 
