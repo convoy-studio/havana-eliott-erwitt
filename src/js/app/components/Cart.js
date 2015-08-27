@@ -22,8 +22,8 @@ export default class Cart extends React.Component {
 	}
 
 	componentDidMount() {
-		document.addEventListener('click', this.handleClickOutside.bind(this))
-		document.querySelector('.cart').addEventListener('click', this.handleClickInside.bind(this))
+		// document.addEventListener('click', this.handleClickOutside.bind(this))
+		// document.querySelector('.cart').addEventListener('click', this.handleClickInside.bind(this))
 	}
 
 	toggle() {
@@ -66,7 +66,7 @@ export default class Cart extends React.Component {
 												</div>
 												<div className='cart__column'>
 													<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
-													<a href='#' className='cart__remove button button--left button--small'>Remove item</a>
+													<div className='cart__remove button button--left button--small' onClick={that.removeItem.bind(that, index)}>Remove item</div>
 												</div>
 											</li>
 										)

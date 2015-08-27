@@ -106,14 +106,14 @@ export default class Payment extends Page {
 								<label className='form__label form__label--pointer' htmlFor='upsExpress'><p className='form__text'>UPS Express - Delivery within 2-3 business days, 20 €</p></label>
 							</div>
 							<div className='form__row'>
-								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='freeShipping'/>
+								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='freeShipping' defaultChecked/>
 								<label className='form__label form__label--pointer' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
 							</div>
 
 							<h3 className='payment__method form__title'>Payment method</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro' defaultChecked/>
 									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro-black.png'></img></p></label>
 								</div>
 								<div className='form__column'>
@@ -136,7 +136,7 @@ export default class Payment extends Page {
 						<div className='payment__column cart--black'>
 							<h3 className='form__title'>Order summary</h3>
 							<ul className='payment__products cart__products'>
-								{Object.keys(this.state.cartItems).map(function(index){
+								{Object.keys(this.state.cartItems).map((index) => {
 									let product = that.state.cartItems[index];
 									return (
 										<li key={index} className='payment__product cart__product'>
@@ -151,7 +151,7 @@ export default class Payment extends Page {
 											</div>
 											<div className='cart__column'>
 												<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
-												<a href='#' className='cart__remove button button--left button--small'>Remove item</a>
+												<div className='cart__remove button button--left button--small' onClick={that.removeItem.bind(that, index)}>Remove item</div>
 											</div>
 										</li>
 									)
@@ -173,11 +173,11 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
-								<label className='form__label form__label--pointer form__label--grotesk' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
+								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
-								<label className='form__label form__label--pointer form__label--grotesk' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
+								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
 							</div>
 							<a href='' className='payment__pay button button--center button--small' onClick={this.pay.bind(this)}>Proceed to payment</a>
 						</div>
@@ -195,6 +195,11 @@ export default class Payment extends Page {
 		}).value();
 		// CartApi.pay()
 		// CartApi.generatePayButton()
+	}
+
+	removeItem(id) {
+		CartActions.removeFromCart(id)
+		this.setState(_getCartState())
 	}
 
 	didTransitionOutComplete() {
