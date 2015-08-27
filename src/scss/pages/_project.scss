@@ -180,7 +180,7 @@
 
 .project__section {
 	display: table-cell;
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 
 .project__share {
@@ -194,9 +194,8 @@
 }
 
 .project__reveal {
-	display: none;
 	line-height: 28px;
-	transform: translate(0, 6px);
+	// transform: translate(0, 6px);
 }
 
 .project__buy {

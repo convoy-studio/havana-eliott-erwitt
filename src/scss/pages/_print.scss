@@ -58,13 +58,13 @@
 	line-height: 18px;
 }
 
-.print__location, .print__artist, .print__title {
+.print__location, .print__artist {
 	font-family: $text-font;
 	font-size: 24px;
 	line-height: 28px;
 }
 
-.print__details--small {
+.print__location--small {
 	font-size: 16px;
 	line-height: 18px;
 }
@@ -73,7 +73,14 @@
 	margin-bottom: 10px;
 	
 	@extend .title-font;
+	font-size: 24px;
+	line-height: 28px;
+}
+
+.print__info--small {
+	margin-bottom: 0;
 	font-size: 16px;
+	line-height: 18px;
 }
 
 // .print__city {

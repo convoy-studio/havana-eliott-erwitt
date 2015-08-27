@@ -73,7 +73,7 @@ export default class Project extends Page {
 
 	render() {
 		let that = this
-		let name, bio, city, year, story, forSale, url, projectTitle, projectDesc = []
+		let name, bio, title, city, country, year, story, forSale, url, projectTitle, projectDesc = []
 		if (this.state.artist) {
 			name = this.state.artist.name
 			bio = this.state.artist.bio
@@ -99,7 +99,9 @@ export default class Project extends Page {
 		}
 
 		if (_.size(this.slideshowPrints) > 0) {
+			title = this.slideshowPrints.current.title
 			city = this.slideshowPrints.current.city
+			country = this.slideshowPrints.current.country
 			year = this.slideshowPrints.current.year
 			story = this.slideshowPrints.current.desc
 			forSale = this.slideshowPrints.current.forSale
@@ -148,19 +150,30 @@ export default class Project extends Page {
 							</div>
 							<div className='project__footer'>
 								<div className='project__section'>
-									<a href='#' className='project__share button button--left button--small'>Share</a>
-								</div>
-								<div className='project__section project__infos'>
-									<h2 className='print__artist print__artist--small'>{name}</h2>
-									<h3 className='print__details print__details--small'>
-										<span className='print__city'>{city}</span>, {year}
-									</h3>
-								</div>
-								<div className='project__section'>
-									<div className='project__reveal button button--left button--small' onClick={this.toggleStoryBinded}>The story</div>
 									{(() => {
 										if (forSale) return (
-											<a href={url} className='project__buy button button--right button--small'>Buy print</a>
+											<div className='project__reveal button button--left button--small button--reverse' onClick={this.toggleStoryBinded}>The story</div>
+										)
+									})()}
+									<a href='#' className='project__share button button--left button--small button--reverse'>Share</a>
+								</div>
+								<div className='project__section project__infos'>
+									{(() => {
+										if (forSale) return (
+											<div>
+												<h2 className='print__title print__info--small'>{title}</h2>
+												<h3 className='print__location print__info--small'>{city}, {country}, {year}</h3>
+											</div>
+										)
+									})()}
+									<h3 className='print__artist print__info--small'>{name}</h3>
+								</div>
+								<div className='project__section'>
+									{(() => {
+										if (forSale) return (
+											<div>
+												<a href={url} className='project__buy button button--right button--small button--reverse'>Buy print</a>
+											</div>
 										)
 									})()}
 								</div>
