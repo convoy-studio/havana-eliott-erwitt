@@ -6,14 +6,8 @@ import Utils from 'Utils'
 import TweenMax from 'gsap'
 import offset from 'offset'
 import scrollTo from 'scrollTo'
-let scroll = window.requestAnimationFrame ||
-			 window.webkitRequestAnimationFrame ||
-			 window.mozRequestAnimationFrame ||
-			 window.msRequestAnimationFrame ||
-			 window.oRequestAnimationFrame ||
-			 // IE Fallback, you can even fallback to onscroll
-			 function(callback){ window.setTimeout(callback, 1000/60) };
-
+let scroll = Utils.Scroll()
+let _ = require('lodash');
 
 export default class Fellowship extends Page {
 
@@ -27,6 +21,9 @@ export default class Fellowship extends Page {
 		this.state = {
 			view: 'biography'
 		}
+
+		this.PARALLAX_MARGE = 30
+		this.PARALLAX_DURATION = window.innerHeight
 		
 		this.opacityMarge = window.innerHeight
 		this.videoPlayed = false
@@ -65,7 +62,7 @@ export default class Fellowship extends Page {
 					</div>
 
 					<section className='fellowship__presentation'>
-						<p className='paragraph paragraph--big paragraph--center'>A fellowship is a communion of people sharing a common passion.</p>
+						<p className='paragraph paragraph--big paragraph--center' data-ease='.0'>A fellowship is a communion of people sharing a common passion.</p>
 						<p className='paragraph paragraph--small paragraph--center'>In Cuba generations of aspiring distillers have followed the example of a seasoned rum master and so learnt to develop and perfect their craft. The Elliott Erwitt Havana Club 7 Fellowship combines this rich history and tradition with a passion for documentary photography.</p>
 						<p className='paragraph paragraph--medium paragraph--center'>Master photographer Elliott Erwitt’s lifelong love of photography and Cuba has brought him back to Cuba again after 51 years – this time to initiate the fellowship with Havana Club 7.</p>
 						<div className='paragraph__row js-limit'>
@@ -92,7 +89,7 @@ export default class Fellowship extends Page {
 						<div className='discover__arrow'><div className='arrow'></div></div>
 					</div>
 					<section className='fellowship__artist'>
-						<p className='fellowship__artistname paragraph paragraph--big paragraph--center'>ELLIOTT ERWITT’S BIOGRAPHY</p>
+						<p className='fellowship__artistname paragraph paragraph--big paragraph--center' data-ease='.0'>ELLIOTT ERWITT’S BIOGRAPHY</p>
 						<div className='paragraph__row'>
 							<div className='paragraph__column'>
 								<p className='paragraph paragraph--small'>Elliott Erwitt is one of the world’s most popular and admired photographers. A visual poet and humorist of everyday life, he has created some of the most memorable images of our time, from his observations of daily life at street level, to portraits of the iconic personalities including Marilyn Monroe on the set of the film The Misfits and Truman Capote’s epic 1966 Black and White Ball in New York City. He has photographed Khrushchev and Nixon arguing in Moscow, Fidel Castro and Che Guevara in Havana and President JFK in the Oval office.</p>
@@ -139,6 +136,17 @@ export default class Fellowship extends Page {
 			this.videoOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
 			this._video.style.opacity = this.videoOpacity
 		}
+
+		_(dom('.paragraph')).forEach((el, index) => {
+			this.ease = el.dataset.ease || 0.3
+			this.limitOffset = offset(el)
+			// this.limitTop = this.limitOffset.top - window.innerHeight + this.PARALLAX_MARGE
+			this.limitTop = this.limitOffset.top - window.innerHeight
+			this.coef = Utils.Interval(this.limitTop / (-this.PARALLAX_DURATION - this.limitOffset.height), 0, 1)
+			this.elY = (1-this.coef) * 200 * this.ease
+			// el.style.opacity = this.elOpacity
+			el.style[this.transform] = ('translate(0px, '+ this.elY +'px) translateZ(0px)')
+		}).value();
 	}
 
 	toggleVideo() {

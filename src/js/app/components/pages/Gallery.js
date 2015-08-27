@@ -7,8 +7,8 @@ import PrintApi from 'PrintApi'
 import PrintActions from 'PrintActions'
 import Utils from 'Utils'
 import offset from 'offset'
-let _ = require('lodash');
-let Masonry = require('masonry-layout');
+let _ = require('lodash')
+let Masonry = require('masonry-layout')
 let scroll = Utils.Scroll()
 
 export default class Gallery extends Page {
