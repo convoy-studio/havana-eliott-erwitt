@@ -5,6 +5,7 @@ import AppStore from 'AppStore'
 import Utils from 'Utils'
 import TweenMax from 'gsap'
 import offset from 'offset'
+import scrollTo from 'scrollTo'
 let scroll = window.requestAnimationFrame ||
 			 window.webkitRequestAnimationFrame ||
 			 window.mozRequestAnimationFrame ||
@@ -57,7 +58,6 @@ export default class Fellowship extends Page {
 
 		return (
 			<div className='page page--fellowship' ref='page-wrapper'>
-
 				<div className='submenu'><a href='#/friends'><p className='button button--small'>Friends of the fellowship</p></a></div>
 				<div className='fellowship'>
 					<div className='video fellowship__video'>
@@ -153,7 +153,8 @@ export default class Fellowship extends Page {
 	}
 
 	goToBiography() {
-		// TweenMax.to(window, 0.6, {scrollTo:{y: (this.artistOffsetTop - 20)}, ease:Power2.easeOut})
+		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
+		TweenMax.to(window, 0.6, {scrollTo:{y: (this.artistOffsetTop - 40)}, ease:Power2.easeOut})
 	}
 
 	didTransitionOutComplete() {
