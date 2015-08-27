@@ -102,7 +102,7 @@ export default class Shop extends Page {
 											<div className='print__title'>{print.title}</div>
 											<div className='print__location'><div className='shop__city'>{print.city}, {print.country},</div> <div className='shop__year'>{print.year}</div></div>
 											<div className='shop__price'>{print.price}€</div>
-											<div className='shop__details button button--center button--small'>More details</div>
+											<div className='shop__details button button--center button--small button--reverse'>More details</div>
 										</div>
 									</div>
 								</a> 

@@ -4,6 +4,7 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+import PrintActions from 'PrintActions'
 import Utils from 'Utils'
 import offset from 'offset'
 let _ = require('lodash');
@@ -44,6 +45,12 @@ export default class Gallery extends Page {
 
 	componentDidMount() {
 		super.componentDidMount()
+
+		this._items0 = document.querySelectorAll('.gallery__item--0')
+		this._items1 = document.querySelectorAll('.gallery__item--1')
+		this._items2 = document.querySelectorAll('.gallery__item--2')
+		this._items3 = document.querySelectorAll('.gallery__item--3')
+		this._items4 = document.querySelectorAll('.gallery__item--4')
 	}
 
 	componentWillUnmount() {
@@ -79,7 +86,7 @@ export default class Gallery extends Page {
 									let src = './assets/images/prints/'+print.file+'_min.jpg'
 									let random = Math.floor(Math.random()*6)
 									return (
-										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={i}><img className='gallery__image' src={src}></img></div>
+										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={i} onClick={that.zoomPrint.bind(that, printId)}><img className='gallery__image' src={src}></img></div>
 									)
 								})}
 							</div>
@@ -100,7 +107,7 @@ export default class Gallery extends Page {
 			this.handleScroll()
 		}
 
-		scroll(this.rafBinded);
+		this.scrollRaf = scroll(this.rafBinded);
 	}
 
 	handleScroll() {
@@ -153,6 +160,24 @@ export default class Gallery extends Page {
 				}).value();
 			});
 		}
+	}
+
+	zoomPrint(id) {
+		let that = this
+		
+		PrintActions.setPrintZoom(id)
+		window.cancelAnimationFrame(this.scrollRaf)
+		
+		this.tlItemsOut = new TimelineMax()
+		this.tlItemsOut.to(dom('.gallery__item--0'), 1, { opacity:0, ease:Expo.easeInOut }, 0)
+		this.tlItemsOut.to(dom('.gallery__item--1'), 1, { opacity:0, ease:Expo.easeInOut }, 0.2)
+		this.tlItemsOut.to(dom('.gallery__item--2'), 1, { opacity:0, ease:Expo.easeInOut }, 0.4)
+		this.tlItemsOut.to(dom('.gallery__item--3'), 1, { opacity:0, ease:Expo.easeInOut }, 0.6)
+		this.tlItemsOut.to(dom('.gallery__item--4'), 1, { opacity:0, ease:Expo.easeInOut }, 0.8)
+		this.tlItemsOut.addCallback(() => {
+			window.location.href = '#/project/'+that.props.idSection;
+		}, 1)
+		// this.tlItemsOut.to(dom('.gallery__item--5'), 1, { opacity:0, ease:Expo.easeInOut }, 1)
 	}
 
 	didTransitionOutComplete() {

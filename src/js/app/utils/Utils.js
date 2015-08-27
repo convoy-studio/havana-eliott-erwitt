@@ -57,6 +57,7 @@ class Utils {
 			// IE Fallback, you can even fallback to onscroll
 			function(callback){ window.setTimeout(callback, 1000/60) };
     }
+    
     static Interval(value, min, max) {
     	return Math.min(Math.max(value, min), max);
     }

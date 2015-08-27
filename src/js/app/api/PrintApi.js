@@ -26,8 +26,8 @@ module.exports = {
 			});
 	},
 
-	getSlideshow : function(artist) {
-		fetch(config.siteurl + '/api/prints/' + artist + '/slideshow')
+	getSlideshow : function(artist, id) {
+		fetch(config.siteurl + '/api/prints/' + artist + '/slideshow/' + id)
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {

@@ -5,6 +5,7 @@ import AppStore from 'AppStore'
 import AppActions from 'AppActions'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
+import PrintActions from 'PrintActions'
 import ArtistStore from 'ArtistStore'
 import ArtistApi from 'ArtistApi'
 import Tweenmax from 'gsap'
@@ -24,7 +25,7 @@ export default class Project extends Page {
 			.removeClass('body--white')
 			.addClass('body--black')
 
-		dom('.header__title').addClass('header__title--fixed')
+		// dom('.header__title').addClass('header__title--fixed')
 		
 		this.state = { 
 			artist: undefined,
@@ -54,7 +55,15 @@ export default class Project extends Page {
 		ArtistApi.getBySlug(this.props.idSection);
 		ArtistStore.addChangeListener(this._onArtistStoreChangeBinded);
 
-		PrintApi.getSlideshow(this.props.idSection);
+		let that = this
+		let hack = setTimeout(() => {
+			that.zoom = PrintStore.getZoom()
+			if (that.zoom) {
+				PrintApi.getSlideshow(this.props.idSection, that.zoom)
+			} else {
+				PrintApi.getSlideshow(this.props.idSection);
+			}
+		}, 10)
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
@@ -66,7 +75,7 @@ export default class Project extends Page {
 	}
 
 	componentWillUnmount() {
-		dom('.header__title').removeClass('header__title--fixed')
+		// dom('.header__title').removeClass('header__title--fixed')
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);	
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}

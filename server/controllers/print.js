@@ -31,17 +31,30 @@ var controller = {
 				 .sort({ year: 'asc'})
 				 .exec(function(err, items) {
 					if (!err) {
+						var index, prev, next;
 						var result = {
 							refs: [],
-							prints: {
-								prev: items[items.length-1],
-								current: items[0],
-								next: items[1]
-							}
+							prints: {}
 						};
 
 						for(i = 0; i < items.length; i++){
 							result.refs.push(items[i]._id);
+							if (request.params.printId && items[i]._id == request.params.printId) index = i;
+						}
+
+						if (index) {
+							prev = (index-1 < 0) ? items.length-1 : index-1;
+							next = (index+1 > items.length) ? 0 : index+1;
+						} else {
+							index = 0;
+							prev = items.length-1;
+							next: 1;
+						}
+
+						result.prints = {
+							prev: items[prev],
+							current: items[index],
+							next: items[next]
 						}
 
 						return reply(result);

@@ -13,6 +13,7 @@ let _printsForSale = {};
 let _printsSlideshow = {};
 let _artistPrints = {};
 let _print = {};
+let _printZoomed;
 
 function _addPrints(prints) {
 	_(prints).forEach((print) => {
@@ -58,6 +59,9 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 	getOne: function() {
 		return _print
 	},
+	getZoom: function() {
+		return _printZoomed
+	},
 	// Emit Change event
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -91,6 +95,10 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 				break
 			case PrintConstants.RECEIVE_PRINT:
 				_print = action.item;
+				PrintStore.emitChange();
+				break;
+			case PrintConstants.ZOOM:
+				_printZoomed = action.item;
 				PrintStore.emitChange();
 				break;
 		}

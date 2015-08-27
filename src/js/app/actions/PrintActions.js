@@ -44,6 +44,13 @@ var PrintActions = {
 			actionType: PrintConstants.ERROR,
 			item: error
 		});
+	},
+
+	setPrintZoom : function(id){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.ZOOM,
+			item: id
+		});	
 	}
 
 }

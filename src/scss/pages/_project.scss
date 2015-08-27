@@ -70,6 +70,7 @@
 
 .project__prints {
 	position: relative;
+	z-index: 10;
 	// position: absolute;
 	// left: 50%;
 	// top: 50%;
@@ -173,7 +174,7 @@
 	// bottom: 40px;
 	// transform: translate(-50%, 0);
 	width: 716px;
-	margin: 40px auto 0;
+	margin: 60px auto 0;
 
 	font-size: 16px;
 }
