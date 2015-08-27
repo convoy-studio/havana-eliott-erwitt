@@ -190,9 +190,10 @@ export default class Payment extends Page {
 	pay(e) {
 		e.preventDefault()
 
-		_(this.state.cartItems).forEach((item, index) => {
-			PrintApi.order(index, item.serial)
-		}).value();
+		// _(this.state.cartItems).forEach((item, index) => {
+		// 	PrintApi.order(index, item.serial)
+		// }).value();
+
 		// CartApi.pay()
 		// CartApi.generatePayButton()
 	}

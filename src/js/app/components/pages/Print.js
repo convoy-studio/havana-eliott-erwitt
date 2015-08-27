@@ -90,6 +90,10 @@ export default class Print extends Page {
 		)
 	}
 
+	_getFirstSerial() {
+		return _.indexOf(this.state.print.serials, true) + 1
+	}
+
 	_toggleList() {
 		dom('.print__serial-list').toggleClass('enabled')
 	}
@@ -163,7 +167,7 @@ export default class Print extends Page {
 		}, () => {
 			this._loadImage()
 			this.setState({
-				serial: this.state.print.serials[0]
+				serial: this._getFirstSerial()
 			})
 		})
 	}
