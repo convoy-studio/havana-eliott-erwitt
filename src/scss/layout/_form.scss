@@ -2,6 +2,7 @@ $formColor: $black;
 $formBg: $white;
 
 .form__title {
+	@extend .title-font;
 	font-size: 14px;
 	line-height: 16px;
 	padding-bottom: 10px;

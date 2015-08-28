@@ -31,15 +31,15 @@ export default class Payment extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 
-		// let hack = setTimeout(function() {
-		// 	CartActions.updateCartEnabled(false)
-		// 	CartActions.updateCartVisible(false)
-		// 	clearTimeout(hack)
-		// }, 0);
+		let hack = setTimeout(function() {
+			CartActions.updateCartEnabled(false)
+			CartActions.updateCartVisible(false)
+			clearTimeout(hack)
+		}, 0);
 	}
 
 	componentWillUnmount() {
-		// CartActions.updateCartVisible(true)
+		CartActions.updateCartVisible(true)
 	}
 
 	render() {
@@ -133,7 +133,7 @@ export default class Payment extends Page {
 							</div>
 						</div>
 
-						<div className='payment__column cart--black'>
+						<div className='payment__column'>
 							<h3 className='form__title'>Order summary</h3>
 							<ul className='payment__products cart__products'>
 								{Object.keys(this.state.cartItems).map((index) => {
@@ -173,7 +173,7 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
-								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>Subscribe to the newsletter</p></label>
+								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>News</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
