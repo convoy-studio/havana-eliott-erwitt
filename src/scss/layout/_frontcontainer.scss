@@ -31,7 +31,7 @@
 
 .header__menu {
 	position: fixed;
-	left: 68px;
+	left: 78px;
 	bottom: 0;
 	padding: 0 15px;
 	width: 100vh;
@@ -46,7 +46,7 @@
 
 .header__item {
 	display: inline-block;
-	margin-right: calc(100% / 3 - 468px / 3); // 217px = somme width menu items
+	margin-right: calc(100% / 3 - 508px / 3); // 217px = somme width menu items
 	
 	@extend .title-font;
 	text-align: center;
@@ -72,7 +72,7 @@
 		display: table;
 		// line-height: 28px;
 		margin: 0 auto;
-		padding: 0 25px;
+		padding: 40px 30px 10px;
 
 		&:hover {
 			p:after {
