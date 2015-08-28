@@ -15,45 +15,47 @@ export default class Gallery extends Page {
 	constructor(props) {
 		super(props)
 
+		// props
 		this.props = props
 
-		this.OPACITY_MARGE = 30
-		this.OPACITY_DURATION = 300
-
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
-
-		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
-		this.rafBinded = this.raf.bind(this)
-		this.loaded = false
-		this.nImageLoaded = 0
-		this.prints = []
+		// state
 		this.state = { 
 			prints: [],
 			loadedPrints: []
-		};
+		}
+
+		// function binded
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this._rafBinded = this._raf.bind(this)
+		
+		// const
+		this.OPACITY_MARGE = 30
+		this.OPACITY_DURATION = 300
+		
+		// vars
+		this.loaded = false
+		this.nImageLoaded = 0
+		this.prints = []
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
 
-		this.raf()
-
-		PrintApi.getByArtist(this.props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+		dom('body')
+			.removeClass('body--white')
+			.addClass('body--black')
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
-
-		this._items0 = document.querySelectorAll('.gallery__item--0')
-		this._items1 = document.querySelectorAll('.gallery__item--1')
-		this._items2 = document.querySelectorAll('.gallery__item--2')
-		this._items3 = document.querySelectorAll('.gallery__item--3')
-		this._items4 = document.querySelectorAll('.gallery__item--4')
+		
+		PrintApi.getByArtist(this.props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+		
+		this._raf()
 	}
 
 	componentWillUnmount() {
+		window.cancelAnimationFrame(this.scrollRaf)
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
 	}
 
@@ -98,17 +100,16 @@ export default class Gallery extends Page {
 		)
 	}
 
-	raf() {
+	_raf() {
 		if (this.scrollIndex % 3) this.scrollOk = true
 		else this.scrollOk = true
 		this.scrollIndex++
 
 		if (this.scrollOk) {
-			// let top = window.pageYOffset;
 			this.handleScroll()
 		}
 
-		this.scrollRaf = scroll(this.rafBinded);
+		this.scrollRaf = scroll(this._rafBinded);
 	}
 
 	handleScroll() {
@@ -170,15 +171,10 @@ export default class Gallery extends Page {
 		window.cancelAnimationFrame(this.scrollRaf)
 		
 		this.tlItemsOut = new TimelineMax()
-		this.tlItemsOut.to(dom('.gallery__item--0'), 0.6, { opacity:0, ease:Expo.easeOut }, 0)
-		this.tlItemsOut.to(dom('.gallery__item--1'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.1)
-		this.tlItemsOut.to(dom('.gallery__item--2'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.2)
-		this.tlItemsOut.to(dom('.gallery__item--3'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.3)
-		this.tlItemsOut.to(dom('.gallery__item--4'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.4)
+		this.tlItemsOut.staggerTo(_.shuffle(dom('.gallery__item')), 0.6, { opacity:0, ease:Expo.easeOut }, 0.01)
 		this.tlItemsOut.addCallback(() => {
 			window.location.href = '#/project/'+that.props.idSection;
-		}, 0.5)
-		// this.tlItemsOut.to(dom('.gallery__item--5'), 1, { opacity:0, ease:Expo.easeInOut }, 1)
+		}, '-=0.2')
 	}
 
 	didTransitionOutComplete() {

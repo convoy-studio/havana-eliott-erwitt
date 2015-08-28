@@ -66,6 +66,9 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
 	},
+	emitSpeChange: function() {
+		this.emit('RECEIVE_PRINTS_SLIDESHOW');
+	},
 	// Add change listener
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
@@ -88,6 +91,7 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 			case PrintConstants.RECEIVE_PRINTS_SLIDESHOW:
 				_addPrintsSlideshow(action.item);
 				PrintStore.emitChange();
+				// PrintStore.emitSpeChange('RECEIVE_PRINTS_SLIDESHOW');
 				break
 			case PrintConstants.RECEIVE_ARTIST_PRINTS:
 				_addArtistPrints(action.item);

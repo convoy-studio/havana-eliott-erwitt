@@ -13,31 +13,33 @@ export default class Fellowship extends Page {
 
 	constructor(props) {
 		super(props)
-	
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
 
+		// props
+		this.props = props
+
+		// state
 		this.state = {
 			view: 'biography'
 		}
 
+		// function binded
+		this._goToBiographyBinded = this._goToBiography.bind(this)
+		this._toggleVideoBinded = this._toggleVideo.bind(this)
+		this._rafBinded = this._raf.bind(this)
+		
+		// const
 		this.PARALLAX_MARGE = 30
 		this.PARALLAX_DURATION = window.innerHeight
 		
-		this.opacityMarge = window.innerHeight
+		// vars
 		this.videoPlayed = false
 		this.scrollIndex = 0
 		this.scrollOk = false
-		
 		this.transform = Utils.GetSupportedPropertyName('transform')
-		
-		this.goToBiographyBinded = this.goToBiography.bind(this)
-		this.toggleVideoBinded = this.toggleVideo.bind(this)
-		
-		this.rafBinded = this.raf.bind(this)
-		
-		this.raf()
+	
+		dom('body')
+			.removeClass('body--white')
+			.addClass('body--black')
 	}
 
 	componentDidMount() {
@@ -48,6 +50,8 @@ export default class Fellowship extends Page {
 		this._video = document.querySelector('.fellowship__video')
 		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
 		this._elliott = document.querySelector('.fellowship__elliott')
+		
+		this._raf()
 	}
 
 	render() {
@@ -85,7 +89,7 @@ export default class Fellowship extends Page {
 						</div>
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
 					</section>
-					<div className='discover fellowship__discover' onClick={this.goToBiographyBinded}>
+					<div className='discover fellowship__discover' onClick={this._goToBiographyBinded}>
 						<div className='shop__scroll button button--center button--small'>Discover Elliott Erwitt's biography</div>
 						<div className='discover__arrow'><div className='arrow'></div></div>
 					</div>
@@ -95,7 +99,7 @@ export default class Fellowship extends Page {
 							<div className='paragraph__column'>
 								<p className='paragraph paragraph--small'>Elliott Erwitt is one of the world’s most popular and admired photographers. A visual poet and humorist of everyday life, he has created some of the most memorable images of our time, from his observations of daily life at street level, to portraits of the iconic personalities including Marilyn Monroe on the set of the film The Misfits and Truman Capote’s epic 1966 Black and White Ball in New York City. He has photographed Khrushchev and Nixon arguing in Moscow, Fidel Castro and Che Guevara in Havana and President JFK in the Oval office.</p>
 							</div>
-							<div className='paragraph__column' onClick={this.toggleVideoBinded}>
+							<div className='paragraph__column' onClick={this._toggleVideoBinded}>
 								<video className='fellowship__interview' src='./assets/videos/bg-home.webm'></video>
 								<p className='fellowship__play enabled'>play video</p>
 							</div>
@@ -116,20 +120,20 @@ export default class Fellowship extends Page {
 		)
 	}
 
-	raf() {
+	_raf() {
 		if (this.scrollIndex % 3) this.scrollOk = true
 		else this.scrollOk = true
 		this.scrollIndex++
 
 		if (this.scrollOk) {
 			// let top = window.pageYOffset;
-			this.handleScroll()
+			this._handleScroll()
 		}
 
-		scroll(this.rafBinded);
+		scroll(this._rafBinded);
 	}
 
-	handleScroll() {
+	_handleScroll() {
 		if (this._video && this._limit) {
 			this.scrollTop = Utils.GetScrollTop()
 			this.videoOpacity = Utils.Interval(1 - (this.scrollTop / (this._limit.offsetTop + 160 - window.innerHeight)), 0, 1)
@@ -148,7 +152,7 @@ export default class Fellowship extends Page {
 		}).value();
 	}
 
-	toggleVideo() {
+	_toggleVideo() {
 		if (this.videoPlayed) {
 			document.querySelector('.fellowship__interview').pause()
 			dom('.fellowship__play').addClass('enabled')
@@ -159,7 +163,7 @@ export default class Fellowship extends Page {
 		this.videoPlayed = !this.videoPlayed
 	}
 
-	goToBiography() {
+	_goToBiography() {
 		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
 		TweenMax.to(window, 0.6, {scrollTo:{y: (this.artistOffsetTop - 40)}, ease:Power2.easeOut})
 	}

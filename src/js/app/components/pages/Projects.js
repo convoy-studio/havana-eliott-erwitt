@@ -9,21 +9,24 @@ export default class Projects extends Page {
 	constructor(props) {
 		super(props)
 
+		// state
+		this.state = { 
+			artists: {}
+		}
+
+		// function binded
+		this._onStoreChangeBinded = this._onStoreChange.bind(this)
+		
 		dom('body')
 			.removeClass('body--white')
 			.addClass('body--black')
-
-		this._onStoreChangeBinded = this._onStoreChange.bind(this)
-		this.state = { 
-			artists: {}
-		};
-
-		ArtistApi.getAll();
-		ArtistStore.addChangeListener(this._onStoreChangeBinded);
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
+		
+		ArtistApi.getAll();
+		ArtistStore.addChangeListener(this._onStoreChangeBinded);
 	}
 
 	componentWillUnmount() {

@@ -17,57 +17,38 @@ export default class Shop extends Page {
 	constructor(props) {
 		super(props)
 
-		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
+		// state
+		this.state = { 
+			prints: {}
+		}
 
+		// function binded
 		this._showPrintsBinded = this._showPrints.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this._rafBinded = this._raf.bind(this)
+		
+		// vars
 		this.nImageLoaded = 0
 		this.loaded = false
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
-		this.rafBinded = this.raf.bind(this)
-		this.state = { 
-			prints: {}
-		};
-		
-		// this.raf()
 
-		PrintApi.getForSale();
-		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+		dom('body')
+			.removeClass('body--black')
+			.addClass('body--white')
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
+		
+		PrintApi.getForSale();
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentWillUnmount() {
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
 	}
-
-	// setupAnimations() {
-	// 	let wrapper = React.findDOMNode(this.refs['page-wrapper'])
-
-	// 	// transition In
-	// 	this.tlIn.to(dom('.front-container'), 0.4, {opacity: 0}, 0);
-	// 	this.tlIn.from(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut}, 0.4)
-	// 	this.tlIn.addCallback(() => {
-	// 		console.log('call')
-	// 		dom('body')
-	// 			.removeClass('body--black')
-	// 			.addClass('body--white')
-	// 	}, 1.4)
-	// 	this.tlIn.to(dom('.front-container'), 0.4, {opacity: 1}, 1.4);
-
-	// 	// transition Out
-	// 	this.tlOut.to(wrapper, 1, { y: window.innerHeight, opacity:0, ease:Expo.easeInOut })
-
-	// 	// reset
-	// 	this.tlIn.pause(0)
-	// 	this.tlOut.pause(0)
-	// }
 
 	render() {
 		let that = this
@@ -141,7 +122,7 @@ export default class Shop extends Page {
 		}
 	}
 
-	raf() {
+	_raf() {
 		if (this.scrollIndex % 3) this.scrollOk = true
 		else this.scrollOk = true
 		this.scrollIndex++
@@ -151,7 +132,7 @@ export default class Shop extends Page {
 			this.handleScroll()
 		}
 
-		scroll(this.rafBinded);
+		scroll(this._rafBinded);
 	}
 
 	handleScroll() {
@@ -160,10 +141,8 @@ export default class Shop extends Page {
 		_(dom('.shop__print')).forEach((el) => {
 			this.videoOffset = offset(el);
 			this.scrollTop = Utils.GetScrollTop()
-			// this.topPosition = Math.floor(this.props.videoID/3) * this.contentHeight
 			this.topPosition = el.offsetTop
 			this.yPosition = (this.scrollTop - this.topPosition) * 0.2;
-			// this.yPosition = this.scrollTop * 0.2;
 
 			if (dom(el).hasClass('js-fast')) {
 				el.style[this.transform] = ('translate(0px, '+ (-this.yPosition) +'px)');
@@ -173,12 +152,6 @@ export default class Shop extends Page {
 				el.style[this.transform] = ('translate(0px, '+ this.yPosition +'px)');
 			}
 		}).value();
-
-		// if (document.querySelector('.fellowship__artist')) {
-		// 	document.querySelector('.video__file').style[this.transform] = ('translate(0px, '+ ((top/2)-(window.innerHeight/2)) +'px) translateZ(0)');
-		// 	document.querySelector('.fellowship__artist').style[this.transform] = ('translate(0px, '+ (-top/4) +'px) translateZ(0)');
-		// 	document.querySelector('.fellowship__elliott').style[this.transform] = ('translate(0px, '+ (-top/4) +'px) translateZ(0)');
-		// }
 	}
 
 	_showPrints() {
@@ -191,8 +164,8 @@ export default class Shop extends Page {
 	}
 
 	resize() {
-		var windowW = AppStore.Window.w
-		var windowH = AppStore.Window.h
+		let windowW = AppStore.Window.w
+		let windowH = AppStore.Window.h
 		super.resize()
 	}
 

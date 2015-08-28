@@ -12,25 +12,28 @@ export default class Print extends Page {
 	constructor(props) {
 		super(props)
 
-		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
-
-		this._toggleListBinded = this._toggleList.bind(this)
-		this._addToCartBinded = this._addToCart.bind(this)
-		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		// state
 		this.state = { 
 			print: undefined,
 			serial: undefined,
 			loadedPrint: undefined
-		};
+		}
 
-		PrintApi.getOne(this.props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+		// function binded
+		this._toggleListBinded = this._toggleList.bind(this)
+		this._addToCartBinded = this._addToCart.bind(this)
+		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		
+		dom('body')
+			.removeClass('body--black')
+			.addClass('body--white')
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
+		
+		PrintApi.getOne(this.props.idSection);
+		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 	}
 
 	componentWillUnmount() {

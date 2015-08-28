@@ -8,12 +8,19 @@ export default class Cart extends React.Component {
 
 	constructor(props) {
 		super(props)
+
+		// props
 		this.props = props
+
+		// state
 		this.state = {
 			hash: undefined
 		}
 
-		this.toggleBinded = this.toggle.bind(this)
+		// const
+		this.CART_DELAY = 2000
+
+		// function binded
 		this._didHasherChangeBinded = this._didHasherChange.bind(this)
 	}
 
@@ -26,20 +33,6 @@ export default class Cart extends React.Component {
 		dom('.cart__content').on('click', this.handleClickInside.bind(this))
 		dom('.cart__count').on('mouseenter', this.handleEnter.bind(this))
 		dom('.cart__content').on('mouseleave', this.handleLeave.bind(this))
-	}
-
-	toggle() {
-		CartActions.updateCartEnabled(!this.props.enabled)
-	}
-
-	open() {
-		this.props.enabled = true
-		CartActions.updateCartEnabled(this.props.enabled)
-	}
-
-	close() {
-		this.props.enabled = false
-		CartActions.updateCartEnabled(this.props.enabled)
 	}
 
 	render() {
@@ -99,6 +92,20 @@ export default class Cart extends React.Component {
 		)
 	}
 
+	toggle() {
+		CartActions.updateCartEnabled(!this.props.enabled)
+	}
+
+	open() {
+		this.props.enabled = true
+		CartActions.updateCartEnabled(this.props.enabled)
+	}
+
+	close() {
+		this.props.enabled = false
+		CartActions.updateCartEnabled(this.props.enabled)
+	}
+
 	removeItem(id) {
 		CartActions.removeFromCart(id)
 	}
@@ -123,7 +130,7 @@ export default class Cart extends React.Component {
 		this.closeCountdown = setTimeout(() => {
 			this.close()
 			clearTimeout(this.closeCountdown)
-		}, 2000)
+		}, this.CART_DELAY)
 	}
 
 	_didHasherChange() {
