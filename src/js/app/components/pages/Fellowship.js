@@ -47,6 +47,7 @@ export default class Fellowship extends Page {
 		this._artistSection = document.querySelector('.fellowship__artist')
 		this._video = document.querySelector('.fellowship__video')
 		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
+		this._elliott = document.querySelector('.fellowship__elliott')
 	}
 
 	render() {
@@ -130,10 +131,8 @@ export default class Fellowship extends Page {
 
 	handleScroll() {
 		if (this._video && this._limit) {
-			this.limitOffset = offset(this._limit)
-			this.limitTop = this.limitOffset.top + this.limitOffset.height / 2
-			// this.videoOpacity = 1 - (this.limitOffset.top - this.opacityMarge) / (-this.opacityMarge)
-			this.videoOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
+			this.scrollTop = Utils.GetScrollTop()
+			this.videoOpacity = Utils.Interval(1 - (this.scrollTop / (this._limit.offsetTop + 160 - window.innerHeight)), 0, 1)
 			this._video.style.opacity = this.videoOpacity
 		}
 
