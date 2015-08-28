@@ -142,9 +142,9 @@ export default class Print extends Page {
 
 	_onImageLoaded(params) {
 		if (params.path[0].height >= params.path[0].width*1.2) {
-			this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Archival pigment print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches)</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of 10.</p></div></div></div>
+			this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
 		} else {
-			this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Archival pigment print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches)</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of 10.</p></div></div></div>
+			this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
 		}
 		this.setState({
 			'loadedPrint': this.print
