@@ -96,10 +96,10 @@ export default class Home extends Page {
 		this.tlEntry = new TimelineMax({delay: 4, onComplete: () => {
 			that._canvas.remove()
 		}});
-		this.tlEntry.to(this._canvas, 2, {opacity: 0, ease: Power2.easeOut});
-		this.tlEntry.to(dom('.front-container'), 0.8, {opacity: 1}, 1.6)
-		this.tlEntry.to(dom('.home__content'), 0.8, {opacity: 1}, 1.6)
-		this.tlEntry.to(dom('.cart'), 0.8, {opacity: 1}, 1.6)
+		this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut});
+		this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 0.6)
+		this.tlEntry.to(dom('.home__content'), 0.4, {opacity: 1}, 0.6)
+		this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 0.6)
 		// TweenMax.to(this._canvas, 4, {x: -vw, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
 	}
 	
