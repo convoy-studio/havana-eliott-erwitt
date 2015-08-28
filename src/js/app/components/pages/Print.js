@@ -47,7 +47,7 @@ export default class Print extends Page {
 						<div className='print'>
 							{this.state.loadedPrint}
 							<div className='print__infos'>
-								<h2 className='print__artist'>{that.state.print.title}</h2>
+								<h2 className='print__title print__title--margin'>{that.state.print.title}</h2>
 								<h3 className='print__location'>
 									<span className='print__city'>{that.state.print.city}, {that.state.print.country},</span> {that.state.print.year}
 								</h3>
