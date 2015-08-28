@@ -64,7 +64,7 @@ export default class Gallery extends Page {
 		this.tlIn.from(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
 
 		// transition Out
-		this.tlOut.to(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
+		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Expo.easeOut })
 
 		// reset
 		this.tlIn.pause(0)
@@ -170,14 +170,14 @@ export default class Gallery extends Page {
 		window.cancelAnimationFrame(this.scrollRaf)
 		
 		this.tlItemsOut = new TimelineMax()
-		this.tlItemsOut.to(dom('.gallery__item--0'), 1, { opacity:0, ease:Expo.easeInOut }, 0)
-		this.tlItemsOut.to(dom('.gallery__item--1'), 1, { opacity:0, ease:Expo.easeInOut }, 0.2)
-		this.tlItemsOut.to(dom('.gallery__item--2'), 1, { opacity:0, ease:Expo.easeInOut }, 0.4)
-		this.tlItemsOut.to(dom('.gallery__item--3'), 1, { opacity:0, ease:Expo.easeInOut }, 0.6)
-		this.tlItemsOut.to(dom('.gallery__item--4'), 1, { opacity:0, ease:Expo.easeInOut }, 0.8)
+		this.tlItemsOut.to(dom('.gallery__item--0'), 0.6, { opacity:0, ease:Expo.easeOut }, 0)
+		this.tlItemsOut.to(dom('.gallery__item--1'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.1)
+		this.tlItemsOut.to(dom('.gallery__item--2'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.2)
+		this.tlItemsOut.to(dom('.gallery__item--3'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.3)
+		this.tlItemsOut.to(dom('.gallery__item--4'), 0.6, { opacity:0, ease:Expo.easeOut }, 0.4)
 		this.tlItemsOut.addCallback(() => {
 			window.location.href = '#/project/'+that.props.idSection;
-		}, 1)
+		}, 0.5)
 		// this.tlItemsOut.to(dom('.gallery__item--5'), 1, { opacity:0, ease:Expo.easeInOut }, 1)
 	}
 
