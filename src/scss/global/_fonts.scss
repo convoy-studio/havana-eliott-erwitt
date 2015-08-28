@@ -1,5 +1,6 @@
 @include font-face('hc7modern', '../font/hc7modern/HC7Modern-bold');
 @include font-face('Stanley', '../font/stanley/Stanley_Regular');
+@include font-face('Stanley', '../font/stanley/Stanley_RegularIta', normal, italic);
 
 #font-charger {
 	left: -10000px;
