@@ -126,17 +126,15 @@ export default class Project extends Page {
 				<section className='project'>
 					
 					<div className='project__intro'>
-						<div className='project__content'>
-							<h2 className='project__artist'>{name}</h2>
-							<p className='project__desc text text--medium'>
-								{Object.keys(projectDesc).map((index) => {
-									return (
-										<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
-									)
-								})}
-							</p>
-							<div className='project__discover' onClick={this.showSlideshowBinded}><div className='arrow'></div></div>
-						</div>
+						<h2 className='project__artist'>{name}</h2>
+						<p className='project__desc text text--medium'>
+							{Object.keys(projectDesc).map((index) => {
+								return (
+									<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+								)
+							})}
+						</p>
+						<div className='project__discover' onClick={this.showSlideshowBinded}><div className='arrow'></div></div>
 					</div>
 
 					<div className='project__slideshow'>

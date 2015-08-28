@@ -75,7 +75,8 @@ export default class BasePager extends React.Component {
 		this.zoom = PrintStore.getZoom()
 		window.scrollTo(0, 0)
 		if (this.zoom) {
-			window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop - window.innerHeight*0.2 - 40);
+			// window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop - window.innerHeight*0.2 - 40);
+			window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop);
 			PrintActions.setPrintZoom(undefined);
 		}
 		// console.log('didPageTransitionOutComplete')
