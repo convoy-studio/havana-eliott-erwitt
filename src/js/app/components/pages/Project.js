@@ -157,11 +157,6 @@ export default class Project extends Page {
 							</div>
 							<div className='project__footer'>
 								<div className='project__section'>
-									{(() => {
-										if (forSale) return (
-											<div className='project__reveal button button--left button--small button--reverse' onClick={this.toggleStoryBinded}>The story</div>
-										)
-									})()}
 									<a href='#' className='project__share button button--left button--small button--reverse'>Share</a>
 								</div>
 								<div className='project__section project__infos'>
@@ -179,6 +174,7 @@ export default class Project extends Page {
 									{(() => {
 										if (forSale) return (
 											<div>
+												<div className='project__reveal button button--left button--small button--reverse' onClick={this.toggleStoryBinded}>The story</div>
 												<a href={url} className='project__buy button button--right button--small button--reverse'>Buy print</a>
 											</div>
 										)

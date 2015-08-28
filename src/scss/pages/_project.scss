@@ -185,24 +185,13 @@
 	vertical-align: middle;
 }
 
-.project__share {
-	display: none;
-	line-height: 28px;
-	transform: translate(0, 6px);
+.project__share, .project__reveal, .project__buy {
+	padding-bottom: 6px;
+	transform: translate(0, 3px);
 }
 
 .project__infos {
 	text-align: center;
-}
-
-.project__reveal {
-	line-height: 28px;
-	// transform: translate(0, 6px);
-}
-
-.project__buy {
-	line-height: 28px;
-	transform: translate(0, 6px);
 }
 
 .project__back {
