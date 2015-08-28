@@ -24,6 +24,8 @@ export default class Cart extends React.Component {
 	componentDidMount() {
 		dom('body').on('click', this.handleClickOutside.bind(this))
 		dom('.cart__content').on('click', this.handleClickInside.bind(this))
+		dom('.cart__count').on('mouseenter', this.handleEnter.bind(this))
+		dom('.cart__content').on('mouseleave', this.handleLeave.bind(this))
 	}
 
 	toggle() {
@@ -110,6 +112,18 @@ export default class Cart extends React.Component {
 
 	handleClickInside(e) {
 		if (!e.target.classList.contains('cart__remove')) e.stopPropagation()
+	}
+
+	handleEnter(e) {
+		this.open()
+	}
+
+	handleLeave(e) {
+		let that = this
+		this.closeCountdown = setTimeout(() => {
+			this.close()
+			clearTimeout(this.closeCountdown)
+		}, 2000)
 	}
 
 	_didHasherChange() {
