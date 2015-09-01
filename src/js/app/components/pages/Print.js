@@ -5,6 +5,7 @@ import AppStore from 'AppStore'
 import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
 import CartActions from 'CartActions'
+import CartStore from 'CartStore'
 let _ = require('lodash')
 
 export default class Print extends Page {
@@ -15,14 +16,21 @@ export default class Print extends Page {
 		// state
 		this.state = { 
 			print: undefined,
-			serial: undefined,
-			loadedPrint: undefined
+			selectedSerial: undefined,
+			loadedPrint: undefined,
+			cartItems: CartStore.getCartItems(),
+			validSerials: []
 		}
 
 		// function binded
 		this._toggleListBinded = this._toggleList.bind(this)
 		this._addToCartBinded = this._addToCart.bind(this)
-		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
+		this._onStoreChangeBinded = this._onStoreChange.bind(this)
+		this._onCartStoreChangeBinded = this._onCartStoreChange.bind(this)
+
+		// vars
+		this.loaded = false
+		this.validSerials = []
 		
 		dom('body')
 			.removeClass('body--black')
@@ -33,15 +41,36 @@ export default class Print extends Page {
 		super.componentDidMount()
 		
 		PrintApi.getOne(this.props.idSection);
-		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+		PrintStore.addChangeListener(this._onStoreChangeBinded);
+		CartStore.addChangeListener(this._onStoreChangeBinded);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		this._loadImage()
+	}
+
+	componentDidUpdate() {
+		let file
+		if (!this.loaded) {
+			this.loaded = true
+			this._loadImage()
+		}
+
+		// this._updateSerials()
 	}
 
 	componentWillUnmount() {
-		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);	
+		PrintStore.removeChangeListener(this._onStoreChangeBinded);	
+		CartStore.removeChangeListener(this._onStoreChangeBinded);
 	}
 
 	render() {
 		let that = this
+
+		if (this.state.print) {
+			this.validSerials = this._getValidSerials()
+			this.selectedSerial = this.state.selectedSerial || this._getFirstSerial()
+		}
 
 		return (
 			<div className='page page--print' ref='page-wrapper'>
@@ -63,10 +92,10 @@ export default class Print extends Page {
 											<div>
 												<div className='print__serial-opt'>Serial option</div>
 												<div className='print__select'>
-													<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.state.serial}</div>
+													<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.selectedSerial}</div>
 													<ul className='print__serial-list'>
-														{Object.keys(that.state.print.serials).map((index) => {
-															let enabled = that.state.print.serials[index]
+														{Object.keys(that.validSerials).map((index) => {
+															let enabled = that.validSerials[index]
 															let serial = parseInt(index)+1
 															// let classSelected = (serial === that.state.serial) ? 'print__serial--selected' : ''
 															// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
@@ -93,12 +122,40 @@ export default class Print extends Page {
 		)
 	}
 
-	_getFirstSerial() {
-		return _.indexOf(this.state.print.serials, true) + 1
+	// _updateSerials() {
+	// 	console.log('update validSerials')
+	// 	this.validSerials = []
+	// 	this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'id': this.state.print._id }), 'serial')
+	// 	_(this.state.print.serials).forEach((value, index) => {
+	// 		if (_.indexOf(this.cartSerials, index+1) > -1) this.validSerials[index] = false
+	// 		else this.validSerials[index] = value
+	// 	}).value()
+
+	// 	// this.setState({
+	// 	// 	validSerials: this.validSerials
+	// 	// }, () => {
+	// 	// 	this._getFirstSerial()
+	// 	// })
+
+	// 	this.setState({
+	// 		validSerials: this.validSerials,
+	// 		selectedSerial: this._getFirstSerial()
+	// 	})
+	// }
+
+	_getValidSerials() {
+		this.validSerials = []
+		this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'id': this.state.print._id }), 'serial')
+		_(this.state.print.serials).forEach((value, index) => {
+			if (_.indexOf(this.cartSerials, index+1) > -1) this.validSerials[index] = false
+			else this.validSerials[index] = value
+		}).value()
+
+		return this.validSerials
 	}
 
-	_toggleList() {
-		dom('.print__serial-list').toggleClass('enabled')
+	_getFirstSerial() {
+		return _.indexOf(this.validSerials, true) + 1
 	}
 
 	_selectSerial(serial, e) {
@@ -106,7 +163,7 @@ export default class Print extends Page {
 		dom('.serial--enabled').removeClass('serial--enabled')
 		dom(e.target).addClass('serial--enabled')
 		this.setState({
-			serial: serial
+			selectedSerial: serial
 		})
 	}
 
@@ -116,23 +173,24 @@ export default class Print extends Page {
 
 		let printId = this.state.print._id;
 		let update = {
+			id: this.state.print._id,
 			city: this.state.print.city,
 			year: this.state.print.year,
 			price: this.state.print.price,
-			serial: this.state.serial,
+			serial: this.state.selectedSerial,
 			file: this.state.print.file,
 			copies: this.state.print.copies
 		}
 		CartActions.addToCart(printId, update);
 		CartActions.updateCartEnabled(true);
 
-		let serials = [1,2,3,4,5,6,7,8,9,10]
-		let index = serials.indexOf(this.state.serial);
-		if (index > -1) {
-			serials.splice(index, 1);
-		}
+		this.setState({
+			selectedSerial: this._getFirstSerial()
+		})
+	}
 
-		// TODO: update temp list
+	_toggleList() {
+		dom('.print__serial-list').toggleClass('enabled')
 	}
 
 	_loadImage() {
@@ -164,14 +222,45 @@ export default class Print extends Page {
 		super.resize()
 	}
 
-	_onPrintStoreChange() {
+	_onStoreChange() {
 		this.setState({
-			print: PrintStore.getOne()
+			print: PrintStore.getOne(),
+			cartItems: CartStore.getCartItems(),
+			// selectedSerial: this._getFirstSerial()
 		}, () => {
-			this._loadImage()
 			this.setState({
-				serial: this._getFirstSerial()
+				selectedSerial: this._getFirstSerial()
 			})
 		})
 	}
+
+	_onCartStoreChange() {
+		this.setState({
+			cartItems: CartStore.getCartItems()
+		})
+	}
+
+	// _onStoreChange() {
+	// 	this.setState({
+	// 		print: PrintStore.getOne(),
+	// 		// cartItems: CartStore.getCartItems()
+	// 	}, () => {
+	// 		this._updateSerials()
+	// 		this._loadImage()
+	// 		this.setState({
+	// 			serial: this._getFirstSerial()
+	// 		})
+	// 	})
+	// }
+
+	// _onCartStoreChange() {
+	// 	this.setState({
+	// 		cartItems: CartStore.getCartItems()
+	// 	}, () => {
+	// 		this._updateSerials()
+	// 		this.setState({
+	// 			serial: this._getFirstSerial()
+	// 		})
+	// 	})
+	// }
 }

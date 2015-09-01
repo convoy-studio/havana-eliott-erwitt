@@ -30,10 +30,10 @@ var CartActions = {
 	},
 
 	// Remove item from cart
-	removeFromCart: function(printId) {
+	removeFromCart: function(index) {
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_REMOVE,
-			printId: printId
+			index: index
 		})
 	},
 

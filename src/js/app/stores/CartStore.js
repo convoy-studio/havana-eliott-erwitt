@@ -9,12 +9,21 @@ let _ = require('lodash')
 const CHANGE_EVENT = 'change';
 
 // Define initial data points
-let _products = {}, _cartVisible = true, _cartEnabled = false;
+let _products = [], _cartVisible = true, _cartEnabled = false;
 
 // Add product to cart
 function _add(printId, update) {
-	update.quantity = printId in _products ? _products[printId].quantity + 1 : 1;
-	_products[printId] = _.extend({}, _products[printId], update)
+	// update.quantity = printId in _products ? _products[printId].quantity + 1 : 1;
+	// _products[printId].push = _.extend({}, _products[printId], update)
+	// if (_products[printId]) {
+	// 	_products[printId].push(update)
+	// } else {
+	// 	_products[printId] = []
+	// 	_products[printId].push(update)
+	// }
+	// console.log(_products)
+
+	_products.push(update)
 }
 
 // Set cart visibility
@@ -28,8 +37,8 @@ function _setCartEnabled(cartEnabled) {
 }
 
 // Remove item from cart
-function _removeItem(printId) {
-	delete _products[printId];
+function _removeItem(index) {
+	_products.splice(index, 1);
 }
 
 let CartStore = assign({}, EventEmitter2.prototype, {
@@ -37,20 +46,25 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 		return _products;
 	},
 	getCartCount: function() {
-		let count = 0
-		_(_products).forEach((product, index) => {
-			count += product.quantity
-		}).value()
-		return count;
-		// return Object.keys(_products).length;
+		// let count = 0
+		// _(_products).forEach((product, index) => {
+		// 	// count += product.quantity
+		// 	count += product.length
+		// }).value()
+		// return count;
+		return Object.keys(_products).length;
 	},
 	getCartTotal: function() {
 		let total = 0;
-		for(let product in _products){
-			if(_products.hasOwnProperty(product)){
-				total += _products[product].price * _products[product].quantity;
-			}
-		}
+		_(_products).forEach((product, index) => {
+			total += product.price
+		}).value()
+
+		// for(let product in _products){
+		// 	if(_products.hasOwnProperty(product)){
+		// 		total += _products[product].price * _products[product].quantity;
+		// 	}
+		// }
 		return total.toFixed(2);
 	},
 	getCartVisible: function() {
@@ -88,7 +102,7 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 				CartStore.emitChange()
 				break
 			case CartConstants.CART_REMOVE:
-				_removeItem(action.printId)
+				_removeItem(action.index)
 				CartStore.emitChange()
 				break
 		}

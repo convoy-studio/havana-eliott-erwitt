@@ -31,8 +31,9 @@ export default class Cart extends React.Component {
 	componentDidMount() {
 		dom('body').on('click', this.handleClickOutside.bind(this))
 		dom('.cart__content').on('click', this.handleClickInside.bind(this))
-		dom('.cart__count').on('mouseenter', this.handleEnter.bind(this))
-		dom('.cart__content').on('mouseleave', this.handleLeave.bind(this))
+		dom('.cart__count').on('mouseenter', this.handleCountEnter.bind(this))
+		dom('.cart').on('mouseenter', this.handleEnter.bind(this))
+		dom('.cart').on('mouseleave', this.handleLeave.bind(this))
 	}
 
 	render() {
@@ -48,9 +49,9 @@ export default class Cart extends React.Component {
 						return (
 							<div className='cart__content'>
 								<ul className='cart__products'>
-									{Object.keys(this.props.products).map(function(index){
-										let product = that.props.products[index];
-										return (
+									{Object.keys(this.props.products).map((index) => {
+										let product = that.props.products[index]
+										return ( 
 											<li key={index} className='cart__product'>
 												<div className='cart__column'>
 													<div className='cart__artist'></div>
@@ -102,12 +103,14 @@ export default class Cart extends React.Component {
 	}
 
 	close() {
-		this.props.enabled = false
-		CartActions.updateCartEnabled(this.props.enabled)
+		if (this.props.enabled) {
+			this.props.enabled = false
+			CartActions.updateCartEnabled(this.props.enabled)
+		}
 	}
 
-	removeItem(id) {
-		CartActions.removeFromCart(id)
+	removeItem(index) {
+		CartActions.removeFromCart(index)
 	}
 
 	handleClickOutside(e) {
@@ -121,8 +124,18 @@ export default class Cart extends React.Component {
 		if (!e.target.classList.contains('cart__remove')) e.stopPropagation()
 	}
 
-	handleEnter(e) {
+	handleCountEnter(e) {
+		clearTimeout(this.closeCountdown)
+		this.closeCountdown = undefined
 		this.open()
+	}
+
+	handleEnter(e) {
+		if (this.closeCountdown) {
+			clearTimeout(this.closeCountdown)
+			this.closeCountdown = undefined
+			this.open()
+		}
 	}
 
 	handleLeave(e) {
@@ -130,6 +143,7 @@ export default class Cart extends React.Component {
 		this.closeCountdown = setTimeout(() => {
 			this.close()
 			clearTimeout(this.closeCountdown)
+			this.closeCountdown = undefined
 		}, this.CART_DELAY)
 	}
 
