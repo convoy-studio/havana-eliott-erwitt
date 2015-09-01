@@ -145,7 +145,6 @@ export default class Payment extends Page {
 												<div className='cart__details'>
 													<div className='cart__city'>{product.city}</div>, <div className='cart__year'>{product.year}</div>
 												</div>
-												<div className='cart__quantity'>Quantity: {product.quantity}</div>
 												<div className='cart__serial'>Serial <span className='cart__number'>{product.serial}/{product.copies}</span></div>
 												<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 											</div>
