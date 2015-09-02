@@ -2,6 +2,7 @@ var Hapi = require('hapi');
 var mongoose = require('mongoose');
 var env = process.NODE_ENV || 'development';
 var config = require('./config')[env];
+var Inert = require('inert');
 
 var server = new Hapi.Server();
 
@@ -21,6 +22,7 @@ db.once('open', function(){
     console.log('Connection with database succeeded.');
 });
 
+server.register(Inert, function () {});
 server.register([
     { register : require('bell') },
     { register: require('./api.js') },
@@ -55,6 +57,7 @@ server.register([
             },
             config: {
                 cache: {
+                    privacy: 'public',
                     expiresIn: 86400
                 }
             }
