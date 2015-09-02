@@ -7,18 +7,30 @@
 	position: relative;
 }
 
+.project--relative {
+	.project__intro .project__content {
+		position: relative;
+		transform: none;
+		left: initial;
+	}
+}
+
 .project__intro {
 	position: relative;
 	min-height: 100vh;
 	padding-top: 160px;
 	box-sizing: border-box;
 	z-index: 10;
+
+	.project__content {
+		top: calc(50% + 40px);
+	}
 } 
 
 .project__content {
 	position: absolute;
 	left: 50%;
-	top: calc(50% + 40px);
+	top: 50%;
 	transform: translate(-50%, -50%);
 }
 
@@ -65,7 +77,9 @@
 	position: relative;
 	width: 100%;
 	min-height: 100vh;
-	// $top: calc(-20vh - 40px);
+	// $aze: calc(-20vh - 40px);
+	// $rty: calc(-50vh + 200px);
+	// $top: min($aze, $rty);
 	// transform: translate(0, $top);
 }
 
@@ -78,14 +92,14 @@
 	// transform: translate(-50%, -50%);
 	width: 716px;
 	max-height: 478px;
-	height: 60vh;
+	height: 68vh;
 	margin: 0 auto;
 }
 
 .project__print {
 	@extend .vertical-center;
 	height: 100%;
-	width: auto;
+	width: 100%;
 	margin: 0 auto;
 	text-align: center;
 
@@ -98,7 +112,7 @@
 
 .project__image {
 	height: 100%;
-	width: auto;		
+	width: auto;
 }
 
 .project__print--current {
@@ -179,25 +193,29 @@
 }
 
 .project__footer {
+	position: absolute;
+	// bottom: 40px;
+	// left: 0;
 	display: table;
 	table-layout: fixed;
 	// position: absolute;
-	// left: 50%;
-	// bottom: 40px;
-	// transform: translate(-50%, 0);
+	left: 50%;
+	bottom: 40px;
+	transform: translate(-50%, 0);
 	width: 716px;
-	margin: 60px auto 0;
+	// width: 100%;
+	// margin: 60px auto 0;
 
 	font-size: 16px;
 }
 
 .project__section {
 	display: table-cell;
-	vertical-align: middle;
+	vertical-align: bottom;
 }
 
 .project__button {
-	transform: translate(0, 3px);
+	transform: translate(0, 6px);
 	.button__content {
 		padding-bottom: 6px;
 	}
@@ -210,24 +228,4 @@
 .project__back {
 	opacity: 0;
 	display: none;
-}
-
-
-
-.example-enter {
-  opacity: 0.01;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 2s ease-in;
-}
-
-.example-leave {
-  opacity: 1;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 2s ease-in;
 }

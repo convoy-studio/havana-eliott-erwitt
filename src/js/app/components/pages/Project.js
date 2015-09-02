@@ -131,15 +131,17 @@ export default class Project extends Page {
 				<section className='project'>
 					
 					<div className='project__intro'>
-						<h2 className='project__artist'>{name}</h2>
-						<p className='project__desc text text--medium'>
-							{Object.keys(projectDesc).map((index) => {
-								return (
-									<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
-								)
-							})}
-						</p>
-						<div className='project__discover' onClick={this._showSlideshowBinded}><div className='arrow'></div></div>
+						<div className='project__content'>
+							<h2 className='project__artist'>{name}</h2>
+							<p className='project__desc text text--medium'>
+								{Object.keys(projectDesc).map((index) => {
+									return (
+										<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+									)
+								})}
+							</p>
+							<div className='project__discover' onClick={this._showSlideshowBinded}><div className='arrow'></div></div>
+						</div>
 					</div>
 
 					<div className='project__slideshow'>
@@ -160,31 +162,30 @@ export default class Project extends Page {
 									<div className='project__next' onClick={this._nextBinded}><div className='arrow'></div></div>
 								</div>
 							</div>
-							<div className='project__footer'>
-								<div className='project__section'>
-									<a href='#' className='project__button button button--left button--reverse'><span className='button__content'>Share</span></a>
-								</div>
-								<div className='project__section project__infos'>
-									{(() => {
-										if (forSale) return (
-											<div>
-												<h2 className='print__title print__info--small'>{title}</h2>
-												<h3 className='print__location print__info--small'>{city}, {country}, {year}</h3>
-											</div>
-										)
-									})()}
-									<h3 className='print__artist print__info--small'>{name}</h3>
-								</div>
-								<div className='project__section'>
-									{(() => {
-										if (forSale) return (
-											<div>
-												<div className='project__button button button--left button--reverse' onClick={this._toggleStoryBinded}><span className='button__content'>The story</span></div>
-												<a href={url} className='project__button button button--right button--reverse'><span className='button__content'>Buy print</span></a>
-											</div>
-										)
-									})()}
-								</div>
+						</div>
+						<div className='project__footer'>
+							<div className='project__section'>
+								<a href='#' className='project__share project__button button button--left button--reverse'><span className='button__content'>Share</span></a>
+							</div>
+							<div className='project__section project__infos'>
+								{(() => {
+									if (forSale) return (
+										<div>
+											<h2 className='print__title print__info--small'>{title}</h2>
+											<h3 className='print__location print__info--small'>{city}, {country}, {year}</h3>
+										</div>
+									)
+								})()}
+							</div>
+							<div className='project__section'>
+								{(() => {
+									if (forSale) return (
+										<div>
+											<div className='project__button project__reveal button button--left button--reverse' onClick={this._toggleStoryBinded}><span className='button__content'>The story</span></div>
+											<a href={url} className='project__button project__buy button button--right button--reverse'><span className='button__content'>Buy print</span></a>
+										</div>
+									)
+								})()}
 							</div>
 						</div>
 					</div>
@@ -192,6 +193,7 @@ export default class Project extends Page {
 				</section>
 			</div>
 		)
+								// <h3 className='print__artist print__info--small'>{name}</h3>
 	}
 
 	_raf() {
@@ -215,6 +217,17 @@ export default class Project extends Page {
 		this.introOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
 		this._intro.style.opacity = this.introOpacity
 
+
+
+		if (window.innerHeight - document.querySelector('.project__intro .project__content').offsetHeight < 200) {
+			dom('.project').addClass('project--relative')
+			document.querySelector('.project__slideshow').style[this.transform] = ('translate(0px, 0px) translateZ(0px)')
+		} else {
+			this.slideshowY = - window.innerHeight/2 + document.querySelector('.project__prints').offsetHeight/2 - 40
+			document.querySelector('.project__slideshow').style[this.transform] = ('translate(0px, '+ this.slideshowY +'px) translateZ(0px)')
+			dom('.project').removeClass('project--relative')
+		}
+
 		// this.limitOffset = offset(document.querySelector('.project__intro'))
 		// this.OPACITY_MARGE = this.limitOffset.height
 		// console.log(this.limitOffset)
@@ -227,7 +240,7 @@ export default class Project extends Page {
 
 	_showSlideshow() {
 		this.slideshowOffsetTop = document.querySelector('.project__slideshow').offsetTop
-		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop}, ease:Power2.easeOut})
+		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop}, ease:Expo.easeOut})
 	}
 	
 	initTimelines() {
