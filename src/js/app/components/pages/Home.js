@@ -24,7 +24,7 @@ export default class Home extends Page {
 		if (this._canvas) {
 			this._canvas.style.display = 'block';
 			TweenMax.set(dom('.front-container'), {opacity: 0});
-			TweenMax.set(dom('.home__content'), {opacity: 0});
+			TweenMax.set(dom('.home'), {opacity: 0});
 			TweenMax.set(dom('.cart'), {opacity: 0});
 
 			this.showPageBinded = this.showPage.bind(this)
@@ -37,10 +37,10 @@ export default class Home extends Page {
 		let homeData = AppStore.homeContent()
 		return (
 			<div className='page page--home' ref='page-wrapper'>
-				<div className='video'>
+				<div className='video home__video'>
 					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.mp4'></video>
 				</div>
-				<div className='home__content'>
+				<div className='home'>
 					{Object.keys(homeData.paragraphs).map((index) => {
 						return (
 							<p className='home__paragraph text text--big' key={index}>{homeData.paragraphs[index]}</p>
@@ -98,14 +98,14 @@ export default class Home extends Page {
 		}});
 		this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut});
 		this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 0.6)
-		this.tlEntry.to(dom('.home__content'), 0.4, {opacity: 1}, 0.6)
+		this.tlEntry.to(dom('.home'), 0.4, {opacity: 1}, 0.6)
 		this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 0.6)
 		// TweenMax.to(this._canvas, 4, {x: -vw, ease: Power2.easeOut, delay: 4, onComplete: this.showPageBinded});
 	}
 	
 	showPage() {
 		TweenMax.to(dom('.front-container'), 0.4, {opacity: 1});
-		TweenMax.to(dom('.home__content'), 0.4, {opacity: 1});
+		TweenMax.to(dom('.home'), 0.4, {opacity: 1});
 		TweenMax.to(dom('.cart'), 0.4, {opacity: 1});
 		this._canvas.remove()
 	}
@@ -125,6 +125,12 @@ export default class Home extends Page {
 
 		if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
 		else dom('body').removeClass('body--portrait')
+
+		if (window.innerHeight - document.querySelector('.home').offsetHeight < 200) {
+			dom('.home').addClass('home--relative')
+		} else {
+			dom('.home').removeClass('home--relative')
+		}
 	}
 
 }
