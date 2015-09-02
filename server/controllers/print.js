@@ -83,7 +83,11 @@ var controller = {
 				 .sort({ year: 'asc'})
 				 .exec(function(err, items) {
 					if (!err) {
-						return reply(items);
+						var result = []
+						for(i = 0; i < items.length; i++){
+							result.push(items[i]);
+						}
+						return reply(result);
 					}
 					return reply(Boom.badImplementation(err)); // HTTP 500
 				});

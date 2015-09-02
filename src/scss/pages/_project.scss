@@ -83,17 +83,28 @@
 }
 
 .project__print {
+	@extend .vertical-center;
 	height: 100%;
 	width: auto;
 	margin: 0 auto;
 	text-align: center;
 
 	cursor: pointer;
+
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
 }
 
 .project__image {
 	height: 100%;
 	width: auto;		
+}
+
+.project__print--current {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.4s ease-out 0.4s, visibility 0.4s steps(1, start) 0.4s;
 }
 
 .project__print--prev, .project__print--next {
@@ -199,4 +210,24 @@
 .project__back {
 	opacity: 0;
 	display: none;
+}
+
+
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 2s ease-in;
 }

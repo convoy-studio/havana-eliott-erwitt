@@ -87,7 +87,7 @@ export default class Fellowship extends Page {
 								<p className='paragraph paragraph--small'>In addition to the proceeds from print sales Havana Club 7 will fund a similar amount to give more photographers the chance to tell the story of Cuba.</p>
 							</div>
 							<div className='paragraph__column paragraph__column--right'>
-								<img className='fellowship__elliott' src='../assets/images/prints/ERE2015002W00033-36A_medium.jpg' />
+								<img className='fellowship__elliott' src='/static/img/ERE2015002W00033-36A_medium.jpg' />
 							</div>
 						</div>
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>

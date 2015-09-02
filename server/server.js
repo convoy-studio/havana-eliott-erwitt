@@ -5,8 +5,8 @@ var config = require('./config')[env];
 
 var server = new Hapi.Server();
 
-server.connection({ 
-    host: config.server.host, 
+server.connection({
+    host: config.server.host,
     port: config.server.port,
     routes : {
         cors: true
@@ -18,13 +18,13 @@ mongoose.connect('mongodb://' + config.database.host + '/' + config.database.nam
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'Connection with database failed.'));
 db.once('open', function(){
-	console.log('Connection with database succeeded.');
+    console.log('Connection with database succeeded.');
 });
 
 server.register([
     { register : require('bell') },
-	{ register: require('./api.js') },
-	{
+    { register: require('./api.js') },
+    {
         register: require('good'),
         options: {
             opsInterval: 1000,
@@ -39,28 +39,40 @@ server.register([
             }]
         }
     }
-],
-{
-	routes : {
-    	prefix: '/api'
+],{
+    routes : {
+        prefix: '/api'
     }
 },function(error){
-	if(error){
-		console.log(error);
-	}else {
-		server.route({
-         	method: 'GET',
-	        path: '/{path*}',
-	        handler: {
-	       		directory: {
-       	        	path: config.output.path,
-   	        		index: true
-             	}
-         	}
-	    });
+    if(error){
+        console.log(error);
+    }else {
+        server.route({
+            method: 'GET',
+            path: '/static/img/{filename}',
+            handler: function(request, reply) {
+                reply.file(config.output.path + '/assets/images/prints/' + request.params.filename);
+            },
+            config: {
+                cache: {
+                    expiresIn: 86400
+                }
+            }
+        });
 
-		server.start(function () {
-		    console.log('Server started at: ' + server.info.uri);
-		});
-	}
+        server.route({
+            method: 'GET',
+            path: '/{path*}',
+            handler: {
+                directory: {
+                    path: config.output.path,
+                    index: true
+                }
+            }
+        });
+
+        server.start(function () {
+            console.log('Server started at: ' + server.info.uri);
+        });
+    }
 });

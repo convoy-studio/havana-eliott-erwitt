@@ -27,7 +27,9 @@ export default class Project extends Page {
 		this.state = { 
 			artist: undefined,
 			slideshow: {},
-			print: {}
+			print: {},
+			prints: {},
+			current: 0
 		}
 
 		// function binded
@@ -65,13 +67,18 @@ export default class Project extends Page {
 		let that = this
 		let hack = setTimeout(() => {
 			that.zoom = PrintStore.getZoom()
-			if (that.zoom) {
-				PrintApi.getSlideshow(this.props.idSection, that.zoom)
-			} else {
-				PrintApi.getSlideshow(this.props.idSection);
+			if (that.zoom !== undefined) {
+				this.setState({
+					current: that.zoom
+				})
 			}
+			// 	PrintApi.getSlideshow(this.props.idSection, that.zoom)
+			// } else {
+			// 	PrintApi.getSlideshow(this.props.idSection);
+			// }
 		}, 10)
 
+		PrintApi.getByArtist(this.props.idSection)
 		ArtistApi.getBySlug(this.props.idSection);
 		ArtistStore.addChangeListener(this._onArtistStoreChangeBinded);
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
@@ -82,10 +89,10 @@ export default class Project extends Page {
 		this._raf()
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		console.log(prevState)	
-		console.log(this.state)
-	}
+	// componentDidUpdate(prevProps, prevState) {
+	// 	console.log(prevState)	
+	// 	console.log(this.state)
+	// }
 
 	componentWillUnmount() {
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);
@@ -94,7 +101,10 @@ export default class Project extends Page {
 
 	render() {
 		let that = this
+		let current = this.state.prints[this.state.current]
+		
 		let name, bio, title, city, country, year, story, forSale, url, projectTitle, projectDesc = []
+		
 		if (this.state.artist) {
 			name = this.state.artist.name
 			bio = this.state.artist.bio
@@ -102,30 +112,14 @@ export default class Project extends Page {
 			projectDesc = this.state.artist.project.desc
 		}
 
-		if (_.size(this.state.slideshow) > 0) {
-			if (this.action === 'init') {
-				this.slideshowPrints = this.state.slideshow.prints
-			}
-			if (this.action === 'prev') {
-				this.slideshowPrints.next = this.slideshowPrints.current
-				this.slideshowPrints.current = this.slideshowPrints.prev
-				this.slideshowPrints.prev = this.state.print
-			} 
-			if (this.action === 'next') {
-				this.slideshowPrints.prev = this.slideshowPrints.current
-				this.slideshowPrints.current = this.slideshowPrints.next
-				this.slideshowPrints.next = this.state.print
-			}
-		}
-
-		if (_.size(this.slideshowPrints) > 0) {
-			title = this.slideshowPrints.current.title
-			city = this.slideshowPrints.current.city
-			country = this.slideshowPrints.current.country
-			year = this.slideshowPrints.current.year
-			story = this.slideshowPrints.current.desc
-			forSale = this.slideshowPrints.current.forSale
-			url = '#/shop/' + this.slideshowPrints.current._id
+		if (current) {
+			title = current.title
+			city = current.city
+			country = current.country
+			year = current.year
+			story = current.desc
+			forSale = current.forSale
+			url = '#/shop/' + current._id
 		}
 
 		return (
@@ -151,11 +145,11 @@ export default class Project extends Page {
 					<div className='project__slideshow'>
 						<div className='project__content'>
 							<div className='project__prints'>
-								{Object.keys(this.slideshowPrints).map((index) => {
-									let file = this.slideshowPrints[index].file + '_big.jpg'
-									let status = index
+								{Object.keys(this.state.prints).map((id, index) => {
+									let file = this.state.prints[id].file + '_big.jpg'
+									let status = (index === this.state.current) ? 'project__print--current' : ''
 									return (
-										<div className={'project__print project__print--'+status} onClick={that._toggleZoomBinded} key={index}><img className='project__image' src={'./assets/images/prints/'+file}></img></div>
+										<div className={'project__print '+status} onClick={that._toggleZoomBinded} key={id}><img className='project__image' src={'/static/img/'+file}></img></div>
 									)
 								})}
 								<div className='project__story text text--big'>
@@ -306,33 +300,17 @@ export default class Project extends Page {
 	}
 
 	_prev() {
-		let that = this
-
 		this._hideStory()
-		Tweenmax.to(dom('.project__print'), 0.4, {opacity: 0, onComplete: () => {
-			that.currentIndex = that._getPrevIndex()
-			that.action = 'prev'
-			PrintApi.getOne(that.state.slideshow.refs[that._getPrevIndex()]); // TODO: mettre en cache pour éviter les doublons de requêtes
-		}});
+		this.setState({
+			current: (this.state.current-1 < 0) ? this.nPrints-1 : this.state.current-1
+		})
 	}
 
 	_next() {
-		let that = this
-
 		this._hideStory()
-		Tweenmax.to(dom('.project__print'), 0.4, {opacity: 0, onComplete: () => {
-			that.currentIndex = that._getNextIndex()
-			that.action = 'next'
-			PrintApi.getOne(that.state.slideshow.refs[that._getNextIndex()]); // TODO: mettre en cache pour éviter les doublons de requêtes
-		}});
-	}
-
-	_getPrevIndex() {
-		return (this.currentIndex-1 < 0) ? this.state.slideshow.refs.length-1 : this.currentIndex-1
-	}
-
-	_getNextIndex() {
-		return (this.currentIndex+1 > this.state.slideshow.refs.length-1) ? 0 : this.currentIndex+1
+		this.setState({
+			current: (this.state.current+1 >= this.nPrints) ? 0 : this.state.current+1
+		})
 	}
 
 	didTransitionOutComplete() {
@@ -353,11 +331,9 @@ export default class Project extends Page {
 
 	_onPrintStoreChange() {
 		this.setState({
-			slideshow: PrintStore.getSlideshow(),
-			print: PrintStore.getOne()
+			prints: PrintStore.getArtistPrints()
 		}, () => {
-			if (this.currentIndex === -1) this.currentIndex = this.state.slideshow.currentIndex
-			Tweenmax.to(dom('.project__print'), 0.4, {opacity: 1});
+			this.nPrints = _.size(this.state.prints)
 		})
 	}
 }

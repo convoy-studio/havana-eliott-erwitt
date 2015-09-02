@@ -36,11 +36,12 @@ function _addPrintsSlideshow(result) {
 }
 
 function _addArtistPrints(prints) {
-	_(prints).forEach((print) => {
-		if (!_artistPrints[print._id]) {
-			_artistPrints[print._id] = print;
-		}
-	}).value()
+	_artistPrints = prints
+	// _(prints).forEach((print) => {
+	// 	if (!_artistPrints[print._id]) {
+	// 		_artistPrints[print._id] = print;
+	// 	}
+	// }).value()
 }
 
 let PrintStore = assign({}, EventEmitter2.prototype, {

@@ -77,7 +77,7 @@ export default class Shop extends Page {
 						return (
 							<div className='shop__print' key={id}>
 								<a href={'#/shop/'+id}>
-									<img src={'./assets/images/prints/'+file}></img>
+									<img src={'/static/img/'+file}></img>
 									<div className='shop__hover'>
 										<div className='shop__detail'>
 											<div className='print__title'>{print.title}</div>
@@ -103,7 +103,7 @@ export default class Shop extends Page {
 			_(this.state.prints).forEach((print, index) => {
 				file = new Image()
 				file.onload = that.onImageLoaded.bind(that)
-				file.src = './assets/images/prints/'+print.file+'_min.jpg'
+				file.src = '/static/img/'+print.file+'_min.jpg'
 			}).value();
 		}
 	}

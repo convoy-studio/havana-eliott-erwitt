@@ -75,6 +75,7 @@ export default class Gallery extends Page {
 
 	render() {
 		let that = this
+		let printIndex = -1
 		return (
 			<div className='page page--gallery' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/project/'+this.props.idSection} className='button'><span className='button__content'>Back to gallery</span></a></div>
@@ -84,12 +85,13 @@ export default class Gallery extends Page {
 							<div className='gallery__grid' key={year+'_'+i}>
 								<div className='gallery__width'></div>
 								<div className='gallery__item gallery__item--large gallery__item--disabled'>{year}</div>
-								{Object.keys(that.state.loadedPrints[year]).map((printId, i) => { 
+								{Object.keys(that.state.loadedPrints[year]).map((printId, j) => { 
 									let print = that.state.loadedPrints[year][printId]
-									let src = './assets/images/prints/'+print.file+'_min.jpg'
+									let src = '/static/img/'+print.file+'_min.jpg'
 									let random = Math.floor(Math.random()*6)
+									printIndex++
 									return (
-										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={i} onClick={that.zoomPrint.bind(that, printId)}><img className='gallery__image' src={src}></img></div>
+										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={printId} onClick={that.zoomPrint.bind(that, printIndex)}><img className='gallery__image' src={src}></img></div>
 									)
 								})}
 							</div>
@@ -135,7 +137,7 @@ export default class Gallery extends Page {
 
 				file = new Image()
 				file.onload = that.onImageLoaded.bind(that, this.printsDate[print.year][index])
-				file.src = './assets/images/prints/'+print.file+'_min.jpg'
+				file.src = '/static/img/'+print.file+'_min.jpg'
 			}).value();
 		}
 	}

@@ -54,7 +54,8 @@ var aliasify = require('aliasify').configure(aliasifyConfig);
 
 var deploy = argv._.length ? argv._[0] === 'deploy' : false;
 var watch = argv._.length ? argv._[0] === 'watch' : true;
-var production = deploy;
+// var production = deploy;
+var production = false;
 var browserSync = require("browser-sync");
 browserSync.create('My Server');
 var bundler = browserify({
@@ -325,7 +326,7 @@ gulp.task('build-vendor', tasks.buildVendor);
 gulp.task('build-app', tasks.buildApp);
 
 gulp.task('build', [
-	'browser-sync',
+	// 'browser-sync',
 	'sass',
 	'json',
 	'build-vendor',
