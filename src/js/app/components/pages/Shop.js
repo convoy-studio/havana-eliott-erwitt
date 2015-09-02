@@ -10,7 +10,7 @@ import TweenMax from 'gsap'
 import scrollTo from 'scrollTo'
 let scroll = Utils.Scroll()
 let _ = require('lodash')
-let Masonry = require('masonry-layout');
+// let Masonry = require('masonry-layout');
 
 export default class Shop extends Page {
 	
@@ -19,7 +19,8 @@ export default class Shop extends Page {
 
 		// state
 		this.state = { 
-			prints: {}
+			prints: {},
+			loaded: false
 		}
 
 		// function binded
@@ -71,9 +72,9 @@ export default class Shop extends Page {
 				<div className='shop'>
 					{Object.keys(this.state.prints).map(function(id, index){
 						let print = that.state.prints[id]
-						// let file = print.file + '_min.jpg'
 						let file = print.file + '_medium.jpg'
 						// let speed = (index % 2 === 0) ? 'fast' : 'slow'
+						// let side = (index % 2 === 0) ? 'left' : 'right'
 						return (
 							<div className='shop__print' key={id}>
 								<a href={'#/shop/'+id}>
@@ -97,20 +98,19 @@ export default class Shop extends Page {
 
 	componentDidUpdate() {
 		let that = this, file
-		this.max = _.size(this.state.prints)
-		if (this.max > 0 && !this.loaded) {
-			this.loaded = true
-			_(this.state.prints).forEach((print, index) => {
-				file = new Image()
-				file.onload = that.onImageLoaded.bind(that)
-				file.src = '/static/img/'+print.file+'_min.jpg'
-			}).value();
-		}
+		// this.max = _.size(this.state.prints)
+		// if (this.max > 0 && !this.loaded) {
+		// 	this.loaded = true
+		// 	_(this.state.prints).forEach((print, index) => {
+		// 		file = new Image()
+		// 		file.onload = that.onImageLoaded.bind(that)
+		// 		file.src = '/static/img/'+print.file+'_min.jpg'
+		// 	}).value();
+		// }
 	}
 
 	onImageLoaded(e) {
-		this.nImageLoaded++
-		this.grid.layout() // update grid
+		this.nImageLoaded++;
 	}
 
 	_raf() {
@@ -163,15 +163,6 @@ export default class Shop extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			prints: PrintStore.getForSale()
-		}, () => {
-			let grid = document.querySelector('.shop')
-			if (grid) {
-				this.grid = new Masonry(grid, {
-					itemSelector: '.shop__print',
-					columnWidth: '.shop__print',
-					gutter: 50
-				});
-			}
 		})
 	}
 }

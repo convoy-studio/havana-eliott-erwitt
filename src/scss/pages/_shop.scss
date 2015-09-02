@@ -70,7 +70,18 @@
 			transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 		}
 	}
+
+	float: left;
+	&:nth-child(2n + 0) { float: right; }
 }
+
+// .shop__print--left {
+// 	float: left;
+// }
+
+// .shop__print--right {
+// 	float: right;
+// }
 
 .shop__hover {
 	position: absolute;
