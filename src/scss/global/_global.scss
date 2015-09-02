@@ -296,7 +296,7 @@ body {
 }
 
 .button--enabled {
-	a, p {
+	.button__content {
 		cursor: default;
 		&:after {
 			left: 0;
