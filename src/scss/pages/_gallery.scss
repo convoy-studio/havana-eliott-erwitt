@@ -17,7 +17,7 @@
 
 	background-color: $black;
 
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 30px;
 	text-align: center;
 	line-height: 146px;

@@ -25,7 +25,7 @@
 .header__subtitle {
 	padding-top: 6px;
 	
-	font-family: $text-font;
+	@extend .text-font;
 	text-transform: initial;
 }
 
@@ -75,13 +75,13 @@
 		padding: 40px 30px 10px;
 
 		&:hover {
-			p:after {
+			.button__content:after {
 				animation: buttonHover 0.2s ease-out forwards;
 			}
 		}
 	}
 
-	p {
+	.button__content {
 		padding-bottom: 10px;
 	}
 }
@@ -119,8 +119,15 @@
 	right: 40px;
 	bottom: 40px;
 
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 12px;
 	line-height: 14px;
 	text-align: right;
+}
+
+.footer__button {
+	.button__content {
+		padding-bottom: 1px;
+		margin-bottom: 1px;
+	}
 }

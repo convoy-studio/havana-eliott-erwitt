@@ -24,7 +24,7 @@ export default class FrontContainer extends BaseComponent {
 			let pathUrl = '#' + item.url
 			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li className={'header__item ' + classes} key={index}><a href={pathUrl}><p className='button button--small'>{item.name}</p></a></li>
+				<li className={'header__item ' + classes} key={index}><a href={pathUrl} className='button'><span className='button__content'>{item.name}</span></a></li>
 			)
 		}).reverse()
 		let footerMenuData = AppStore.footerMenuContent()
@@ -32,7 +32,7 @@ export default class FrontContainer extends BaseComponent {
 			let pathUrl = '#' + item.url
 			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li key={index} className={'button button--right button--small ' + classes}><a href={pathUrl}>{item.name}</a></li>
+				<li key={index}><a href={pathUrl} className='footer__button button button--right'><span className='button__content'>{item.name}</span></a></li>
 			)
 		})
 

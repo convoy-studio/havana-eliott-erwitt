@@ -64,7 +64,7 @@ export default class Shop extends Page {
 						)
 					})}
 					<div className='discover shop__discover' onClick={this._showPrintsBinded}>
-						<div className='shop__scroll button button--center button--small'>Discover Elliott Erwitt's prints</div>
+						<div className='button'><span className='button__content'>Discover Elliott Erwitt's prints</span></div>
 						<div className='discover__arrow'><div className='arrow arrow--black'></div></div>
 					</div>
 				</div>
@@ -83,7 +83,7 @@ export default class Shop extends Page {
 											<div className='print__title'>{print.title}</div>
 											<div className='print__location'><div className='shop__city'>{print.city}, {print.country},</div> <div className='shop__year'>{print.year}</div></div>
 											<div className='shop__price'>{print.price}€</div>
-											<div className='shop__details button button--center button--small button--reverse'>More details</div>
+											<div className='shop__details button button--reverse'><span className='button__content'>More details</span></div>
 										</div>
 									</div>
 								</a> 

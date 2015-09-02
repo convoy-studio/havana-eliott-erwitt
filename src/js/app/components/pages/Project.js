@@ -82,6 +82,11 @@ export default class Project extends Page {
 		this._raf()
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		console.log(prevState)	
+		console.log(this.state)
+	}
+
 	componentWillUnmount() {
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
@@ -126,9 +131,9 @@ export default class Project extends Page {
 		return (
 			<div className='page page--project' ref='page-wrapper'>
 				
-				<div className='submenu project__contact '><a href={'#/project/'+this.props.idSection+'/contact-sheet'}><p className='button button--small'>Contact sheet</p></a></div>
-				<div className='submenu project__back '><a href='#' onClick={this._backToGalleryBinded}><p className='button button--small'>Back to gallery</p></a></div>
-				
+				<div className='submenu project__contact'><a href={'#/project/'+this.props.idSection+'/contact-sheet'} className='button'><span className='button__content'>Contact sheet</span></a></div>
+				<div className='submenu project__back'><a href='#' className='button' onClick={this._backToGalleryBinded}><span className='button__content'>Back to gallery</span></a></div>
+
 				<section className='project'>
 					
 					<div className='project__intro'>
@@ -163,7 +168,7 @@ export default class Project extends Page {
 							</div>
 							<div className='project__footer'>
 								<div className='project__section'>
-									<a href='#' className='project__share button button--left button--small button--reverse'>Share</a>
+									<a href='#' className='project__button button button--left button--reverse'><span className='button__content'>Share</span></a>
 								</div>
 								<div className='project__section project__infos'>
 									{(() => {
@@ -180,8 +185,8 @@ export default class Project extends Page {
 									{(() => {
 										if (forSale) return (
 											<div>
-												<div className='project__reveal button button--left button--small button--reverse' onClick={this._toggleStoryBinded}>The story</div>
-												<a href={url} className='project__buy button button--right button--small button--reverse'>Buy print</a>
+												<div className='project__button button button--left button--reverse' onClick={this._toggleStoryBinded}><span className='button__content'>The story</span></div>
+												<a href={url} className='project__button button button--right button--reverse'><span className='button__content'>Buy print</span></a>
 											</div>
 										)
 									})()}
@@ -289,7 +294,7 @@ export default class Project extends Page {
 
 	_backToGallery(e) {
 		e.preventDefault()
-		this.zoomOut()
+		this._zoomOut()
 	}
 
 	_toggleStory() {

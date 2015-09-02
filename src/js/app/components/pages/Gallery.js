@@ -77,7 +77,7 @@ export default class Gallery extends Page {
 		let that = this
 		return (
 			<div className='page page--gallery' ref='page-wrapper'>
-				<div className='submenu'><a href={'#/project/'+this.props.idSection}><p className='button button--small'>Back to gallery</p></a></div>
+				<div className='submenu'><a href={'#/project/'+this.props.idSection} className='button'><span className='button__content'>Back to gallery</span></a></div>
 				<div className='gallery'>
 					{Object.keys(this.state.loadedPrints).map((year, i) => {
 						return (

@@ -60,7 +60,7 @@ export default class Fellowship extends Page {
 
 		return (
 			<div className='page page--fellowship' ref='page-wrapper'>
-				<div className='submenu'><a href='#/friends'><p className='button button--small'>Friends of the fellowship</p></a></div>
+				<div className='submenu'><a href='#/friends' className='button'><span className='button__content'>Friends of the fellowship</span></a></div>
 				<div className='fellowship'>
 					<div className='video fellowship__video'>
 						<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webm'></video>
@@ -90,7 +90,7 @@ export default class Fellowship extends Page {
 						<p className='paragraph paragraph--small paragraph--center'>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
 					</section>
 					<div className='discover fellowship__discover' onClick={this._goToBiographyBinded}>
-						<div className='shop__scroll button button--center button--small'>Discover Elliott Erwitt's biography</div>
+						<div className='button'><span className='button__content'>Discover Elliott Erwitt's biography</span></div>
 						<div className='discover__arrow'><div className='arrow'></div></div>
 					</div>
 					<section className='fellowship__artist'>
@@ -107,13 +107,13 @@ export default class Fellowship extends Page {
 						<p className='paragraph paragraph--small paragraph--center'>Born in Paris in 1928 to Russian parents, Erwitt moved to the US with his family in 1939 and it was there that he met Edward Steichen and Roy Stryker. Recruited to Magnum Photos by Robert Capa in 1953 Erwitt has been a member of the prestigious agency ever since and has served several terms as its president.</p>
 						<div className='paragraph__row'>
 							<div className='paragraph__column'>
-								<p className='paragraph'><a className='fellowship__button button button--center button--small' href='http://www.elliotterwitt.com' target='_blank'>Elliott Erwitt official website</a></p>
+								<p className='paragraph'><a className='fellowship__button button' href='http://www.elliotterwitt.com' target='_blank'><span className='button__content'>Elliott Erwitt official website</span></a></p>
 							</div>
 							<div className='paragraph__column'>
 								<p className='paragraph paragraph--small'>To date Erwitt has produced more than 25 photography books including Eastern Europe (1965), The Private Experience (1974), Personal Exposures (1988), To the Dogs (1992), and Personal Best (2010). His photographs have been featured in solo shows all over the world, including at the ICP and The Museum of Modern Art, New York; The Art Institute of Chicago; The Barbican, London, and The Reina Sofia Museum, Madrid. Erwitt lives and works in New York City and likes children and dogs.</p>
 							</div>
 						</div>
-						<a href='#/project/elliott-erwitt' className='fellowship__button button button--center button--small'>Discover his project</a>
+						<div className='button'><a href='#/project/elliott-erwitt' className='fellowship__button button__content'>Discover his project</a></div>
 					</section>
 				</div>
 			</div>

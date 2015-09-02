@@ -49,7 +49,7 @@ export default class Projects extends Page {
 						{Object.keys(this.state.artists).map(function(index){
 							let artist = that.state.artists[index];
 							return (
-								<li key={index} className='projects__item button'><a href={'#/project/'+artist.slug}>{artist.name}</a></li>
+								<li key={index} className='projects__item'><a href={'#/project/'+artist.slug} className='button button--big'><span className='button__content'>{artist.name}</span></a></li>
 							)
 						})}
 					</ul>

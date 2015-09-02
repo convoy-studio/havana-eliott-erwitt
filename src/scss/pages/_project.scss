@@ -185,9 +185,11 @@
 	vertical-align: middle;
 }
 
-.project__share, .project__reveal, .project__buy {
-	padding-bottom: 6px;
+.project__button {
 	transform: translate(0, 3px);
+	.button__content {
+		padding-bottom: 6px;
+	}
 }
 
 .project__infos {

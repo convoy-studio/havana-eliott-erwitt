@@ -150,7 +150,7 @@ export default class Payment extends Page {
 											</div>
 											<div className='cart__column'>
 												<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
-												<div className='cart__remove button button--left button--small' onClick={that.removeItem.bind(that, index)}>Remove item</div>
+												<div className='cart__remove button button--left' onClick={that.removeItem.bind(that, index)}><span className='button__content'>Remove item</span></div>
 											</div>
 										</li>
 									)
@@ -178,7 +178,7 @@ export default class Payment extends Page {
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
 								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
 							</div>
-							<a href='' className='payment__pay button button--center button--small' onClick={this.pay.bind(this)}>Proceed to payment</a>
+							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}><span className='button__content'>Proceed to payment</span></a>
 						</div>
 					</form>
 					

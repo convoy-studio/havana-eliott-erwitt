@@ -92,7 +92,7 @@ a {
 }
 
 .text {
-	font-family: $text-font;
+	@extend .text-font;
 }
 
 .text--bigtitle {

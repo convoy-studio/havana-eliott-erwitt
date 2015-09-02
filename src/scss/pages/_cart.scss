@@ -129,7 +129,7 @@ $cartColor: $black;
 }
 
 .cart__details {
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 14px;
 	margin-bottom: 18px;
 }
@@ -143,7 +143,7 @@ $cartColor: $black;
 }
 
 .cart__quantity, .cart__number, .cart__price {
-	font-family: $text-font;
+	@extend .text-font;
 }
 
 .cart__currency {
@@ -164,6 +164,10 @@ $cartColor: $black;
 .cart__remove {
 	font-size: 12px;
 	line-height: 14px;
+
+	.button__content {
+		padding-bottom: 2px;
+	}
 }
 
 .cart__subtotal {
@@ -204,7 +208,6 @@ $cartColor: $black;
 } 
 
 .cart__button {
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 14px;
-	line-height: 24px;
 }

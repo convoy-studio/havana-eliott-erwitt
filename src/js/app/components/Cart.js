@@ -63,7 +63,7 @@ export default class Cart extends React.Component {
 												</div>
 												<div className='cart__column'>
 													<div className='cart__print'><img className='cart__image' src={'./assets/images/prints/'+product.file+'_min.jpg'}></img></div>
-													<div className='cart__remove button button--left button--small' onClick={that.removeItem.bind(that, index)}>Remove item</div>
+													<div className='cart__remove button button--left' onClick={that.removeItem.bind(that, index)}><span className='button__content'>Remove item</span></div>
 												</div>
 											</li>
 										)
@@ -74,7 +74,7 @@ export default class Cart extends React.Component {
 									<div className='cart__column'>{this.props.total}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__checkout'>
-									<a href='#/payment' className='cart__button button button--center button--small'>Check out</a>
+									<a href='#/payment' className='cart__button button'><span className='button__content'>Check out</span></a>
 								</div>
 							</div>
 						)

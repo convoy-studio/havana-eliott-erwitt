@@ -107,7 +107,7 @@ export default class Print extends Page {
 														})}
 													</ul>
 												</div>
-												<a href='#' className='print__buy text text--small button button--center button--small button--reverse' onClick={that._addToCartBinded}>Buy print</a>
+												<a href='#' className='print__buy text text--small button button--reverse' onClick={that._addToCartBinded}><span className='button__content'>Buy print</span></a>
 											</div>
 										)} else { return (
 											<div>Out of stock</div>

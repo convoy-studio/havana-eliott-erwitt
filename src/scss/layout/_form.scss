@@ -29,7 +29,7 @@ $formBg: $white;
 	display: block;
 	margin-bottom: 10px;
 
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 14px;
 }
 
@@ -54,7 +54,7 @@ $formBg: $white;
 	background-color: $formBg;
 	border: 1px solid $formColor;
 
-	font-family: $text-font;
+	@extend .text-font;
 	font-size: 14px;
 	line-height: 20px;
 	color: $formColor;
