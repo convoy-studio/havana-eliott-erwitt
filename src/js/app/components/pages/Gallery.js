@@ -144,7 +144,7 @@ export default class Gallery extends Page {
 		this.nImageLoaded++;
 
 		let that = this
-		let path = e.explicitOriginalTarget || e.path[0]
+		let path = e.explicitOriginalTarget || e.target || e.path[0] 
 		if (path.height >= path.width*1.2) print.size = 'small'
 		else print.size = 'large'
 		
