@@ -51,6 +51,9 @@ export default class Fellowship extends Page {
 		this.artistOffsetTop = document.querySelector('.fellowship__artist').offsetTop
 		this._elliott = document.querySelector('.fellowship__elliott')
 		
+		this._video = dom('.video')
+		this._videoFile = document.querySelector('.video__file')
+		
 		this._raf()
 	}
 
@@ -176,6 +179,9 @@ export default class Fellowship extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
+		else dom('body').removeClass('body--portrait')
 	}
 
 }

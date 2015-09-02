@@ -128,6 +128,26 @@ body {
 		background-color: #000;
 		opacity: 0.6;
 	}
+
+	&.video--full {
+		.video__file {
+			left: 50%;
+			top: 0;
+			transform: translate(-50%, 0);
+			width: initial;
+			height: 100%;
+		}
+	}
+}
+
+.body--portrait {
+	.video__file {
+		left: 50%;
+		top: 0;
+		transform: translate(-50%, 0);
+		width: initial;
+		height: 100%;
+	}
 }
 
 .video__file {
