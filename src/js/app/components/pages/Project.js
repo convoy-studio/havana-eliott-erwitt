@@ -87,6 +87,11 @@ export default class Project extends Page {
 
 		this._intro = document.querySelector('.project__intro')
 		this._raf()
+
+		this._project = dom('.project')
+		this._projectSlideshow = document.querySelector('.project__slideshow')
+		this._projectPrints = document.querySelector('.project__prints')
+		this._introContent = document.querySelector('.project__intro .project__content')
 	}
 
 	// componentDidUpdate(prevProps, prevState) {
@@ -120,6 +125,7 @@ export default class Project extends Page {
 			story = current.desc
 			forSale = current.forSale
 			url = '#/shop/' + current._id
+			if (!story) this._hideStory()
 		}
 
 		return (
@@ -219,13 +225,15 @@ export default class Project extends Page {
 
 
 
-		if (window.innerHeight - document.querySelector('.project__intro .project__content').offsetHeight < 200) {
-			dom('.project').addClass('project--relative')
-			document.querySelector('.project__slideshow').style[this.transform] = ('translate(0px, 0px) translateZ(0px)')
-		} else {
-			this.slideshowY = - window.innerHeight/2 + document.querySelector('.project__prints').offsetHeight/2 - 40
-			document.querySelector('.project__slideshow').style[this.transform] = ('translate(0px, '+ this.slideshowY +'px) translateZ(0px)')
-			dom('.project').removeClass('project--relative')
+		if (this._introContent) {
+			if (window.innerHeight - this._introContent.offsetHeight < 200) {
+				this._project.addClass('project--relative')
+				this._projectSlideshow.style[this.transform] = ('translate(0px, 0px) translateZ(0px)')
+			} else {
+				this.slideshowY = - window.innerHeight/2 + this._projectPrints.offsetHeight/2 - 40
+				this._projectSlideshow.style[this.transform] = ('translate(0px, '+ this.slideshowY +'px) translateZ(0px)')
+				this._project.removeClass('project--relative')
+			}
 		}
 
 		// this.limitOffset = offset(document.querySelector('.project__intro'))
@@ -313,14 +321,14 @@ export default class Project extends Page {
 	}
 
 	_prev() {
-		this._hideStory()
+		// this._hideStory()
 		this.setState({
 			current: (this.state.current-1 < 0) ? this.nPrints-1 : this.state.current-1
 		})
 	}
 
 	_next() {
-		this._hideStory()
+		// this._hideStory()
 		this.setState({
 			current: (this.state.current+1 >= this.nPrints) ? 0 : this.state.current+1
 		})
