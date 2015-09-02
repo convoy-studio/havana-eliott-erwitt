@@ -109,17 +109,8 @@ export default class Shop extends Page {
 	}
 
 	onImageLoaded(e) {
-		this.nImageLoaded++;
-		if (this.nImageLoaded >= this.max) {
-			let grid = document.querySelector('.shop')
-			if (grid) {
-				let iso = new Masonry(grid, {
-					itemSelector: '.shop__print',
-					columnWidth: '.shop__print',
-					gutter: 50
-				});
-			}
-		}
+		this.nImageLoaded++
+		this.grid.layout() // update grid
 	}
 
 	_raf() {
@@ -172,6 +163,15 @@ export default class Shop extends Page {
 	_onPrintStoreChange() {
 		this.setState({
 			prints: PrintStore.getForSale()
+		}, () => {
+			let grid = document.querySelector('.shop')
+			if (grid) {
+				this.grid = new Masonry(grid, {
+					itemSelector: '.shop__print',
+					columnWidth: '.shop__print',
+					gutter: 50
+				});
+			}
 		})
 	}
 }
