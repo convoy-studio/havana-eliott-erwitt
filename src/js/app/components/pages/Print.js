@@ -201,12 +201,19 @@ export default class Print extends Page {
 		file.src = './assets/images/prints/'+this.state.print.file+'_medium.jpg'
 	}
 
-	_onImageLoaded(params) {
-		if (params.path[0].height >= params.path[0].width*1.2) {
-			this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		} else {
-			this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		}
+	_onImageLoaded(e) {
+		let size
+		let path = e.explicitOriginalTarget || e.target || e.path[0] 
+		if (path.height >= path.width*1.2) size = 'portrait'
+		else size = 'landscape'
+
+		this.print = <div className='print__left'><div className={'print__image print__image--'+size}><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
+
+		// if (params.path[0].height >= params.path[0].width*1.2) {
+		// 	this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
+		// } else {
+		// 	this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'./assets/images/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
+		// }
 		this.setState({
 			'loadedPrint': this.print
 		});
