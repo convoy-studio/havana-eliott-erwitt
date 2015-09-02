@@ -63,7 +63,7 @@ export default class Fellowship extends Page {
 				<div className='submenu'><a href='#/friends' className='button'><span className='button__content'>Friends of the fellowship</span></a></div>
 				<div className='fellowship'>
 					<div className='video fellowship__video'>
-						<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webm'></video>
+						<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.mp4'></video>
 					</div>
 
 					<section className='fellowship__presentation'>
@@ -100,7 +100,7 @@ export default class Fellowship extends Page {
 								<p className='paragraph paragraph--small'>Elliott Erwitt is one of the world’s most popular and admired photographers. A visual poet and humorist of everyday life, he has created some of the most memorable images of our time, from his observations of daily life at street level, to portraits of the iconic personalities including Marilyn Monroe on the set of the film The Misfits and Truman Capote’s epic 1966 Black and White Ball in New York City. He has photographed Khrushchev and Nixon arguing in Moscow, Fidel Castro and Che Guevara in Havana and President JFK in the Oval office.</p>
 							</div>
 							<div className='paragraph__column' onClick={this._toggleVideoBinded}>
-								<video className='fellowship__interview' src='./assets/videos/bg-home.webm'></video>
+								<video className='fellowship__interview' src='./assets/videos/bg-home.mp4'></video>
 								<p className='fellowship__play enabled'>play video</p>
 							</div>
 						</div>

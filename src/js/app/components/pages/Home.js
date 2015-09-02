@@ -38,7 +38,7 @@ export default class Home extends Page {
 		return (
 			<div className='page page--home' ref='page-wrapper'>
 				<div className='video'>
-					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.webm'></video>
+					<video autoPlay loop muted className='video__file' src='./assets/videos/bg-home.mp4'></video>
 				</div>
 				<div className='home__content'>
 					{Object.keys(homeData.paragraphs).map((index) => {
