@@ -122,6 +122,9 @@ export default class Home extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
+		else dom('body').removeClass('body--portrait')
 	}
 
 }
