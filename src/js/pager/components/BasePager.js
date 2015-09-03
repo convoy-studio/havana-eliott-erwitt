@@ -35,6 +35,7 @@ export default class BasePager extends React.Component {
 
 	setupNewComponent(hash, Type, idSection, oldHash) {
 		let id = _capitalize(hash.replace("/", ""))
+		this.hash = hash
 		this.oldHash = oldHash
 		this.oldPageDivRef = this.currentPageDivRef
 		this.currentPageDivRef = (this.currentPageDivRef === 'page-a') ? 'page-b' : 'page-a'
@@ -82,7 +83,7 @@ export default class BasePager extends React.Component {
 			window.scrollTo(0, offset(document.querySelector('.project__slideshow')).top);
 			PrintActions.setPrintZoom(undefined);
 		}
-		if (this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
+		if (this.hash.parent === 'shop' && this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
 			window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
 		}
 		// console.log('didPageTransitionOutComplete')

@@ -51,6 +51,14 @@ var CartActions = {
 			actionType: CartConstants.CART_ENABLED,
 			cartEnabled: cartEnabled
 		})
+	},
+
+	// Receive be2bill form
+	receiveForm: function(data) {
+		AppDispatcher.handleServerAction({
+			actionType: CartConstants.RECEIVE_FORM,
+			data: data
+		})
 	}
 
 }

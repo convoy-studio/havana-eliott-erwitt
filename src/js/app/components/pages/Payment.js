@@ -26,16 +26,21 @@ export default class Payment extends Page {
 			.addClass('body--white')
 
 		this.state = _getCartState()
+		this.state.form = undefined
 	}
 	
 	componentDidMount() {
 		super.componentDidMount()
+
+		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 
 		let hack = setTimeout(function() {
 			CartActions.updateCartEnabled(false)
 			CartActions.updateCartVisible(false)
 			clearTimeout(hack)
 		}, 0);
+
+		CartStore.addChangeListener(this._onStoreChangeBinded);
 	}
 
 	componentWillUnmount() {
@@ -178,21 +183,13 @@ export default class Payment extends Page {
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
 								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
 							</div>
+
 							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}><span className='button__content'>Proceed to payment</span></a>
 						</div>
 					</form>
+
+					<div dangerouslySetInnerHTML={{__html: this.state.form}} />
 					
-					<form method="post" action="https://secure-test.be2bill.com/front/form/process" id="myform">
-						<input type="hidden" name="AMOUNT" value="1000" />
-						<input type="hidden" name="IDENTIFIER" value="CONVOY" />
-						<input type="hidden" name="OPERATIONTYPE" value="payment" />
-						<input type="hidden" name="ORDERID" value="order_000123" />
-						<input type="hidden" name="CLIENTIDENT" value="client_123" />
-						<input type="hidden" name="DESCRIPTION" value="art_123456" />
-						<input type="hidden" name="VERSION" value="2.0" />
-						<input type="hidden" name="HASH" value="6b87bfae46eb204950c70058f227f73c1a95827c0b0f95e1afa4ad4525eb67b5" />
-						<input type="submit" value="Pay with be2bill" />
-					</form>
 				</div>
 
 			</div>
@@ -201,29 +198,18 @@ export default class Payment extends Page {
 
 	pay(e) {
 		e.preventDefault()
-					// <form method="post" action="https://secure-test.be2bill.com/front/form/process" id="myform">
-					// 	<input type="hidden" name="3DSECURE" value="yes" />
-					// 	<input type="hidden" name="CARDFULLNAME" value="John Doe" />
-					// 	<input type="hidden" name="CLIENTEMAIL" value="john.doe@email.com" />
-					// 	<input type="hidden" name="HIDECARDFULLNAME" value="yes" />
-					// 	<input type="hidden" name="HIDECLIENTEMAIL" value="yes" />
-					// 	<input type="hidden" name="AMOUNT" value="1000" />
-					// 	<input type="hidden" name="IDENTIFIER" value="CONVOY" />
-					// 	<input type="hidden" name="OPERATIONTYPE" value="payment" />
-					// 	<input type="hidden" name="ORDERID" value="order_000123" />
-					// 	<input type="hidden" name="CLIENTIDENT" value="client_123" />
-					// 	<input type="hidden" name="DESCRIPTION" value="art_123456" />
-					// 	<input type="hidden" name="VERSION" value="2.0" />
-					// 	<input type="hidden" name="HASH" value="6b87bfae46eb204950c70058f227f73c1a95827c0b0f95e1afa4ad4525eb67b5" />
-					// 	<input type="submit" value="Pay with be2bill" />
-					// </form>
 
-		// _(this.state.cartItems).forEach((item, index) => {
-		// 	PrintApi.order(index, item.serial)
-		// }).value();
-
-		// CartApi.pay()
-		CartApi.generatePayButton()
+		CartApi.generatePayButton({
+			email: 'hello@aze.com',
+			firstname: 'Nicolas',
+			lastname: 'Daniel',
+			phone: '0102030405',
+			address: '23 rue xxx',
+			zip: '12345',
+			city: 'Azerty',
+			country: 'France',
+			total: this.state.cartTotal * 100
+		})
 	}
 
 	removeItem(id) {
@@ -241,4 +227,11 @@ export default class Payment extends Page {
 		super.resize()
 	}
 
+	_onStoreChange() {
+		this.setState({
+			form: CartStore.getForm()
+		}, () => {
+			if (document.querySelector('#paymentForm')) document.querySelector('#paymentForm').submit()
+		})
+	}
 }

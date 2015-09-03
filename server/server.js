@@ -9,9 +9,9 @@ var server = new Hapi.Server();
 server.connection({
     host: config.server.host,
     port: config.server.port,
-    routes : {
-        cors: true
-    }
+    // routes : {
+    //     cors: true
+    // }
 });
 
 //Database setup

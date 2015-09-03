@@ -13,6 +13,7 @@ import Shop from 'Shop'
 import Print from 'Print'
 import News from 'News'
 import Payment from 'Payment'
+import Result from 'Result'
 import Contact from 'Contact'
 import Legal from 'Legal'
 import Privacy from 'Privacy'
@@ -75,7 +76,11 @@ export default class PagesContainer extends BasePager {
 				type = News
 				break
 			case 'payment':
-				type = Payment
+				if (hash.parts.length > 1 && hash.parts[1] === 'result') {
+					type = Result
+				} else {
+					type = Payment
+				}
 				break
 			case 'contact':
 				type = Contact

@@ -41,6 +41,8 @@ class Router {
 		shopSection.rules = {
 			id : /^[0-9]/
 		}
+
+		let resultSection = crossroads.addRoute('/payment/result', this._onResultURLHandler.bind(this), 2)
 	}
 	_onHomeURLHandler() {
 		this._assignRoute('home')
@@ -53,6 +55,9 @@ class Router {
 	}
 	_onShopURLHandler(printId) {
 		this._assignRoute(printId)
+	}
+	_onResultURLHandler() {
+		this._assignRoute('result')	
 	}
 	_onDefaultURLHandler() {
 		this._sendToDefault()
