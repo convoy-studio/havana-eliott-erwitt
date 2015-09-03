@@ -32,6 +32,7 @@ export default class PagesContainer extends BasePager {
 		super.componentWillUnmount()
 	}
 	didHasherChange() {
+		let oldHash = Router.getOldHash()
 		let hash = Router.getNewHash()
 		let type = undefined
 		let id = undefined
@@ -88,7 +89,7 @@ export default class PagesContainer extends BasePager {
 			default:
 				type = Notfound
 		}
-		this.setupNewComponent(hash.parent, type, id)
+		this.setupNewComponent(hash.parent, type, id, oldHash)
 	}
 }
 

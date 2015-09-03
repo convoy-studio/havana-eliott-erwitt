@@ -72,7 +72,8 @@
 	}
 
 	float: left;
-	&:nth-child(2n + 0) { float: right; }
+	clear: left;
+	&:nth-child(2n + 0) { float: right; clear: right; }
 }
 
 // .shop__print--left {

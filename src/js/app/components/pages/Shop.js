@@ -17,6 +17,9 @@ export default class Shop extends Page {
 	constructor(props) {
 		super(props)
 
+		// props
+		this.props = props
+
 		// state
 		this.state = { 
 			prints: {},
@@ -45,6 +48,14 @@ export default class Shop extends Page {
 		
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
+
+		// if (this.props.oldHash && this.props.oldHash.parent === 'shop' && this.props.oldHash.parts.length > 1) {
+		// 	// console.log(document.querySelector('.shop').offsetTop, offset(dom('.shop')).top)
+		// 	// window.scrollTo(0, offset(dom('.shop')).top)
+		// 	setTimeout(() => {
+		// 		window.scrollTo(0, document.querySelector('.shop').offsetTop)
+		// 	}, 1000)
+		// }
 	}
 
 	componentWillUnmount() {

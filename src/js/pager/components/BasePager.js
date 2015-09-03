@@ -9,6 +9,7 @@ export default class BasePager extends React.Component {
 
 	constructor(props) {
 		super(props)
+		this.props = props
 		this.currentPageDivRef = 'page-b'
 		this.willPageTransitionIn = this.willPageTransitionIn.bind(this)
 		this.willPageTransitionOut = this.willPageTransitionOut.bind(this)
@@ -32,8 +33,9 @@ export default class BasePager extends React.Component {
 		PagerStore.on(PagerConstants.PAGE_TRANSITION_OUT, this.willPageTransitionOut)
 	}
 
-	setupNewComponent(hash, Type, idSection) {
+	setupNewComponent(hash, Type, idSection, oldHash) {
 		let id = _capitalize(hash.replace("/", ""))
+		this.oldHash = oldHash
 		this.oldPageDivRef = this.currentPageDivRef
 		this.currentPageDivRef = (this.currentPageDivRef === 'page-a') ? 'page-b' : 'page-a'
 		let el = React.findDOMNode(this.refs[this.currentPageDivRef])
@@ -42,6 +44,7 @@ export default class BasePager extends React.Component {
 				id={this.currentPageDivRef} 
 				isReady={this.onPageReady} 
 				hash={hash}
+				oldHash={oldHash}
 				idSection={idSection}
 				didTransitionInComplete={this.didPageTransitionInComplete.bind(this)}
 				didTransitionOutComplete={this.didPageTransitionOutComplete.bind(this)}
@@ -76,10 +79,11 @@ export default class BasePager extends React.Component {
 		this.zoom = PrintStore.getZoom()
 		window.scrollTo(0, 0)
 		if (this.zoom !== undefined) {
-			// window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop - window.innerHeight*0.2 - 40);
-			// window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop);
 			window.scrollTo(0, offset(document.querySelector('.project__slideshow')).top);
 			PrintActions.setPrintZoom(undefined);
+		}
+		if (this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
+			window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
 		}
 		// console.log('didPageTransitionOutComplete')
 		PagerActions.onTransitionOutComplete()
