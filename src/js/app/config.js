@@ -1,5 +1,5 @@
 let config = {
-	'siteurl': 'http://localhost:9000'
+	'siteurl': 'http://havana.hi9.fr'
 };
 
 module.exports = config;
