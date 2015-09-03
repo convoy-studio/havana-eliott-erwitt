@@ -5,3 +5,6 @@ deploy
 preprod
 components/*
 npm-debug.log
+www/assets/images/prints
+www/assets/videos
+db
