@@ -198,3 +198,31 @@
 .print__buy {
 	margin-top: 40px;
 }
+
+@include max-screen(958px) {
+	.print {
+		display: block;
+		position: relative;
+		left: 0;
+		top: 0;
+		transform: none;
+		width: 100%;
+		padding: 160px 24px 0;
+		box-sizing: border-box;
+	}
+
+	.print__left, .print__infos {
+		position: relative;
+		width: 100%;
+		display: block;
+	}
+
+	.print__tech {
+		position: relative;
+		left: 0;
+		bottom: 0;
+		transform: none;
+		width: 100%;
+		margin-left: 0;
+	}
+}

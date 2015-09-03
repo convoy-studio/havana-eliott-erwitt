@@ -132,3 +132,44 @@
 .fellowship__artistname {
 	width: 716px;
 }
+
+@include max-screen(958px) {
+	.fellowship {
+		width: 100%;
+		padding: 160px 24px 0;
+		box-sizing: border-box;
+	}
+	.paragraph--big {
+		font-size: 36px;
+		text-align: left;
+	}
+
+	.paragraph--medium {
+		font-size: 36px;
+		text-align: left;
+	}
+
+	.paragraph--small {
+		width: 100%;
+	}
+
+	.paragraph__row, .paragraph__column {
+		display: block;
+	}
+
+	.paragraph__column--left, .paragraph__column--right {
+		padding: 0;
+	}
+
+	.fellowship__interview, .fellowship__play {
+		padding: 0;
+	}
+
+	.fellowship__artistname {
+		width: 100%;
+	}
+
+	.paragraph, .paragraph__row {
+		margin-bottom: 40px;
+	}
+}

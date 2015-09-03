@@ -131,3 +131,54 @@
 		margin-bottom: 1px;
 	}
 }
+
+@include max-screen(958px) {
+	.header__title {
+		position: fixed;
+		display: table;
+		left: 0;
+		top: 0;
+		transform: none;
+		width: 100%;
+		height: 80px;
+
+		background-color: $black;
+		border-bottom: 1px solid $white;
+
+		font-size: 18px;
+	    line-height: 18px;
+
+	    a {
+	    	display: table-cell;
+	    	vertical-align: middle;
+	    }
+	}
+	.body--white {
+		.header__title {
+			background-color: $white;
+		}
+	}
+
+	.header__menu {
+		left: 63px;
+		box-sizing: border-box;
+
+		background-color: $black;
+		border-bottom: 1px solid $white;
+	}
+
+	.header__item a {
+		padding: 20px 30px 20px;
+	}
+
+	.header__item .button__content {
+		padding-bottom: 0;
+	}
+
+	.body--white {
+		.header__menu {
+			background-color: $white;
+			border-bottom: 1px solid $black;
+		}
+	}
+}

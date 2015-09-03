@@ -131,3 +131,27 @@
 	// line-height: 20px;
 	padding-bottom: 6px;
 }
+
+@include max-screen(958px) {
+	.shop__intro {
+		width: 100%;
+		padding: 160px 24px 0;
+		box-sizing: border-box;
+	}
+
+	// .shop__paragraph {
+	// 	margin-bottom: 24px;
+	// 	&:last-child { margin-bottom: 0; }
+	// }
+
+	.shop {
+		width: 100%;
+		padding: 0 24px;
+		box-sizing: border-box;
+	}
+
+	.shop__title {
+		font-size: 36px;
+		line-height: 46px;
+	}
+}

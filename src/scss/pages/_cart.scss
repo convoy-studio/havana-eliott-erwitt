@@ -211,3 +211,39 @@ $cartColor: $black;
 	@extend .text-font;
 	font-size: 14px;
 }
+
+@include max-screen(958px) {
+	.cart__content {
+		position: fixed;
+		top: 80px;
+		left: 0;
+		width: 100%;
+
+		background-color: white;
+	}
+
+	.cart--enabled {
+		border: none;
+		background-color: transparent;
+		.cart__count { 
+			border-bottom: none;
+		}
+	}
+
+	.cart__empty {
+		border-top: 1px solid $black;
+		border-bottom: 1px solid $black;
+	} 
+
+	.cart__products {
+		border-top: 1px solid $black;
+	}
+
+	.cart__checkout {
+		background-color: $black;
+	}
+
+	.body--white .cart__checkout a {
+		color: $white;
+	}
+}
