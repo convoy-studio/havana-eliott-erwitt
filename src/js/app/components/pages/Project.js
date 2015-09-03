@@ -48,6 +48,7 @@ export default class Project extends Page {
 		this.OPACITY_DURATION = 300
 		
 		// vars
+		this.nImageLoaded = 0
 		this.zoom = false
 		this.slideshowPrints = {}
 		this.action = 'init'
@@ -99,6 +100,32 @@ export default class Project extends Page {
 	// 	console.log(this.state)
 	// }
 
+	componentDidUpdate() {
+		let file
+		this.max = _.size(this.state.prints)
+		if (this.max > 0 && !this.loaded) {
+			this.loaded = true
+			_(this.state.prints).forEach((print, index) => {
+				file = new Image()
+				file.onload = this.onImageLoaded.bind(this)
+				file.src = '/static/img/'+print.file+'_big.jpg'
+			}.bind(this)).value();
+		}
+	}
+
+	onImageLoaded(e) {
+		this.nImageLoaded++;
+
+		if (this.nImageLoaded >= this.max) {
+			console.log('all loaded')
+			setTimeout(() => {
+				dom('.project__slideshow').removeClass('project__slideshow--disabled')
+				dom('.project__discover').removeClass('project__discover--disabled')
+				dom('.project__loading').addClass('project__loading--disabled')
+			}, 4000)
+		}
+	}
+
 	componentWillUnmount() {
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
@@ -146,11 +173,12 @@ export default class Project extends Page {
 									)
 								})}
 							</p>
-							<div className='project__discover' onClick={this._showSlideshowBinded}><div className='arrow'></div></div>
+							<div className='project__loading'>Chargement...</div>
+							<div className='project__discover project__discover--disabled' onClick={this._showSlideshowBinded}><div className='arrow'></div></div>
 						</div>
 					</div>
 
-					<div className='project__slideshow'>
+					<div className='project__slideshow project__slideshow--disabled'>
 						<div className='project__content'>
 							<div className='project__prints'>
 								{Object.keys(this.state.prints).map((id, index) => {
