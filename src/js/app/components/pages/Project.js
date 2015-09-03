@@ -72,6 +72,9 @@ export default class Project extends Page {
 				this.setState({
 					current: that.zoom
 				})
+				dom('.project__slideshow').removeClass('project__slideshow--disabled')
+				dom('.project__discover').removeClass('project__discover--disabled')
+				dom('.project__loading').addClass('project__loading--disabled')
 			}
 			// 	PrintApi.getSlideshow(this.props.idSection, that.zoom)
 			// } else {
@@ -103,7 +106,7 @@ export default class Project extends Page {
 	componentDidUpdate() {
 		let file
 		this.max = _.size(this.state.prints)
-		if (this.max > 0 && !this.loaded) {
+		if (this.max > 0 && !this.loaded && this.zoom === undefined) {
 			this.loaded = true
 			_(this.state.prints).forEach((print, index) => {
 				file = new Image()
@@ -117,12 +120,12 @@ export default class Project extends Page {
 		this.nImageLoaded++;
 
 		if (this.nImageLoaded >= this.max) {
-			console.log('all loaded')
-			setTimeout(() => {
+			// console.log('all loaded')
+			// setTimeout(() => {
 				dom('.project__slideshow').removeClass('project__slideshow--disabled')
 				dom('.project__discover').removeClass('project__discover--disabled')
 				dom('.project__loading').addClass('project__loading--disabled')
-			}, 4000)
+			// }, 4000)
 		}
 	}
 
@@ -276,7 +279,7 @@ export default class Project extends Page {
 
 	_showSlideshow() {
 		this.slideshowOffsetTop = document.querySelector('.project__slideshow').offsetTop
-		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop}, ease:Expo.easeOut})
+		TweenMax.to(window, 0.6, {scrollTo:{y: this.slideshowOffsetTop}, ease:Power2.easeOut})
 	}
 	
 	initTimelines() {

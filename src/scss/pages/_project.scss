@@ -164,7 +164,7 @@
 .project__print--current {
 	visibility: visible;
 	opacity: 1;
-	transition: opacity 0.4s ease-out 0.4s, visibility 0.4s steps(1, start) 0.4s;
+	transition: opacity 0.4s ease-out 0.2s, visibility 0.4s steps(1, start) 0.2s;
 }
 
 .project__print--prev, .project__print--next {
