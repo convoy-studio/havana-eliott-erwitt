@@ -2,11 +2,13 @@ import React from 'react'
 import Page from 'Page'
 import dom from 'domquery'
 import AppStore from 'AppStore'
+import CartApi from 'CartApi'
 
 export default class Result extends Page {
 
 	constructor(props) {
 		super(props)
+		this.props
 
 		dom('body')
 			.removeClass('body--black')
@@ -26,6 +28,9 @@ export default class Result extends Page {
 
 	componentDidMount() {
 		super.componentDidMount()
+
+		console.log(this.props.idSection)
+		CartApi.checkResponse(this.props.idSection)
 	}
 
 	didTransitionOutComplete() {

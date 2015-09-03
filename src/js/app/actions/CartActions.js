@@ -59,6 +59,15 @@ var CartActions = {
 			actionType: CartConstants.RECEIVE_FORM,
 			data: data
 		})
+	},
+
+	// Receive be2bill result verification
+	receiveCheck: function(data) {
+		console.log(data)
+		// AppDispatcher.handleServerAction({
+		// 	actionType: CartConstants.RECEIVE_CHECK,
+		// 	data: data
+		// })
 	}
 
 }

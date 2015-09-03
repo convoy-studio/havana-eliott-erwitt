@@ -76,8 +76,9 @@ export default class PagesContainer extends BasePager {
 				type = News
 				break
 			case 'payment':
-				if (hash.parts.length > 1 && hash.parts[1] === 'result') {
+				if (hash.parts.length > 1) {
 					type = Result
+					id = hash.targetId
 				} else {
 					type = Payment
 				}

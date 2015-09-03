@@ -116,6 +116,10 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 				_addForm(action.data)
 				CartStore.emitChange()
 				break
+			case CartConstants.RECEIVE_CHECK:
+				_addForm(action.data)
+				CartStore.emitChange()
+				break
 		}
 
 		return true
