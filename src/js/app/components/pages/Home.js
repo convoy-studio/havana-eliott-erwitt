@@ -9,6 +9,7 @@ export default class Home extends Page {
 
 	constructor(props) {
 		super(props)
+		this.props = props
 
 		dom('body')
 			.removeClass('body--white')
@@ -21,7 +22,7 @@ export default class Home extends Page {
 		
 		this._canvas = document.querySelector('.canvas')
 
-		if (this._canvas) {
+		if (this._canvas && this.props.oldHash === undefined) {
 			this._canvas.style.display = 'block';
 			TweenMax.set(dom('.front-container'), {opacity: 0});
 			TweenMax.set(dom('.home'), {opacity: 0});

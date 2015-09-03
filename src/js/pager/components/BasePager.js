@@ -86,7 +86,7 @@ export default class BasePager extends React.Component {
 		if (this.hash.parent === 'shop' && this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
 			window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
 		}
-		// console.log('didPageTransitionOutComplete')
+
 		PagerActions.onTransitionOutComplete()
 	}
 
