@@ -47,11 +47,32 @@ export default class Payment extends Page {
 		CartActions.updateCartVisible(true)
 	}
 
+	setupAnimations() {
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
+
+		// transition In
+		this.tlIn.set(wrapper, { opacity: 1 }, 0)
+		this.tlIn.to(document.querySelector('.page__overlay--payment'), 0.4, { y: window.innerHeight, ease:Power2.easeOut }, 0)
+		this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0.4)
+		this.tlIn.from(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0.4)
+
+		// transition Out
+		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		this.tlOut.to(document.querySelector('.page__overlay--payment'), 0.4, { y: 0, ease:Power2.easeOut }, 0.6)
+		this.tlOut.set(wrapper, { opacity:0 })
+
+		// reset
+		this.tlIn.pause(0)
+		this.tlOut.pause(0)
+	}
+
 	render() {
 		let that = this
 
 		return (
 			<div className='page page--payment' ref='page-wrapper'>
+				<div className='page__overlay page__overlay--payment'></div>
 				<div className='payment'>
 					<form className='payment__form form'>
 						<div className='payment__column'>

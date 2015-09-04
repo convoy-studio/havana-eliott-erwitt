@@ -40,8 +40,8 @@ export default class Home extends Page {
 			<div className='page page--home' ref='page-wrapper'>
 				<div className='video home__video'>
 					<video autoPlay loop muted className='video__file'>
-						<source src='./assets/videos/bg-home.mp4' type='video/mp4' />
-						<source src='./assets/videos/bg-home.webm' type='video/webm' />
+						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
+						<source src='/static/videos/bg-home.webm' type='video/webm' />
 					</video>
 				</div>
 				<div className='home'>

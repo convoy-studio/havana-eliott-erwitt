@@ -3,9 +3,18 @@
 }
 
 .fellowship {
+	position: fixed;
+	top: 0;
+	left: calc(50% - 479px);
 	width: 958px;
 	margin: 0 auto;
 	padding-top: 160px;
+	padding-bottom: 80px;
+}
+
+.js-parallax {
+	opacity: 0;
+	transform: translate(0, 100px);
 }
 
 .fellowship__presentation {
@@ -27,7 +36,6 @@
 	width: 100%;
 	height: 100%;
 	z-index: 10;
-	padding-bottom: 80px;
 }
 
 .fellowship__discover {

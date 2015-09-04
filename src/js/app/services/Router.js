@@ -84,6 +84,15 @@ class Router {
 		AppActions.pageHasherChanged(hasher.newHash)
 	}
 	_didHasherChange(newHash, oldHash) {
+		// window.scrollTo(0, 0)
+		// if (this.zoom !== undefined) {
+		// 	window.scrollTo(0, offset(document.querySelector('.project__slideshow')).top);
+		// 	PrintActions.setPrintZoom(undefined);
+		// }
+		// if (this.hash.parent === 'shop' && this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
+		// 	window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
+		// }
+
 		this.newHashFounded = false
 		crossroads.parse(newHash)
 		if(this.newHashFounded) return

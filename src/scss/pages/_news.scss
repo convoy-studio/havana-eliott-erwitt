@@ -1,12 +1,18 @@
 .news {
+	position: fixed;
+	top: 0;
+	left: calc(50% - 479px);
 	width: 958px;
 	margin: 0 auto;
-	padding-top: 160px;
+	padding-top: 200px;
 }
 .news__item {
 	display: table;
 	width: 100%;
 	margin-bottom: 100px;
+
+	opacity: 0;
+	transform: translate(0, 100px);
 }
 
 .news__item--left {

@@ -5,6 +5,14 @@
 	// color: $black;
 }
 
+.shop {
+	position: fixed;
+	top: 0;
+	left: calc(50% - 479px);
+	width: 958px;
+	margin: 0 auto;
+}
+
 .shop__intro {
 	width: 474px;
 	margin: 0 auto;
@@ -16,7 +24,7 @@
 	&:last-child { margin-bottom: 0; }
 }
 
-.shop {
+.shop__list {
 	width: 958px;
 	margin: 0 auto;
 }
@@ -62,6 +70,9 @@
 	width: calc(50% - 25px);
 	box-sizing: border-box;
 	margin: 0 0 65px 0;
+
+	opacity: 0;
+	transform: translate(0, 100px);
 
 	&:hover {
 		.shop__hover {

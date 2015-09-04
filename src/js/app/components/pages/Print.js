@@ -64,60 +64,92 @@ export default class Print extends Page {
 		CartStore.removeChangeListener(this._onStoreChangeBinded);
 	}
 
+	setupAnimations() {
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
+
+		// transition In
+		// if (this.props.oldHash.parent === 'shop') {
+		// 	this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		// 	this.tlIn.set(document.querySelector('.print'), { opacity:1 }, 0)
+		// 	this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		// } else {
+			this.tlIn.set(wrapper, { opacity: 1 }, 0)
+			this.tlIn.to(document.querySelector('.page__overlay--print'), 0.4, { y: window.innerHeight, ease:Power2.easeOut }, 0)
+			this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0.4)
+			this.tlIn.from(document.querySelector('.print'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0.4)
+		// }
+
+		// transition Out
+		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.print'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		this.tlOut.to(document.querySelector('.page__overlay--print'), 0.4, { y: 0, ease:Power2.easeOut }, 0.6)
+		this.tlOut.set(wrapper, { opacity:0 })
+
+		// reset
+		this.tlIn.pause(0)
+		this.tlOut.pause(0)
+	}
+
 	render() {
 		let that = this
+		let title, city, country, year, price, desc, serials
 
 		if (this.state.print) {
 			this.validSerials = this._getValidSerials()
 			this.selectedSerial = this.state.selectedSerial || this._getFirstSerial()
+
+			title = this.state.print.title
+			city = this.state.print.city
+			country = this.state.print.country
+			year = this.state.print.year
+			price = this.state.print.price
+			desc = this.state.print.desc
+			serials = this.state.print.serials
 		}
 
 		return (
 			<div className='page page--print' ref='page-wrapper'>
-				{(() => {
-					if (this.state.print) return (
-						<div className='print'>
-							{this.state.loadedPrint}
-							<div className='print__infos'>
-								<h2 className='print__title print__title--margin'>{that.state.print.title}</h2>
-								<h3 className='print__location'>
-									<span className='print__city'>{that.state.print.city}, {that.state.print.country},</span> {that.state.print.year}
-								</h3>
-								<h3 className='print__artist'>Elliott Erwitt</h3>
-								<div className='print__price text text--small'>{that.state.print.price}€</div>
-								<p className='print__desc text text--small'>{that.state.print.desc}</p>
-								<div className='print__serials'>
-									{(() => {
-										if (that.state.print.serials.length > 0) { return (
-											<div>
-												<div className='print__serial-opt'>Serial option</div>
-												<div className='print__select'>
-													<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.selectedSerial}</div>
-													<ul className='print__serial-list'>
-														{Object.keys(that.validSerials).map((index) => {
-															let enabled = that.validSerials[index]
-															let serial = parseInt(index)+1
-															// let classSelected = (serial === that.state.serial) ? 'print__serial--selected' : ''
-															// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
-															if (enabled) {
-																return (<li className='print__serial' onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>)
-															} else {
-																return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
-															}
-														})}
-													</ul>
-												</div>
-												<a href='#' className='print__buy text text--small button button--reverse' onClick={that._addToCartBinded}><span className='button__content'>Buy print</span></a>
+				<div className='page__overlay page__overlay--print'></div>
+					<div className='print'>
+						{this.state.loadedPrint}
+						<div className='print__infos'>
+							<h2 className='print__title print__title--margin'>{title}</h2>
+							<h3 className='print__location'>
+								<span className='print__city'>{city}, {country},</span> {year}
+							</h3>
+							<h3 className='print__artist'>Elliott Erwitt</h3>
+							<div className='print__price text text--small'>{price}€</div>
+							<p className='print__desc text text--small'>{desc}</p>
+							<div className='print__serials'>
+								{(() => {
+									if (serials && serials.length > 0) { return (
+										<div>
+											<div className='print__serial-opt'>Serial option</div>
+											<div className='print__select'>
+												<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.selectedSerial}</div>
+												<ul className='print__serial-list'>
+													{Object.keys(that.validSerials).map((index) => {
+														let enabled = that.validSerials[index]
+														let serial = parseInt(index)+1
+														// let classSelected = (serial === that.state.serial) ? 'print__serial--selected' : ''
+														// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+														if (enabled) {
+															return (<li className='print__serial' onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>)
+														} else {
+															return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
+														}
+													})}
+												</ul>
 											</div>
-										)} else { return (
-											<div>Out of stock</div>
-										)}
-									})()}
-								</div>
+											<a href='#' className='print__buy text text--small button button--reverse' onClick={that._addToCartBinded}><span className='button__content'>Buy print</span></a>
+										</div>
+									)} else { return (
+										<div>Out of stock</div>
+									)}
+								})()}
 							</div>
 						</div>
-					)
-				})()}
+					</div>
 			</div>
 		)
 	}

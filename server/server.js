@@ -65,6 +65,20 @@ server.register([
 
         server.route({
             method: 'GET',
+            path: '/static/videos/{filename}',
+            handler: function(request, reply) {
+                reply.file(config.output.path + '/assets/videos/' + request.params.filename);
+            },
+            config: {
+                cache: {
+                    privacy: 'public',
+                    expiresIn: 86400
+                }
+            }
+        });
+
+        server.route({
+            method: 'GET',
             path: '/{path*}',
             handler: {
                 directory: {

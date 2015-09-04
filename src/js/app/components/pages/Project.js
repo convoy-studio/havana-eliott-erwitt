@@ -92,10 +92,11 @@ export default class Project extends Page {
 		this._intro = document.querySelector('.project__intro')
 		this._raf()
 
-		this._project = dom('.project')
+		this._project = document.querySelector('.project')
 		this._projectSlideshow = document.querySelector('.project__slideshow')
 		this._projectPrints = document.querySelector('.project__prints')
 		this._introContent = document.querySelector('.project__intro .project__content')
+		this._pageProject = document.querySelector('.page--project')
 	}
 
 	// componentDidUpdate(prevProps, prevState) {
@@ -126,12 +127,34 @@ export default class Project extends Page {
 				dom('.project__discover').removeClass('project__discover--disabled')
 				dom('.project__loading').addClass('project__loading--disabled')
 			// }, 4000)
+
+			this._pageProject.style.height = document.querySelector('.project').offsetHeight + 'px'
 		}
 	}
 
 	componentWillUnmount() {
 		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
+	}
+
+	setupAnimations() {
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
+
+		// transition In
+		this.tlIn.staggerFrom([
+			document.querySelector('.project__artist'),
+			document.querySelector('.project__desc')
+		], 0.6, { y:50, ease:Power2.easeOut }, 0.1)
+		this.tlIn.to(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+
+		// transition Out
+		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+
+		// reset
+		this.tlIn.pause(0)
+		this.tlOut.pause(0)
 	}
 
 	render() {
@@ -247,6 +270,13 @@ export default class Project extends Page {
 	}
 
 	handleScroll() {
+		let e;
+		this.sTop = Utils.GetScrollTop()
+		this.cTop += .1 * (this.sTop - this.cTop)
+		e = -this.cTop
+		if (this._project) {
+			this._project.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)'
+		}
 
 		this.opacityMarge = window.innerHeight/2
 		this.limitOffset = offset(this._intro)
@@ -254,16 +284,16 @@ export default class Project extends Page {
 		this.introOpacity = 1 - (this.limitTop - this.opacityMarge) / (-this.opacityMarge)
 		this._intro.style.opacity = this.introOpacity
 
-
-
-		if (this._introContent) {
+		if (this._introContent && this._pageProject && this._project) {
 			if (window.innerHeight - this._introContent.offsetHeight < 200) {
-				this._project.addClass('project--relative')
+				this._project.classList.add('project--relative')
 				this._projectSlideshow.style[this.transform] = ('translate(0px, 0px) translateZ(0px)')
+				this._pageProject.style.height = document.querySelector('.project').offsetHeight + 'px'
 			} else {
 				this.slideshowY = - window.innerHeight/2 + this._projectPrints.offsetHeight/2 - 40
 				this._projectSlideshow.style[this.transform] = ('translate(0px, '+ this.slideshowY +'px) translateZ(0px)')
-				this._project.removeClass('project--relative')
+				this._project.classList.remove('project--relative')
+				this._pageProject.style.height = (this._project.offsetHeight + this.slideshowY) + 'px'
 			}
 		}
 

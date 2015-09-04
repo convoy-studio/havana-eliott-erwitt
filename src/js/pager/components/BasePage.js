@@ -23,13 +23,15 @@ export default class BasePage extends React.Component {
 		setTimeout(() => this.props.isReady(this.props.hash), 0)
 	}
 	setupAnimations() {
-		var wrapper = React.findDOMNode(this.refs['page-wrapper'])
+		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
 
 		// transition In
-		this.tlIn.from(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
+		this.tlIn.to(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// transition Out
-		this.tlOut.to(wrapper, 1, { opacity:0, ease:Expo.easeInOut })
+		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// reset
 		this.tlIn.pause(0)
