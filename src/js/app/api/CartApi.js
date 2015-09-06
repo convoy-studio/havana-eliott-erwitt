@@ -7,7 +7,7 @@ module.exports = {
 	generatePayButton : function(options) {
 		let data = 'total='+options.total
 
-		fetch('http://localhost/freelance/Havana/php/buy.php', {
+		fetch(config.siteurl + '/buy.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',
@@ -25,14 +25,13 @@ module.exports = {
 
 	checkResponse : function(options) {
 		let data = '';
-		for (var key in options) {
+		for (let key in options) {
 			if (data != "") {
 				data += "&";
 			}
 			data += key + "=" + encodeURIComponent(options[key]);
 		}
-		console.log(data)
-		fetch('http://localhost/freelance/Havana/php/check.php', {
+		fetch(config.siteurl + '/check.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',
