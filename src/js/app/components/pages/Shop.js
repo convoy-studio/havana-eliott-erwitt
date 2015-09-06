@@ -170,7 +170,7 @@ export default class Shop extends Page {
 			_(this.state.prints).forEach((print, index) => {
 				file = new Image()
 				file.onload = that.onImageLoaded.bind(that)
-				file.src = '/static/img/'+print.file+'_min.jpg'
+				file.src = '/static/img/'+print.file+'_medium.jpg'
 			}).value();
 		}
 	}
