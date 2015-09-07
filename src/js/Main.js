@@ -3,6 +3,7 @@ import TweenMax from 'gsap'
 import Pager from 'Pager'
 import raf from 'raf'
 import FastClick from 'fastclick'
+require('babel-core/polyfill')
 
 FastClick(document.body)
 

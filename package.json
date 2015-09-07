@@ -59,6 +59,7 @@
     "yargs": "^3.10.0"
   },
   "devDependencies": {
+    "babel-core": "^5.8.23",
     "bell": "^5.0.0",
     "boom": "^2.8.0",
     "by": "^0.2.3",
