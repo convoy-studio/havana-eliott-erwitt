@@ -5,9 +5,16 @@ let config = require('../config');
 module.exports = {
 
 	generatePayButton : function(options) {
-		let data = 'total='+options.total
+		let data = '';
+		for (let key in options) {
+			if (data != "") {
+				data += "&";
+			}
+			data += key + "=" + encodeURIComponent(options[key]);
+		}
 
-		fetch(config.siteurl + '/buy.php', {
+		// fetch(config.siteurl + '/buy.php', {
+		fetch(config.siteurl + '/authorization.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',

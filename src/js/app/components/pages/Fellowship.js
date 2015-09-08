@@ -92,8 +92,8 @@ export default class Fellowship extends Page {
 
 				<div className='video fellowship__video'>
 					<video autoPlay loop muted className='video__file'>
-						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 						<source src='/static/videos/bg-home.webm' type='video/webm' />
+						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 					</video>
 				</div>
 
@@ -133,8 +133,8 @@ export default class Fellowship extends Page {
 							</div>
 							<div data-speed='.1' className='js-parallax paragraph__column' onClick={this._toggleVideoBinded}>
 								<video className='fellowship__interview'>
-									<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 									<source src='/static/videos/bg-home.webm' type='video/webm' />
+									<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 								</video>
 								<p className='fellowship__play enabled'>play video</p>
 							</div>

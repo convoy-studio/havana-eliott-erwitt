@@ -6,6 +6,8 @@ import CartActions from 'CartActions'
 import CartStore from 'CartStore'
 import CartApi from 'CartApi'
 import PrintApi from 'PrintApi'
+import OrderApi from 'OrderApi'
+import OrderStore from 'OrderStore'
 let _ = require('lodash')
 
 function _getCartState() {
@@ -33,6 +35,7 @@ export default class Payment extends Page {
 		super.componentDidMount()
 
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
+		this._onOrderStoreChangeBinded = this._onOrderStoreChange.bind(this)
 
 		let hack = setTimeout(function() {
 			CartActions.updateCartEnabled(false)
@@ -41,6 +44,7 @@ export default class Payment extends Page {
 		}, 0);
 
 		CartStore.addChangeListener(this._onStoreChangeBinded);
+		OrderStore.addChangeListener(this._onOrderStoreChangeBinded);
 	}
 
 	componentWillUnmount() {
@@ -220,17 +224,31 @@ export default class Payment extends Page {
 	pay(e) {
 		e.preventDefault()
 
-		CartApi.generatePayButton({
-			email: 'hello@aze.com',
-			firstname: 'Nicolas',
-			lastname: 'Daniel',
-			phone: '0102030405',
-			address: '23 rue xxx',
-			zip: '12345',
-			city: 'Azerty',
-			country: 'France',
-			total: this.state.cartTotal * 100
-		})
+		let orderPrints = []
+		_(this.state.cartItems).forEach((item) => {
+			orderPrints.push({
+				printId: item.id,
+				serial: item.serial
+			})
+		}).value()
+		if (this.state.cartTotal > 0) {
+			OrderApi.create({
+				user: 'hello@aze.com',
+				prints: orderPrints
+			})
+		}
+
+		// CartApi.generatePayButton({
+		// 	email: 'hello@aze.com',
+		// 	firstname: 'Nicolas',
+		// 	lastname: 'Daniel',
+		// 	phone: '0102030405',
+		// 	address: '23 rue xxx',
+		// 	zip: '12345',
+		// 	city: 'Azerty',
+		// 	country: 'France',
+		// 	total: this.state.cartTotal * 100
+		// })
 	}
 
 	removeItem(id) {
@@ -253,6 +271,23 @@ export default class Payment extends Page {
 			form: CartStore.getForm()
 		}, () => {
 			if (document.querySelector('#paymentForm')) document.querySelector('#paymentForm').submit()
+		})
+	}
+
+	_onOrderStoreChange() {
+		let order = OrderStore.getCreated()
+		
+		CartApi.generatePayButton({
+			order_id: order._id,
+			user_id: order.user,
+			total: this.state.cartTotal * 100
+			// firstname: 'Nicolas',
+			// lastname: 'Daniel',
+			// phone: '0102030405',
+			// address: '23 rue xxx',
+			// zip: '12345',
+			// city: 'Azerty',
+			// country: 'France',
 		})
 	}
 }

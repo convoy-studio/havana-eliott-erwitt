@@ -28,20 +28,22 @@ export default class Home extends Page {
 			TweenMax.set(dom('.home'), {opacity: 0});
 			TweenMax.set(dom('.cart'), {opacity: 0});
 
-			this.showPageBinded = this.showPage.bind(this)
 			this.initCanvas()
 			this.initAnimation()
 		}
+
+		// this._video = document.querySelector('.video')
+		// this.loadVideo()
 	}
 
 	render() {
 		let homeData = AppStore.homeContent()
 		return (
 			<div className='page page--home' ref='page-wrapper'>
-				<div className='video home__video'>
+				<div className='video home__video' data-src='bg-home'>
 					<video autoPlay loop muted className='video__file'>
-						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 						<source src='/static/videos/bg-home.webm' type='video/webm' />
+						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 					</video>
 				</div>
 				<div className='home'>
@@ -104,6 +106,18 @@ export default class Home extends Page {
 		this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 0.6)
 	}
 
+	loadVideo() {
+		let src = this._video.dataset.src
+		let sources = '<source src="/assets/videos/'+src+'.mp4" type="video/mp4" /><source src="/assets/videos/'+src+'.webm" type="video/webm" />'
+		let video = document.createElement('video');
+		video.classList.add('video__file')
+		video.innerHTML = sources
+		video.muted = true
+		this._video.appendChild(video)
+		video.load()
+		video.play()
+	}
+	
 	didTransitionInComplete() {
 		super.didTransitionInComplete()
 	}
