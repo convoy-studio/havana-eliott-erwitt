@@ -16,10 +16,6 @@ export default class Projects extends Page {
 
 		// function binded
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
-		
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
 	}
 
 	componentDidMount() {

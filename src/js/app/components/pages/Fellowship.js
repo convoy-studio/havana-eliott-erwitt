@@ -44,10 +44,6 @@ export default class Fellowship extends Page {
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
-	
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
 	}
 
 	componentDidMount() {

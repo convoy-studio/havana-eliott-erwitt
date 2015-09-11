@@ -10,7 +10,7 @@ import TweenMax from 'gsap'
 import scrollTo from 'scrollTo'
 let scroll = Utils.Scroll()
 let _ = require('lodash')
-// let Masonry = require('masonry-layout');
+let Masonry = require('masonry-layout');
 
 export default class Shop extends Page {
 	
@@ -30,6 +30,7 @@ export default class Shop extends Page {
 		this._showPrintsBinded = this._showPrints.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this._rafBinded = this._raf.bind(this)
+		this._discoverBinded = this._discover.bind(this)
 		
 		// vars
 		this.eShow = []
@@ -38,10 +39,6 @@ export default class Shop extends Page {
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
-
-		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
 	}
 
 	componentDidMount() {
@@ -51,17 +48,9 @@ export default class Shop extends Page {
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 
 		this._shop = document.querySelector('.shop')
+		this._overlay = document.querySelector('.shop__overlay')
+		this._intro = document.querySelector('.shop__intro')
 
-		// if (this.props.oldHash && this.props.oldHash.parent === 'shop' && this.props.oldHash.parts.length > 1) {
-		// 	// console.log(document.querySelector('.shop').offsetTop, offset(dom('.shop')).top)
-		// 	// window.scrollTo(0, offset(dom('.shop')).top)
-		// 	setTimeout(() => {
-		// 		window.scrollTo(0, document.querySelector('.shop').offsetTop)
-		// 	}, 1000)
-		// }
-
-		// window.scrollTo(0,0)
-		// console.log('init raf shop')
 		this._raf()
 	}
 
@@ -70,69 +59,22 @@ export default class Shop extends Page {
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
 	}
 
-	// setupAnimations() {
-	// 	let wrapper = React.findDOMNode(this.refs['page-wrapper'])
-
-	// 	// transition In
-	// 	this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0.6)
-	// 	this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0.6)
-
-	// 	// transition Out
-	// 	this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
-	// 	this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-
-	// 	// reset
-	// 	this.tlIn.pause(0)
-	// 	this.tlOut.pause(0)
-	// }
-
-	setupAnimations() {
-		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
-
-		// transition In
-		// if ((this.props.oldHash && (this.props.oldHash.parent === 'shop' && this.props.oldHash.parts.length > 1) || this.props.oldHash.parent === 'payment') {
-		// 	this.tlIn.addCallback(this._rafBinded, 0)
-		// 	this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
-		// 	this.tlIn.set(document.querySelector('.shop'), { opacity:1 }, 0)
-		// 	this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		// } else {
-			this.tlIn.set(wrapper, { opacity: 1 }, 0)
-			this.tlIn.to(document.querySelector('.page__overlay--shop'), 0.4, { y: window.innerHeight, ease:Power2.easeOut }, 0)
-			this.tlIn.addCallback(this._rafBinded, 0.4)
-			this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0.4)
-			this.tlIn.from(document.querySelector('.shop'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0.4)
-		// }
-
-		// transition Out
-		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
-		this.tlOut.to(document.querySelector('.shop'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		this.tlOut.to(document.querySelector('.page__overlay--shop'), 0.4, { y: 0, ease:Power2.easeOut }, 0.6)
-		this.tlOut.set(wrapper, { opacity:0 })
-
-		// reset
-		this.tlIn.pause(0)
-		this.tlOut.pause(0)
-	}
-
 	render() {
 		let that = this
 		let shopData = AppStore.shopContent()
 
 		return (
 			<div className='page page--shop' ref='page-wrapper'>
-				<div className='page__overlay page__overlay--shop'></div>
 				<div className='shop js-smooth'>
+					<div className='shop__overlay'></div>
 					<div className='shop__intro'>
-						<h2 className='shop__title'>{shopData.intro.title}</h2>
+						<h2 className='title'>{shopData.intro.title}</h2>
 						{Object.keys(shopData.intro.paragraphs).map((index) => {
 							return (
-								<p className='shop__paragraph text text--big' key={index}>{shopData.intro.paragraphs[index]}</p>
+								<p className='shop__paragraph paragraph text' key={index}>{shopData.intro.paragraphs[index]}</p>
 							)
 						})}
-						<div className='discover shop__discover' onClick={this._showPrintsBinded}>
-							<div className='button'><span className='button__content'>Discover Elliott Erwitt's prints</span></div>
-							<div className='discover__arrow'><div className='arrow arrow--black'></div></div>
-						</div>
+						<div className='shop__discover button' onClick={this._discoverBinded}>Discover and buy the artwork.</div>
 					</div>
 					<div className='shop__list'>
 						{Object.keys(this.state.prints).map(function(id, index){
@@ -140,16 +82,17 @@ export default class Shop extends Page {
 							let file = print.file + '_medium.jpg'
 							// let speed = (index % 2 === 0) ? 'fast' : 'slow'
 							// let side = (index % 2 === 0) ? 'left' : 'right'
+							console.log(print)
 							return (
 								<div className='shop__print' key={id}>
 									<a href={'#/shop/'+id}>
 										<img src={'/static/img/'+file}></img>
 										<div className='shop__hover'>
 											<div className='shop__detail'>
-												<div className='print__title'>{print.title}</div>
-												<div className='print__location'><div className='shop__city'>{print.city}, {print.country},</div> <div className='shop__year'>{print.year}</div></div>
-												<div className='shop__price'>{print.price}€</div>
-												<div className='shop__details button button--reverse'><span className='button__content'>More details</span></div>
+												<div className='text'>{print.artist}</div>
+												<div className='text'>{print.title}. {print.city}. {print.country}. {print.year}</div>
+												<div className='shop__price text'>{print.price}€</div>
+												<div className='button'>More details</div>
 											</div>
 										</div>
 									</a> 
@@ -179,6 +122,12 @@ export default class Shop extends Page {
 		this.nImageLoaded++;
 
 		if (this.nImageLoaded >= this.max) {
+			var msnry = new Masonry( '.shop__list', {
+				// options
+				itemSelector: '.shop__print',
+				columnWidth: '.shop__print',
+				gutter: 10
+			});
 			document.querySelector('.page--shop').style.height = this._shop.offsetHeight + 'px'
 		}
 	}
@@ -225,6 +174,11 @@ export default class Shop extends Page {
 	_showPrints() {
 		this.slideshowOffsetTop = document.querySelector('.shop__list').offsetTop
 		TweenMax.to(window, 1.2, {scrollTo:{y: this.slideshowOffsetTop - 40}, ease:Power2.easeOut})
+	}
+
+	_discover() {
+		this._overlay.classList.add('shop__overlay--hidden')
+		this._intro.classList.add('shop__intro--hidden')
 	}
 
 	didTransitionOutComplete() {

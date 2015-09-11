@@ -10,23 +10,20 @@ export default class Home extends Page {
 	constructor(props) {
 		super(props)
 		this.props = props
-
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
-
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
 		
 		this._canvas = document.querySelector('.canvas')
+		this._overlay = document.querySelector('.bg-video__overlay')
 
 		if (this._canvas && this.props.oldHash === undefined) {
 			this._canvas.style.display = 'block';
 			TweenMax.set(dom('.front-container'), {opacity: 0});
 			TweenMax.set(dom('.home'), {opacity: 0});
 			TweenMax.set(dom('.cart'), {opacity: 0});
+			this._overlay.classList.add('bg-video__overlay--hidden');
 
 			this.initCanvas()
 			this.initAnimation()
@@ -40,21 +37,24 @@ export default class Home extends Page {
 		let homeData = AppStore.homeContent()
 		return (
 			<div className='page page--home' ref='page-wrapper'>
-				<div className='video home__video' data-src='bg-home'>
-					<video autoPlay loop muted className='video__file'>
+				<div className='bg-video' data-src='bg-home'>
+					<video autoPlay loop muted className='bg-video__file'>
 						<source src='/static/videos/bg-home.webm' type='video/webm' />
 						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 					</video>
+					<div className='home__overlay bg-video__overlay'></div>
 				</div>
 				<div className='home'>
-					{Object.keys(homeData.paragraphs).map((index) => {
-						return (
-							<p className='home__paragraph text text--big' key={index}>{homeData.paragraphs[index]}</p>
-						)
-					})}
+					<h2 className='title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
+					<a className='button' href='#/fellowship'>Learn more about the fellowship</a>
 				</div>
 			</div>
 		)
+					// {Object.keys(homeData.paragraphs).map((index) => {
+					// 	return (
+					// 		<p className='home__paragraph text text--big' key={index}>{homeData.paragraphs[index]}</p>
+					// 	)
+					// })}
 					// <p className='text text--big' dangerouslySetInnerHTML={{__html: homeData.content}} />
 	}
 
@@ -100,6 +100,9 @@ export default class Home extends Page {
 		this.tlEntry = new TimelineMax({delay: 4, onComplete: () => {
 			this._canvas.parentNode.removeChild(this._canvas);
 		}.bind(this)});
+		this.tlEntry.addCallback(() => {
+			this._overlay.classList.remove('bg-video__overlay--hidden');
+		}.bind(this), 0);
 		this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut});
 		this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 0.6)
 		this.tlEntry.to(dom('.home'), 0.4, {opacity: 1}, 0.6)
@@ -131,14 +134,14 @@ export default class Home extends Page {
 		let windowH = AppStore.Window.h
 		super.resize()
 
-		if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
-		else dom('body').removeClass('body--portrait')
+		// if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
+		// else dom('body').removeClass('body--portrait')
 
-		if (window.innerHeight - document.querySelector('.home').offsetHeight < 200) {
-			dom('.home').addClass('home--relative')
-		} else {
-			dom('.home').removeClass('home--relative')
-		}
+		// if (window.innerHeight - document.querySelector('.home').offsetHeight < 200) {
+		// 	dom('.home').addClass('home--relative')
+		// } else {
+		// 	dom('.home').removeClass('home--relative')
+		// }
 	}
 
 }

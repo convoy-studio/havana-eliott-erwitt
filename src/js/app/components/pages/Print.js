@@ -31,10 +31,6 @@ export default class Print extends Page {
 		// vars
 		this.loaded = false
 		this.validSerials = []
-		
-		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
 	}
 
 	componentDidMount() {

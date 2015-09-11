@@ -23,10 +23,6 @@ export default class Payment extends Page {
 	constructor(props) {
 		super(props)
 
-		dom('body')
-			.removeClass('body--black')
-			.addClass('body--white')
-
 		this.state = _getCartState()
 		this.state.form = undefined
 	}

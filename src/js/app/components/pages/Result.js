@@ -9,10 +9,6 @@ export default class Result extends Page {
 	constructor(props) {
 		super(props)
 		this.props
-
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
 	}
 
 	render() {

@@ -12,9 +12,6 @@ export default class News extends Page {
 
 	constructor(props) {
 		super(props)
-		dom('body')
-			.removeClass('body--white')
-			.addClass('body--black')
 
 		this._rafBinded = this._raf.bind(this)
 
