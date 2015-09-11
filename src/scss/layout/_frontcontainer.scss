@@ -3,35 +3,47 @@
 	z-index: 20;
 }
 
-.header {
-}
-
-.header__title {
+.header__logo {
 	position: absolute;
 	left: 50%;
 	top: 40px;
 	transform: translate(-50%, 0);
+	overflow: hidden;
 
 	text-align: center;
-	font-size: 24px;
-    line-height: 24px;
+	font-size: 18px;
+    line-height: 18px;
 	@extend .title-font;
 }
 
-.header__title--fixed {
-	position: fixed;
-}
-
 .header__subtitle {
+	display: inline-block;
+	position: relative;
 	padding-top: 6px;
 	
-	@extend .text-font;
-	text-transform: initial;
+	@extend .stanley;
+	text-transform: uppercase;
+
+	&:before, &:after {
+		content: ' ';
+		position: absolute;
+		top: 12px;
+		width: 58px;
+		height: 1px;
+
+		background-color: $white;
+	}
+	&:before {
+		right: calc(100% + 6px);
+	}
+	&:after {
+		left: calc(100% + 6px);
+	}
 }
 
 .header__menu {
 	position: fixed;
-	left: 78px;
+	left: 69px;
 	bottom: 0;
 	padding: 0 15px;
 	width: 100vh;
@@ -41,76 +53,35 @@
 	transform: rotate(-90deg);
 }
 
-.header__list {
-}
-
 .header__item {
 	display: inline-block;
-	margin-right: calc(100% / 3 - 508px / 3); // 217px = somme width menu items
+	margin-right: calc(100% / 3 - 508px / 3);
 	
 	@extend .title-font;
 	text-align: center;
 	font-size: 18px;
 
-	&:first-child {
-		text-align: left;
-		a {
-			float: left;
-			clear: left;
-		}
-	}
 	&:last-child {
 		margin-right: 0;
-		text-align: right;
-		a {
-			float: right;
-			clear: right;
-		}
 	}
 
 	a {
-		display: table;
-		// line-height: 28px;
+		display: block;
 		margin: 0 auto;
 		padding: 40px 30px 10px;
-
-		&:hover {
-			.button__content:after {
-				animation: buttonHover 0.2s ease-out forwards;
-			}
-		}
-	}
-
-	.button__content {
-		padding-bottom: 10px;
 	}
 }
 
 .submenu {
 	position: fixed;
-	right: 16px;
+	right: 29px;
 	top: 50%;
 	transform-origin: 100% 100%;
 	transform: rotate(-90deg) translate(50%, -50%);
 	z-index: 100;
 
-	@extend .title-font;
-	font-size: 18px;
-
 	a {
-		display: block;
-		margin: 0 auto;
-		padding: 0 25px;
-
-		&:hover {
-			p:after {
-				animation: buttonHover 0.2s ease-out forwards;
-			}
-		}
-	}
-
-	p {
-		padding-bottom: 10px;
+		padding: 10px 30px 40px;
 	}
 }
 
@@ -120,16 +91,9 @@
 	bottom: 40px;
 
 	@extend .text-font;
-	font-size: 12px;
-	line-height: 14px;
+	font-size: 10px;
+	line-height: 12px;
 	text-align: right;
-}
-
-.footer__button {
-	.button__content {
-		padding-bottom: 1px;
-		margin-bottom: 1px;
-	}
 }
 
 @include max-screen(958px) {

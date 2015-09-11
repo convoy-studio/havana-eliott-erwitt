@@ -5,141 +5,48 @@
 .fellowship {
 	position: fixed;
 	top: 0;
-	left: calc(50% - 479px);
-	width: 958px;
+	left: calc(50% - 363px);
+	width: 726px;
 	margin: 0 auto;
-	padding-top: 160px;
+	padding-top: calc(50vh - 18px);
 	padding-bottom: 80px;
+
+	text-align: center;
+	
+	@extend .visible;
 }
 
-.js-parallax {
-	opacity: 0;
-	transform: translate(0, 100px);
+.fellowship--hidden {
+	@extend .hidden;
 }
 
-.fellowship__presentation {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	// padding-top: 152px;
-	box-sizing: border-box;
+.fellowship__image {
+	margin-bottom: 70px;
 }
 
-// .fellowship__elliott {
-// 	@extend .vertical-center;
-// 	width: 110%;
-// 	height: 110%;
-// }
-
-.fellowship__artist {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	z-index: 10;
+.fellowship__elliott {
+	margin-bottom: 40px;
 }
 
 .fellowship__discover {
-    margin-bottom: 80px;
+	&.js-reveal {
+		transform: none;
+	}
 }
 
-.fellowship__video {
+.fellowship__back {
 	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-}
+	left: 50%;
+	bottom: 70px;
+	transform: translate(-50%, 0);
 
-.fellowship__interview {
-	width: 100%;
-	padding-left: 64px;
-
-	cursor: pointer;
-}
-
-.fellowship__play {
-	position: absolute;
-	left: 0;
-	top: 50%;
-	transform: translate(0, -50%);
-	width: 100%;
-	padding-left: 64px;
-
-	text-align: center;
-
-	cursor: pointer;
-	visibility: hidden;
-	opacity: 0;
-	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
-
-	&.enabled {
-		visibility: visible;
-		opacity: 1;
-		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	@extend .hidden;
+	
+	&.fellowship__back--visible {
+		@extend .visible;
 	}
 }
 
-.paragraph, .paragraph__row {
-	margin-bottom: 84px;
-}
-
-.paragraph__row {
-	.paragraph {
-		margin-bottom: 0;
-	}
-}
-
-.paragraph--big {
-	@extend .title-font;
-	font-size: 70px;
-	text-align: center;
-}
-
-.paragraph--medium {
-	@extend .title-font;
-	font-size: 36px;
-	text-align: center;
-}
-
-.paragraph--small {
-	width: 474px;
-
-	font-size: 24px;
-	line-height: 28px;
-}
-
-.paragraph--center {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.paragraph__row {
-	width: 100%;
-	display: table;
-	table-layout: fixed;
-}
-
-.paragraph__column {
-	position: relative;
-	display: table-cell;
-	vertical-align: middle;
-	box-sizing: border-box;
-}
-
-.paragraph__column--left {
-	padding-right: 64px;
-}
-
-.paragraph__column--right {
-	padding-left: 64px;
-}
-
-.fellowship__button {
-	font-size: 14px;
-}
-
-.fellowship__artistname {
-	width: 716px;
-}
 
 @include max-screen(958px) {
 	.fellowship {

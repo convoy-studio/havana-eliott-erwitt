@@ -8,56 +8,14 @@ html, body {
 }
 
 html {
-	// @extend .full;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
 
 body {
-	// &:after {
-	// 	content: '';
-	// 	position: fixed;
-	// 	left: 0;
-	// 	// top: -100%;
-	// 	top: 0;
-	// 	width: 100%;
-	// 	height: 100%;
-	// 	transform: translate(0, -100%);
-
-	// 	background-color: $white;
-
-	// 	will-change: transform;
-	// 	// transition: top 0.4s ease-out 0.8s;
-	// 	transition: transform 0.4s ease-out 0.8s;
-	// }
-	
-}
-
-.body--white {
-	color: $black;
-	background-color: $white;
-	transition: color 0.4s ease-out 0.8s, background-color 0s ease-out 1.2s;
-	
-	a {
-		color: $black;
-		transition: color 0.4s ease-out 0.8s;
-	}
-	.button__content:after { background-color: $black; }
-
-	// &:after {
-	// 	// top: 0;
-	// 	transform: translate(0, 0);
-	// }
-}
-
-body, .body--black {
 	background-color: $black;
 	color: $white;
-	transition: color 0.4s ease-out 0.8s, background-color 0s ease-out 0s;
-	a {
-		color: $white;
-		transition: color 0.4s ease-out 0.8s;
-	}
+	a { color: $white; }
 }
 
 #container  {
@@ -86,268 +44,106 @@ body, .body--black {
 	@extend .full;
 }
 
-.pages {
+.pages, .page {
 	@extend .full;
 	position: absolute;
 }
 
-.page {
-	@extend .full;
-	position: absolute;
-	// padding: 0 $overallMargin;
-	// color: $white;
-}
-
-.page--white {
-	background-color: $white
-}
-
-.page__overlay {
+.bg-video {
 	position: fixed;
-	top: -100%;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: -1;
-
-	background-color: $white;
-}
-
-.video {
-	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 
-	&:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
+	text-align: center;
 
-		background-color: #000;
-		opacity: 0.6;
-	}
+	// &:after {
+	// 	content: '';
+	// 	@extend .vertical-center;
+	// 	width: 110%;
+	// 	height: 110%;
 
-	&.video--full {
-		.video__file {
-			left: 50%;
-			top: 0;
-			transform: translate(-50%, 0);
-			width: initial;
-			height: 100%;
-		}
-	}
-
-	// video {
-	// 	width: 100%;
-	// 	height: 100%;
+	// 	background-color: #000;
+	// 	opacity: 0.8;
 	// }
 }
 
-.body--portrait {
-	.video__file {
-		left: 50%;
-		top: 0;
-		transform: translate(-50%, 0);
-		width: initial;
-		height: 100%;
-	}
+.bg-video__file {
+	@extend .vertical-center;
+	height: 60%;
 }
 
-.video__file {
-	position: absolute;
-	left: 0;
-	top: 50%;
-	transform: translate(0, -50%);
-	width: 100%;
+.bg-video__overlay {
+	@extend .full;
+	background-color: #000;
+
+	visibility: visible;
+	opacity: 0.8;
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 }
 
-// .button {
-// 	position: relative;
-// 	overflow: hidden;
-// 	cursor: pointer;
-
-// 	&:after {
-// 		content: '';
-// 		position: absolute;
-// 		left: -101%;
-// 		bottom: 0px;
-// 		width: 100%;
-// 		height: 1px;
-
-// 		background-color: $white;
-
-// 		animation: buttonOut 0.2s ease-out forwards;
-
-// 	}
-
-// 	&:hover {
-// 		&:after {
-// 			animation: buttonHover 0.2s ease-out forwards;
-// 		}
-// 	} 
-// }
-
-// .button--reverse {
-// 	&:after {
-// 		left: 0;
-// 		animation: buttonReverseOut 0.2s ease-out forwards;
-// 	}
-// 	&:hover {
-// 		&:after {
-// 			animation: buttonReverseHover 0.2s ease-out forwards;
-// 		}
-// 	} 
-// }
-
-// .button--enabled {
-// 	a, p {
-// 		cursor: default;
-// 		&:after {
-// 			left: 0;
-// 			animation: none !important;
-// 		}
-// 	}
-// }
-
-// .button--big {
-// 	&:after {
-// 		height: 2px;
-// 	}
-// }
-
-// .button--right {
-// 	float: right;
-// 	clear: right;
-// }
-
-// .button--left {
-// 	float: left;
-// 	clear: left;
-// }
-
-// .button--center {
-// 	display: table;
-// 	margin-left: auto;
-// 	margin-right: auto;
-// }
-
+.bg-video__overlay--hidden {
+	@extend .hidden;
+}
 
 .button {
-	display: table;
-	margin: 0 auto;
-}
+	// display: block;
 
-.button--big {
-	.button__content:after {
-		height: 2px;
-	}
-}
-
-.button--right {
-	float: right;
-	clear: right;
-}
-
-.button--left {
-	float: left;
-	clear: left;
-}
-
-.button--center {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.button--reverse {
-	.button__content:after {
-		left: 0;
-		animation: buttonReverseOut 0.2s ease-out forwards;
-	}
-	.button__content:hover {
-		&:after {
-			animation: buttonReverseHover 0.2s ease-out forwards;
-		}
-	} 
-}
-
-.button__content {
-	display: block;
-	position: relative;
-	overflow: hidden;
+	@extend .title-font;
+	font-size: 18px;
+	line-height: 18px;
+	transition: opacity 0.2s ease-out;
 	cursor: pointer;
-	padding-bottom: 10px;
-
-	&:after {
-		content: '';
-		position: absolute;
-		left: -101%;
-		bottom: 0px;
-		width: 100%;
-		height: 1px;
-
-		background-color: $white;
-
-		animation: buttonOut 0.2s ease-out forwards;
-	}
-
-	&:hover {
-		&:after {
-			animation: buttonHover 0.2s ease-out forwards;
-		}
-	}
+	&:hover { opacity: 0.2 !important; }
 }
-
 .button--enabled {
-	.button__content {
-		cursor: default;
-		&:after {
-			left: 0;
-			animation: none !important;
-		}
+	opacity: 0.2 !important;
+}
+.button--footer {
+	@extend .text-font;
+	font-size: 10px;
+	line-height: 12px;
+}
+.button--margin {
+	margin-bottom: 70px;
+}
+
+.column {
+	width: 338px;
+	display: inline-block;
+	vertical-align: top;
+
+	&:first-child {
+		padding-right: 20px;
+	}
+	&:last-child {
+		padding-left: 20px;
+	}
+
+	.paragraph {
+		margin-bottom: 30px;
+		&:last-child { margin-bottom: 70px; }
 	}
 }
 
-@keyframes buttonHover {
-	0% {
-		left: -101%;
-	}
-	100% {
-		left: 0;
-	}
+.paragraph {
+	margin-bottom: 70px;
+	text-align: left;
 }
 
-@keyframes buttonOut {
-	0% {
-		left: 0;
-	}
-	100% {
-		left: 101%;
-	}
+.paragraph--2 {
+	column-count: 2;
+	column-gap: 40px;
+
+	span { margin-bottom: 0; }
 }
 
-@keyframes buttonReverseHover {
-	0% {
-		left: 0;
-	}
-	100% {
-		left: 101%;
-	}
-}
-
-@keyframes buttonReverseOut {
-	0% {
-		left: -101%;
-	}
-	100% {
-		left: 0;
-	}
+.js-reveal {
+	display: block;
+	opacity: 0;
+	transform: translate(0, 70px);
 }
 
 $border-width: 1px;
@@ -383,7 +179,6 @@ $border-width: 1px;
 
 .discover {
     position: relative;
-    // margin-bottom: 80px;
 	
 	font-size: 16px;
 	text-align: center;

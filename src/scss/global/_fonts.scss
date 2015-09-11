@@ -1,6 +1,7 @@
 @include font-face('hc7modern', '../font/hc7modern/HC7Modern-bold');
 @include font-face('Stanley', '../font/stanley/Stanley_Regular');
-@include font-face('Stanley', '../font/stanley/Stanley_RegularIta', normal, italic);
+// @include font-face('Stanley', '../font/stanley/Stanley_RegularIta', normal, italic);
+@include font-face('UniversLTStd', '../font/UniversLTStd');
 
 #font-charger {
 	left: -10000px;
@@ -9,6 +10,9 @@
 	@include opacity(0);
 	#hc7modern {
 		font-family: 'hc7modern';
+	}
+	#UniversLTStd {
+		font-family: 'UniversLTStd';
 	}
 	#Stanley {
 		font-family: 'Stanley';

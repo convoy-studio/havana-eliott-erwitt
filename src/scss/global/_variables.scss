@@ -1,6 +1,6 @@
 // fonts
 $title-font: 'hc7modern';
-$text-font: 'Stanley';
+$text-font: 'UniversLTStd';
 
 .title-font {
 	font-family: $title-font;
@@ -11,6 +11,13 @@ $text-font: 'Stanley';
 
 .text-font {
 	font-family: $text-font;
+	text-transform: initial;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.stanley {
+	font-family: 'Stanley';
 	text-transform: initial;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

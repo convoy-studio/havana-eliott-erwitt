@@ -24,7 +24,7 @@ export default class FrontContainer extends BaseComponent {
 			let pathUrl = '#' + item.url
 			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li className={'header__item ' + classes} key={index}><a href={pathUrl} className='button'><span className='button__content'>{item.name}</span></a></li>
+				<li className='header__item ' key={index}><a href={pathUrl} className={'button ' + classes}>{item.name}</a></li>
 			)
 		}).reverse()
 		let footerMenuData = AppStore.footerMenuContent()
@@ -32,14 +32,14 @@ export default class FrontContainer extends BaseComponent {
 			let pathUrl = '#' + item.url
 			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
 			return(
-				<li key={index}><a href={pathUrl} className='footer__button button button--right'><span className='button__content'>{item.name}</span></a></li>
+				<li key={index}><a href={pathUrl} className='footer__button button button--footer'>{item.name}</a></li>
 			)
 		})
 
 		return (
 			<div id='frontContainer' className='front-container' ref='front-container'>
 				<header id='header' className='header'>
-					<h1 className='header__title'><a href='#/'>Elliott Erwitt Havana Club 7<div className='header__subtitle'>Fellowship</div></a></h1>
+					<h1 className='header__logo'><a href='#/'><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></a></h1>
 					<nav className='header__menu'>
 						<ul className='header__list'>
 							{menuItems}
