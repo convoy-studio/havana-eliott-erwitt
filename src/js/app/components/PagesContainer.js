@@ -17,6 +17,8 @@ import Result from 'Result'
 import Contact from 'Contact'
 import Legal from 'Legal'
 import Privacy from 'Privacy'
+import Login from 'Login'
+import Admin from 'Admin'
 import Notfound from 'Notfound'
 
 export default class PagesContainer extends BasePager {
@@ -91,6 +93,12 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'privacy':
 				type = Privacy
+				break
+			case 'login':
+				type = Login
+				break
+			case 'admin':
+				type = Admin
 				break
 			default:
 				type = Notfound
