@@ -1,5 +1,5 @@
-$formColor: $black;
-$formBg: $white;
+$formColor: $white;
+$formBg: $black;
 
 .form__title {
 	@extend .title-font;
@@ -30,7 +30,8 @@ $formBg: $white;
 	margin-bottom: 10px;
 
 	@extend .text-font;
-	font-size: 14px;
+	font-size: 10px;
+	line-height: 12px;
 }
 
 .form__label--pointer {
@@ -80,7 +81,7 @@ input[type=radio] + label .form__text {
 	width: calc(100% - 28px);
 	vertical-align: middle;
 
-	line-height: 16px;
+	line-height: 12px;
 
 	img {
 		width: auto;

@@ -45,7 +45,7 @@ export default class Projects extends Page {
 						{Object.keys(this.state.artists).map(function(index){
 							let artist = that.state.artists[index];
 							return (
-								<li key={index} className='projects__item'><a href={'#/project/'+artist.slug} className='button button--big'><span className='button__content'>{artist.name}</span></a></li>
+								<li key={index} className='projects__item'><a href={'#/photography/'+artist.slug} className='button button--big'><span className='button__content'>{artist.name}</span></a></li>
 							)
 						})}
 					</ul>

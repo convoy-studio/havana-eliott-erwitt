@@ -27,12 +27,12 @@ class Router {
 		// 	page : ['home', '404', 'fellowship', 'projects', 'shop', 'news', 'contact', 'legal', 'privacy'] //valid sections
 		// }
 
-		let projectSection = crossroads.addRoute('project/{id}', this._onProjectURLHandler.bind(this), 2)
+		let projectSection = crossroads.addRoute('photography/{id}', this._onProjectURLHandler.bind(this), 2)
 		projectSection.rules = {
 			id : /^[a-z]/
 		}
 
-		let gallerySection = crossroads.addRoute('project/{id}/contact-sheet', this._onProjectURLHandler.bind(this), 3)
+		let gallerySection = crossroads.addRoute('photography/{id}/contact-sheet', this._onProjectURLHandler.bind(this), 3)
 		gallerySection.rules = {
 			id : /^[a-z]/
 		}

@@ -7,14 +7,16 @@
 	padding-top: 160px;
 }
 
+.gallery__title {
+	text-align: center;
+}
+
 .gallery__grid {
 	display: inline-block;
 	width: 100%;
 	clear: left;
 
-	&:last-child {
-		padding-bottom: 100px;
-	}
+	padding-bottom: 50px;
 }
 
 .gallery__item {

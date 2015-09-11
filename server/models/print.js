@@ -9,7 +9,7 @@ var itemSchema = new mongoose.Schema({
 	title 		: String,
 	city 		: String,
 	country 	: String,
-	year 		: String,
+	year 		: Number,
 	file		: String,
 	copies		: Number,
 	serials		: [Boolean],

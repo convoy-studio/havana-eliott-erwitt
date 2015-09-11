@@ -53,6 +53,7 @@ export default class Fellowship extends Page {
 		this._overlay = document.querySelector('.bg-video__overlay')
 		this._video = document.querySelector('.bg-video__file')
 		this._back = document.querySelector('.fellowship__back')
+		console.log(this._overlay)
 
 		document.querySelector('.page').style.height = this._fellowship.offsetHeight + 'px'
 
@@ -68,11 +69,11 @@ export default class Fellowship extends Page {
 
 		// transition In
 		this.tlIn.addCallback(this._rafBinded, 0)
-		this.tlIn.to(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.to(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
 		this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// transition Out
-		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
 		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// reset

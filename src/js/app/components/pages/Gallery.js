@@ -67,7 +67,7 @@ export default class Gallery extends Page {
 
 		// transition In
 		this.tlIn.addCallback(this._rafBinded, 0)
-		this.tlIn.to(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.to(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
 		this.tlIn.from(document.querySelector('.submenu'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 		this.tlIn.set(wrapper, { opacity:1, ease:Power2.easeInOut }, 0)
 
@@ -81,7 +81,7 @@ export default class Gallery extends Page {
 		
 		this.tlOut.clear()
 		this.tlOut.staggerTo(_.shuffle(dom('.gallery__item')), 0.6, { opacity:0, ease:Power2.easeOut }, 0.01)
-		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
 		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeOut }, '-=0.6')
 	}
 
@@ -90,22 +90,24 @@ export default class Gallery extends Page {
 		let printIndex = -1
 		return (
 			<div className='page page--gallery' ref='page-wrapper'>
-				<div className='submenu'><a href={'#/project/'+this.props.idSection} className='button'><span className='button__content'>Back to gallery</span></a></div>
+				<div className='submenu'><a href={'#/photography/'+this.props.idSection} className='button'><span className='button__content'>Back to gallery</span></a></div>
 				<div className='gallery js-smooth'>
 					{Object.keys(this.state.loadedPrints).map((year, i) => {
 						return (
-							<div className='gallery__grid' key={year+'_'+i}>
-								<div className='gallery__width'></div>
-								<div className='gallery__item gallery__item--large gallery__item--disabled'>{year}</div>
-								{Object.keys(that.state.loadedPrints[year]).map((printId, j) => { 
-									let print = that.state.loadedPrints[year][printId]
-									let src = '/static/img/'+print.file+'_min.jpg'
-									let random = Math.floor(Math.random()*6)
-									printIndex++
-									return (
-										<div className={'gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={printId} onClick={that.zoomPrint.bind(that, printIndex)}><img className='gallery__image' src={src}></img></div>
-									)
-								})}
+							<div key={year+'_'+i}>
+								<div className='gallery__title title js-reveal'>Elliott Erwitt {year}</div>
+								<div className='gallery__grid'>
+									<div className='gallery__width'></div>
+									{Object.keys(that.state.loadedPrints[year]).map((printId, j) => { 
+										let print = that.state.loadedPrints[year][printId]
+										let src = '/static/img/'+print.file+'_min.jpg'
+										let random = Math.floor(Math.random()*6)
+										printIndex++
+										return (
+											<div className={'js-reveal gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={printId} onClick={that.zoomPrint.bind(that, printIndex)}><img className='gallery__image' src={src}></img></div>
+										)
+									})}
+								</div>
 							</div>
 						)
 					})}
@@ -136,7 +138,7 @@ export default class Gallery extends Page {
 		}
 
 
-		_(dom('.gallery__item')).forEach((el, index) => {
+		_(dom('.js-reveal')).forEach((el, index) => {
 			this.lTop = offset(el).top
 			if (!this.eShow[index]) {
 				this.eShow[index] = false
@@ -209,7 +211,7 @@ export default class Gallery extends Page {
 		// this.tlItemsOut = new TimelineMax()
 		// this.tlItemsOut.staggerTo(_.shuffle(dom('.gallery__item')), 0.6, { opacity:0, ease:Expo.easeOut }, 0.01)
 		// this.tlItemsOut.addCallback(() => {
-			window.location.href = '#/project/'+that.props.idSection;
+			window.location.href = '#/photography/'+that.props.idSection;
 		// }, '-=0.2')
 	}
 

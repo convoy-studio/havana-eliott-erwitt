@@ -80,7 +80,7 @@ var controller = {
 	getByArtist : {
 		handler : function(request, reply) {
 			Print.find({ slugArtist: request.params.slug })
-				 .sort({ year: 'asc'})
+				 .sort({ year: 'desc'})
 				 .exec(function(err, items) {
 					if (!err) {
 						var result = []

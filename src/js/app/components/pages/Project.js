@@ -141,11 +141,11 @@ export default class Project extends Page {
 			document.querySelector('.project__artist'),
 			document.querySelector('.project__desc')
 		], 0.6, { y:50, ease:Power2.easeOut }, 0.1)
-		this.tlIn.to(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.to(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
 		this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// transition Out
-		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
 		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// reset
@@ -180,7 +180,7 @@ export default class Project extends Page {
 		return (
 			<div className='page page--project' ref='page-wrapper'>
 				
-				<div className='submenu project__contact'><a href={'#/project/'+this.props.idSection+'/contact-sheet'} className='button'><span className='button__content'>Contact sheet</span></a></div>
+				<div className='submenu project__contact'><a href={'#/photography/'+this.props.idSection+'/contact-sheet'} className='button'><span className='button__content'>Contact sheet</span></a></div>
 				<div className='submenu project__back'><a href='#' className='button' onClick={this._backToGalleryBinded}><span className='button__content'>Back to gallery</span></a></div>
 
 				<section className='project'>

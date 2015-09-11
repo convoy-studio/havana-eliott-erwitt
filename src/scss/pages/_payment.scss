@@ -4,6 +4,13 @@
 	padding-top: 160px;
 }
 
+.payment__title {
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
 .payment__form {
 	display: table;
 	table-layout: fixed;
@@ -29,11 +36,12 @@ $margin: 120px;
 }
 
 .payment__pay {
+	display: block;
+	width: 100%;
 	margin-top: 30px;
 	margin-bottom: 60px;
 
-	@extend .text-font;
-	font-size: 14px;
+	text-align: center;
 }
 
 #paymentForm {

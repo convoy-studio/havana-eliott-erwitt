@@ -22,7 +22,7 @@ export default class FrontContainer extends BaseComponent {
 		let menuData = AppStore.menuContent()
 		let menuItems = menuData.map((item, index)=>{
 			let pathUrl = '#' + item.url
-			let classes = (item.id === this.state.hash) || (item.id === this.state.hash+'s') ? 'button--enabled' : ''
+			let classes = (item.id === this.state.hash) ? 'button--enabled' : ''
 			return(
 				<li className='header__item ' key={index}><a href={pathUrl} className={'button ' + classes}>{item.name}</a></li>
 			)

@@ -52,14 +52,14 @@ export default class Payment extends Page {
 
 		// transition In
 		this.tlIn.set(wrapper, { opacity: 1 }, 0)
-		this.tlIn.to(document.querySelector('.page__overlay--payment'), 0.4, { y: window.innerHeight, ease:Power2.easeOut }, 0)
-		this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0.4)
-		this.tlIn.from(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0.4)
+		this.tlIn.from(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlIn.from(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		this.tlIn.to(document.querySelector('#header'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// transition Out
-		this.tlOut.to(document.querySelector('.header__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
 		this.tlOut.to(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		this.tlOut.to(document.querySelector('.page__overlay--payment'), 0.4, { y: 0, ease:Power2.easeOut }, 0.6)
+		this.tlOut.to(document.querySelector('#header'), 0.6, { opacity:1, ease:Power2.easeInOut }, 0)
 		this.tlOut.set(wrapper, { opacity:0 })
 
 		// reset
@@ -72,7 +72,8 @@ export default class Payment extends Page {
 
 		return (
 			<div className='page page--payment' ref='page-wrapper'>
-				<div className='page__overlay page__overlay--payment'></div>
+				<h1 className='payment__title title'>Checkout</h1>
+				<div className='submenu'><a href='#/shop' className='button'>Back to shop</a></div>
 				<div className='payment'>
 					<form className='payment__form form'>
 						<div className='payment__column'>
@@ -116,7 +117,7 @@ export default class Payment extends Page {
 								<input className='form__input form__input--text' type='text' id='country'/>
 							</div>
 							<div className='form__row'>
-								<input className='form__input form__input--checkbox' type='checkbox' id='billAddress'/>
+								<input className='form__input form__input--checkbox' type='checkbox' id='billAddress' defaultChecked/>
 								<label className='form__label form__label--pointer' htmlFor='billAddress'><p className='form__text'>Bill to the same address</p></label>
 							</div>
 						</div>
@@ -140,21 +141,21 @@ export default class Payment extends Page {
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro' defaultChecked/>
-									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro-black.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='visa'/>
-									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa-black.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='paypal'/>
-									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal-black.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='americanExpress'/>
-									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/american-black.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
 								</div>
 							</div>
 						</div>
@@ -198,14 +199,14 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
-								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>News</p></label>
+								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>I want to be informed of fellowship news</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
 								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
 							</div>
 
-							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}><span className='button__content'>Proceed to payment</span></a>
+							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}>Proceed to payment</a>
 						</div>
 					</form>
 

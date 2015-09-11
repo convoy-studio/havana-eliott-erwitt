@@ -48,10 +48,7 @@ export default class PagesContainer extends BasePager {
 			case 'friends':
 				type = Friends
 				break
-			case 'projects':
-				type = Projects
-				break
-			case 'project':
+			case 'photography':
 				if (hash.parts.length > 2) {
 					if (hash.parts[2] === 'contact-sheet') {
 						type = Gallery
@@ -59,11 +56,26 @@ export default class PagesContainer extends BasePager {
 					} else {
 						// zoom sur une photo
 					}
-				} else {
+				} else if (hash.parts.length > 1) {
 					type = Project
 					id = hash.targetId
+				} else {
+					type = Projects
 				}
 				break
+			// case 'project':
+			// 	if (hash.parts.length > 2) {
+			// 		if (hash.parts[2] === 'contact-sheet') {
+			// 			type = Gallery
+			// 			id = hash.targetId
+			// 		} else {
+			// 			// zoom sur une photo
+			// 		}
+			// 	} else {
+			// 		type = Project
+			// 		id = hash.targetId
+			// 	}
+			// 	break
 			case 'shop':
 				if (hash.parts.length > 1) {
 					type = Print

@@ -38,13 +38,13 @@ export default class News extends Page {
 		let newsItems = newsData.map((item, index)=>{
 			if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
-					<div className='news__content'>{item.content}</div>
-					<div className='news__date'>{item.date}</div>
+					<div className='news__content text'>{item.content}</div>
+					<div className='news__date title'>{item.date}</div>
 				</article>
 			)} else { return (
 				<article key={index} className='news__item news__item--left'>
-					<div className='news__date'>{item.date}</div>
-					<div className='news__content'>{item.content}</div>
+					<div className='news__date title'>{item.date}</div>
+					<div className='news__content text'>{item.content}</div>
 				</article>
 			)}
 		})

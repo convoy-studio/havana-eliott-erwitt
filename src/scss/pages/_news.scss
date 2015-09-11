@@ -17,18 +17,15 @@
 
 .news__item--left {
 	.news__content {
-		// @extend .title-font;
 		padding-left: 55px;
 	}
 	.news__date {
-		// @extend .text-font;
 		padding-right: 55px;
 	}
 }
 
 .news__item--right {
 	.news__content {
-		// @extend .text-font;
 		padding-right: 55px;
 	}
 	.news__date {
@@ -41,10 +38,6 @@
 	display: table-cell;
 	width: 50%;
 	box-sizing: border-box;
-
-	@extend .text-font;
-	font-size: 24px;
-	line-height: 28px;
 }
 
 .news__date {
@@ -53,9 +46,7 @@
 	box-sizing: border-box;
 	vertical-align: middle;
 
-	font-family: $title-font;
 	text-align: center;
-	font-size: 60px;
 }
 
 @include max-screen(958px) {

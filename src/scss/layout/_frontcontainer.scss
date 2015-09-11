@@ -55,7 +55,7 @@
 
 .header__item {
 	display: inline-block;
-	margin-right: calc(100% / 3 - 508px / 3);
+	margin-right: calc(100% / 3 - 542px / 3);
 	
 	@extend .title-font;
 	text-align: center;
@@ -74,7 +74,7 @@
 
 .submenu {
 	position: fixed;
-	right: 29px;
+	right: 23px;
 	top: 50%;
 	transform-origin: 100% 100%;
 	transform: rotate(-90deg) translate(50%, -50%);
