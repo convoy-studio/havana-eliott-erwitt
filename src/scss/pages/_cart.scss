@@ -127,6 +127,17 @@ $cartColor: $white;
 	font-style: italic;
 }
 
+.cart__number {
+	display: inline-block;
+    min-width: 16px;
+	padding: 3px 2px 0;
+    
+    border: 1px solid $white;
+    line-height: 12px;
+    
+    text-align: center;
+}
+
 .cart__quantity, .cart__number, .cart__price {
 	@extend .text-font;
 }
@@ -183,6 +194,8 @@ $cartColor: $white;
 	
 	border-top: 1px solid transparent;
 
+	text-align: center;
+
 	transition: border 0.4s ease-out;
 }
 
@@ -191,11 +204,6 @@ $cartColor: $white;
 
 	text-align: center;
 } 
-
-.cart__button {
-	@extend .text-font;
-	font-size: 14px;
-}
 
 @include max-screen(958px) {
 	.cart__content {

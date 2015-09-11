@@ -168,11 +168,9 @@ export default class Payment extends Page {
 									return (
 										<li key={index} className='payment__product cart__product'>
 											<div className='cart__column'>
-												<div className='cart__artist'></div>
-												<div className='cart__details'>
-													<div className='cart__city'>{product.city}</div>, <div className='cart__year'>{product.year}</div>
-												</div>
-												<div className='cart__serial'>Serial <span className='cart__number'>{product.serial}/{product.copies}</span></div>
+												<div className='cart__artist'>Artist</div>
+												<div className='cart__details'>{product.title}. {product.city}. {product.country}. {product.year}</div>
+												<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
 												<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 											</div>
 											<div className='cart__column'>

@@ -109,19 +109,16 @@ export default class Print extends Page {
 					<div className='print'>
 						{this.state.loadedPrint}
 						<div className='print__infos'>
-							<h2 className='print__title print__title--margin'>{title}</h2>
-							<h3 className='print__location'>
-								<span className='print__city'>{city}, {country},</span> {year}
-							</h3>
-							<h3 className='print__artist'>Elliott Erwitt</h3>
+							<h3 className='print__artist text'>Artist</h3>
+							<h3 className='print__location text'>{title}. {city}. {country}. {year}</h3>
 							<div className='print__price text text--small'>{price}€</div>
 							<p className='print__desc text text--small'>{desc}</p>
 							<div className='print__serials'>
 								{(() => {
-									if (serials && serials.length > 0) { return (
+									if (serials && serials.length > 0 && that.selectedSerial !== 0) { return (
 										<div>
-											<div className='print__serial-opt'>Serial option</div>
-											<div className='print__select'>
+											<div className='print__serial-opt text'>Choose edition</div>
+											<div className='print__select text'>
 												<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.selectedSerial}</div>
 												<ul className='print__serial-list'>
 													{Object.keys(that.validSerials).map((index) => {
@@ -137,10 +134,10 @@ export default class Print extends Page {
 													})}
 												</ul>
 											</div>
-											<a href='#' className='print__buy text text--small button button--reverse' onClick={that._addToCartBinded}><span className='button__content'>Buy print</span></a>
+											<a href='#' className='print__buy button' onClick={that._addToCartBinded}>Add to cart</a>
 										</div>
 									)} else { return (
-										<div>Out of stock</div>
+										<div className='text'>Out of stock</div>
 									)}
 								})()}
 							</div>
@@ -202,7 +199,9 @@ export default class Print extends Page {
 		let printId = this.state.print._id;
 		let update = {
 			id: this.state.print._id,
+			title: this.state.print.title,
 			city: this.state.print.city,
+			country: this.state.print.country,
 			year: this.state.print.year,
 			price: this.state.print.price,
 			serial: this.state.selectedSerial,

@@ -9,9 +9,10 @@
 
 .print__left {
 	position: relative;
-	width: 50%;
+	// width: 50%;
 	display: table-cell;
 	vertical-align: middle;
+	padding-right: 60px;
 }
 
 .print__image {
@@ -20,8 +21,9 @@
 
 .print__image--portrait {
 	width: 60%;
-	float: right;
-	margin-right: 24px;
+	margin: 0 auto;
+	// float: right;
+	// margin-right: 24px;
 }
 
 .print__tech {
@@ -32,80 +34,37 @@
 	width: 110%;
 	margin-left: -5%;
 	
-	font-size: 14px;
+	font-size: 10px;
+	line-height: 12px;
 	text-align: center;
 
 	p {
-		line-height: 16px;
+		line-height: 12px;
 	}
 }
 
 .print__infos {
-	width: 50%;
+	// width: 50%;
+	width: 298px;
 	display: table-cell;
 	vertical-align: middle;
 
 	text-align: center;
 }
 
-.print__artist {
-	font-size: 30px;
-	line-height: 36px;
-}
-
-.print__artist--small {
-	font-size: 16px;
-	line-height: 18px;
-}
-
-.print__location, .print__artist {
-	@extend .text-font;
-	font-size: 24px;
-	line-height: 28px;
-}
-
-.print__location--small {
-	font-size: 16px;
-	line-height: 18px;
-}
-
-.print__title {
-	margin-bottom: 20px;
-	
-	@extend .title-font;
-	font-size: 24px;
-	line-height: 28px;
-}
-
-.print__title--margin {
-	margin-bottom: 0;
-}
-
-.print__info--small {
-	margin-bottom: 0;
-	font-size: 16px;
-	line-height: 18px;
-}
-
-// .print__city {
-// 	font-style: italic;
-// }
-
 .print__price {
-	margin: 40px 0;
+	margin: 20px 0 80px;
 
 	@extend .text-font;
 	font-size: 16px;
 }
 
 .print__desc {
-	width: 236px;
-	margin: 40px auto;
-
 	text-align: left;
 }
 
 .print__serials {
+	margin: 40px 0 0;
 	position: relative;
 }
 
@@ -117,32 +76,21 @@
 	font-size: 16px;
 }
 
-// .print__count {
-// 	position: absolute;
-// 	right: -36px;
-// 	bottom: -12px;
-	
-// 	@extend .title-font;
-// 	font-size: 12px;
-// }
-
 .print__select {
 	position: relative;
 	display: inline-block;
-	vertical-align: top;
-	// width: 20px;
-	// height: 20px;
+	vertical-align: bottom;
 }
 
 .print__serial--selected {
-	width: 24px;
-	height: 24px;
+	width: 23px;
+	padding-top: 4px;
 
-	border: 1px solid $black;
+	border: 1px solid $white;
 
 	@extend .text-font;
 	font-size: 16px;
-	line-height: 24px;
+	line-height: 16px;
 	text-align: center;
 
 	cursor: pointer;
@@ -152,11 +100,12 @@
 	// display: inline-block;
 	position: absolute;
 	left: 0;
-	top: 25px;
-	width: 24px;
+	top: 22px;
+	width: 23px;
 	padding: 2px 0;
 
-	border: 1px solid $black;
+	border: 1px solid $white;
+	border-top: none;
 
 	visibility: hidden;
 	opacity: 0;
@@ -186,17 +135,18 @@
 		content: '';
 		position: absolute;
 		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
+		top: calc(50% - 2px);
+		transform: translate(-50%, 0);
 		width: 60%;
-		height: 1px;
+		height: 2px;
 
-		background-color: $black;
+		background-color: $white;
 	}
 }
 
 .print__buy {
-	margin-top: 40px;
+	display: block;
+	margin-top: 50px;
 }
 
 @include max-screen(958px) {

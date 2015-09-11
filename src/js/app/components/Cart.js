@@ -37,7 +37,6 @@ export default class Cart extends React.Component {
 	}
 
 	render() {
-		let that = this
 		let itemLabel = (this.props.count > 1) ? 'items' : 'item'
 		let classes = (this.props.enabled ? 'cart--enabled ' : ' ') + (this.props.visible && this.state.hash === 'shop' ? 'cart--visible' : '')
 
@@ -50,31 +49,29 @@ export default class Cart extends React.Component {
 							<div className='cart__content'>
 								<ul className='cart__products'>
 									{Object.keys(this.props.products).map((index) => {
-										let product = that.props.products[index]
+										let product = this.props.products[index]
 										return ( 
 											<li key={index} className='cart__product'>
 												<div className='cart__column'>
-													<div className='cart__artist'></div>
-													<div className='cart__details'>
-														<div className='cart__city'>{product.city}</div>, <div className='cart__year'>{product.year}</div>
-													</div>
-													<div className='cart__serial'>Serial <span className='cart__number'>{product.serial}/{product.copies}</span></div>
+													<div className='cart__artist'>Artist</div>
+													<div className='cart__details'>{product.title}. {product.city}. {product.country}. {product.year}</div>
+													<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
 													<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 												</div>
 												<div className='cart__column'>
 													<div className='cart__print'><img className='cart__image' src={'/static/img/'+product.file+'_min.jpg'}></img></div>
-													<div className='cart__remove button button--left' onClick={that.removeItem.bind(that, index)}><span className='button__content'>Remove item</span></div>
+													<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
 												</div>
 											</li>
 										)
-									})}
+									}.bind(this))}
 								</ul>
 								<div className='cart__subtotal'>
 									<div className='cart__column'>Subtotal:</div>
 									<div className='cart__column'>{this.props.total}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__checkout'>
-									<a href='#/payment' className='cart__button button'><span className='button__content'>Check out</span></a>
+									<a href='#/payment' className='button'>Proceed to checkout</a>
 								</div>
 							</div>
 						)
@@ -138,7 +135,6 @@ export default class Cart extends React.Component {
 	}
 
 	handleLeave(e) {
-		let that = this
 		this.closeCountdown = setTimeout(() => {
 			this.close()
 			clearTimeout(this.closeCountdown)

@@ -80,9 +80,6 @@ export default class Shop extends Page {
 						{Object.keys(this.state.prints).map(function(id, index){
 							let print = that.state.prints[id]
 							let file = print.file + '_medium.jpg'
-							// let speed = (index % 2 === 0) ? 'fast' : 'slow'
-							// let side = (index % 2 === 0) ? 'left' : 'right'
-							console.log(print)
 							return (
 								<div className='shop__print' key={id}>
 									<a href={'#/shop/'+id}>
