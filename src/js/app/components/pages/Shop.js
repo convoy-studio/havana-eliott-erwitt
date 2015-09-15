@@ -47,6 +47,7 @@ export default class Shop extends Page {
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 
+		this._page = document.querySelector('.page--shop')
 		this._shop = document.querySelector('.shop')
 		this._overlay = document.querySelector('.shop__overlay')
 		this._intro = document.querySelector('.shop__intro')
@@ -64,9 +65,8 @@ export default class Shop extends Page {
 		let shopData = AppStore.shopContent()
 
 		return (
-			<div className='page page--shop' ref='page-wrapper'>
+			<div className='page page--shop page--overflow' ref='page-wrapper'>
 				<div className='shop js-smooth'>
-					<div className='shop__overlay'></div>
 					<div className='shop__intro'>
 						<h2 className='title'>{shopData.intro.title}</h2>
 						{Object.keys(shopData.intro.paragraphs).map((index) => {
@@ -77,12 +77,13 @@ export default class Shop extends Page {
 						<div className='shop__discover button' onClick={this._discoverBinded}>Discover and buy the artwork.</div>
 					</div>
 					<div className='shop__list'>
+						<div className='shop__overlay'></div>
 						{Object.keys(this.state.prints).map(function(id, index){
 							let print = that.state.prints[id]
 							let file = print.file + '_medium.jpg'
 							return (
 								<div className='shop__print' key={id}>
-									<a href={'#/shop/'+id}>
+									<a href={'#/shop/'+print.token}>
 										<img src={'/static/img/'+file}></img>
 										<div className='shop__hover'>
 											<div className='shop__detail'>
@@ -174,8 +175,10 @@ export default class Shop extends Page {
 	}
 
 	_discover() {
+		this._page.classList.remove('page--overflow')
 		this._overlay.classList.add('shop__overlay--hidden')
 		this._intro.classList.add('shop__intro--hidden')
+		document.querySelector('.page--shop').style.height = this._shop.offsetHeight + 'px'
 	}
 
 	didTransitionOutComplete() {

@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var itemSchema = new mongoose.Schema({
-	title 	: String,
+	artist 	: String,
+	slug	: String,
 	desc 	: [String]
 });
 

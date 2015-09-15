@@ -51,8 +51,6 @@ export default class Print extends Page {
 			this.loaded = true
 			this._loadImage()
 		}
-
-		// this._updateSerials()
 	}
 
 	componentWillUnmount() {
@@ -60,35 +58,9 @@ export default class Print extends Page {
 		CartStore.removeChangeListener(this._onStoreChangeBinded);
 	}
 
-	setupAnimations() {
-		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
-
-		// transition In
-		// if (this.props.oldHash.parent === 'shop') {
-		// 	this.tlIn.from(document.querySelector('.header__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
-		// 	this.tlIn.set(document.querySelector('.print'), { opacity:1 }, 0)
-		// 	this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		// } else {
-			this.tlIn.set(wrapper, { opacity: 1 }, 0)
-			this.tlIn.to(document.querySelector('.page__overlay--print'), 0.4, { y: window.innerHeight, ease:Power2.easeOut }, 0)
-			this.tlIn.from(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0.4)
-			this.tlIn.from(document.querySelector('.print'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0.4)
-		// }
-
-		// transition Out
-		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
-		this.tlOut.to(document.querySelector('.print'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		this.tlOut.to(document.querySelector('.page__overlay--print'), 0.4, { y: 0, ease:Power2.easeOut }, 0.6)
-		this.tlOut.set(wrapper, { opacity:0 })
-
-		// reset
-		this.tlIn.pause(0)
-		this.tlOut.pause(0)
-	}
-
 	render() {
 		let that = this
-		let title, city, country, year, price, desc, serials
+		let title, city, country, year, price, desc, serials, artist
 
 		if (this.state.print) {
 			this.validSerials = this._getValidSerials()
@@ -101,76 +73,55 @@ export default class Print extends Page {
 			price = this.state.print.price
 			desc = this.state.print.desc
 			serials = this.state.print.serials
+			artist = this.state.print.project.artist
 		}
 
 		return (
 			<div className='page page--print' ref='page-wrapper'>
-				<div className='page__overlay page__overlay--print'></div>
-					<div className='print'>
-						{this.state.loadedPrint}
-						<div className='print__infos'>
-							<h3 className='print__artist text'>Artist</h3>
-							<h3 className='print__location text'>{title}. {city}. {country}. {year}</h3>
-							<div className='print__price text text--small'>{price}€</div>
-							<p className='print__desc text text--small'>{desc}</p>
-							<div className='print__serials'>
-								{(() => {
-									if (serials && serials.length > 0 && that.selectedSerial !== 0) { return (
-										<div>
-											<div className='print__serial-opt text'>Choose edition</div>
-											<div className='print__select text'>
-												<div className='print__serial--selected' onClick={this._toggleListBinded}>{that.selectedSerial}</div>
-												<ul className='print__serial-list'>
-													{Object.keys(that.validSerials).map((index) => {
-														let enabled = that.validSerials[index]
-														let serial = parseInt(index)+1
-														// let classSelected = (serial === that.state.serial) ? 'print__serial--selected' : ''
-														// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
-														if (enabled) {
-															return (<li className='print__serial' onClick={that._selectSerial.bind(that, serial)} key={index}>{serial}</li>)
-														} else {
-															return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
-														}
-													})}
-												</ul>
-											</div>
-											<a href='#' className='print__buy button' onClick={that._addToCartBinded}>Add to cart</a>
+				<div className='print'>
+					{this.state.loadedPrint}
+					<div className='print__infos'>
+						<h3 className='print__artist text'>{artist}</h3>
+						<h3 className='print__location text'>{title}. {city}. {country}. {year}</h3>
+						<div className='print__price text text--small'>{price}€</div>
+						<p className='print__desc text text--small'>{desc}</p>
+						<div className='print__serials'>
+							{(() => {
+								if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
+									<div>
+										<div className='print__serial-opt text'>Choose edition</div>
+										<div className='print__select text'>
+											<div className='print__serial--selected' onClick={this._toggleListBinded}>{this.selectedSerial}</div>
+											<ul className='print__serial-list'>
+												{Object.keys(this.validSerials).map((index) => {
+													let enabled = this.validSerials[index]
+													let serial = parseInt(index)+1
+													// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
+													// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+													if (enabled) {
+														return (<li className='print__serial' onClick={this._selectSerial.bind(this, serial)} key={index}>{serial}</li>)
+													} else {
+														return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
+													}
+												})}
+											</ul>
 										</div>
-									)} else { return (
-										<div className='text'>Out of stock</div>
-									)}
-								})()}
-							</div>
+										<a href='#' className='print__buy button' onClick={this._addToCartBinded}>Add to cart</a>
+									</div>
+								)} else { return (
+									<div className='text'>Out of stock</div>
+								)}
+							}.bind(this))()}
 						</div>
 					</div>
+				</div>
 			</div>
 		)
 	}
 
-	// _updateSerials() {
-	// 	console.log('update validSerials')
-	// 	this.validSerials = []
-	// 	this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'id': this.state.print._id }), 'serial')
-	// 	_(this.state.print.serials).forEach((value, index) => {
-	// 		if (_.indexOf(this.cartSerials, index+1) > -1) this.validSerials[index] = false
-	// 		else this.validSerials[index] = value
-	// 	}).value()
-
-	// 	// this.setState({
-	// 	// 	validSerials: this.validSerials
-	// 	// }, () => {
-	// 	// 	this._getFirstSerial()
-	// 	// })
-
-	// 	this.setState({
-	// 		validSerials: this.validSerials,
-	// 		selectedSerial: this._getFirstSerial()
-	// 	})
-	// }
-
 	_getValidSerials() {
 		this.validSerials = []
-		this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'id': this.state.print._id }), 'serial')
+		this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'token': this.state.print.token }), 'serial')
 		_(this.state.print.serials).forEach((value, index) => {
 			if (_.indexOf(this.cartSerials, index+1) > -1) this.validSerials[index] = false
 			else this.validSerials[index] = value
@@ -196,9 +147,8 @@ export default class Print extends Page {
 		e.stopPropagation()
 		e.preventDefault()
 
-		let printId = this.state.print._id;
 		let update = {
-			id: this.state.print._id,
+			token: this.state.print.token,
 			title: this.state.print.title,
 			city: this.state.print.city,
 			country: this.state.print.country,
@@ -208,7 +158,7 @@ export default class Print extends Page {
 			file: this.state.print.file,
 			copies: this.state.print.copies
 		}
-		CartActions.addToCart(printId, update);
+		CartActions.addToCart(update);
 		CartActions.updateCartEnabled(true);
 
 		this.setState({
@@ -221,21 +171,18 @@ export default class Print extends Page {
 	}
 
 	_loadImage() {
-		let that = this, file
-
-		file = new Image()
-		file.onload = that._onImageLoaded.bind(that)
+		let file = new Image()
+		file.onload = this._onImageLoaded.bind(this)
 		file.src = '/static/img/'+this.state.print.file+'_medium.jpg'
 	}
 
 	_onImageLoaded(e) {
-		let size
-		let path = e.explicitOriginalTarget || e.target || e.path[0] 
+		let size, path = e.explicitOriginalTarget || e.target || e.path[0] 
 		if (path.height >= path.width*1.2) size = 'portrait'
 		else size = 'landscape'
 		let dim = '27.9 × 35.6 cm' // gérer la conversion (11 × 14 inches)
 
-		this.print = <div className='print__left'><div className={'print__image print__image--'+size}><img src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>{dim}, unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
+		this.print = <div className='print__left'><div className={'print__image print__image--'+size}><img className='print__file' src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>{dim}, unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
 
 		// if (params.path[0].height >= params.path[0].width*1.2) {
 		// 	this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
@@ -274,28 +221,4 @@ export default class Print extends Page {
 			cartItems: CartStore.getCartItems()
 		})
 	}
-
-	// _onStoreChange() {
-	// 	this.setState({
-	// 		print: PrintStore.getOne(),
-	// 		// cartItems: CartStore.getCartItems()
-	// 	}, () => {
-	// 		this._updateSerials()
-	// 		this._loadImage()
-	// 		this.setState({
-	// 			serial: this._getFirstSerial()
-	// 		})
-	// 	})
-	// }
-
-	// _onCartStoreChange() {
-	// 	this.setState({
-	// 		cartItems: CartStore.getCartItems()
-	// 	}, () => {
-	// 		this._updateSerials()
-	// 		this.setState({
-	// 			serial: this._getFirstSerial()
-	// 		})
-	// 	})
-	// }
 }

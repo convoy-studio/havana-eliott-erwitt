@@ -170,7 +170,7 @@ $border-width: 1px;
 	&:before {
 		content: '';
 		display: block;
-		width: 20px;
+		width: 12px;
 
 		border: 0 solid $white;
 		border-top-width: $border-width;
@@ -180,6 +180,10 @@ $border-width: 1px;
 
 		transition: width 0.3s ease-out;
 	}
+}
+
+.arrow--right {
+	transform: rotate(-225deg) translate(-50%, -50%);
 }
 
 .arrow--black, .arrow--black:before { border-color: $black; }

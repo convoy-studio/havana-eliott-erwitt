@@ -92,7 +92,7 @@ export default class Gallery extends Page {
 			<div className='page page--gallery' ref='page-wrapper'>
 				<div className='submenu'><a href={'#/photography/'+this.props.idSection} className='button'><span className='button__content'>Back to gallery</span></a></div>
 				<div className='gallery js-smooth'>
-					{Object.keys(this.state.loadedPrints).map((year, i) => {
+					{Object.keys(this.state.loadedPrints).reverse().map((year, i) => {
 						return (
 							<div key={year+'_'+i}>
 								<div className='gallery__title title js-reveal'>Elliott Erwitt {year}</div>
@@ -174,11 +174,11 @@ export default class Gallery extends Page {
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true
 			_(this.state.prints).forEach((print, index) => {
-				if (!this.printsDate[print.year]) this.printsDate[print.year] = {}
-				this.printsDate[print.year][index] = print
+				if (!this.printsDate[print.year]) this.printsDate[print.year] = []
+				this.printsDate[print.year].push(print)
 
 				file = new Image()
-				file.onload = that.onImageLoaded.bind(that, this.printsDate[print.year][index])
+				file.onload = that.onImageLoaded.bind(that, print)
 				file.src = '/static/img/'+print.file+'_min.jpg'
 			}).value();
 		}
@@ -193,6 +193,10 @@ export default class Gallery extends Page {
 		else print.size = 'large'
 		
 		if (this.nImageLoaded >= this.max) {
+			// console.log(this.printsDate['2015'])
+			// // _.map(_.sortByAll(this.printsDate, ['forsale']), _.values);
+			// this.printsDate['2015'] = _.sortByOrder(this.printsDate['2015'], ['forsale'], ['desc']);
+			// console.log(this.printsDate['2015'])
 			this.setState({
 				'loadedPrints': this.printsDate
 			}, () => {

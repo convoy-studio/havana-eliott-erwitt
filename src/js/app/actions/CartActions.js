@@ -21,10 +21,9 @@ var CartActions = {
 	},
 
 	// Add item to cart
-	addToCart: function(printId, update) {
+	addToCart: function(update) {
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_ADD,
-			printId: printId,
 			update: update
 		})
 	},

@@ -7,8 +7,8 @@ import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
 import PrintActions from 'PrintActions'
 import PrintConstants from 'PrintConstants'
-import ArtistStore from 'ArtistStore'
-import ArtistApi from 'ArtistApi'
+import ProjectStore from 'ProjectStore'
+import ProjectApi from 'ProjectApi'
 import Tweenmax from 'gsap'
 import Utils from 'Utils'
 import offset from 'offset'
@@ -25,7 +25,7 @@ export default class Project extends Page {
 
 		// state
 		this.state = { 
-			artist: undefined,
+			project: undefined,
 			slideshow: {},
 			print: {},
 			prints: {},
@@ -39,7 +39,7 @@ export default class Project extends Page {
 		this._backToGalleryBinded = this._backToGallery.bind(this)
 		this._prevBinded = this._prev.bind(this)
 		this._nextBinded = this._next.bind(this)
-		this._onArtistStoreChangeBinded = this._onArtistStoreChange.bind(this)
+		this._onProjectStoreChangeBinded = this._onProjectStoreChange.bind(this)
 		this._onPrintStoreChangeBinded = this._onPrintStoreChange.bind(this)
 		this._rafBinded = this._raf.bind(this)
 		
@@ -49,6 +49,7 @@ export default class Project extends Page {
 		
 		// vars
 		this.nImageLoaded = 0
+		this.loaded = false
 		this.zoom = false
 		this.slideshowPrints = {}
 		this.action = 'init'
@@ -79,8 +80,8 @@ export default class Project extends Page {
 		}, 10)
 
 		PrintApi.getByArtist(this.props.idSection)
-		ArtistApi.getBySlug(this.props.idSection);
-		ArtistStore.addChangeListener(this._onArtistStoreChangeBinded);
+		ProjectApi.getBySlug(this.props.idSection);
+		ProjectStore.addChangeListener(this._onProjectStoreChangeBinded);
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 		// PrintStore.on(PrintConstants.RECEIVE_PRINTS_SLIDESHOW, this._onPrintStoreChangeBinded)	
 		// PrintStore.on(PrintConstants.RECEIVE_PRINT, this._onPrintStoreChangeBinded)	
@@ -129,7 +130,7 @@ export default class Project extends Page {
 	}
 
 	componentWillUnmount() {
-		ArtistStore.removeChangeListener(this._onArtistStoreChangeBinded);
+		ProjectStore.removeChangeListener(this._onProjectStoreChangeBinded);
 		PrintStore.removeChangeListener(this._onPrintStoreChangeBinded);
 	}
 
@@ -157,13 +158,11 @@ export default class Project extends Page {
 		let that = this
 		let current = this.state.prints[this.state.current]
 		
-		let name, bio, title, city, country, year, story, forSale, url, projectTitle, projectDesc = []
+		let artist, title, city, country, year, story, forsale, url, desc = []
 		
-		if (this.state.artist) {
-			name = this.state.artist.name
-			bio = this.state.artist.bio
-			projectTitle = this.state.artist.project.title
-			projectDesc = this.state.artist.project.desc
+		if (this.state.project) {
+			artist = this.state.project.artist
+			desc = this.state.project.desc
 		}
 
 		if (current) {
@@ -172,7 +171,7 @@ export default class Project extends Page {
 			country = current.country
 			year = current.year
 			story = current.desc
-			forSale = current.forSale
+			forsale = current.forsale
 			url = '#/shop/' + current._id
 			if (!story) this._hideStory()
 		}
@@ -187,11 +186,11 @@ export default class Project extends Page {
 					
 					<div className='project__intro'>
 						<div className='project__content'>
-							<h2 className='project__artist'>{name}</h2>
+							<h2 className='project__artist'>{artist}</h2>
 							<p className='project__desc text text--medium'>
-								{Object.keys(projectDesc).map((index) => {
+								{Object.keys(desc).map((index) => {
 									return (
-										<p className='project__paragraph' key={index}>{projectDesc[index]}</p>
+										<p className='project__paragraph' key={index}>{desc[index]}</p>
 									)
 								})}
 							</p>
@@ -225,7 +224,7 @@ export default class Project extends Page {
 							</div>
 							<div className='project__section project__infos'>
 								{(() => {
-									if (forSale) return (
+									if (forsale) return (
 										<div>
 											<h2 className='print__title print__info--small'>{title}</h2>
 											<h3 className='print__location print__info--small'>{city}, {country}, {year}</h3>
@@ -235,7 +234,7 @@ export default class Project extends Page {
 							</div>
 							<div className='project__section'>
 								{(() => {
-									if (forSale) return (
+									if (forsale) return (
 										<div>
 											<div className='project__button project__reveal button button--left button--reverse' onClick={this._toggleStoryBinded}><span className='button__content'>The story</span></div>
 											<a href={url} className='project__button project__buy button button--right button--reverse'><span className='button__content'>Buy print</span></a>
@@ -401,9 +400,9 @@ export default class Project extends Page {
 		super.resize()
 	}
 
-	_onArtistStoreChange() {
+	_onProjectStoreChange() {
 		this.setState({
-			artist: ArtistStore.getOne() // TODO: afficher l'image suivante uniquement quand elle est chargée
+			project: ProjectStore.getOne() // TODO: afficher l'image suivante uniquement quand elle est chargée
 		})
 	}
 

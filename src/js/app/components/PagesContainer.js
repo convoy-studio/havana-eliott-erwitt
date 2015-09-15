@@ -57,25 +57,13 @@ export default class PagesContainer extends BasePager {
 						// zoom sur une photo
 					}
 				} else if (hash.parts.length > 1) {
-					type = Project
+					// type = Project
+					type = Projects
 					id = hash.targetId
 				} else {
 					type = Projects
 				}
 				break
-			// case 'project':
-			// 	if (hash.parts.length > 2) {
-			// 		if (hash.parts[2] === 'contact-sheet') {
-			// 			type = Gallery
-			// 			id = hash.targetId
-			// 		} else {
-			// 			// zoom sur une photo
-			// 		}
-			// 	} else {
-			// 		type = Project
-			// 		id = hash.targetId
-			// 	}
-			// 	break
 			case 'shop':
 				if (hash.parts.length > 1) {
 					type = Print

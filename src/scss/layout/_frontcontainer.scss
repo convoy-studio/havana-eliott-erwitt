@@ -96,6 +96,15 @@
 	text-align: right;
 }
 
+.front-container, .submenu, .project__footer, .project__contact, .project__slideshow {
+	@extend .visible;
+}
+.body--hidden {
+	.front-container, .submenu, .project__footer, .project__contact, .project__slideshow {
+		@extend .hidden;
+	}
+}
+
 @include max-screen(958px) {
 	.header__title {
 		position: fixed;

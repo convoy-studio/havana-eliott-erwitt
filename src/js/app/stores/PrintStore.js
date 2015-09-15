@@ -86,7 +86,8 @@ let PrintStore = assign({}, EventEmitter2.prototype, {
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_PRINTS_FORSALE:
-				_addPrintsForSale(action.item);
+				// _addPrintsForSale(action.item);
+				_printsForSale = action.item;
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_PRINTS_SLIDESHOW:

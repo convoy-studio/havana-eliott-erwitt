@@ -38,9 +38,9 @@ class Router {
 		}
 
 		let shopSection = crossroads.addRoute('/shop/{id}', this._onShopURLHandler.bind(this), 2)
-		shopSection.rules = {
-			id : /^[0-9]/
-		}
+		// shopSection.rules = {
+		// 	id : /^[a-z]/
+		// }
 
 		let resultSection = crossroads.addRoute('/payment/result{?query}', this._onResultURLHandler.bind(this), 2)
 	}

@@ -1,11 +1,9 @@
 var mongoose = require('mongoose');
-var Artist = require('./artist');
 var Project = require('./project');
 
 var itemSchema = new mongoose.Schema({
-	slugArtist	: String,
-	desc 		: String,
-	price 		: Number,
+	token		: String,
+	project_id	: {type: mongoose.Schema.Types.ObjectId, ref: 'Project'},
 	title 		: String,
 	city 		: String,
 	country 	: String,
@@ -13,7 +11,9 @@ var itemSchema = new mongoose.Schema({
 	file		: String,
 	copies		: Number,
 	serials		: [Boolean],
-	forSale		: Boolean
+	forsale		: Boolean,
+	desc 		: String,
+	price 		: Number,
 });
 
 module.exports = mongoose.model('Print', itemSchema, 'prints');

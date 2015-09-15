@@ -117,7 +117,7 @@ export default class Fellowship extends Page {
 							<p className='paragraph text js-reveal'>To date Erwitt has produced more than 25 photography books including Eastern Europe (1965), The Private Experience (1974), Personal Exposures (1988), To the Dogs (1992), and Personal Best (2010). His photographs have been featured in solo shows all over the world, including at the ICP and The Museum of Modern Art, New York; The Art Institute of Chicago; The Barbican, London, and The Reina Sofia Museum, Madrid. Erwitt lives and works in New York City and likes children and dogs.</p>
 						</div>
 					</div>
-					<a className='fellowship__discover button js-reveal' href='#/project/elliott-erwitt'>Discover his project</a>
+					<a className='fellowship__discover button js-reveal' href='#/photography/elliott_erwitt'>Discover his project</a>
 				</div>
 			</div>
 		)

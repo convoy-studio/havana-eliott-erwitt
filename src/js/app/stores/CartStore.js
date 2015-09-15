@@ -12,17 +12,7 @@ const CHANGE_EVENT = 'change';
 let _products = [], _cartVisible = true, _cartEnabled = false, _form;
 
 // Add product to cart
-function _add(printId, update) {
-	// update.quantity = printId in _products ? _products[printId].quantity + 1 : 1;
-	// _products[printId].push = _.extend({}, _products[printId], update)
-	// if (_products[printId]) {
-	// 	_products[printId].push(update)
-	// } else {
-	// 	_products[printId] = []
-	// 	_products[printId].push(update)
-	// }
-	// console.log(_products)
-
+function _add(update) {
 	_products.push(update)
 }
 
@@ -50,12 +40,6 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 		return _products;
 	},
 	getCartCount: function() {
-		// let count = 0
-		// _(_products).forEach((product, index) => {
-		// 	// count += product.quantity
-		// 	count += product.length
-		// }).value()
-		// return count;
 		return Object.keys(_products).length;
 	},
 	getCartTotal: function() {
@@ -64,11 +48,6 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 			total += product.price
 		}).value()
 
-		// for(let product in _products){
-		// 	if(_products.hasOwnProperty(product)){
-		// 		total += _products[product].price * _products[product].quantity;
-		// 	}
-		// }
 		return total.toFixed(2);
 	},
 	getCartVisible: function() {
@@ -97,7 +76,7 @@ let CartStore = assign({}, EventEmitter2.prototype, {
 
 		switch(action.actionType) {
 			case CartConstants.CART_ADD:
-				_add(action.printId, action.update)
+				_add(action.update)
 				CartStore.emitChange()
 				break
 			case CartConstants.CART_VISIBLE:

@@ -81,20 +81,10 @@ export default class BasePager extends React.Component {
 		window.scrollTo(0, 0)
 		if (this.zoom !== undefined) {
 			PrintActions.setPrintZoom(undefined);
-			
-			this._projectSlideshow = document.querySelector('.project__slideshow')
-			this._projectPrints = document.querySelector('.project__prints')
-			this._introContent = document.querySelector('.project__intro .project__content')
-			if (window.innerHeight - this._introContent.offsetHeight < 200) {
-				window.scrollTo(0, document.querySelector('.project__slideshow').offsetTop);
-			} else {
-				this.slideshowY = - window.innerHeight/2 + this._projectPrints.offsetHeight/2 - 40
-				window.scrollTo(0, document.querySelector('.project').offsetHeight - document.querySelector('.project__slideshow').offsetHeight + this.slideshowY);
-			}
 		}
-		if (this.hash.parent === 'shop' && this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
-			window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
-		}
+		// if (this.hash.parent === 'shop' && this.oldHash && this.oldHash.parent === 'shop' && this.oldHash.parts.length > 1) {
+		// 	window.scrollTo(0, offset(document.querySelector('.shop')).top - 60)
+		// }
 
 		PagerActions.onTransitionOutComplete()
 	}
