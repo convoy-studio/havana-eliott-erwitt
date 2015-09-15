@@ -17,6 +17,7 @@ export default class Home extends Page {
 		
 		this._canvas = document.querySelector('.canvas')
 		this._overlay = document.querySelector('.bg-video__overlay')
+		this._video = document.querySelector('.home__video')
 
 		if (this._canvas && this.props.oldHash === undefined) {
 			this._canvas.style.display = 'block';
@@ -29,7 +30,6 @@ export default class Home extends Page {
 			this.initAnimation()
 		}
 
-		// this._video = document.querySelector('.video')
 		// this.loadVideo()
 	}
 
@@ -38,7 +38,7 @@ export default class Home extends Page {
 		return (
 			<div className='page page--home' ref='page-wrapper'>
 				<div className='bg-video' data-src='bg-home'>
-					<video autoPlay loop muted className='bg-video__file'>
+					<video autoPlay loop muted className='home__video bg-video__file'>
 						<source src='/static/videos/bg-home.webm' type='video/webm' />
 						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 					</video>
@@ -86,39 +86,107 @@ export default class Home extends Page {
 		ctx.fillStyle = 'black';
 		ctx.fill();
 
-		// crop logo
-		ctx.font = "400 72px 'hc7modern'";
+		this.cropDesc();
+	}
+
+	cropDesc() {
+
+		let ctx = this._canvas.getContext('2d');
+		ctx.font = "400 36px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
-		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', vw/2, vh/2 - 16);
-		ctx.font = "400 72px 'Stanley'";
-		ctx.fillText('Fellowship', vw/2, vh/2 + 68);
+		ctx.fillText('A FELLOWSHIP IS A COMMUNION OF PEOPLE', AppStore.Window.w/2, AppStore.Window.h/2 - 7);
+		ctx.fillText('SHARING A COMMON PASSION.', AppStore.Window.w/2, AppStore.Window.h/2 + 32);
+	}
+
+	cropLogo() {
+		let ctx = this._canvas.getContext('2d');
+		this.resetCanvas();
+		
+		// crop logo
+		ctx.font = "400 36px 'hc7modern'";
+		ctx.textAlign = "center";
+		ctx.globalCompositeOperation = "destination-out";
+		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', AppStore.Window.w/2, AppStore.Window.h/2 - 7);
+		ctx.font = "400 36px 'Stanley'";
+		ctx.fillText('FELLOWSHIP', AppStore.Window.w/2, AppStore.Window.h/2 + 32);
+		
+		ctx.beginPath();
+		ctx.rect(AppStore.Window.w/2 - 244, AppStore.Window.h/2 + 19, 118, 2);
+		ctx.fillStyle = 'white';
+		ctx.fill();
+
+		ctx.beginPath();
+		ctx.rect(AppStore.Window.w/2 + 130, AppStore.Window.h/2 + 19, 114, 2);
+		ctx.fillStyle = 'white';
+		ctx.fill();
+	}
+
+	resetCanvas() {
+		let ctx = this._canvas.getContext('2d');
+		ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+
+		// background black
+		ctx.globalCompositeOperation = "source-over";
+		ctx.beginPath();
+		ctx.rect(0, 0, AppStore.Window.w, AppStore.Window.h);
+		ctx.fillStyle = 'black';
+		ctx.fill();
 	}
 
 	initAnimation() {
-		this.tlEntry = new TimelineMax({delay: 4, onComplete: () => {
+		// this.tlEntry = new TimelineMax({onComplete: () => {
+		// 	this._canvas.parentNode.removeChild(this._canvas);
+		// }.bind(this)});
+		// this.tlEntry.fromTo(this._video, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
+		// this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
+		// this.tlEntry.addCallback(() => {
+		// 	this.cropLogo()
+		// }.bind(this), 5.6);
+		// this.tlEntry.to(this._video, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
+		// this.tlEntry.addCallback(() => {
+		// 	this._overlay.classList.remove('bg-video__overlay--hidden');
+		// }.bind(this), 10.6);
+		// this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut}, 10.6);
+		// this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 11.4)
+		// this.tlEntry.to(dom('.home'), 0.4, {opacity: 1}, 11.4)
+		// this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 11.4)
+
+
+		this.tlEntry = new TimelineMax({onComplete: () => {
 			this._canvas.parentNode.removeChild(this._canvas);
 		}.bind(this)});
+		this.tlEntry.fromTo(this._video, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
+		this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
+		this.tlEntry.addCallback(() => {
+			this.cropLogo()
+		}.bind(this), 5.6);
+		this.tlEntry.to(this._video, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
+		this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 10.6);
+		this.tlEntry.addCallback(() => {
+			this.resetCanvas()
+		}.bind(this), 11.4);
+		this.tlEntry.set(this._video, {opacity: 1}, 11.4);
 		this.tlEntry.addCallback(() => {
 			this._overlay.classList.remove('bg-video__overlay--hidden');
-		}.bind(this), 0);
-		this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut});
-		this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 0.6)
-		this.tlEntry.to(dom('.home'), 0.4, {opacity: 1}, 0.6)
-		this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 0.6)
+		}.bind(this), 11.4);
+		this.tlEntry.to(this._canvas, 0.8, {opacity: 0, ease: Power2.easeOut}, 12.4);
+		this.tlEntry.to(dom('.front-container'), 0.8, {opacity: 1}, 12.4)
+		this.tlEntry.to(dom('.home'), 0.8, {opacity: 1}, 12.4)
+		this.tlEntry.to(dom('.cart'), 0.8, {opacity: 1}, 12.4)
 	}
 
 	loadVideo() {
 		let src = this._video.dataset.src
 		let sources = '<source src="/assets/videos/'+src+'.mp4" type="video/mp4" /><source src="/assets/videos/'+src+'.webm" type="video/webm" />'
-		let video = document.createElement('video');
-		video.classList.add('video__file')
-		video.innerHTML = sources
-		video.muted = true
-		this._video.appendChild(video)
-		video.load()
-		video.play()
+		this.video = document.createElement('video');
+		this.video.classList.add('this.video__file')
+		this.video.innerHTML = sources
+		this.video.muted = true
+		this._video.appendChild(this.video)
+		this.video.load()
+		this.video.play()
 	}
 	
 	didTransitionInComplete() {
