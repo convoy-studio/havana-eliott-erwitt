@@ -46,7 +46,7 @@ export default class Home extends Page {
 				</div>
 				<div className='home'>
 					<h2 className='title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
-					<a className='button' href='#/fellowship'>Learn more about the fellowship</a>
+					<a className='home__discover button' href='#/fellowship'>Learn more about the fellowship</a>
 				</div>
 			</div>
 		)
@@ -109,7 +109,7 @@ export default class Home extends Page {
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', AppStore.Window.w/2, AppStore.Window.h/2 - 7);
-		ctx.font = "400 36px 'Stanley'";
+		ctx.font = "400 36px 'HC7Craft'";
 		ctx.fillText('FELLOWSHIP', AppStore.Window.w/2, AppStore.Window.h/2 + 32);
 		
 		ctx.beginPath();
@@ -172,7 +172,7 @@ export default class Home extends Page {
 			this._overlay.classList.remove('bg-video__overlay--hidden');
 		}.bind(this), 11.4);
 		this.tlEntry.to(this._canvas, 0.8, {opacity: 0, ease: Power2.easeOut}, 12.4);
-		this.tlEntry.to(dom('.front-container'), 0.8, {opacity: 1}, 12.4)
+		this.tlEntry.to(dom('.front-container'), 0.8, {opacity: 1, clearProps: 'opacity'}, 12.4)
 		this.tlEntry.to(dom('.home'), 0.8, {opacity: 1}, 12.4)
 		this.tlEntry.to(dom('.cart'), 0.8, {opacity: 1}, 12.4)
 	}

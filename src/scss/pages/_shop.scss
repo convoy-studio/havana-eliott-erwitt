@@ -6,10 +6,21 @@
 	margin: 0 auto;
 }
 
-.page--overflow {
+.page--hidden {
 	height: 100vh !important;
-	min-height: 600px;
+	// min-height: 600px;
+	// min-height: calc(50vh + 416px);
 	overflow: hidden;
+
+	.shop__overlay {
+		visibility: visible;
+		opacity: 0.8;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	}
+
+	.shop__intro {
+		@extend .visible;
+	}
 }
 
 .shop__intro {
@@ -20,13 +31,10 @@
 	width: 800px;
 	margin: 0 auto;
 	z-index: 20;
+	padding-bottom: 70px;
 
 	text-align: center;
 
-	@extend .visible;
-}
-
-.shop__intro--hidden {
 	@extend .hidden;
 }
 
@@ -42,6 +50,10 @@
 
 .shop__list {
 	position: relative;
+	// position: fixed;
+	// top: 0;
+	// left: 50%;
+	// transform: translate(-50%, 0);
 	width: 958px;
 	margin: 0 auto;
 	padding-top: 122px;
@@ -58,13 +70,7 @@
 
 	background-color: $black;
 
-	visibility: visible;
-	opacity: 0.8;
-	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
-	
-	&.shop__overlay--hidden {
-		@extend .hidden;
-	}
+	@extend .hidden;
 }
 
 .shop__print {
@@ -135,6 +141,10 @@
 	padding-bottom: 6px;
 }
 
+.shop__button {
+	display: inline-block;
+}
+
 @include max-screen(958px) {
 	.shop__intro {
 		width: 100%;
@@ -156,5 +166,13 @@
 	.shop__title {
 		font-size: 36px;
 		line-height: 46px;
+	}
+}
+
+@include max-screen-height(650px) {
+	.shop {
+		.title, .shop__paragraph {
+			margin-bottom: 30px;
+		}
 	}
 }

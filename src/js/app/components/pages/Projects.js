@@ -96,23 +96,31 @@ export default class Projects extends Page {
 	render() {
 		let introClass = (this.state.projectOpened) ? 'projects__intro--hidden' : '';
 		let slideshowClass = (this.state.projectOpened) ? '' : 'project__slideshow--hidden';
+		let projectList
+		if (_.size(this.state.projects) > 1) {
+			projectList = (
+				<div>
+					<h3 className='projects__title text text--title'>Fellows:</h3>
+					<ul>
+						{Object.keys(this.state.projects).map((index) => {
+							let project = this.state.projects[index];
+							let classes = (project.slug === this.state.currentProject) ? 'projects__item--enabled' : ''
+							return (
+								<li key={index} className={'projects__item ' + classes}>
+									<a href={'#/photography/'+project.slug} className='projects__button button' onClick={this._showInfosBinded} data-project={project.slug}>{project.artist}</a>
+								</li>
+							)
+						}.bind(this))}
+					</ul>
+				</div>
+			)
+		}
 
 		return (
 			<div className='page page--projects' ref='page-wrapper'>
 				<div className='projects'>
 					<div className={'projects__intro ' + introClass}>
-						<h3 className='projects__title text text--title'>Fellows:</h3>
-						<ul>
-							{Object.keys(this.state.projects).map((index) => {
-								let project = this.state.projects[index];
-								let classes = (project.slug === this.state.currentProject) ? 'projects__item--enabled' : ''
-								return (
-									<li key={index} className={'projects__item ' + classes}>
-										<a href={'#/photography/'+project.slug} className='projects__button button' onClick={this._showInfosBinded} data-project={project.slug}>{project.artist}</a>
-									</li>
-								)
-							}.bind(this))}
-						</ul>
+						{projectList}
 						<div className='projects__contents'>
 							{Object.keys(this.state.projects).map((index) => {
 								let project = this.state.projects[index];
@@ -124,7 +132,13 @@ export default class Projects extends Page {
 										</div>
 										<div className='projects__details'>
 											<h2 className='title'>{project.artist}</h2>
-											<p className='paragraph paragraph--2 text'>{project.desc}</p>
+											<div className='paragraph paragraph--2'>
+												{Object.keys(project.desc).map((index) => {
+													return (
+														<p key={index} className='text'>{project.desc[index]}</p>
+													)
+												}.bind(this))}
+											</div>
 											<div className='projects__loader text'>Chargement...</div>
 											<div className='projects__discover projects__discover--disabled button' onClick={this._showSlideshowBinded}>Discover the project</div>
 										</div>
@@ -209,10 +223,11 @@ export default class Projects extends Page {
 		this.setState({
 			projects: ProjectStore.getFirsts()
 		}, () => {
-			if (_.size(this.state.project) > 1) {
+			if (_.size(this.state.projects) < 2) {
 				this.setState({
-					currentProject: this.state.project[0].slug
+					currentProject: this.state.projects[0].slug
 				})
+				PrintApi.getByArtist(this.state.projects[0].slug)
 			}
 		})
 	}

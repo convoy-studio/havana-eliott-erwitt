@@ -51,16 +51,27 @@ export default class Payment extends Page {
 		let wrapper = React.findDOMNode(this.refs['page-wrapper'])
 
 		// transition In
-		this.tlIn.set(wrapper, { opacity: 1 }, 0)
-		this.tlIn.from(document.querySelector('.header__logo'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
-		this.tlIn.from(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		this.tlIn.to(document.querySelector('#header'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		this.tlIn.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlIn.to(document.querySelector('.header__menu'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		this.tlIn.from(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
 
 		// transition Out
 		this.tlOut.to(document.querySelector('.header__logo'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
-		this.tlOut.to(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
-		this.tlOut.to(document.querySelector('#header'), 0.6, { opacity:1, ease:Power2.easeInOut }, 0)
-		this.tlOut.set(wrapper, { opacity:0 })
+		this.tlOut.to(document.querySelector('.header__menu'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		this.tlOut.to(wrapper, 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+
+
+		// // transition In
+		// this.tlIn.set(wrapper, { opacity: 1 }, 0)
+		// this.tlIn.from(document.querySelector('.payment__title'), 0.6, { opacity:1, ease:Power2.easeOut }, 0)
+		// this.tlIn.from(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		// this.tlIn.to(document.querySelector('#header'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+
+		// // transition Out
+		// this.tlOut.to(document.querySelector('.payment__title'), 0.6, { opacity:0, ease:Power2.easeOut }, 0)
+		// this.tlOut.to(document.querySelector('.payment'), 0.6, { opacity:0, ease:Power2.easeInOut }, 0)
+		// this.tlOut.to(document.querySelector('#header'), 0.6, { opacity:1, ease:Power2.easeInOut }, 0)
+		// this.tlOut.set(wrapper, { opacity:0 })
 
 		// reset
 		this.tlIn.pause(0)
@@ -69,6 +80,15 @@ export default class Payment extends Page {
 
 	render() {
 		let that = this
+
+							// <div className='form__row'>
+							// 	<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsExpress'/>
+							// 	<label className='form__label form__label--pointer' htmlFor='upsExpress'><p className='form__text'>UPS Express - Delivery within 2-3 business days, 20 €</p></label>
+							// </div>
+							// <div className='form__row'>
+							// 	<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='freeShipping' defaultChecked/>
+							// 	<label className='form__label form__label--pointer' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
+							// </div>
 
 		return (
 			<div className='page page--payment' ref='page-wrapper'>
@@ -127,14 +147,6 @@ export default class Payment extends Page {
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard'/>
 								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, 10 €</p></label>
-							</div>
-							<div className='form__row'>
-								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsExpress'/>
-								<label className='form__label form__label--pointer' htmlFor='upsExpress'><p className='form__text'>UPS Express - Delivery within 2-3 business days, 20 €</p></label>
-							</div>
-							<div className='form__row'>
-								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='freeShipping' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='freeShipping'><p className='form__text'>Free shipping (UPS standard), 0 €</p></label>
 							</div>
 
 							<h3 className='payment__method form__title'>Payment method</h3>

@@ -71,8 +71,12 @@ body {
 }
 
 .bg-video__file {
-	@extend .vertical-center;
-	height: 60%;
+	position: absolute;
+	top: 120px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 100%;
+	height: calc(100vh - 206px);
 }
 
 .bg-video__overlay {
@@ -209,5 +213,32 @@ $border-width: 1px;
 		.arrow:before {
 			width: 30px;
 		}
+	}
+}
+
+@include max-screen(700px) {
+	.bg-video__file {
+		top: 0;
+		width: auto;
+		height: 100%;
+	}
+	.column {
+		width: 100%;
+		display: block;
+
+		&:first-child {
+			padding-right: 0;
+		}
+		&:last-child {
+			padding-left: 0;
+		}
+		.paragraph {
+			margin-bottom: 30px;
+			&:last-child { margin-bottom: 70px; }
+		}
+	}
+	.paragraph--2 {
+		column-count: 1;
+		column-gap: 0;
 	}
 }

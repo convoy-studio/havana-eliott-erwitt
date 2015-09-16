@@ -10,7 +10,7 @@ function _getCartState() {
 		cartCount: CartStore.getCartCount(),
 		cartTotal: CartStore.getCartTotal(),
 		cartVisible: CartStore.getCartVisible(),
-		cartEnabled: CartStore.getCartEnabled()
+		cartEnabled: CartStore.getCartEnabled(),
 	}
 }
 

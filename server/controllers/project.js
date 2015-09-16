@@ -34,11 +34,12 @@ var controller = {
 							.sort({ year: 'desc'})
 							.exec(function (err, print_items) {
 								if (!err) {
+									var prints = _.sortByOrder(print_items, ['forsale'], ['desc']);
 									projects.push({
 										artist: item.artist,
 										desc: item.desc,
 										slug: item.slug,
-										print: print_items[0]
+										print: prints[0]
 									});
 									if (index >= items.length-1) {
 										return reply(projects);

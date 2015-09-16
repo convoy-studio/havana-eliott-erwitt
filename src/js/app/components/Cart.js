@@ -50,11 +50,15 @@ export default class Cart extends React.Component {
 								<ul className='cart__products'>
 									{Object.keys(this.props.products).map((index) => {
 										let product = this.props.products[index]
+										let details
+										if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
+										else details = product.city+'. '+product.country+'. '+product.year
+										
 										return ( 
 											<li key={index} className='cart__product'>
 												<div className='cart__column'>
-													<div className='cart__artist'>Artist</div>
-													<div className='cart__details'>{product.title}. {product.city}. {product.country}. {product.year}</div>
+													<div className='cart__artist'>{product.project.artist}</div>
+													<div className='cart__details'>{details}</div>
 													<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
 													<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 												</div>

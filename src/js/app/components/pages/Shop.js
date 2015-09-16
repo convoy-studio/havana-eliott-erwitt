@@ -39,6 +39,8 @@ export default class Shop extends Page {
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
+		this.sTop = 0
+		this.cTop = 0
 	}
 
 	componentDidMount() {
@@ -51,6 +53,7 @@ export default class Shop extends Page {
 		this._shop = document.querySelector('.shop')
 		this._overlay = document.querySelector('.shop__overlay')
 		this._intro = document.querySelector('.shop__intro')
+		this._list = document.querySelector('.shop__list')
 
 		this._raf()
 	}
@@ -63,9 +66,10 @@ export default class Shop extends Page {
 	render() {
 		let that = this
 		let shopData = AppStore.shopContent()
+		let pageClass = this.state.open ? '' : 'page--hidden'
 
 		return (
-			<div className='page page--shop page--overflow' ref='page-wrapper'>
+			<div className={'page page--shop ' + pageClass} onClick={this._discoverBinded} ref='page-wrapper'>
 				<div className='shop js-smooth'>
 					<div className='shop__intro'>
 						<h2 className='title'>{shopData.intro.title}</h2>
@@ -81,6 +85,10 @@ export default class Shop extends Page {
 						{Object.keys(this.state.prints).map(function(id, index){
 							let print = that.state.prints[id]
 							let file = print.file + '_medium.jpg'
+							let details
+							if (print.title) details = print.title+'. '+print.city+'. '+print.country+'. '+print.year
+							else details = print.city+'. '+print.country+'. '+print.year
+
 							return (
 								<div className='shop__print' key={id}>
 									<a href={'#/shop/'+print.token}>
@@ -88,9 +96,9 @@ export default class Shop extends Page {
 										<div className='shop__hover'>
 											<div className='shop__detail'>
 												<div className='text'>{print.artist}</div>
-												<div className='text'>{print.title}. {print.city}. {print.country}. {print.year}</div>
+												<div className='text'>{details}</div>
 												<div className='shop__price text'>{print.price}€</div>
-												<div className='button'>More details</div>
+												<div className='shop__button button'>More details</div>
 											</div>
 										</div>
 									</a> 
@@ -145,8 +153,10 @@ export default class Shop extends Page {
 	handleScroll() {
 		let e;
 		this.sTop = Utils.GetScrollTop()
-		this.cTop += .1 * (this.sTop - this.cTop)
+		this.cTop += 0.1 * (this.sTop - this.cTop)
 		e = -this.cTop
+		// if (this._intro) this._intro.style[this.transform] = 'translate3d(' + (-this._intro.offsetWidth/2) + 'px, ' + e + 'px, 0)'
+		// if (this._list && this.state.open) this._list.style[this.transform] = 'translate3d(' + (-this._list.offsetWidth/2) + 'px, ' + e + 'px, 0)'
 		if (this._shop) this._shop.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)'
 
 		_(dom('.shop__print')).forEach((el, index) => {
@@ -175,9 +185,12 @@ export default class Shop extends Page {
 	}
 
 	_discover() {
-		this._page.classList.remove('page--overflow')
-		this._overlay.classList.add('shop__overlay--hidden')
-		this._intro.classList.add('shop__intro--hidden')
+		this.setState({
+			open: true
+		});
+		// this._page.classList.remove('page--overflow')
+		// this._overlay.classList.add('shop__overlay--hidden')
+		// this._intro.classList.add('shop__intro--hidden')
 		document.querySelector('.page--shop').style.height = this._shop.offsetHeight + 'px'
 	}
 

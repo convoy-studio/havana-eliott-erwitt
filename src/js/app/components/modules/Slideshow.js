@@ -28,7 +28,8 @@ export default class Slideshow extends React.Component {
 		this.scrollIndex = 0
 		this.scrollOk = false
 		this.transform = Utils.GetSupportedPropertyName('transform')
-		this.y = 0
+		this.printY = 0
+		this.cursorY = 0
 
 		// function binded
 		this._prevBinded = this._prev.bind(this)
@@ -45,9 +46,7 @@ export default class Slideshow extends React.Component {
 
 	componentDidMount() {
 		document.addEventListener('mousemove', this._onMousemoveBinded)
-	}
-
-	componentDidUpdate() {
+		
 		let file
 		this.nPrints = _.size(this.props.prints)
 		if (this.nPrints > 0 && !this.printsLoaded) {
@@ -58,6 +57,9 @@ export default class Slideshow extends React.Component {
 				file.src = '/static/img/'+print.file+'_big.jpg'
 			}.bind(this)).value();
 		}	
+	}
+
+	componentDidUpdate() {
 	}
 
 	componentWillUnmount() {
@@ -94,7 +96,7 @@ export default class Slideshow extends React.Component {
 
 	render() {
 		let current = this.props.prints[this.state.current]
-		let artist, title, city, country, year, story, forsale, url, desc = []
+		let artist, title, city, country, year, story, forsale, url, details, desc = []
 
 		if (current) {
 			title = current.title
@@ -105,6 +107,9 @@ export default class Slideshow extends React.Component {
 			forsale = current.forsale
 			url = '#/shop/' + current.token
 		}
+
+		if (title) details = title+'. '+city+'. '+country+'. '+year
+		else details = city+'. '+country+'. '+year
 
 		let slideshowClass = (this.props.show) ? '' : 'project__slideshow--hidden';
 		let bigSlideshowClass = (this.state.bigPrintsLoaded) ? '' : 'project__bigslideshow--hidden'
@@ -140,7 +145,7 @@ export default class Slideshow extends React.Component {
 						<div className='project__section project__infos'>
 							{(() => {
 								if (forsale) return (
-									<h3 className='text'>{title}. {city}. {country}. {year}</h3>
+									<h3 className='text'>{details}</h3>
 								)
 							})()}
 						</div>
@@ -154,7 +159,7 @@ export default class Slideshow extends React.Component {
 					<div className='project__bigcontent'>
 						<div className='project__bigprints'>
 							{Object.keys(this.props.prints).map((id, index) => {
-								let file = this.props.prints[id].file + '.jpg'
+								let file = this.props.prints[id].file + '_big.jpg'
 								let status = (index === this.state.current) ? 'project__bigprint--current' : ''
 								return (
 									<div className={'project__bigprint '+status} onClick={this._zoomOutBinded} key={id}>
@@ -191,9 +196,8 @@ export default class Slideshow extends React.Component {
 
 		let el = document.querySelector('.project__bigprint--current .project__bigimage')
 		if (el) {
-			// this.y = .1 * ((this.cursorY / window.innerHeight) * (el.offsetHeight - window.innerHeight) - this.y)
-			this.y = (this.cursorY / window.innerHeight) * (el.offsetHeight - window.innerHeight)
-			let top = -this.y
+			this.printY += (((this.cursorY / window.innerHeight) * (el.offsetHeight - window.innerHeight)) - this.printY) * 0.1
+			let top = -this.printY
 			el.style[this.transform] = 'translate3d(0, ' + top + 'px, 0)'
 		}
 	}
@@ -232,7 +236,7 @@ export default class Slideshow extends React.Component {
 			_(this.state.prints).forEach((print, index) => {
 				file = new Image()
 				file.onload = this.onBigPrintLoaded.bind(this)
-				file.src = '/static/img/'+print.file+'.jpg'
+				file.src = '/static/img/'+print.file+'_big.jpg'
 			}.bind(this)).value();
 		}
 	}

@@ -53,7 +53,6 @@ export default class Fellowship extends Page {
 		this._overlay = document.querySelector('.bg-video__overlay')
 		this._video = document.querySelector('.bg-video__file')
 		this._back = document.querySelector('.fellowship__back')
-		console.log(this._overlay)
 
 		document.querySelector('.page').style.height = this._fellowship.offsetHeight + 'px'
 
@@ -91,8 +90,7 @@ export default class Fellowship extends Page {
 
 				<div className='bg-video fellowship__video'>
 					<video className='bg-video__file'>
-						<source src='/static/videos/bg-home.webm' type='video/webm' />
-						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
+						<source src='/static/videos/interview.mp4' type='video/mp4' />
 					</video>
 					<div className='bg-video__overlay'></div>
 					<div className='fellowship__back button' onClick={this._hideInterviewBinded}>Back to fellowship page</div>

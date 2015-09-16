@@ -63,8 +63,8 @@ $cartColor: $white;
 }
 
 .cart__products {
-	height: 142px;
-	overflow: scroll;
+	max-height: 164px;
+	overflow-y: auto;
 }
 
 .payment__products {
@@ -80,11 +80,6 @@ $cartColor: $white;
 	
 	&:last-child {
 		border-bottom: 0;
-		height: 143px;
-	}
-
-	&:first-child {
-		height: 142px;
 	}
 }
 

@@ -6,7 +6,9 @@ import PrintStore from 'PrintStore'
 import PrintApi from 'PrintApi'
 import CartActions from 'CartActions'
 import CartStore from 'CartStore'
+import Utils from 'Utils'
 let _ = require('lodash')
+let scroll = Utils.Scroll()
 
 export default class Print extends Page {
 	
@@ -19,7 +21,8 @@ export default class Print extends Page {
 			selectedSerial: undefined,
 			loadedPrint: undefined,
 			cartItems: CartStore.getCartItems(),
-			validSerials: []
+			validSerials: [],
+			bigImageShowed: false
 		}
 
 		// function binded
@@ -27,15 +30,26 @@ export default class Print extends Page {
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 		this._onCartStoreChangeBinded = this._onCartStoreChange.bind(this)
+		this._zoomInBinded = this._zoomIn.bind(this)
+		this._zoomOutBinded = this._zoomOut.bind(this)
+		this._onMousemoveBinded = this._onMousemove.bind(this)
+		this._rafBinded = this._raf.bind(this)
 
 		// vars
 		this.loaded = false
+		this.bigprintLoaded = false
 		this.validSerials = []
+		this.scrollIndex = 0
+		this.scrollOk = false
+		this.transform = Utils.GetSupportedPropertyName('transform')
+		this.printY = 0
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
 		
+		document.addEventListener('mousemove', this._onMousemoveBinded)
+
 		PrintApi.getOne(this.props.idSection);
 		PrintStore.addChangeListener(this._onStoreChangeBinded);
 		CartStore.addChangeListener(this._onStoreChangeBinded);
@@ -54,13 +68,14 @@ export default class Print extends Page {
 	}
 
 	componentWillUnmount() {
+		document.removeEventListener('mousemove', this._onMousemoveBinded)
 		PrintStore.removeChangeListener(this._onStoreChangeBinded);	
 		CartStore.removeChangeListener(this._onStoreChangeBinded);
 	}
 
 	render() {
 		let that = this
-		let title, city, country, year, price, desc, serials, artist
+		let title, city, country, year, price, desc, serials, artist, bigfile, details
 
 		if (this.state.print) {
 			this.validSerials = this._getValidSerials()
@@ -74,7 +89,13 @@ export default class Print extends Page {
 			desc = this.state.print.desc
 			serials = this.state.print.serials
 			artist = this.state.print.project.artist
+			bigfile = '/static/img/'+this.state.print.file+'.jpg'
 		}
+
+		if (title) details = title+'. '+city+'. '+country+'. '+year
+		else details = city+'. '+country+'. '+year
+		
+		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden' 
 
 		return (
 			<div className='page page--print' ref='page-wrapper'>
@@ -82,7 +103,7 @@ export default class Print extends Page {
 					{this.state.loadedPrint}
 					<div className='print__infos'>
 						<h3 className='print__artist text'>{artist}</h3>
-						<h3 className='print__location text'>{title}. {city}. {country}. {year}</h3>
+						<h3 className='print__location text'>{details}</h3>
 						<div className='print__price text text--small'>{price}€</div>
 						<p className='print__desc text text--small'>{desc}</p>
 						<div className='print__serials'>
@@ -115,8 +136,32 @@ export default class Print extends Page {
 						</div>
 					</div>
 				</div>
+				<div className={'bigprint ' + bigPrintClass}>
+					<img className='bigprint__image' src={bigfile} onClick={this._zoomOutBinded}></img>
+				</div>
 			</div>
 		)
+	}
+
+	_raf() {
+		if (this.scrollIndex % 3) this.scrollOk = true
+		else this.scrollOk = true
+		this.scrollIndex++
+
+		if (this.scrollOk) {
+			this.handleScroll()
+		}
+
+		this.scrollRaf = scroll(this._rafBinded);
+	}
+
+	handleScroll() {
+		let el = document.querySelector('.bigprint__image')
+		if (el) {
+			this.printY += (((this.cursorY / window.innerHeight) * (el.offsetHeight - window.innerHeight)) - this.printY) * 0.1
+			let top = -this.printY
+			el.style[this.transform] = 'translate3d(0, ' + top + 'px, 0)'
+		}
 	}
 
 	_getValidSerials() {
@@ -156,7 +201,8 @@ export default class Print extends Page {
 			price: this.state.print.price,
 			serial: this.state.selectedSerial,
 			file: this.state.print.file,
-			copies: this.state.print.copies
+			copies: this.state.print.copies,
+			project: this.state.print.project
 		}
 		CartActions.addToCart(update);
 		CartActions.updateCartEnabled(true);
@@ -182,7 +228,19 @@ export default class Print extends Page {
 		else size = 'landscape'
 		let dim = '27.9 × 35.6 cm' // gérer la conversion (11 × 14 inches)
 
-		this.print = <div className='print__left'><div className={'print__image print__image--'+size}><img className='print__file' src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>{dim}, unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
+		this.print = (
+			<div className='print__left'>
+				<div className={'print__image print__image--'+size}>
+					<img className='print__file' src={'/static/img/'+this.state.print.file+'_medium.jpg'} onClick={this._zoomInBinded}></img>
+					<div className='print__tech'>
+						<p>Silver gelatin print measuring</p>
+						<p>{dim}, unframed.</p>
+						<p>Printed under the direct supervision of the artist.</p>
+						<p>One of a signed, limited edition of {this.state.print.copies}.</p>
+					</div>
+				</div>
+			</div>
+		)
 
 		// if (params.path[0].height >= params.path[0].width*1.2) {
 		// 	this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
@@ -194,8 +252,37 @@ export default class Print extends Page {
 		});
 	}
 
+	_onBigImageLoaded(e) {
+		this.setState({
+			bigImageShowed: true
+		}, () => {
+			this._raf()
+		});
+	}
+
+	_zoomIn() {
+		document.querySelector('body').classList.add('body--hidden');
+		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
+		
+		if (!this.bigprintLoaded) {
+			this.bigprintLoaded = true
+			let file = new Image()
+			file.onload = this._onBigImageLoaded.bind(this)
+			file.src = '/static/img/'+this.state.print.file+'.jpg'
+		}
+	}
+
+	_zoomOut() {
+		document.querySelector('body').classList.remove('body--hidden');
+		document.querySelector('.bigprint').classList.add('bigprint--hidden');
+	}
+
 	didTransitionOutComplete() {
 		super.didTransitionOutComplete()
+	}
+
+	_onMousemove(e) {
+		this.cursorY = e.clientY
 	}
 
 	resize() {
