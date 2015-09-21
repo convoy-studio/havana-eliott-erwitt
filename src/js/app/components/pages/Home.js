@@ -45,7 +45,7 @@ export default class Home extends Page {
 					<div className='home__overlay bg-video__overlay'></div>
 				</div>
 				<div className='home'>
-					<h2 className='title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
+					<h2 className='home__title title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
 					<a className='home__discover button' href='#/fellowship'>Learn more about the fellowship</a>
 				</div>
 			</div>

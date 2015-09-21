@@ -217,6 +217,9 @@ $border-width: 1px;
 }
 
 @include max-screen(700px) {
+	.button {
+		&:hover { opacity: 1 !important; }
+	}
 	.bg-video__file {
 		top: 0;
 		width: auto;
@@ -240,5 +243,10 @@ $border-width: 1px;
 	.paragraph--2 {
 		column-count: 1;
 		column-gap: 0;
+	}
+	.js-reveal {
+		display: block;
+		opacity: 1;
+		transform: none;
 	}
 }

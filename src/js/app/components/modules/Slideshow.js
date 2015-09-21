@@ -117,6 +117,7 @@ export default class Slideshow extends React.Component {
 		return (
 			<div>
 				<div className={'project__slideshow ' + slideshowClass}>
+					<div className='project__contact submenu'><a href={'#/photography/'+this.props.project+'/contact-sheet'} className='button'>Contact sheet</a></div>
 					<div className='project__content'>
 						<div className='project__prints'>
 							{Object.keys(this.props.prints).map((id, index) => {

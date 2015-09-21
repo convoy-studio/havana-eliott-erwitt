@@ -9,6 +9,8 @@ export default class FrontContainer extends BaseComponent {
 		super(props)
 
 		this.didHasherChangeBinded = this.didHasherChange.bind(this)
+		this._toggleMenuBinded = this._toggleMenu.bind(this)
+
 		this.state = {
 			hash: undefined
 		}
@@ -39,6 +41,9 @@ export default class FrontContainer extends BaseComponent {
 		return (
 			<div id='frontContainer' className='front-container' ref='front-container'>
 				<header id='header' className='header'>
+					<div className='hamburger' onClick={this._toggleMenuBinded}>
+						<div className='hamburger__line'></div>
+					</div>
 					<h1 className='header__logo'><a href='#/'><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></a></h1>
 					<nav className='header__menu'>
 						<ul className='header__list'>
@@ -53,6 +58,10 @@ export default class FrontContainer extends BaseComponent {
 				</footer>
 			</div>
 		)
+	}
+
+	_toggleMenu() {
+		document.querySelector('.header__menu').classList.toggle('header__menu--open')
 	}
 
 	didHasherChange() {

@@ -152,10 +152,11 @@ export default class Projects extends Page {
 						if (_.size(this.state.prints) > 0) {
 							return (
 								<div>
-									<div className='project__contact submenu'><a href={'#/photography/'+this.state.currentProject+'/contact-sheet'} className='button'>Contact sheet</a></div>
+									
 									<Slideshow
 										prints={this.state.prints}
 										show={this.state.projectOpened}
+										project={this.state.currentProject}
 										current={this.state.current}
 										updateCurrent={this._updateCurrentBinded}
 									/>								

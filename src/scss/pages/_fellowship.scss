@@ -47,6 +47,9 @@
 	}
 }
 
+.fellowship__menu {
+	display: none;
+}
 
 @include max-screen(958px) {
 	.fellowship {
@@ -56,7 +59,61 @@
 		width: 100%;
 		padding: 160px 24px 0;
 		box-sizing: border-box;
+		transform: none !important;
 
 		text-align: left;
+
+		.column .paragraph:last-child { margin-bottom: 90px; }
+	}
+	.fellowship__submenu {
+		display: none;
+	}
+	.fellowship__menu {
+		display: table;
+		table-layout: fixed;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		transform: none;
+		width: 100%;
+		height: 60px;
+		background-color: black;
+		text-align: center;
+		line-height: 60px;
+		border-top: 1px solid white;
+	}
+	.fellowship__item {
+		display: table-cell;
+		vertical-align: middle;
+		padding: 0 12px;
+
+		&:first-child {
+			border-right: 1px solid $white;
+		}
+	}
+	.fellowship__watch, .fellowship__discover {
+		display: none;
+	}
+	.fellowship__back {
+		z-index: 20;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		transform: none;
+		width: 100%;
+		height: 60px;
+		background-color: black;
+		text-align: center;
+		line-height: 60px;
+		border-top: 1px solid white;
+	}
+	.fellowship__video .bg-video__file {
+		width: 100%;
+		height: auto;
+		top: 50%;
+		left: 0;
+		transform: translate(0, -50%);
+		padding: 0 12px;
+		box-sizing: border-box;
 	}
 }

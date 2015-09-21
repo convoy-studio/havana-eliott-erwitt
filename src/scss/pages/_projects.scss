@@ -113,3 +113,56 @@
 	transform: translate(0, 20px);
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
 }
+
+@include max-screen(700px) {
+	.projects__image {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: calc(100% - 100px);
+		height: auto;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.projects__details {
+		width: 100%;
+		padding: 0 12px;
+		box-sizing: border-box;
+		// position: absolute;
+		// top: calc(50% - 12px);
+		// left: 50%;
+		// transform: translate(-50%, 0);
+		// z-index: 10;
+		// padding-bottom: 70px;
+
+		@extend .hidden;
+	}
+	.projects__loader, .projects__discover {
+		@extend .mobile-button;
+	}
+	.projects__loader {
+		@extend .visible;
+		margin-bottom: 0;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
+	}
+
+	.projects__loader--disabled {
+		@extend .hidden;
+		transform: none;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
+	}
+
+	.projects__discover {
+		@extend .visible;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
+	}
+
+	.projects__discover--disabled {
+		@extend .hidden;
+		transform: none;
+		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
+	}
+}

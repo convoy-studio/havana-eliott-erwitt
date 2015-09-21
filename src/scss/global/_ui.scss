@@ -50,6 +50,22 @@
 	font-size: 36px;
 }
 
+@include max-screen(958px) {
+	.mobile-button {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		transform: none;
+		width: 100%;
+		height: 60px;
+		background-color: black;
+		text-align: center;
+		line-height: 60px;
+		box-sizing: border-box;
+		border-top: 1px solid white;
+	}
+}
+
 @include max-screen(700px) {
 	.title {
 		width: 100%;

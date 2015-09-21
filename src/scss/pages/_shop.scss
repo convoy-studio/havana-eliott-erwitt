@@ -146,10 +146,28 @@
 }
 
 @include max-screen(958px) {
+	.shop {
+		position: relative;
+		top: initial;
+		left: initial;
+		width: 100%;
+		padding: 0 12px;
+		box-sizing: border-box;
+	}
+
 	.shop__intro {
 		width: 100%;
 		padding: 160px 24px 0;
 		box-sizing: border-box;
+	}
+
+	.shop__list {
+		width: 100%;
+		padding: 0 12px;
+		box-sizing: border-box;
+		
+		padding-top: 122px;
+		padding-bottom: 40px;
 	}
 
 	// .shop__paragraph {
@@ -157,11 +175,6 @@
 	// 	&:last-child { margin-bottom: 0; }
 	// }
 
-	.shop {
-		width: 100%;
-		padding: 0 24px;
-		box-sizing: border-box;
-	}
 
 	.shop__title {
 		font-size: 36px;
