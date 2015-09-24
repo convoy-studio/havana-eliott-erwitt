@@ -104,7 +104,7 @@ export default class Fellowship extends Page {
 						<div className='fellowship__watch button button--margin js-reveal' onClick={this._showInterviewBinded}>Watch Elliott Erwitt interview</div>
 						<h2 className='title js-reveal'>How will the fellowship work?</h2>
 						<p className='paragraph paragraph--2 text js-reveal'>In the spirit of Cuba, 7 photos of each fellow will be sold to support the next photographer joining the fellowship and thus offering each photographer the opportunity to benefit the next in line to carry on the legacy. In addition to the proceeds from print sales Havana Club 7 will fund a similar amount to give more photographers the chance to tell the story of Cuba.<br/>The following fellowship photographers will be selected by a committee headed by Elliott Erwitt comprising of Cuban and international photography professionals ensuring the next fellow will continue the legacy of cuba and the human condition in Cuba through documentary photography and give us their own vision.</p>
-						<img className='fellowship__image js-reveal' src='/static/img/ERE2015002W00027-17A_medium.jpg'/>
+						<img className='fellowship__image js-reveal' src='../assets/images/fellowship.jpg'/>
 					</div>
 					<div className='fellowship__biography'>
 						<h2 className='title js-reveal'>Elliott Erwitt biography</h2>

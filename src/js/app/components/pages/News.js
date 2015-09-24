@@ -14,7 +14,7 @@ export default class News extends Page {
 		super(props)
 
 		this.state = {
-			mobile: false
+			isMobile: false
 		}
 
 		this._rafBinded = this._raf.bind(this)
@@ -30,6 +30,7 @@ export default class News extends Page {
 	componentDidMount() {
 		super.componentDidMount()
 
+		this._body = document.querySelector('body')
 		this._news = document.querySelector('.news')
 		document.querySelector('.page--news').style.height = this._news.offsetHeight + 'px'
 
