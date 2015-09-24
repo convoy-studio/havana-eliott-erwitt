@@ -9,6 +9,7 @@ import offset from 'offset'
 import TweenMax from 'gsap'
 import scrollTo from 'scrollTo'
 let scroll = Utils.Scroll()
+let unscroll = Utils.Unscroll()
 let _ = require('lodash')
 let Masonry = require('masonry-layout');
 
@@ -49,13 +50,16 @@ export default class Shop extends Page {
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this._onPrintStoreChangeBinded);
 
+		this._body = document.querySelector('body')
 		this._page = document.querySelector('.page--shop')
 		this._shop = document.querySelector('.shop')
 		this._overlay = document.querySelector('.shop__overlay')
 		this._intro = document.querySelector('.shop__intro')
 		this._list = document.querySelector('.shop__list')
 
-		this._raf()
+		if (window.innerWidth > 958) {
+			this._raf()
+		}
 	}
 
 	componentWillUnmount() {
@@ -128,7 +132,7 @@ export default class Shop extends Page {
 		this.nImageLoaded++;
 
 		if (this.nImageLoaded >= this.max) {
-			var msnry = new Masonry( '.shop__list', {
+			let msnry = new Masonry( '.shop__list', {
 				// options
 				itemSelector: '.shop__print',
 				columnWidth: '.shop__print',
@@ -202,6 +206,19 @@ export default class Shop extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		if (this._body && this._body.classList.contains('js-mobile')) {
+			if (this.scrollRaf) {
+				document.querySelector('.page--shop').style.height = 'auto'
+				Utils.Unscroll(this.scrollRaf)
+				this.scrollRaf = null;
+			}
+		} else {
+			if (!this.scrollRaf) {
+				if (this._fellowship) document.querySelector('.page--shop').style.height = this._fellowship.offsetHeight + 'px'
+				this._raf()
+			}
+		}
 	}
 
 	_onPrintStoreChange() {

@@ -247,7 +247,7 @@ export default class Fellowship extends Page {
 			if (!this.scrollRaf) {
 				this._raf()
 			}
-		}	
+		}
 	}
 
 }

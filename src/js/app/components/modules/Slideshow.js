@@ -17,7 +17,8 @@ export default class Slideshow extends React.Component {
 		// state
 		this.state = {
 			current: this.props.current || 0,
-			bigPrintsLoaded: false
+			bigPrintsLoaded: false,
+			isMobile: false
 		}
 
 		// vars
@@ -38,6 +39,7 @@ export default class Slideshow extends React.Component {
 		this._zoomOutBinded = this._zoomOut.bind(this)
 		this._rafBinded = this._raf.bind(this)
 		this._onMousemoveBinded = this._onMousemove.bind(this)
+		this.onkeydown = this.onkeydown.bind(this)
 	}
 
 	componentWillMount() {
@@ -46,6 +48,7 @@ export default class Slideshow extends React.Component {
 
 	componentDidMount() {
 		document.addEventListener('mousemove', this._onMousemoveBinded)
+		document.addEventListener('keydown', this.onkeydown)
 		
 		let file
 		this.nPrints = _.size(this.props.prints)
@@ -56,7 +59,7 @@ export default class Slideshow extends React.Component {
 				file.onload = this.onPrintLoaded.bind(this)
 				file.src = '/static/img/'+print.file+'_big.jpg'
 			}.bind(this)).value();
-		}	
+		}
 	}
 
 	componentDidUpdate() {
@@ -156,25 +159,29 @@ export default class Slideshow extends React.Component {
 					</div>
 				</div>
 
-				<div className={'project__bigslideshow ' + bigSlideshowClass}>
-					<div className='project__bigcontent'>
-						<div className='project__bigprints'>
-							{Object.keys(this.props.prints).map((id, index) => {
-								let file = this.props.prints[id].file + '_big.jpg'
-								let status = (index === this.state.current) ? 'project__bigprint--current' : ''
-								return (
-									<div className={'project__bigprint '+status} onClick={this._zoomOutBinded} key={id}>
-										<img className='project__bigimage' src={'/static/img/'+file}></img>
-									</div>
-								)
-							})}
+				{(() => {
+					if (!this.props.isMobile) return (
+						<div className={'project__bigslideshow ' + bigSlideshowClass}>
+							<div className='project__bigcontent'>
+								<div className='project__bigprints'>
+									{Object.keys(this.props.prints).map((id, index) => {
+										let file = this.props.prints[id].file + '_big.jpg'
+										let status = (index === this.state.current) ? 'project__bigprint--current' : ''
+										return (
+											<div className={'project__bigprint '+status} onClick={this._zoomOutBinded} key={id}>
+												<img className='project__bigimage' src={'/static/img/'+file}></img>
+											</div>
+										)
+									})}
+								</div>
+								<div className='project__nav'>
+									<div className='project__bigprev' onClick={this._prevBinded}><div className='arrow'></div></div>
+									<div className='project__bignext' onClick={this._nextBinded}><div className='arrow arrow--right'></div></div>
+								</div>
+							</div>
 						</div>
-						<div className='project__nav'>
-							<div className='project__bigprev' onClick={this._prevBinded}><div className='arrow'></div></div>
-							<div className='project__bignext' onClick={this._nextBinded}><div className='arrow arrow--right'></div></div>
-						</div>
-					</div>
-				</div>
+					)
+				})()}
 			</div>
 		)
 	}
@@ -216,29 +223,29 @@ export default class Slideshow extends React.Component {
 	}
 
 	_zoomIn() {
-		// this.tlZoomIn = new TimelineMax({paused: true})
-		// this.tlZoomIn.staggerTo([
-		// 	dom('.front-container'),
-		// 	dom('.project__footer'),
-		// 	dom('.project__contact'),
-		// 	dom('.project__slideshow')
-		// ], 0.4, {opacity: 0}, 0)
-		// this.tlZoomIn.play()
+		if (!this.props.isMobile) {
+			// this.tlZoomIn = new TimelineMax({paused: true})
+			// this.tlZoomIn.staggerTo([
+			// 	dom('.front-container'),
+			// 	dom('.project__footer'),
+			// 	dom('.project__contact'),
+			// 	dom('.project__slideshow')
+			// ], 0.4, {opacity: 0}, 0)
+			// this.tlZoomIn.play()
 
-		// if (document.querySelector('.project__bigslideshow')) {
 			document.querySelector('body').classList.add('body--hidden');
 			document.querySelector('.project__bigslideshow').classList.remove('project__bigslideshow--hidden');
-		// }
 
-		this.nBigPrints = _.size(this.state.prints)
-		if (this.nBigPrints > 0 && !this.bigPrintsLoaded) {
-			this.bigPrintsLoaded = true
-			let file;
-			_(this.state.prints).forEach((print, index) => {
-				file = new Image()
-				file.onload = this.onBigPrintLoaded.bind(this)
-				file.src = '/static/img/'+print.file+'_big.jpg'
-			}.bind(this)).value();
+			this.nBigPrints = _.size(this.state.prints)
+			if (this.nBigPrints > 0 && !this.bigPrintsLoaded) {
+				this.bigPrintsLoaded = true
+				let file;
+				_(this.state.prints).forEach((print, index) => {
+					file = new Image()
+					file.onload = this.onBigPrintLoaded.bind(this)
+					file.src = '/static/img/'+print.file+'_big.jpg'
+				}.bind(this)).value();
+			}
 		}
 	}
 
@@ -259,6 +266,13 @@ export default class Slideshow extends React.Component {
 
 	_onMousemove(e) {
 		this.cursorY = e.clientY
+	}
+
+	onkeydown(e) {
+		if (this.props.show) {
+			if (e.keyCode === 37) this._prev()
+			if (e.keyCode === 39) this._next()
+		}
 	}
 
 }

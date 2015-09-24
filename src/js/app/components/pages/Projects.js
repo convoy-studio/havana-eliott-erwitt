@@ -23,7 +23,8 @@ export default class Projects extends Page {
 			prints: {},
 			current: 0,
 			bigPrintsLoaded: false,
-			projectOpened: false
+			projectOpened: false,
+			isMobile: false
 		}
 
 		// vars
@@ -131,13 +132,15 @@ export default class Projects extends Page {
 											<img src={'/static/img/' + project.print.file + '_big.jpg'}/>
 										</div>
 										<div className='projects__details'>
-											<h2 className='title'>{project.artist}</h2>
-											<div className='paragraph paragraph--2'>
-												{Object.keys(project.desc).map((index) => {
-													return (
-														<p key={index} className='text'>{project.desc[index]}</p>
-													)
-												}.bind(this))}
+											<div className='projects__infos'>
+												<h2 className='title'>{project.artist}</h2>
+												<div className='paragraph paragraph--2'>
+													{Object.keys(project.desc).map((index) => {
+														return (
+															<p key={index} className='text'>{project.desc[index]}</p>
+														)
+													}.bind(this))}
+												</div>
 											</div>
 											<div className='projects__loader text'>Chargement...</div>
 											<div className='projects__discover projects__discover--disabled button' onClick={this._showSlideshowBinded}>Discover the project</div>
@@ -159,6 +162,7 @@ export default class Projects extends Page {
 										project={this.state.currentProject}
 										current={this.state.current}
 										updateCurrent={this._updateCurrentBinded}
+										isMobile={this.state.isMobile}
 									/>								
 								</div>
 							)
@@ -218,6 +222,10 @@ export default class Projects extends Page {
 			this._content.style.width = this._image.offsetWidth + 'px'
 			this._footer.style.width = this._image.offsetWidth + 'px'
 		}
+
+		this.setState({
+			isMobile: AppStore.isMobile
+		})
 	}
 
 	_onStoreChange() {

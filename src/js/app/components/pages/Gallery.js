@@ -193,10 +193,6 @@ export default class Gallery extends Page {
 		else print.size = 'large'
 		
 		if (this.nImageLoaded >= this.max) {
-			// console.log(this.printsDate['2015'])
-			// // _.map(_.sortByAll(this.printsDate, ['forsale']), _.values);
-			// this.printsDate['2015'] = _.sortByOrder(this.printsDate['2015'], ['forsale'], ['desc']);
-			// console.log(this.printsDate['2015'])
 			this.setState({
 				'loadedPrints': this.printsDate
 			}, () => {
@@ -227,6 +223,30 @@ export default class Gallery extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		if (this._body && this._body.classList.contains('js-mobile')) { 
+			if (this.scrollRaf) {
+				document.querySelector('.page--gallery').style.height = 'auto'
+				this.setState({
+					isMobile: true
+				});
+				_(document.querySelectorAll('.gallery__item')).forEach((el) => {
+					el.style.height = document.querySelectorAll('.gallery__image')[0].offsetHeight
+				}).value()
+				window.cancelAnimationFrame(this.scrollRaf)
+				this.scrollRaf = null;
+			}
+		} else {
+			if (!this.scrollRaf) {
+				if (this._fellowship) {
+					document.querySelector('.page--gallery').style.height = this._gallery.offsetHeight + 'px'
+				}
+				this.setState({
+					isMobile: false
+				});
+				this._raf()
+			}
+		}
 	}
 
 	_onPrintStoreChange() {

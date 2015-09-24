@@ -289,6 +289,14 @@ export default class Print extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		if (document.querySelector('.print__tech')) {
+			if (windowW < 958) {
+				document.querySelector('.print__tech').insertAfter(document.querySelector('.print__price'))
+			} else {
+				document.querySelector('.print__tech').insertAfter(document.querySelector('.print__image'))
+			}
+		}
 	}
 
 	_onStoreChange() {

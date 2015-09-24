@@ -194,9 +194,14 @@
 	}
 
 	.print__left, .print__infos {
+		padding-right: 0;
 		position: relative;
 		width: 100%;
 		display: block;
+	}
+
+	.print__left, .print__file {
+		margin-bottom: 30px;
 	}
 
 	.print__tech {
@@ -206,5 +211,9 @@
 		transform: none;
 		width: 100%;
 		margin-left: 0;
+	}
+
+	.print__buy {
+		@extend .mobile-button;
 	}
 }

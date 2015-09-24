@@ -51,13 +51,20 @@
 
 @include max-screen(958px) {
 	.news {
+		position: relative;
+		top: inherit;
+		left: inherit;
 		width: 100%;
 		padding: 160px 24px 0;
 		box-sizing: border-box;
+		transform: none !important;
 	}
 	.news__item {
 		display: block;
 		margin-bottom: 100px;
+		
+		opacity: 1;
+		transform: none;
 	}
 
 	.news__item--left {
@@ -88,5 +95,7 @@
 	.news__date {
 		display: block;
 		width: 100%;
+		margin-bottom: 30px;
+		text-align: left;
 	}
 }

@@ -96,6 +96,7 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 		w: window.innerWidth,
 		h: window.innerHeight
 	},
+	isMobile: false,
 	dispatcherIndex: AppDispatcher.register(function(payload){
 		var action = payload.action
 		switch(action.actionType) {
@@ -106,6 +107,11 @@ var AppStore = assign({}, EventEmitter2.prototype, {
 			case AppConstants.WINDOW_RESIZE:
 				AppStore.Window.w = action.item.windowW
 				AppStore.Window.h = action.item.windowH
+				if (AppStore.Window.w < 958) {
+					AppStore.isMobile = true;
+				} else {
+					AppStore.isMobile = false;
+				}
 				AppStore.emitChange(action.actionType)
 				break
 		}

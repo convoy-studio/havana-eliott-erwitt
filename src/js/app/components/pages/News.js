@@ -13,6 +13,10 @@ export default class News extends Page {
 	constructor(props) {
 		super(props)
 
+		this.state = {
+			mobile: false
+		}
+
 		this._rafBinded = this._raf.bind(this)
 
 		this.eShow = []
@@ -36,7 +40,12 @@ export default class News extends Page {
 		let side
 		let newsData = AppStore.newsContent()
 		let newsItems = newsData.map((item, index)=>{
-			if (index % 2 === 0) { return (
+			if (this.state.isMobile) { return (
+				<article key={index} className='news__item'>
+					<div className='news__date title'>{item.date}</div>
+					<div className='news__content text'>{item.content}</div>
+				</article>
+			)} else if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
 					<div className='news__content text'>{item.content}</div>
 					<div className='news__date title'>{item.date}</div>
@@ -102,6 +111,27 @@ export default class News extends Page {
 		var windowW = AppStore.Window.w
 		var windowH = AppStore.Window.h
 		super.resize()
+
+		if (windowW < 958) {
+			if (this.scrollRaf) {
+				document.querySelector('.page--news').style.height = 'auto'
+				this.setState({
+					isMobile: true
+				});
+				window.cancelAnimationFrame(this.scrollRaf)
+				this.scrollRaf = null;
+			}
+		} else {
+			if (!this.scrollRaf) {
+				if (this._fellowship) {
+					document.querySelector('.page--news').style.height = this._news.offsetHeight + 'px'
+				}
+				this.setState({
+					isMobile: false
+				});
+				this._raf()
+			}
+		}
 	}
 
 }
