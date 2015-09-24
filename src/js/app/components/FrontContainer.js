@@ -20,6 +20,11 @@ export default class FrontContainer extends BaseComponent {
 		AppStore.on(AppConstants.PAGE_HASHER_CHANGED, this.didHasherChangeBinded)
 	}
 
+	componentDidMount() {
+		document.querySelector('body').addEventListener('click', this.handleClickOutside.bind(this))
+		window.onscroll = this._closeMenu.bind(this)
+	}
+
 	render() {
 		let menuData = AppStore.menuContent()
 		let menuItems = menuData.map((item, index)=>{
@@ -60,14 +65,24 @@ export default class FrontContainer extends BaseComponent {
 		)
 	}
 
-	_toggleMenu() {
+	_toggleMenu(e) {
 		document.querySelector('.header__menu').classList.toggle('header__menu--open')
+	}
+
+	_closeMenu() {
+		document.querySelector('.header__menu').classList.remove('header__menu--open')
 	}
 
 	didHasherChange() {
 		this.setState({
 			hash: AppStore.hash()
 		})
+	}
+
+	handleClickOutside(e) {
+		if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
+			this._closeMenu()
+		}
 	}
 
 }
