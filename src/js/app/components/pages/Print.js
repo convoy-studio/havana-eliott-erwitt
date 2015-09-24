@@ -22,7 +22,8 @@ export default class Print extends Page {
 			loadedPrint: undefined,
 			cartItems: CartStore.getCartItems(),
 			validSerials: [],
-			bigImageShowed: false
+			bigImageShowed: false,
+			techDesc: ''
 		}
 
 		// function binded
@@ -105,7 +106,7 @@ export default class Print extends Page {
 						<h3 className='print__artist text'>{artist}</h3>
 						<h3 className='print__location text'>{details}</h3>
 						<div className='print__price text text--small'>{price}€</div>
-						<p className='print__desc text text--small'>{desc}</p>
+						<p className='print__desc text text--small'>{this.state.techDesc}</p>
 						<div className='print__serials'>
 							{(() => {
 								if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
@@ -232,13 +233,16 @@ export default class Print extends Page {
 			<div className='print__left'>
 				<div className={'print__image print__image--'+size}>
 					<img className='print__file' src={'/static/img/'+this.state.print.file+'_medium.jpg'} onClick={this._zoomInBinded}></img>
-					<div className='print__tech'>
-						<p>Silver gelatin print measuring</p>
-						<p>{dim}, unframed.</p>
-						<p>Printed under the direct supervision of the artist.</p>
-						<p>One of a signed, limited edition of {this.state.print.copies}.</p>
-					</div>
 				</div>
+			</div>
+		)
+
+		this.techDesc = (
+			<div className='print__tech'>
+				<p>Silver gelatin print measuring</p>
+				<p>{dim}, unframed.</p>
+				<p>Printed under the direct supervision of the artist.</p>
+				<p>One of a signed, limited edition of {this.state.print.copies}.</p>
 			</div>
 		)
 
@@ -248,7 +252,8 @@ export default class Print extends Page {
 		// 	this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'/static/img/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
 		// }
 		this.setState({
-			'loadedPrint': this.print
+			'loadedPrint': this.print,
+			'techDesc': this.techDesc
 		});
 	}
 
@@ -289,14 +294,6 @@ export default class Print extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
-
-		if (document.querySelector('.print__tech')) {
-			if (windowW < 958) {
-				document.querySelector('.print__tech').insertAfter(document.querySelector('.print__price'))
-			} else {
-				document.querySelector('.print__tech').insertAfter(document.querySelector('.print__image'))
-			}
-		}
 	}
 
 	_onStoreChange() {

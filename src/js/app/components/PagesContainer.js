@@ -17,6 +17,7 @@ import Result from 'Result'
 import Contact from 'Contact'
 import Legal from 'Legal'
 import Privacy from 'Privacy'
+import Terms from 'Terms'
 import Notfound from 'Notfound'
 
 export default class PagesContainer extends BasePager {
@@ -91,6 +92,9 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'privacy':
 				type = Privacy
+				break
+			case 'terms':
+				type = Terms
 				break
 			default:
 				type = Notfound

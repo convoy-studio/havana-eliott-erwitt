@@ -33,6 +33,10 @@
 	@extend .top-left;
 }
 
+.underline {
+	text-decoration: underline;
+}
+
 .text {
 	@extend .text-font;
 	font-size: 16px;

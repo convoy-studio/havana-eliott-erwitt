@@ -82,7 +82,7 @@ export default class Shop extends Page {
 								<p className='shop__paragraph paragraph text' key={index}>{shopData.intro.paragraphs[index]}</p>
 							)
 						})}
-						<div className='shop__discover button' onClick={this._discoverBinded}>Discover and buy the artwork.</div>
+						<div className='shop__discover button' onClick={this._discoverBinded}>Discover and buy photographs.</div>
 					</div>
 					<div className='shop__list'>
 						<div className='shop__overlay'></div>

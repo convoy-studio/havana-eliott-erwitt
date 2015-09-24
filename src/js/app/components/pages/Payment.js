@@ -213,7 +213,7 @@ export default class Payment extends Page {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
-								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the terms and conditions*</p></label>
+								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='#/terms' target='_blank'>terms and conditions</a>*</p></label>
 							</div>
 
 							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}>Proceed to payment</a>
