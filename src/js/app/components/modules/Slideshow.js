@@ -22,6 +22,7 @@ export default class Slideshow extends React.Component {
 		}
 
 		// vars
+		this.largerImage = undefined
 		this.nPrintsLoaded = 0
 		this.nBigPrintsLoaded = 0
 		this.printsLoaded = false
@@ -80,8 +81,17 @@ export default class Slideshow extends React.Component {
 			this._prints = document.querySelector('.project__prints')
 			this._image = document.querySelector('.project__image')
 			this._footer = document.querySelector('.project__footer')
-			// this._prints.style.width = this._image.offsetWidth + 'px'
-			this._footer.style.width = this._image.offsetWidth + 'px'
+
+			_(document.querySelectorAll('.project__image')).forEach((print) => {
+				if (this.largerImage) {
+					this.largerImage = (print.offsetWidth > this.largerImage.offsetWidth) ? print : this.largerImage
+				} else {
+					this.largerImage = print
+				}
+			}).value()
+
+			// this._prints.style.width = this.largerImage.offsetWidth + 'px'
+			this._footer.style.width = this.largerImage.offsetWidth + 'px'
 
 			this._raf()
 		}
@@ -199,8 +209,8 @@ export default class Slideshow extends React.Component {
 	}
 
 	handleScroll() {
-		this._content.style.width = this._image.offsetWidth + 'px'
-		this._footer.style.width = this._image.offsetWidth + 'px'
+		this._content.style.width = this.largerImage.offsetWidth + 'px'
+		this._footer.style.width = this.largerImage.offsetWidth + 'px'
 
 		let el = document.querySelector('.project__bigprint--current .project__bigimage')
 		if (el) {

@@ -53,10 +53,12 @@ export default class Fellowship extends Page {
 		this._overlay = document.querySelector('.bg-video__overlay')
 		this._video = document.querySelector('.bg-video__file')
 		this._back = document.querySelector('.fellowship__back')
+		this._bg = document.querySelector('.fellowship__bg')
 
 		document.querySelector('.page').style.height = this._fellowship.offsetHeight + 'px'
 
 		this._loadImages()
+		// this._loadVideo()
 	}
 
 	componentWillUnmount() {
@@ -84,6 +86,9 @@ export default class Fellowship extends Page {
 		let that = this
 		let fellowshipData = AppStore.fellowshipContent()
 
+					// <div className='youtube' id='player'>
+						// <iframe className='youtube__file' type="text/html" src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com" frameborder="0"></iframe>
+					// </div>
 		return (
 			<div className='page page--fellowship' ref='page-wrapper'>
 				<div className='fellowship__submenu submenu'><a href='#/friends' className='button'>Friends of the fellowship</a></div>
@@ -92,6 +97,7 @@ export default class Fellowship extends Page {
 					<video className='bg-video__file'>
 						<source src='/static/videos/interview.mp4' type='video/mp4' />
 					</video>
+					<img className='fellowship__bg' src='../assets/images/fellowship-mobile.jpg'/>
 					<div className='bg-video__overlay'></div>
 				</div>
 				
@@ -125,7 +131,7 @@ export default class Fellowship extends Page {
 
 				<div className='fellowship__menu'>
 					<div className='fellowship__item button' onClick={this._showInterviewBinded}>Elliott Erwitt interview</div>
-					<a className='fellowship__item button' href='#/photography/elliott_erwitt'>Discover his biography</a>
+					<a className='fellowship__item button' href='#/photography/elliott_erwitt'>Discover his project</a>
 				</div>
 			</div>
 		)
@@ -173,6 +179,46 @@ export default class Fellowship extends Page {
 		}).value();
 	}
 
+	_loadVideo() {
+		console.log('hello')
+		let tag = document.createElement('script');
+
+		tag.src = 'https://www.youtube.com/iframe_api';
+		let firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		let player;
+		function onYouTubeIframeAPIReady() {
+			console.log('init')
+			player = new YT.Player('player', {
+				height: '390',
+				width: '640',
+				videoId: 'M7lc1UVf-VE',
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange
+				}
+			});
+		}
+
+		// 4. The API will call this function when the video player is ready.
+		function onPlayerReady(event) {
+			event.target.playVideo();
+		}
+
+		let done = false;
+		function onPlayerStateChange(event) {
+			if (event.data == YT.PlayerState.PLAYING && !done) {
+				setTimeout(stopVideo, 6000);
+				done = true;
+			}
+		}
+
+		function stopVideo() {
+			player.stopVideo();
+		}
+	}
+
 	_loadImages() {
 		let that = this, file
 		this.max = _.size(dom('.fellowship img'))
@@ -194,10 +240,10 @@ export default class Fellowship extends Page {
 
 	_toggleVideo() {
 		if (this.videoPlayed) {
-			document.querySelector('.fellowship__interview').pause()
+			// document.querySelector('.fellowship__interview').pause()
 			dom('.fellowship__play').addClass('enabled')
 		} else {
-			document.querySelector('.fellowship__interview').play()
+			// document.querySelector('.fellowship__interview').play()
 			dom('.fellowship__play').removeClass('enabled')
 		}
 		this.videoPlayed = !this.videoPlayed
@@ -212,6 +258,7 @@ export default class Fellowship extends Page {
 		this._video.play()
 		this._fellowship.classList.add('fellowship--hidden')
 		this._overlay.classList.add('bg-video__overlay--hidden')
+		this._bg.classList.add('fellowship__bg--hidden')
 		this._back.classList.add('fellowship__back--visible')
 	}
 
@@ -219,6 +266,7 @@ export default class Fellowship extends Page {
 		this._video.pause()
 		this._fellowship.classList.remove('fellowship--hidden')
 		this._overlay.classList.remove('bg-video__overlay--hidden')
+		this._bg.classList.remove('fellowship__bg--hidden')
 		this._back.classList.remove('fellowship__back--visible')
 	}
 
@@ -235,7 +283,7 @@ export default class Fellowship extends Page {
 		// else dom('body').removeClass('body--portrait')
 
 		if (windowW < 958) {
-			document.querySelector('.page--fellowship').style.height = 'auto'
+			if (document.querySelector('.page--fellowship')) document.querySelector('.page--fellowship').style.height = 'auto'
 			window.cancelAnimationFrame(this.scrollRaf)
 			if (this.scrollRaf) {
 				this.scrollRaf = null;

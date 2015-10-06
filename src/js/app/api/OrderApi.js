@@ -4,6 +4,7 @@ let config = require('../config');
 module.exports = {
 
 	create : function(order){
+		console.log(order);
 		fetch(config.siteurl + '/api/order', {
 			method: 'post',
 			headers: {

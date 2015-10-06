@@ -25,6 +25,7 @@ export default class Payment extends Page {
 
 		this.state = _getCartState()
 		this.state.form = undefined
+		this.state.sameAddress = true
 	}
 	
 	componentDidMount() {
@@ -32,6 +33,9 @@ export default class Payment extends Page {
 
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 		this._onOrderStoreChangeBinded = this._onOrderStoreChange.bind(this)
+		this._toggleBill = this._toggleBill.bind(this)
+
+		this._bill = document.querySelector('.payment__bill')
 
 		let hack = setTimeout(function() {
 			CartActions.updateCartEnabled(false)
@@ -41,6 +45,7 @@ export default class Payment extends Page {
 
 		CartStore.addChangeListener(this._onStoreChangeBinded);
 		OrderStore.addChangeListener(this._onOrderStoreChangeBinded);
+		document.getElementById('billCheckbox').addEventListener('change', this._toggleBill)
 	}
 
 	componentWillUnmount() {
@@ -137,9 +142,49 @@ export default class Payment extends Page {
 								<input className='form__input form__input--text' type='text' id='country'/>
 							</div>
 							<div className='form__row'>
-								<input className='form__input form__input--checkbox' type='checkbox' id='billAddress' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='billAddress'><p className='form__text'>Bill to the same address</p></label>
+								<input className='form__input form__input--checkbox' type='checkbox' id='billCheckbox' defaultChecked/>
+								<label className='form__label form__label--pointer' htmlFor='billCheckbox'><p className='form__text'>Bill to the same address</p></label>
 							</div>
+							{(() => {
+								if (!this.state.sameAddress) { return (
+									<div className='payment__bill'>
+										<h3 className='form__title'>Billing address</h3>
+										<div className='form__row form__row--half'>
+											<div className='form__column'>
+												<label className='form__label' htmlFor='billFirstname'>First name *</label>
+												<input className='form__input form__input--text' type='text' id='billFirstname'/>
+											</div>
+											<div className='form__column'>
+												<label className='form__label' htmlFor='billLastname'>Last name *</label>
+												<input className='form__input form__input--text' type='text' id='billLastname'/>
+											</div>
+										</div>
+										<div className='form__row'>
+											<label className='form__label' htmlFor='billPhone'>Telephone *</label>
+											<input className='form__input form__input--text' type='tel' id='billPhone'/>
+										</div>
+										<div className='form__row'>
+											<label className='form__label' htmlFor='billAddress'>Address *</label>
+											<input className='form__input form__input--text form__input--comp' type='text' id='billAddress'/>
+											<input className='form__input form__input--text' type='text' id='billAddressBis'/>
+										</div>
+										<div className='form__row form__row--half'>
+											<div className='form__column'>
+												<label className='form__label' htmlFor='billZip'>Zip/Postal code *</label>
+												<input className='form__input form__input--text' type='text' id='billZip'/>
+											</div>
+											<div className='form__column'>
+												<label className='form__label' htmlFor='billCity'>City</label>
+												<input className='form__input form__input--text' type='text' id='billCity'/>
+											</div>
+										</div>
+										<div className='form__row'>
+											<label className='form__label' htmlFor='billCountry'>Country *</label>
+											<input className='form__input form__input--text' type='text' id='billCountry'/>
+										</div>
+									</div>
+								)}
+							}.bind(this))()}
 						</div>
 
 						<div className='payment__column'>
@@ -177,11 +222,15 @@ export default class Payment extends Page {
 							<ul className='payment__products cart__products'>
 								{Object.keys(this.state.cartItems).map((index) => {
 									let product = that.state.cartItems[index];
+									let details
+									if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
+									else details = product.city+'. '+product.country+'. '+product.year
+									
 									return (
 										<li key={index} className='payment__product cart__product'>
 											<div className='cart__column'>
-												<div className='cart__artist'>Artist</div>
-												<div className='cart__details'>{product.title}. {product.city}. {product.country}. {product.year}</div>
+												<div className='cart__artist'>{product.project.artist}</div>
+												<div className='cart__details'>{details}</div>
 												<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
 												<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 											</div>
@@ -234,7 +283,7 @@ export default class Payment extends Page {
 		let orderPrints = []
 		_(this.state.cartItems).forEach((item) => {
 			orderPrints.push({
-				printId: item.id,
+				printId: item.token,
 				serial: item.serial
 			})
 		}).value()
@@ -261,6 +310,13 @@ export default class Payment extends Page {
 	removeItem(id) {
 		CartActions.removeFromCart(id)
 		this.setState(_getCartState())
+	}
+
+	_toggleBill() {
+		// this._bill.classList.toggle('payment__bill--visible')
+		this.setState({
+			sameAddress: !this.state.sameAddress
+		})
 	}
 
 	didTransitionOutComplete() {

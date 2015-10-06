@@ -1,0 +1,75 @@
+.admin {
+	width: 958px;
+	margin: 160px auto 30px;
+}
+
+.admin__title {
+	text-align: center;
+}
+
+.admin__projects, .admin__prints {
+	table {
+		width: 100%;
+
+		font-size: 14px;
+	}
+
+	tbody tr {
+		width: 100%;
+		height: auto;
+		text-align: left;
+	}
+
+	tr {
+		height: 100px;
+		
+		border-bottom: 1px solid $white;
+	}
+	
+	th {
+		padding: 0 6px 24px;
+	}
+
+	td {
+		padding: 6px;
+	}
+
+	td {
+		vertical-align: middle;
+
+		// &:nth-child(2) {
+		// 	text-align: center;
+		// }
+	} 
+	
+	img {
+		height: 100px;
+		width: auto;
+	}
+}
+
+.admin__projects {
+	tr {
+		height: auto;
+	}
+}
+
+.admin__form {
+	.form__input--text {
+		height: 40px;
+	}
+}
+
+.admin__img {
+	margin-bottom: 60px;
+	text-align: center;
+
+	img {
+		width: 50%;
+	}
+}
+
+.admin__row {
+	margin-top: 20px;
+	text-align: center;
+}

@@ -28,6 +28,7 @@ export default class Print extends Page {
 
 		// function binded
 		this._toggleListBinded = this._toggleList.bind(this)
+		this._toggleListMobileBinded = this._toggleListMobile.bind(this)
 		this._addToCartBinded = this._addToCart.bind(this)
 		this._onStoreChangeBinded = this._onStoreChange.bind(this)
 		this._onCartStoreChangeBinded = this._onCartStoreChange.bind(this)
@@ -111,22 +112,24 @@ export default class Print extends Page {
 							{(() => {
 								if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
 									<div>
-										<div className='print__serial-opt text'>Choose edition</div>
-										<div className='print__select text'>
-											<div className='print__serial--selected' onClick={this._toggleListBinded}>{this.selectedSerial}</div>
-											<ul className='print__serial-list'>
-												{Object.keys(this.validSerials).map((index) => {
-													let enabled = this.validSerials[index]
-													let serial = parseInt(index)+1
-													// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
-													// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
-													if (enabled) {
-														return (<li className='print__serial' onClick={this._selectSerial.bind(this, serial)} key={index}>{serial}</li>)
-													} else {
-														return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
-													}
-												})}
-											</ul>
+										<div className='print__serial-wrapper' onClick={this._toggleListMobileBinded}>
+											<div className='print__serial-opt text'>Choose edition</div>
+											<div className='print__select text'>
+												<div className='print__serial--selected' onClick={this._toggleListBinded}>{this.selectedSerial}</div>
+												<ul className='print__serial-list'>
+													{Object.keys(this.validSerials).map((index) => {
+														let enabled = this.validSerials[index]
+														let serial = parseInt(index)+1
+														// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
+														// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+														if (enabled) {
+															return (<li className='print__serial' onClick={this._selectSerial.bind(this, serial)} key={index}>{serial}</li>)
+														} else {
+															return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
+														}
+													})}
+												</ul>
+											</div>
 										</div>
 										<a href='#' className='print__buy button' onClick={this._addToCartBinded}>Add to cart</a>
 									</div>
@@ -214,7 +217,15 @@ export default class Print extends Page {
 	}
 
 	_toggleList() {
-		dom('.print__serial-list').toggleClass('enabled')
+		if (!document.querySelector('body').classList.contains('js-mobile')) {
+			dom('.print__serial-list').toggleClass('enabled')
+		}
+	}
+
+	_toggleListMobile() {
+		if (document.querySelector('body').classList.contains('js-mobile')) {
+			dom('.print__serial-list').toggleClass('enabled')
+		}
 	}
 
 	_loadImage() {
@@ -294,6 +305,10 @@ export default class Print extends Page {
 		let windowW = AppStore.Window.w
 		let windowH = AppStore.Window.h
 		super.resize()
+
+		// if (document.querySelector('body').classList.contains('js-mobile')) {
+			
+		// }
 	}
 
 	_onStoreChange() {

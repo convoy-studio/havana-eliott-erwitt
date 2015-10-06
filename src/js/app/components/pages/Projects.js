@@ -50,7 +50,7 @@ export default class Projects extends Page {
 
 		let hack = setTimeout(() => {
 			this.zoom = PrintStore.getZoom()
-			if (this.zoom !== undefined) {
+			if (this.zoom !== undefined || (this.props.oldHash && this.props.oldHash.parts.length > 2 && this.props.oldHash.parts[2] === 'contact-sheet')) {
 				this.setState({
 					projectOpened: true,
 					current: this.zoom

@@ -107,3 +107,20 @@ input[type=checkbox]:checked + label::before,
 input[type=radio]:checked + label::before {
 	background-color: $formColor;
 }
+
+@include max-screen(958px) {
+	.form__title {
+		margin-top: 30px;
+	}
+	.form__input--text {
+		height: 36px;
+	}
+	.form__row--half {
+		.form__column {
+			display: block;
+			width: 100%;
+			&:first-child { padding-right: 0; }
+			&:last-child { padding-left: 0; }
+		}
+	}
+}

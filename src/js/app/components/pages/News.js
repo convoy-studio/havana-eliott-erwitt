@@ -35,6 +35,7 @@ export default class News extends Page {
 		document.querySelector('.page--news').style.height = this._news.offsetHeight + 'px'
 
 		this._raf()
+		this.resize()
 	}
 
 	render() {

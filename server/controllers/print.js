@@ -241,8 +241,32 @@ var controller = {
 				return reply(Boom.unauthorized('Wrong secret'));
 			}
 		}
-	}
+	},
 	
+	// ADMIN
+	update : {
+		handler : function(request, reply) {
+			Print.findOne({ token: request.params.token }, function(err, print) {
+				if (!err) {
+					print.forsale = request.payload.print.forsale;
+					print.title = request.payload.print.title;
+					print.city = request.payload.print.city;
+					print.country = request.payload.print.country;
+					print.year = request.payload.print.year;
+					print.price = request.payload.print.price;
+					print.save(function(err){
+						if(!err){
+							return reply(print);
+						} else {
+							return reply('Update print failed');
+						}
+					});
+				} else {
+					return reply(Boom.badRequest(err)); // HTTP 500
+				}
+			});
+		}
+	}
 };
 
 module.exports = controller;

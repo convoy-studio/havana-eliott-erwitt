@@ -88,7 +88,8 @@
 
 .print__serial--selected {
 	width: 23px;
-	padding-top: 4px;
+	padding-top: 3px;
+	padding-bottom: 2px;
 
 	border: 1px solid $white;
 
@@ -104,10 +105,11 @@
 	// display: inline-block;
 	position: absolute;
 	left: 0;
-	top: 22px;
+	top: 23px;
 	width: 23px;
 	padding: 2px 0;
 
+	background-color: $black;
 	border: 1px solid $white;
 	border-top: none;
 
@@ -200,10 +202,16 @@
 		display: block;
 	}
 
+	.print__infos {
+		padding-bottom: 60px;
+	}
+
 	.print__left, .print__file {
 		margin-bottom: 30px;
 	}
-
+	.print__price {
+		margin-bottom: 40px;
+	}
 	.print__tech {
 		position: relative;
 		left: 0;
@@ -215,5 +223,44 @@
 
 	.print__buy {
 		@extend .mobile-button;
+		width: 50%;
+		left: 50%;
+	}
+	.print__serial-wrapper {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		z-index: 10;
+		width: 50%;
+		height: 60px;
+		background-color: black;
+		border-top: 1px solid white;
+		border-right: 1px solid white;
+	}
+	.print__serial-opt {
+		line-height: 60px;
+	}
+	.print__select {
+		vertical-align: middle;
+	}
+	.print__serial--selected {
+		border: none;
+		padding-top: 0;
+	}
+	.print__serial-list {
+		position: fixed;
+		bottom: 60px;
+		top: inherit;
+		width: 50%;
+
+		border-bottom: none;
+		border-left: none;
+		border-top: 1px solid $white;
+	}
+	.print__serial {
+		line-height: 28px;
+	}
+	.print__serial--disabled:after {
+		width: 30px;
 	}
 }

@@ -10,15 +10,25 @@ export default class Home extends Page {
 	constructor(props) {
 		super(props)
 		this.props = props
+
+		this.state = {
+			isMobile: false
+		}
 	}
 
 	componentDidMount() {
 		super.componentDidMount()
 		
+		this._body = document.querySelector('body')
 		this._canvas = document.querySelector('.canvas')
 		this._overlay = document.querySelector('.bg-video__overlay')
 		this._video = document.querySelector('.home__video')
 
+		this.fontSize = 36;
+		this.fontSizeMobile = 28;
+		this.fontSizeLogoMobile = 24;
+
+		console.log(this._canvas, this.props.oldHash)
 		if (this._canvas && this.props.oldHash === undefined) {
 			this._canvas.style.display = 'block';
 			TweenMax.set(dom('.front-container'), {opacity: 0});
@@ -35,15 +45,25 @@ export default class Home extends Page {
 
 	render() {
 		let homeData = AppStore.homeContent()
+		let background
+		if (this.state.isMobile) {
+			background = (<div className='bg-video' data-src='bg-home'>
+				<img src='../assets/images/home-mobile.jpg'/>
+				<div className='home__overlay bg-video__overlay'></div>
+			</div>)
+		} else {
+			background = (<div className='bg-video' data-src='bg-home'>
+				<video autoPlay loop muted className='home__video bg-video__file'>
+					<source src='/static/videos/bg-home.webm' type='video/webm' />
+					<source src='/static/videos/bg-home.mp4' type='video/mp4' />
+				</video>
+				<div className='home__overlay bg-video__overlay'></div>
+			</div>)
+		}
+
 		return (
 			<div className='page page--home' ref='page-wrapper'>
-				<div className='bg-video' data-src='bg-home'>
-					<video autoPlay loop muted className='home__video bg-video__file'>
-						<source src='/static/videos/bg-home.webm' type='video/webm' />
-						<source src='/static/videos/bg-home.mp4' type='video/mp4' />
-					</video>
-					<div className='home__overlay bg-video__overlay'></div>
-				</div>
+				{background}
 				<div className='home'>
 					<h2 className='home__title title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
 					<a className='home__discover button' href='#/fellowship'>Learn more about the fellowship</a>
@@ -73,6 +93,10 @@ export default class Home extends Page {
 	// }
 
 	initCanvas() {
+		this.resize()
+
+		console.log('init canvas')
+
 		let ctx = this._canvas.getContext('2d');
 		let vw = window.innerWidth;
 		let vh = window.innerHeight;
@@ -86,13 +110,16 @@ export default class Home extends Page {
 		ctx.fillStyle = 'black';
 		ctx.fill();
 
-		this.cropDesc();
+		if (this._body && this._body.classList.contains('js-mobile')) {
+			this.cropDescMobile();
+		} else {
+			this.cropDesc();
+		}
 	}
 
 	cropDesc() {
-
 		let ctx = this._canvas.getContext('2d');
-		ctx.font = "400 36px 'hc7modern'";
+		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
@@ -100,25 +127,54 @@ export default class Home extends Page {
 		ctx.fillText('SHARING A COMMON PASSION.', AppStore.Window.w/2, AppStore.Window.h/2 + 32);
 	}
 
+	cropDescMobile() {
+		let ctx = this._canvas.getContext('2d');
+		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
+		ctx.textAlign = "left";
+		ctx.globalCompositeOperation = "destination-out";
+		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
+		ctx.fillText('A FELLOWSHIP IS A', 20, AppStore.Window.h/2 - 46);
+		ctx.fillText('COMMUNION OF PEOPLE', 20, AppStore.Window.h/2 - 7);
+		ctx.fillText('SHARING A COMMON', 20, AppStore.Window.h/2 + 32);
+		ctx.fillText('PASSION.', 20, AppStore.Window.h/2 + 71);
+	}
+
 	cropLogo() {
+		console.log('hello')
 		let ctx = this._canvas.getContext('2d');
 		this.resetCanvas();
 		
 		// crop logo
-		ctx.font = "400 36px 'hc7modern'";
+		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', AppStore.Window.w/2, AppStore.Window.h/2 - 7);
-		ctx.font = "400 36px 'HC7Craft'";
+		ctx.font = "400 "+this.fontSize+"px 'HC7Craft'";
 		ctx.fillText('FELLOWSHIP', AppStore.Window.w/2, AppStore.Window.h/2 + 32);
 		
 		ctx.beginPath();
 		ctx.rect(AppStore.Window.w/2 - 244, AppStore.Window.h/2 + 19, 118, 2);
+		ctx.rect(AppStore.Window.w/2 + 130, AppStore.Window.h/2 + 19, 114, 2);
 		ctx.fillStyle = 'white';
 		ctx.fill();
+	}
 
+	cropLogoMobile() {
+		console.log('hello mobile')
+		let ctx = this._canvas.getContext('2d');
+		this.resetCanvas();
+		
+		// crop logo
+		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'hc7modern'";
+		ctx.textAlign = "center";
+		ctx.globalCompositeOperation = "destination-out";
+		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', AppStore.Window.w/2, AppStore.Window.h/2 - 2);
+		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'HC7Craft'";
+		ctx.fillText('FELLOWSHIP', AppStore.Window.w/2, AppStore.Window.h/2 + 27);
+		
 		ctx.beginPath();
-		ctx.rect(AppStore.Window.w/2 + 130, AppStore.Window.h/2 + 19, 114, 2);
+		ctx.rect(AppStore.Window.w/2 - 164, AppStore.Window.h/2 + 19, 84, 2);
+		ctx.rect(AppStore.Window.w/2 + 80, AppStore.Window.h/2 + 19, 84, 2);
 		ctx.fillStyle = 'white';
 		ctx.fill();
 	}
@@ -136,31 +192,17 @@ export default class Home extends Page {
 	}
 
 	initAnimation() {
-		// this.tlEntry = new TimelineMax({onComplete: () => {
-		// 	this._canvas.parentNode.removeChild(this._canvas);
-		// }.bind(this)});
-		// this.tlEntry.fromTo(this._video, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
-		// this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
-		// this.tlEntry.addCallback(() => {
-		// 	this.cropLogo()
-		// }.bind(this), 5.6);
-		// this.tlEntry.to(this._video, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
-		// this.tlEntry.addCallback(() => {
-		// 	this._overlay.classList.remove('bg-video__overlay--hidden');
-		// }.bind(this), 10.6);
-		// this.tlEntry.to(this._canvas, 1, {opacity: 0, ease: Power2.easeOut}, 10.6);
-		// this.tlEntry.to(dom('.front-container'), 0.4, {opacity: 1}, 11.4)
-		// this.tlEntry.to(dom('.home'), 0.4, {opacity: 1}, 11.4)
-		// this.tlEntry.to(dom('.cart'), 0.4, {opacity: 1}, 11.4)
-
-
 		this.tlEntry = new TimelineMax({onComplete: () => {
 			this._canvas.parentNode.removeChild(this._canvas);
 		}.bind(this)});
 		this.tlEntry.fromTo(this._video, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
 		this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
 		this.tlEntry.addCallback(() => {
-			this.cropLogo()
+			if (this._body && this._body.classList.contains('js-mobile')) {
+				this.cropLogoMobile()
+			} else {
+				this.cropLogo()
+			}
 		}.bind(this), 5.6);
 		this.tlEntry.to(this._video, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
 		this.tlEntry.to(this._video, 0.8, {opacity: 0, ease:Power2.easeOut}, 10.6);
@@ -205,6 +247,17 @@ export default class Home extends Page {
 		// if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
 		// else dom('body').removeClass('body--portrait')
 
+		if (this._body && this._body.classList.contains('js-mobile')) {
+			this.fontSize = 28
+			this.setState({
+				isMobile: true
+			});
+		} else {
+			this.fontSize = 36
+			this.setState({
+				isMobile: false
+			});
+		}
 		// if (window.innerHeight - document.querySelector('.home').offsetHeight < 200) {
 		// 	dom('.home').addClass('home--relative')
 		// } else {
