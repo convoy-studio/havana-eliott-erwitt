@@ -1,10 +1,6 @@
 .sass-cache
 node_modules
 .DS_Store
-deploy
-preprod
-components/*
 npm-debug.log
-www/assets/images/prints
-www/assets/videos
-db
+app/assets
+static

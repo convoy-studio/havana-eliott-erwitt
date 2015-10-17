@@ -1,6 +1,8 @@
-var project = require('./project');
-var print = require('./print');
-var order = require('./order');
-var auth = require('./auth');
+import project from './project';
+import print from './print';
+import order from './order';
+import auth from './auth';
 
-module.exports = [].concat(project, print, order, auth);
+const routes = [].concat(project, print, order, auth);
+
+export default routes;

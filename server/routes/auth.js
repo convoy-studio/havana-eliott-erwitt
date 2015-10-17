@@ -1,7 +1,8 @@
-var controller = require('../controllers/auth');
+import controller from '../controllers/auth';
 
-var routes = [
-	{ method: 'POST', path: '/user', config: controller.signup }
+const routes = [
+	{ method: 'POST', path: '/auth/login', config: controller.login },
+	{ method: 'POST', path: '/auth/signup', config: controller.signup }
 ];
 
-module.exports = routes;
+export default routes;

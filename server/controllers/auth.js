@@ -1,17 +1,19 @@
-var Boom = require('boom');
-var User = require('../models/user');
-import authHelper from '../helpers/auth';
+import User from '../models/user';
+import response from '../middlewares/response';
+import authMiddleware from '../middlewares/auth';
 
-var controller = {
+const controller = {
 
 	login : {
 		handler : function(request, reply){
 			const payload = request.payload.user;
 
 			User.findOne({
-				name : payload.username
+				email : payload.email
 			}, function(error, user){
 				if(error){
+					console.log('Login Error');
+					console.log(error);
 					const response = {
 						success : true,
 						message : 'Error'
@@ -37,7 +39,7 @@ var controller = {
 							return reply(res);
 						}
 
-						const token = authHelper.createToken(request, user);
+						const token = authMiddleware.createToken(request, user);
 
 						const res = {
 							message : 'Login Success',
@@ -47,6 +49,8 @@ var controller = {
 						return reply(response(res));
 					});
 				}
+
+
 			});
 		}
 	},
@@ -56,7 +60,8 @@ var controller = {
 			const payload = request.payload.user;
 
 			const user = new User({
-				name : payload.username,
+				name : payload.name,
+				email : payload.email,
 				password: payload.password
 			});
 
@@ -69,8 +74,22 @@ var controller = {
 				return reply(user);
 			});
 		}
+	},
+
+	signupWithFacebook : {
+		auth : 'facebook',
+		handler : function(request, reply){
+			return reply.redirect('/calendars');
+		}
+	},
+
+	signupWithTwitter : {
+		auth : 'twitter',
+		handler : function(request, reply){
+			return reply.redirect('/calendars');
+		}
 	}
 
 };
 
-module.exports = controller;
+export default controller;

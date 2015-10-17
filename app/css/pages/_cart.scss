@@ -1,0 +1,273 @@
+$cartColor: $white;
+
+.cart {
+	position: fixed;
+	top: 28px;
+	right: 20px;
+	z-index: 100;
+	width: 274px;
+	box-sizing: border-box;
+
+	border: 1px solid transparent;
+
+	font-size: 14px;
+
+	// visibility: hidden;
+	// opacity: 0;
+	// transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+	transition: border 0.4s ease-out;
+
+	.cart__products-wrapper {
+		display: block;
+	}
+	.cart__empty-wrapper {
+		display: none;
+	}
+}
+
+.cart--visible {
+	visibility: visible;
+	opacity: 1;
+	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+}
+
+.cart--enabled {
+	background-color: $black;
+	border: 1px solid $cartColor;
+	
+	.cart__content {
+		visibility: visible;
+		opacity: 1;
+		transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	}
+
+	.cart__count { 
+		border-bottom: 1px solid $cartColor;
+		transition: border 0.4s ease-out;
+	}
+
+	.cart__checkout, .cart__subtotal {
+		border-top: 1px solid $cartColor;
+		transition: border 0.4s ease-out;
+	}
+}
+
+.cart--empty {
+	.cart__products-wrapper {
+		display: none;
+	}
+	.cart__empty-wrapper {
+		display: block;
+	}
+}
+
+.cart__content {
+	visibility: hidden;
+	opacity: 0;
+	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+}
+
+.cart__count {
+	padding: 12px 20px;
+
+	border-bottom: 1px solid transparent;
+	
+	text-align: right;
+
+	cursor: pointer;
+
+	transition: border 0.4s ease-out;
+}
+
+.cart__products {
+	max-height: 164px;
+	overflow-y: auto;
+}
+
+.payment__products {
+	height: inherit;
+	overflow: auto;
+}
+
+.cart__product {
+	padding: 16px;
+	border-bottom: 1px solid $cartColor;
+	font-size: 14px;
+	line-height: 16px;
+	
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+.payment__product {
+	height: inherit;
+	padding: 16px 0;
+	
+	&:first-child {
+		padding: 0 0 16px 0;
+		height: inherit;
+	}
+
+	&:last-child {
+		margin-bottom: 16px;
+		border-bottom: 1px solid $cartColor;
+		height: inherit;
+	}
+}
+
+.cart__column {
+	width: 50%;
+	display: inline-block;
+	vertical-align: top;
+
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.cart__details {
+	@extend .text-font;
+	font-size: 14px;
+	margin-bottom: 18px;
+}
+
+.cart__city, .cart__year {
+	display: inline-block;
+}
+
+.cart__city {
+	font-style: italic;
+}
+
+.cart__number {
+	display: inline-block;
+    min-width: 16px;
+	padding: 3px 2px 0;
+    
+    border: 1px solid $white;
+    line-height: 12px;
+    
+    text-align: center;
+}
+
+.cart__quantity, .cart__number, .cart__price {
+	@extend .text-font;
+}
+
+.cart__currency {
+	// @extend .title-font;
+}
+
+.cart__print {
+	width: 100%;
+	height: 84px;
+	margin-bottom: 12px;
+}
+
+.cart__image {
+	width: auto;
+	height: 100%;
+}
+
+.cart__remove {
+	@extend .text-font;
+	font-size: 12px;
+	line-height: 14px;
+
+	.button__content {
+		padding-bottom: 2px;
+	}
+}
+
+.cart__subtotal {
+	padding: 20px;
+	
+	border-top: 1px solid transparent;
+
+	transition: border 0.4s ease-out;
+}
+
+.payment__total {
+	padding: 0 0 16px 0;
+	margin-bottom: 16px;
+	border-bottom: 1px solid $cartColor;
+}
+
+.payment__subtotal {
+	padding: 0;
+	border-top: 0;
+}
+
+.cart__bigtotal {
+	margin-bottom: 30px;
+}
+
+.cart__checkout {
+	padding: 20px;
+	
+	border-top: 1px solid transparent;
+
+	text-align: center;
+
+	transition: border 0.4s ease-out;
+}
+
+.cart__empty {
+	padding: 20px;
+
+	text-align: center;
+} 
+
+@include max-screen(958px) {
+	.cart__count {
+		display: none;
+	}
+
+	.cart__content {
+		position: fixed;
+		top: 60px;
+		left: 0;
+		width: 100%;
+
+		background-color: $black;
+	}
+
+	.cart--enabled {
+		border: none;
+		background-color: transparent;
+		.cart__count { 
+			border-bottom: none;
+		}
+
+		&:after {
+			content: '';
+			position: fixed;
+			top: 60px;
+			left: 0;
+			width: 100%;
+			height: 100%;
+
+			background-color: $black;
+			opacity: 0.8;
+			z-index: -1;
+		}
+	}
+
+	.cart__empty {
+		border-top: 1px solid $black;
+		border-bottom: 1px solid $black;
+	} 
+
+	.cart__products {
+		border-top: 1px solid $black;
+	}
+
+	.cart__checkout {
+		background-color: $black;
+		border-bottom: 1px solid $white;
+	}
+
+	.body--white .cart__checkout a {
+		color: $white;
+	}
+}

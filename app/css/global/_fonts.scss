@@ -1,0 +1,23 @@
+@include font-face('hc7modern', '/assets/fonts/HC7Modern-bold');
+@include font-face('HC7Craft', '/assets/fonts/HC7Craft-medium');
+@include font-face('UniversLTStd', '/assets/fonts/UniversLTStd');
+@include font-face('Stanley', '/assets/fonts/Stanley_Regular');
+
+#font-charger {
+	left: -10000px;
+	top: -10000px;
+	position: absolute;
+	@include opacity(0);
+	#hc7modern {
+		font-family: 'hc7modern';
+	}
+	#HC7Craft {
+		font-family: 'HC7Craft';
+	}
+	#UniversLTStd {
+		font-family: 'UniversLTStd';
+	}
+	#Stanley {
+		font-family: 'Stanley';
+	}
+}

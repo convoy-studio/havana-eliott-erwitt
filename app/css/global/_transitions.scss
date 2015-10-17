@@ -1,0 +1,51 @@
+/*
+ * GLOBAL TRANSITION
+ */
+
+.transition-enter {
+	opacity: 0.01;
+}
+
+.transition-enter.transition-enter-active {
+	opacity: 1;
+	transition: opacity 500ms ease-in 300ms;
+	// transition: opacity 5s ease-in;
+}
+
+.transition-leave {
+	opacity: 1;
+}
+
+.transition-leave.transition-leave-active {
+	opacity: 0.01;
+	transition: opacity 300ms ease-in;
+	// transition: opacity 3s ease-in;
+}
+
+/*
+ * PROJECTS TRANSITION
+ */
+
+.project-transition-enter {
+	transform: translate(0, 100px);
+	opacity: 0.01;
+}
+
+.project-transition-enter.project-transition-enter-active {
+	transform: translate(0, 0);
+	opacity: 1;
+	// transition: opacity 500ms ease-in;
+	transition: opacity 0.3s ease-in 0.3s, transform 0.3s ease-in 0.3s;
+}
+
+.project-transition-leave {
+	transform: translate(0, 0);
+	opacity: 1;
+}
+
+.project-transition-leave.transition-leave-active {
+	transform: translate(0, 100px);
+	opacity: 0.01;
+	// transition: opacity 300ms ease-in;
+	transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+}

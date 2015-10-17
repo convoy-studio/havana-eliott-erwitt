@@ -1,9 +1,9 @@
-var controller = require('../controllers/order');
+import controller from '../controllers/order';
 
-var routes = [
+const routes = [
 	{ method: 'GET', path: '/orders', config: controller.getAll },
 	{ method: 'GET', path: '/order/{id}', config: controller.getOne },
 	{ method: 'POST', path: '/order', config: controller.create }
 ];
 
-module.exports = routes;
+export default routes;

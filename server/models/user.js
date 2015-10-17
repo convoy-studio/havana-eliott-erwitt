@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+// var bcrypt = require('bcrypt');
 
 /*
 ** Schema definition
@@ -15,12 +15,12 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next){
 	var user = this;
 
-	bcrypt.genSalt(10, function(err, salt){
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			user.password = hash;
-			next();
-		});
-	});
+	// bcrypt.genSalt(10, function(err, salt){
+	// 	bcrypt.hash(user.password, salt, function(err, hash) {
+	// 		user.password = hash;
+	// 		next();
+	// 	});
+	// });
 });
 
 /*
@@ -29,9 +29,9 @@ userSchema.pre('save', function(next){
 userSchema.methods.comparePassword = function(password, cb) {
 	console.log(password);
 	console.log(this);
-	bcrypt.compare(password, this.password, function(err, isMatch) {
-		cb(err, isMatch);
-	});
+	// bcrypt.compare(password, this.password, function(err, isMatch) {
+	// 	cb(err, isMatch);
+	// });
 };
 
-module.exports = mongoose.model('User', itemSchema, 'users');
+module.exports = mongoose.model('User', userSchema, 'users');

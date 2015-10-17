@@ -1,0 +1,169 @@
+.gallery {
+	position: fixed;
+	top: 0;
+	left: calc(50% - 479px);
+	width: 958px;
+	margin: 0 auto;
+	padding-top: 160px;
+}
+
+.gallery__title {
+	text-align: center;
+}
+
+.gallery__grid {
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+
+	padding-bottom: 50px;
+}
+
+.gallery__item {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	// position: relative;
+	// float: left;
+	// width: 12.5%;
+	width: calc(12.5% - 24px);
+	// width: 98px;
+	// height: 146px;
+	// overflow: hidden;
+	margin: 0 24px 24px 0;
+
+	@extend .text-font;
+	font-size: 30px;
+	text-align: center;
+	// line-height: 146px;
+
+	cursor: pointer;
+	
+	opacity: 0;
+	transform: translate(0, 100px);
+
+	&:after {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: -5px;
+		width: calc(100% + 10px);
+		height: calc(100% + 10px);
+		box-sizing: border-box;
+		opacity: 0;
+		
+		background-size: cover;
+
+		// border: red 0px solid;
+		
+		// transition: opacity 0.3s ease-out;
+	}
+
+	&:hover:after {
+		opacity: 1;
+		// border: red 4px solid;
+	}
+}
+
+.gallery__width {
+	width: calc(12.5% - 24px);
+}
+
+.gallery__item--small {
+	&.gallery__item--0:after { background-image: url('../assets/images/handwritings/handwriting-small_0.png'); }
+	&.gallery__item--1:after { background-image: url('../assets/images/handwritings/handwriting-small_1.png'); }
+	&.gallery__item--2:after { background-image: url('../assets/images/handwritings/handwriting-small_2.png'); }
+	&.gallery__item--3:after {
+		top: -8px;
+		background-image: url('../assets/images/handwritings/handwriting-small_3.png');
+	}
+	&.gallery__item--4:after { background-image: url('../assets/images/handwritings/handwriting-small_4.png'); }
+	&.gallery__item--5:after { background-image: url('../assets/images/handwritings/handwriting-small_5.png'); }
+}
+
+.gallery__item--large {
+	width: calc(25% - 24px);
+
+	&.gallery__item--0:after { background-image: url('../assets/images/handwritings/handwriting_0.png'); }
+	&.gallery__item--1:after {
+		left: -6px;
+		top: -4px;
+		width: calc(100% + 20px);
+		height: calc(100% + 2px);
+		background-image: url('../assets/images/handwritings/handwriting_1.png');
+	}
+	&.gallery__item--2:after {
+		left: -20px;
+		top: -12px;
+		width: calc(100% + 27px);
+		height: calc(100% + 9px);
+		background-image: url('../assets/images/handwritings/handwriting_2.png');
+	}
+	&.gallery__item--3:after {
+		left: -12px;
+		top: -5px;
+		width: calc(100% + 18px);
+		height: calc(100% + 8px);
+		background-image: url('../assets/images/handwritings/handwriting_3.png');
+	}
+	&.gallery__item--4:after {
+		left: -14px;
+		top: -5px;
+		width: calc(100% + 22px);
+		height: calc(100% + 2px);
+		background-image: url('../assets/images/handwritings/handwriting_4.png');
+	}
+	&.gallery__item--5:after { 
+		height: calc(100% + 6px);
+		background-image: url('../assets/images/handwritings/handwriting_5.png');
+	}
+}
+
+.gallery__item--disabled {
+	opacity: 0;
+	cursor: default;
+	&:after, &:hover:after { border: none; }
+}
+
+.gallery__image {
+	width: 100%;
+	// position: absolute;
+	// left: 0;
+	// top: 50%;
+	// transform: translate(0, -50%);
+}
+
+@include max-screen(958px) {
+	.gallery {
+		position: relative;
+		top: initial;
+		left: initial;
+		width: 100%;
+		padding: 110px 12px 0;
+		box-sizing: border-box;
+		transform: none !important;
+	}
+	.gallery__title {
+		font-size: 24px;
+	}
+	.gallery__width {
+		width: calc(20% - 12px);
+	}
+	.gallery__grid {
+		padding-bottom: 60px;
+	}
+	.gallery__item {
+		position: relative;
+		width: calc(20% - 12px);
+		// height: 120px;
+		margin: 0 12px 12px 0;
+		
+	}
+	.gallery__item--large {
+		width: calc(40% - 12px);
+	}
+	.js-reveal {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

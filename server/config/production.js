@@ -1,17 +1,19 @@
-module.exports = {
+const config = {
 	server : {
 		host : 'localhost',
-		port : 3000
+		port : 4242
 	},
 	database: {
 		host : '127.0.0.1',
 		port : 27017,
-		name : 'your-db-name',
+		name : 'havana',
 		username : '',
 		password : ''
 	},
 	output: {
-		path : './www'
+		path : './static'
 	},
 	secret : 'elliotterwitt_convoy'
 };
+
+export default config;

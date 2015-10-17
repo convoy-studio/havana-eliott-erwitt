@@ -1,0 +1,30 @@
+@import "global/_media-queries.scss";
+@import "global/_reset.scss";
+@import "global/_variables.scss";
+@import "global/_easing.scss";
+@import "global/_baseMixins.scss";
+@import "global/_mixins.scss";
+@import "global/_fonts.scss";
+@import "global/_global.scss";
+@import "global/_ui-default.scss";
+@import "global/_ui.scss";
+@import "global/_transitions.scss";
+
+@import "layout/_frontcontainer.scss";
+@import "layout/_form.scss";
+
+@import "pages/_home.scss";
+@import "pages/_fellowship.scss";
+@import "pages/_projects.scss";
+@import "pages/_project.scss";
+@import "pages/_gallery.scss";
+@import "pages/_print.scss";
+@import "pages/_shop.scss";
+@import "pages/_news.scss";
+@import "pages/_payment.scss";
+@import "pages/_result.scss";
+@import "pages/_cart.scss";
+@import "pages/_friends.scss";
+@import "pages/_contact.scss";
+
+@import "pages/_admin.scss";

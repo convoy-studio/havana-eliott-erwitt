@@ -1,7 +1,7 @@
-module.exports = {
+const config = {
 	server : {
 		host : 'localhost',
-		port : 4242
+		port : 3000
 	},
 	database: {
 		host : '127.0.0.1',
@@ -11,7 +11,9 @@ module.exports = {
 		password : ''
 	},
 	output: {
-		path : './www'
+		path : './static'
 	},
 	secret : 'elliotterwitt_convoy'
 };
+
+export default config;

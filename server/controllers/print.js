@@ -1,11 +1,11 @@
-var Boom = require('boom');
-var Print = require('../models/print');
-var Project = require('../models/project');
-var rand = require('rand-token').uid;
-var _ = require('lodash');
+import Boom from 'boom';
+import Print from '../models/print';
+import Project from '../models/project';
+let rand = require('rand-token').uid;
+let _ = require('lodash');
 
 function generateToken(hash, callback) {
-	var key = rand(6);
+	let key = rand(6);
 	if ( key != hash ) {
 		Print.find({ token: key }, function(err, print){
 			if ( print.length == 0 ) {
@@ -19,14 +19,14 @@ function generateToken(hash, callback) {
 	}
 }
 
-var controller = {
+const controller = {
 
 	getAll : {
 		handler : function(request, reply){
 			Print.find({}, function (err, items) {
 				if (!err) {
-					var prints = [];
-					for(i = 0; i < items.length; ++i) {
+					let prints = [];
+					for(let i = 0; i < items.length; ++i) {
 						prints.push({
 							title: items[i].title,
 							city: items[i].city,
@@ -54,12 +54,12 @@ var controller = {
 					// recupérer les infos du projet de la photo
 					Project.findById(print_item.project_id, function (err, project_item) {
 						if (!err) {
-							var project = {
+							let project = {
 								artist: project_item.artist,
 								desc: project_item.desc,
 								slug: project_item.slug
 							}
-							var print = {
+							let print = {
 								token: print_item.token,
 								title: print_item.title,
 								city: print_item.city,
@@ -91,7 +91,7 @@ var controller = {
 				 .sort({ year: 'desc'})
 				 .exec(function(err, items) {
 					if (!err) {
-						var result = []
+						let result = []
 						for(i = 0; i < items.length; i++){
 							result.push(items[i]);
 						}
@@ -112,8 +112,8 @@ var controller = {
 						.sort({ year: 'desc'})
 						.exec(function(err, print_items) {
 							if (!err) {
-								var prints = [];
-								for(i = 0; i < print_items.length; ++i) {
+								let prints = [];
+								for(let i = 0; i < print_items.length; ++i) {
 									prints.push({
 										token: print_items[i].token,
 										title: print_items[i].title,
@@ -145,8 +145,8 @@ var controller = {
 		handler : function(request, reply) {
 			Print.find({ forsale: true }, function(err, items) {
 				if (!err) {
-					var prints = [];
-					for(i = 0; i < items.length; ++i) {
+					let prints = [];
+					for(let i = 0; i < items.length; ++i) {
 						prints.push({
 							token: items[i].token,
 							title: items[i].title,
@@ -172,13 +172,13 @@ var controller = {
 		handler : function(request, reply) {
 			Print.find({ token: request.params.token }, function(err, item) {
 				if (!err) {
-					var index = item.serials.indexOf(request.payload.serial);
+					let index = item.serials.indexOf(request.payload.serial);
 					if (index > -1) {
 						item.serials.splice(index, 1);
 					}
 					item.save(function(err){
 						if(!err){
-							var print = {
+							let print = {
 								token: item.token,
 								title: item.title,
 								city: item.city,
@@ -210,7 +210,7 @@ var controller = {
 				Project.findOne({ slug: request.payload.project_slug }, function(err, project) {
 					if (!err) {
 						generateToken('', function(token) {
-							var print = new Print({
+							let print = new Print({
 								token: token,
 								project_id: project._id,
 								title: request.payload.title,

@@ -1,0 +1,12 @@
+.contact__content {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.contact__column {
+	display: table-cell;
+	vertical-align: top;
+	padding: 0 20px;
+	box-sizing: border-box;
+}

@@ -1,7 +1,9 @@
-var configDev = require('./config/development');
-var configProd = require('./config/production');
+const configDev = require('./config/development');
+const configProd = require('./config/production');
 
-module.exports = {
+const config = {
 	'development' : configDev,
 	'production' : configProd
 };
+
+export default config;

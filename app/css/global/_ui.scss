@@ -1,0 +1,93 @@
+.relative {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.full {
+	width: 100%;
+	height: 100%;
+}
+
+.vertical-center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.visible {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+}
+
+.hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+}
+
+.full-block {
+	position: absolute;
+	@extend .top-left;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.text {
+	@extend .text-font;
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.text--small {
+	font-size: 10px;
+	line-height: 12px;
+}
+
+.title {
+	margin-bottom: 70px;
+	@extend .title-font;
+	font-size: 36px;
+}
+
+.title--center {
+	text-align: center;
+}
+
+@include max-screen(958px) {
+	.mobile-button {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		transform: none;
+		width: 100%;
+		height: 60px;
+		background-color: black;
+		text-align: center;
+		line-height: 60px;
+		box-sizing: border-box;
+		border-top: 1px solid white;
+	}
+	// .text {
+	// 	font-size: 16px;
+	// 	line-height: 19px;
+	// }
+
+	.title {
+		font-size: 28px;
+	}
+}
+
+@include max-screen(700px) {
+	.title {
+		width: 100%;
+		// padding: 0 12px;
+		box-sizing: border-box;
+
+		text-align: left;
+	}
+}

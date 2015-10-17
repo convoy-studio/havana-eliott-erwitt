@@ -1,6 +1,6 @@
-var controller = require('../controllers/print');
+import controller from '../controllers/print';
 
-var routes = [
+const routes = [
 	{ method: 'GET', path: '/prints', config: controller.getAll },
 	{ method: 'GET', path: '/prints/{slug}', config: controller.getByArtist },
 	{ method: 'GET', path: '/prints/forsale', config: controller.getForSale },
@@ -12,4 +12,4 @@ var routes = [
 	{ method: 'POST', path: '/admin/print/{token}', config: controller.update }
 ];
 
-module.exports = routes;
+export default routes;

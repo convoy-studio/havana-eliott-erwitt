@@ -1,16 +1,16 @@
-var Boom = require('boom');
-var Project = require('../models/project');
-var Print = require('../models/print');
-var _ = require('lodash');
+import Boom from 'boom';
+import Project from '../models/project';
+import Print from '../models/print';
+let _ = require('lodash');
 
-var controller = {
+const controller = {
 
 	getAll : {
 		handler : function(request, reply){
 			Project.find({}, function (err, items) {
 				if (!err) {
-					var projects = [];
-					for(i = 0; i < items.length; ++i) {
+					let projects = [];
+					for(let i = 0; i < items.length; ++i) {
 						projects.push({
 							artist: items[i].artist,
 							desc: items[i].desc,
@@ -26,33 +26,37 @@ var controller = {
 
 	getFirsts : {
 		handler : function(request, reply){
-			Project.find({}, function (err, items) {
-				if (!err) {
-					var projects = [];
-					_(items).forEach(function(item, index) {
-						Print.find({ project_id: item._id })
-							.sort({ year: 'desc'})
-							.exec(function (err, print_items) {
-								if (!err) {
-									var prints = _.sortByOrder(print_items, ['forsale'], ['desc']);
-									projects.push({
-										artist: item.artist,
-										desc: item.desc,
-										slug: item.slug,
-										print: prints[0]
-									});
-									if (index >= items.length-1) {
-										return reply(projects);
+			Project.find({})
+				.sort({ priority: 'desc'})
+				.exec(function (err, items) {
+					if (!err) {
+						let projects = [];
+						let printIndex = 0;
+						_(items).forEach(function(item, index) {
+							Print.find({ project_id: item._id })
+								.sort({ year: 'desc'})
+								.exec(function (err, print_items) {
+									if (!err) {
+										let prints = _.sortByOrder(print_items, ['forsale'], ['desc']);
+										projects.push({
+											artist: item.artist,
+											desc: item.desc,
+											slug: item.slug,
+											print: prints[0]
+										});
+
+										if (projects.length === items.length) {
+											return reply(projects);
+										}
+									} else {
+										return reply(Boom.badImplementation(err)); // HTTP 500
 									}
-								} else {
-									return reply(Boom.badImplementation(err)); // HTTP 500
-								}
-							});
-					}).value();
-				} else {
-					return reply(Boom.badImplementation(err)); // HTTP 500
-				}
-			});
+								});
+						}).value();
+					} else {
+						return reply(Boom.badImplementation(err)); // HTTP 500
+					}
+				});
 		}
 	},
 
@@ -60,7 +64,7 @@ var controller = {
 		handler : function(request, reply){
 			Project.findById(request.params.id, function (err, item) {
 				if (!err) {
-					var project = {
+					let project = {
 						artist: item.artist,
 						desc: item.desc,
 						slug: item.slug
@@ -76,8 +80,7 @@ var controller = {
 		handler : function(request, reply){
 			Project.findOne({ slug: request.params.slug }, function(err, item) {
 				if (!err) {
-					console.log(item)
-					var project = {
+					let project = {
 						artist: item.artist,
 						desc: item.desc,
 						slug: item.slug
