@@ -26,12 +26,7 @@ export default class Contact extends ComponentTransition {
 	_leaveStyle(callback) {
 		
 		let el = this.refs.view.getDOMNode();
-		let logo = document.querySelector('.header__logo');
-
-		logo.style.display = 'block';
-		this.leaveTl = new TimelineMax({onComplete: callback});
-		this.leaveTl.to(el, 0.3, {opacity: 0, ease:Power2.easeOut}, 0);
-		TweenMax.to(logo, 0.3, {opacity: 1, delay: 0.3, ease:Power2.easeOut});
+		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
 	
 	}
 
