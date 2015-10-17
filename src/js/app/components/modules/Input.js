@@ -14,30 +14,8 @@ export default class Input extends React.Component {
 		// props
 		this.props = props
 
-		// state
-		// this.state = {
-		// 	text: this.props.text
-		// }
-
 		// binded
 		this.onchange = this.onchange.bind(this)
-	}
-
-	componentWillMount() {
-	}
-
-	componentDidMount() {
-	}
-
-	componentDidUpdate() {
-		// if (!this.state.text) {
-		// 	this.setState({
-		// 		text: this.props.text
-		// 	})
-		// }
-	}
-
-	componentWillUnmount() {
 	}
 
 	render() {
@@ -48,9 +26,6 @@ export default class Input extends React.Component {
 
 	onchange(e) {
 		this.props.updateText(e.target.value)
-		// this.setState({
-		// 	text: e.target.value
-		// })
 	}
 
 }

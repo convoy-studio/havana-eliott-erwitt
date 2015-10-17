@@ -3,8 +3,30 @@ let config = require('../config');
 
 module.exports = {
 
+	getAll : function() {
+		fetch(config.siteurl + '/api/orders')
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				OrderActions.receiveAll(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
+	getOne : function(id) {
+		fetch(config.siteurl + '/api/order/' + id)
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				console.log(json)
+				OrderActions.receive(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
 	create : function(order){
-		console.log(order);
 		fetch(config.siteurl + '/api/order', {
 			method: 'post',
 			headers: {

@@ -17,6 +17,7 @@ var controller = {
 	getOne : {
 		handler : function(request, reply){
 			Order.findById(request.params.id, function (err, item) {
+				console.log(item);
 				if (!err) {
 					return reply(item);
 				}

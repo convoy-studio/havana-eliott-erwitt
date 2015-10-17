@@ -23,6 +23,8 @@ import Notfound from 'Notfound'
 import Admin from 'Admin'
 import AdminProject from 'AdminProject'
 import AdminPrint from 'AdminPrint'
+import AdminOrder from 'AdminOrder'
+import AdminLogin from 'AdminLogin'
 
 export default class PagesContainer extends BasePager {
 	constructor(props) {
@@ -102,11 +104,20 @@ export default class PagesContainer extends BasePager {
 				break
 			case 'admin':
 				if (hash.parts.length > 2) {
-					type = AdminPrint
-					id = hash.targetId
+					if (hash.parts[1] === 'order') {
+						type = AdminOrder
+						id = hash.targetId
+					} else {
+						type = AdminPrint
+						id = hash.targetId
+					}
 				} else if (hash.parts.length > 1) {
-					type = AdminProject
-					id = hash.targetId
+					if (hash.parts[1] === 'login') {
+						type = AdminLogin
+					} else {
+						type = AdminProject
+						id = hash.targetId
+					}
 				} else {
 					type = Admin
 				}

@@ -115,7 +115,7 @@ export default class AdminProject extends Page {
 								<th>Title</th>
 								<th>City</th>
 								<th>Country</th>
-								<th>year</th>
+								<th>Year</th>
 								<th>Price</th>
 								<th>For sale?</th>
 								<th></th>

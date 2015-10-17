@@ -25,6 +25,8 @@ db.once('open', function(){
 server.register(Inert, function () {});
 server.register([
     { register : require('bell') },
+    { register : require('hapi-auth-jwt')},
+    { register : require('./plugins/auth')},
     { register: require('./api.js') },
     {
         register: require('good'),

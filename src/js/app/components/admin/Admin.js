@@ -4,6 +4,8 @@ import dom from 'domquery'
 import AppStore from 'AppStore'
 import ProjectStore from 'ProjectStore'
 import ProjectApi from 'ProjectApi'
+import OrderStore from 'OrderStore'
+import OrderApi from 'OrderApi'
 let _ = require('lodash')
 
 export default class Admin extends Page {
@@ -12,7 +14,8 @@ export default class Admin extends Page {
 		super(props)
 
 		this.state = {
-			projects: undefined
+			projects: undefined,
+			orders: undefined
 		}
 
 		this._onStoreChange = this._onStoreChange.bind(this)
@@ -22,8 +25,10 @@ export default class Admin extends Page {
 		super.componentDidMount()
 
 		ProjectStore.addChangeListener(this._onStoreChange);
+		OrderStore.addChangeListener(this._onStoreChange);
 
 		ProjectApi.getAll();
+		OrderApi.getAll();
 	}
 
 	didTransitionOutComplete() {
@@ -37,13 +42,13 @@ export default class Admin extends Page {
 	}
 
 	render() {
-		let projects = []
+		let projects = [],
+			orders = []
 		// _(this.state.projects).forEach((project, index) => {
 		// 	projects.push(<li key={index}><a href={'#/admin/'+project.slug}>{project.artist}</a></li>)
 		// }).value()
 
 		_(this.state.projects).forEach((project, index) => {
-			// forsale = (print.forsale) ? defaultChecked
 			projects.push(
 				<tr key={index}>
 					<td><a href={'#/admin/'+project.slug}>{project.artist}</a></td>
@@ -52,17 +57,35 @@ export default class Admin extends Page {
 			)
 		}).value()
 
+		_(this.state.orders).forEach((order, index) => {
+			console.log(order)
+			orders.push(
+				<tr key={index}>
+					<td><a href={'#/admin/order/'+order._id}>{order._id}</a></td>
+					<td><a href={'#/admin/order/'+order._id}>{order.user}</a></td>
+				</tr>
+			)
+		}).value()
+
 		return (
 			<div className='page page--admin' ref='page-wrapper'>
 				<div className='admin'>
 					<div className='admin__projects'>
-						<h1 className='admin__title title'>Projects</h1>
+						<h2 className='admin__title title'>Projects</h2>
 						<table>
 							<tr>
 								<th>Artist</th>
 								<th>Slug</th>
 							</tr>
 							{projects}
+						</table>
+						<h2 className='admin__title title'>Orders</h2>
+						<table>
+							<tr>
+								<th>ID</th>
+								<th>User</th>
+							</tr>
+							{orders}
 						</table>
 					</div>
 				</div>
@@ -72,7 +95,8 @@ export default class Admin extends Page {
 
 	_onStoreChange() {
 		this.setState({
-			projects: ProjectStore.getAll()
+			projects: ProjectStore.getAll(),
+			orders: OrderStore.getAll()
 		})
 	}
 

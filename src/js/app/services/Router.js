@@ -44,9 +44,11 @@ class Router {
 
 		let resultSection = crossroads.addRoute('/payment/result{?query}', this._onResultURLHandler.bind(this), 2)
 
+		// ADMIN
+
 		let adminSection = crossroads.addRoute('/admin/{id}', this._onAdminURLHandler.bind(this), 2)
-		
 		let adminPrintSection = crossroads.addRoute('/admin/{id}/{printId}', this._onAdminPrintURLHandler.bind(this), 3)
+		let adminOrderSection = crossroads.addRoute('/admin/order/{id}', this._onAdminOrderURLHandler.bind(this), 3)
 	}
 	_onHomeURLHandler() {
 		this._assignRoute('home')
@@ -68,6 +70,9 @@ class Router {
 	}
 	_onAdminPrintURLHandler(projectId, printId) {
 		this._assignRoute(printId)
+	}
+	_onAdminOrderURLHandler(orderId) {
+		this._assignRoute(orderId)
 	}
 	_onDefaultURLHandler() {
 		this._sendToDefault()

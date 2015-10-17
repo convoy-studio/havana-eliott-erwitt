@@ -98,7 +98,7 @@ var handleError = function(task) {
 var tasks = {
 	start: function() {
 		nodemon({
-			script: './server/server.js',
+			script: './babel.server.js',
 			env: { 'NODE_ENV': 'dev'}
 		});
 	},
