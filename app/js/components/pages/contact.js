@@ -10,6 +10,31 @@ export default class Contact extends ComponentTransition {
 
 	}
 
+	_enterStyle() {
+	
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		TweenMax.fromTo(logo, 0.3, {opacity:1}, {opacity:0, ease:Power2.easeIn});
+		this.enterTl = new TimelineMax({delay:0.3, onComplete:()=>{
+			logo.style.display = 'none';
+		}});
+		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
+	
+	}
+	
+	_leaveStyle(callback) {
+		
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		logo.style.display = 'block';
+		this.leaveTl = new TimelineMax({onComplete: callback});
+		this.leaveTl.to(el, 0.3, {opacity: 0, ease:Power2.easeOut}, 0);
+		TweenMax.to(logo, 0.3, {opacity: 1, delay: 0.3, ease:Power2.easeOut});
+	
+	}
+
 	render() {
 
 		let seo = {
@@ -23,10 +48,10 @@ export default class Contact extends ComponentTransition {
 			<div className='page page--contact page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content contact'>
-					<h1 className='title title--center'>Contact</h1>
+					<h1 className='title title--center title--absolute'>Contact</h1>
 					<div className='contact__content'>
 						<div className='contact__column'>
-							<p className='text'>Please use the contact form below for any questions regarding our brand and product range. Kindly note that commercial solicitations will not be answered.<br/><br/>Thank you for your understanding.</p>
+							<p className='text'>Please use this contact form if you have questions about the fellowship.<br/><br/>Please note that Photographers wishing to be considered to join the Fellowship will not be able to apply using this form. The Photographers invited to join the Fellowship will be invited based on the merit of their past work by an independent group of Photography professionals.</p>
 						</div>
 						<div className='contact__column'>
 							<form className='form'>
