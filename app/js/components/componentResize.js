@@ -19,20 +19,16 @@ export default class ComponentResize extends Component {
 
 	componentWillMount() {
 
-		AppStore.on(AppConstants.WINDOW_RESIZE, this.resize)
+		AppStore.on(AppConstants.WINDOW_RESIZE, this.resize);
 
 	}
 	
 	resize() {
 
 		if (AppStore.Window.w < 958) {
-			// if (this.body && !this.body.classList.contains('js-mobile')) { 
-				this.body.classList.add('js-mobile');
-			// }
+			this.body.classList.add('js-mobile');
 		} else {
-			// if (this.body && this.body.classList.contains('js-mobile')) {
-				this.body.classList.remove('js-mobile');
-			// }
+			this.body.classList.remove('js-mobile');
 		}
 
 	}

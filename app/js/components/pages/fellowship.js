@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import AppStore from '../../stores/appStore';
 import Utils from '../../utils/utils';
 import offset from '../../utils/offset';
-// import YouTube from 'react-youtube';
+import YouTube from 'react-youtube';
 let raf = Utils.raf();
 let config = require('../../config');
 
@@ -28,6 +28,7 @@ export default class Fellowship extends ComponentTransition {
 		this.showInterview = this.showInterview.bind(this);
 		this.hideInterview = this.hideInterview.bind(this);
 		this.onImageLoaded = this.onImageLoaded.bind(this);
+		this.handleVideoReady = this.handleVideoReady.bind(this);
 
 
 		// const
@@ -54,7 +55,7 @@ export default class Fellowship extends ComponentTransition {
 			this.page = document.querySelector('.page--fellowship');
 			this.fellowship = document.querySelector('.fellowship');
 			this.overlay = document.querySelector('.bg-video__overlay');
-			this.video = document.querySelector('.bg-video__file');
+			this.video = document.querySelector('.youtube-wrapper');
 			this.back = document.querySelector('.fellowship__back');
 			this.bg = document.querySelector('.fellowship__bg');
 			this.images = document.querySelectorAll('.fellowship img');
@@ -63,8 +64,8 @@ export default class Fellowship extends ComponentTransition {
 			this.page.style.height = this.fellowship.offsetHeight + 'px';
 		}
 
+		this.resize();
 		this.loadImages();
-		// this.loadVideo();
 		this.raf();
 
 	}
@@ -87,31 +88,28 @@ export default class Fellowship extends ComponentTransition {
 		};
 
 		const opts = {
-			height: '390',
-			width: '640',
+			height: AppStore.Window.h - 206,
+			width: (AppStore.Window.h - 206) * 16 / 9,
 			playerVars: { // https://developers.google.com/youtube/player_parameters 
-				autoplay: 0
+				autoplay: 0,
+				showinfo: 0
 			}
 		};
 
-					// <YouTube
-					// 	url={'https://www.youtube.com/watch?v=70S8CmZQeaA'}
-					// 	opts={opts}
-					// 	onPlay={this._onPlay}
-					// />
-					// <iframe src="//www.youtube.com/embed/FKWwdQu6_ok?enablejsapi=1" frameBorder="0" allowFullScreen id="video"></iframe>
-					// <div id='play-button'>PLAY</div>
-					// <div id='pause-button'>PAUSE</div>
-						// <img className='fellowship__image js-reveal' src='/static/img/fellowship.jpg'/>
 		return (
 			<div className='page page--fellowship' ref='view'>
 				<Seo seo={seo} />
 				<div className='fellowship__submenu submenu'><Link to='/friends' className='button'>Friends of the fellowship</Link></div>
 
 				<div className='bg-video fellowship__video'>
-					<video className='bg-video__file'>
-						<source src='/static/videos/interview.mp4' type='video/mp4' />
-					</video>
+					<div className='youtube-wrapper'>
+						<YouTube
+							className='youtube-video'
+							url={'https://www.youtube.com/watch?v=70S8CmZQeaA'}
+							opts={opts}
+							onReady={this.handleVideoReady}
+						/>
+					</div>
 					<img className='fellowship__bg' src='/static/img/fellowship-mobile.jpg'/>
 					<div className='bg-video__overlay'></div>
 				</div>
@@ -200,78 +198,6 @@ export default class Fellowship extends ComponentTransition {
 
 	}
 
-	loadVideo() {
-
-		console.log('loadVideo');
-		var tag = document.createElement('script');
-		tag.src = "//www.youtube.com/player_api";
-		var firstScriptTag = document.getElementsByTagName('script')[0];
-		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-		var player;
-		function onYouTubePlayerAPIReady() {
-			console.log('onYouTubePlayerAPIReady');
-			// create the global player from the specific iframe (#video)
-			player = new YT.Player('video', {
-				events: {
-					// call this function when player is ready to use
-					'onReady': onPlayerReady
-				}
-			});
-		}
-
-		function onPlayerReady(event) {
-			console.log('onPlayerReady');
-			// bind events
-			var playButton = document.getElementById("play-button");
-			playButton.addEventListener("click", function() {
-				player.playVideo();
-			});
-
-			var pauseButton = document.getElementById("pause-button");
-			pauseButton.addEventListener("click", function() {
-				player.pauseVideo();
-			});
-		}
-
-		// let tag = document.createElement('script');
-		// tag.src = 'https://www.youtube.com/iframe_api';
-		// let firstScriptTag = document.getElementsByTagName('script')[0];
-		// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-		// let player;
-		// function onYouTubeIframeAPIReady() {
-		// 	console.log('init')
-		// 	player = new YT.Player('player', {
-		// 		height: '390',
-		// 		width: '640',
-		// 		videoId: 'M7lc1UVf-VE',
-		// 		events: {
-		// 			'onReady': onPlayerReady,
-		// 			'onStateChange': onPlayerStateChange
-		// 		}
-		// 	});
-		// }
-
-		// // 4. The API will call this function when the video player is ready.
-		// function onPlayerReady(event) {
-		// 	event.target.playVideo();
-		// }
-
-		// let done = false;
-		// function onPlayerStateChange(event) {
-		// 	if (event.data == YT.PlayerState.PLAYING && !done) {
-		// 		setTimeout(stopVideo, 6000);
-		// 		done = true;
-		// 	}
-		// }
-
-		// function stopVideo() {
-		// 	player.stopVideo();
-		// }
-
-	}
-
 	loadImages() {
 
 		let file;
@@ -297,7 +223,7 @@ export default class Fellowship extends ComponentTransition {
 
 	showInterview() {
 
-		this.video.play();
+		this.player.playVideo();
 		this.fellowship.classList.add('fellowship--hidden');
 		this.overlay.classList.add('bg-video__overlay--hidden');
 		this.bg.classList.add('fellowship__bg--hidden');
@@ -307,7 +233,7 @@ export default class Fellowship extends ComponentTransition {
 
 	hideInterview() {
 
-		this.video.pause();
+		this.player.pauseVideo();
 		this.fellowship.classList.remove('fellowship--hidden');
 		this.overlay.classList.remove('bg-video__overlay--hidden');
 		this.bg.classList.remove('fellowship__bg--hidden');
@@ -315,10 +241,9 @@ export default class Fellowship extends ComponentTransition {
 
 	}
 
-	_onPlay(event) {
-    // access to player in all event handlers via event.target 
-    event.target.pauseVideo();
-  }
+	handleVideoReady(e) {
+		this.player = e.target;
+	}
 
 	resize() {
 
@@ -326,8 +251,9 @@ export default class Fellowship extends ComponentTransition {
 		let windowH = AppStore.Window.h;
 		super.resize();
 
-		// if (windowW/1.8 < windowH) dom('body').addClass('body--portrait')
-		// else dom('body').removeClass('body--portrait')
+		// resize youtube video
+		this.video.style.height = AppStore.Window.h - 206 + 'px';
+		this.video.style.width = (AppStore.Window.h - 206) * 16 / 9 + 'px';
 
 		if (windowW < 958) {
 			if (document.querySelector('.page--fellowship')) document.querySelector('.page--fellowship').style.height = 'auto'
