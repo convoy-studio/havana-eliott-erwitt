@@ -11,6 +11,31 @@ export default class Friends extends ComponentTransition {
 		
 	}
 
+	_enterStyle() {
+	
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		TweenMax.fromTo(logo, 0.3, {opacity:1}, {opacity:0, ease:Power2.easeIn});
+		this.enterTl = new TimelineMax({delay:0.3, onComplete:()=>{
+			logo.style.display = 'none';
+		}});
+		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
+	
+	}
+	
+	_leaveStyle(callback) {
+		
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		logo.style.display = 'block';
+		this.leaveTl = new TimelineMax({onComplete: callback});
+		this.leaveTl.to(el, 0.3, {opacity: 0, ease:Power2.easeOut}, 0);
+		TweenMax.to(logo, 0.3, {opacity: 1, delay: 0.3, ease:Power2.easeOut});
+	
+	}
+
 	render() {
 
 		let seo = {
@@ -24,11 +49,23 @@ export default class Friends extends ComponentTransition {
 			<div className='page page--friends page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='fellowship__submenu submenu'><Link to='/fellowship' className='button'>Back to fellowship</Link></div>
+				<h1 className='title title--center title--absolute'>Friends of fellowship</h1>
 				<div className='page__content friends'>
-					<h1 className='title title--center'>Friends of fellowship</h1>
-					<p className='friends__intro paragraph paragraph--2 text'>Alignat empore, si dio cor alis aliquae. Ut assimus resti dem sequi omnistrum quam inum cullab in corioss intiae sedit, in parchillat et pore pliatis sernam rem eum qui alibusda porum et atiaeru mquiatquas is intendia cum remqui dolorias sim iur? Atium experi occati sumquam qui bea aut iliquatum nonsequ issime et et la et abo. Omnihilitam qui con renda nest, corro beat maio et volesci assitiis in con cumqui aceaqua tatent audis dolore, sequunti di ant magnihil explicae non pedicat estota di con consequae laborum quiat audam, officit, sequam, alis eum fuga. Nest, assectas et ullatem quas alit volore nonest lati sediste cabore volupitatem ipsum voluptis mo cus, occae. Inveliquias aliaspedis ea vellupta volor sectest iatiur sam assum quiatus ectest iatiur sam assum.</p>
+					<h2 className='friends__intro title'>THE FELLOWSHIP IS ALWAYS LOOKING FOR FRIENDS SHARING THE PASSION FOR GREAT DOCUMENTARY PHOTOGRAPHY.</h2>
+					<p className='text'>Below you can see some of our friends.</p>
 					<ul className='friends__sponsors'>
-						<li className='friends__sponsor'></li>
+						<li className='friends__sponsor friends__sponsor--fototeca'>
+							<img src='/static/img/fototeca_de_cuba.png'/>
+						</li>
+						<li className='friends__sponsor friends__sponsor--ee'>
+							<img src='/static/img/ee_official.png'/>
+						</li>
+						<li className='friends__sponsor friends__sponsor--icop'>
+							<img src='/static/img/international-center-of-photography.png'/>
+						</li>
+						<li className='friends__sponsor friends__sponsor--unseen'>
+							<img src='/static/img/unseen_photo_fair.png'/>
+						</li>
 					</ul>
 				</div>
 			</div>

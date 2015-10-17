@@ -58,6 +58,13 @@
 	text-align: center;
 }
 
+.title--absolute {
+	position: absolute;
+	left: 50%;
+	top: 40px;
+	transform: translate(-50%, 0);
+}
+
 @include max-screen(958px) {
 	.mobile-button {
 		position: fixed;

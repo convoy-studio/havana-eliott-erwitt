@@ -1,0 +1,44 @@
+.friends {
+	text-align: center;
+
+	&.page__content {
+		position: absolute;
+		left: 50%;
+		top: calc(50vh - 54px);
+		transform: translate(-50%, 0);
+		margin: 0 auto;
+		z-index: 20;
+		padding: 0 0 70px 0;
+		text-align: center;
+	}
+}
+
+.friends__sponsors {
+	font-size: 0;
+	padding: 10px 50px 0;
+}
+
+.friends__sponsor {
+	display: inline-block;
+	width: 50%;
+	padding: 20px;
+	box-sizing: border-box;
+	vertical-align: middle;
+
+	&.friends__sponsor--fototeca img {
+		width: 120px;
+	}
+
+	&.friends__sponsor--ee {
+
+	}
+
+	&.friends__sponsor--icop {
+
+	}
+
+	&.friends__sponsor--unseen img {
+		width: 120px;
+	}
+
+}
