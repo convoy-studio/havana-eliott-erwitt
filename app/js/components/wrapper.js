@@ -8,16 +8,20 @@ import AppActions from '../actions/appActions';
 const Transition = React.addons.TransitionGroup;
 const nav = [
 	{
+		section: 'news',
 		url: '/news',
 		label: 'News'
 	},
 	{
+		section: 'shop',
 		url: '/shop',
 		label: 'Shop'
 	},{
+		section: 'photography',
 		url: '/photography/elliott_erwitt',
 		label: 'Photography'
 	},{
+		section: 'fellowship',
 		url: '/fellowship',
 		label: 'Fellowship'
 	}
@@ -73,7 +77,7 @@ export default class Wrapper {
 						<ul className='header__list'>
 							{Object.keys(nav).map((index) => {
 								let item = nav[index];
-								let enabled = (pathname.indexOf(item.url) > -1) ? 'button--enabled' : '';
+								let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
 								return (
 									<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
