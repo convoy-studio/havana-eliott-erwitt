@@ -20,8 +20,8 @@ function _setCartVisible(cartVisible) {
 }
 
 // Set cart enabled
-function _setCartEnabled(cartEnabled) {
-	_cartEnabled = cartEnabled;
+function _setCartEnabled(data) {
+	_cartEnabled = data;
 }
 
 // Remove item from cart
@@ -82,7 +82,7 @@ let CartStore = assign({}, EventEmitter.prototype, {
 				CartStore.emitChange()
 				break
 			case CartConstants.CART_ENABLED:
-				_setCartEnabled(action.cartEnabled)
+				_setCartEnabled(action.data)
 				CartStore.emitChange()
 				break
 			case CartConstants.CART_REMOVE:

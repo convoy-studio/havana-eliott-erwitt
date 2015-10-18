@@ -109,13 +109,22 @@
 	@extend .visible;
 }
 .body--hidden {
-	.front-container, .submenu, .project__footer, .project__contact, .project__slideshow, .cart {
+	// .front-container, .submenu, .project__footer, .project__contact, .project__slideshow, .cart {
+	// 	@extend .hidden;
+	// }
+	.header, .footer, .submenu, .project__footer, .project__contact, .project__slideshow, .cart {
 		@extend .hidden;
 	}
 }
 
 .hamburger {
 	display: none;
+}
+
+.page-container {
+	min-height: 100vh;
+	position: relative;
+	z-index: 10;
 }
 
 @include max-screen(958px) {
@@ -131,8 +140,8 @@
 		background-color: $black;
 		// border-bottom: 1px solid $white;
 
-		font-size: 18px;
-	    line-height: 18px;
+		font-size: 14px;
+	    line-height: 16px;
 
 	    a {
 	    	display: table-cell;
@@ -144,7 +153,8 @@
 		padding-top: 0;
 
 		&:before, &:after {
-			top: 8px;
+			top: 6px;
+			width: 48px;
 		}
 	}
 
@@ -227,7 +237,7 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, 0);
-		width: 26px;
+		width: 24px;
 		height: 1px;
 
 		background-color: $white;

@@ -43,7 +43,7 @@ export default class ComponentTransition extends ComponentResize {
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 
-		logo.style.display = 'block';
+		logo.style.display = 'table';
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);

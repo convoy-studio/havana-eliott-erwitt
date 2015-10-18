@@ -44,10 +44,15 @@ let CartActions = {
 	},
 
 	// Update cart enabled status
-	updateCartEnabled: function(cartEnabled) {
+	updateCartEnabled: function(cartEnabled, autoclose = false) {
+		console.log('CART_ACTIONS : CART_ENABLED :: ', autoclose);
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_ENABLED,
-			cartEnabled: cartEnabled
+			// cartEnabled: cartEnabled
+			data: {
+				cartEnabled: cartEnabled,
+				autoclose: autoclose
+			}
 		})
 	},
 

@@ -180,7 +180,8 @@
 		padding: 0 12px;
 		box-sizing: border-box;
 	}
-	.youtube__file {
-		width: 94%;
+	.youtube-wrapper {
+		top: 50%;
+		transform: translate(-50%, -50%);
 	}
 }

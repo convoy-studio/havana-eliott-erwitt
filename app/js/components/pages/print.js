@@ -239,7 +239,7 @@ export default class Print extends ComponentTransition {
 			project: this.state.print.project
 		};
 		CartActions.addToCart(update);
-		CartActions.updateCartEnabled(true);
+		CartActions.updateCartEnabled(true, true);
 
 		this.setState({
 			selectedSerial: this.getFirstSerial()

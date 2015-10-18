@@ -156,9 +156,11 @@ export default class ContactSheet extends ComponentTransition {
 
 	componentDidUpdate() {
 
+		console.log(this.gallery.offsetHeight);
 		let file;
 		this.max = _.size(this.state.prints);
 		this.printsDate = {};
+		console.log(this.state.prints);
 
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true;
@@ -185,7 +187,10 @@ export default class ContactSheet extends ComponentTransition {
 			this.setState({
 				'loadedPrints': this.printsDate
 			}, () => {
-				document.querySelector('.subpage--gallery').style.height = this.gallery.offsetHeight + 'px';
+				// hack
+				setTimeout(()=>{
+					document.querySelector('.subpage--gallery').style.height = (this.gallery.offsetHeight-100) + 'px';
+				}, 300);
 			});
 		}
 

@@ -261,6 +261,9 @@ export default class Fellowship extends ComponentTransition {
 			if (this.scrollRaf) {
 				this.scrollRaf = null;
 			}
+			// resize youtube video
+			this.video.style.width = AppStore.Window.w + 'px';
+			this.video.style.height = (AppStore.Window.w * 9 / 16) + 'px';
 		} else {
 			if (this.fellowship) {
 				document.querySelector('.page--fellowship').style.height = this.fellowship.offsetHeight + 'px'
@@ -268,6 +271,9 @@ export default class Fellowship extends ComponentTransition {
 			if (!this.scrollRaf) {
 				this.raf()
 			}
+			// resize youtube video
+			this.video.style.height = AppStore.Window.h - 206 + 'px';
+			this.video.style.width = (AppStore.Window.h - 206) * 16 / 9 + 'px';
 		}
 
 	}

@@ -33,6 +33,20 @@ export default class Wrapper {
 			AppActions.disableSplash();
 		}
 
+		// binded
+		this.toggleMenu = this.toggleMenu.bind(this);
+		this.closeMenu = this.closeMenu.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+
+	}
+
+	componentDidMount() {
+	
+		this.headerMenu = document.querySelector('.header__menu');
+
+		document.querySelector('body').addEventListener('click', this.handleClickOutside);
+		window.onscroll = this.closeMenu;
+
 	}
 
 	render() {
@@ -49,7 +63,7 @@ export default class Wrapper {
 					}
 				}.bind(this))()}
 				<header className='header'>
-					<div className='hamburger' onClick={this._toggleMenuBinded}>
+					<div className='hamburger' onClick={this.toggleMenu}>
 						<div className='hamburger__line'></div>
 					</div>
 					<h1 className='header__logo'>
@@ -84,35 +98,27 @@ export default class Wrapper {
 			</div>
 
 		);
-					// <CSSTransitionGroup component="div" transitionName="transition">
-					// 	{React.cloneElement(this.props.children || <div />, { key: pathname })}
-					// </CSSTransitionGroup>
-		
-			// <div id='frontContainer' className='front-container' ref='front-container'>
-			// 	<header id='header' className='header'>
-			// 		<div className='hamburger' onClick={this._toggleMenuBinded}>
-			// 			<div className='hamburger__line'></div>
-			// 		</div>
-			// 		<h1 className='header__logo'><Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link></h1>
-			// 		<nav className='header__menu'>
-			// 			<ul className='header__list'>
-			// 				<li className='header__item'><Link className="button" to="/news">News</Link></li>
-			// 				<li className='header__item'><Link className="button" to="/shop">Shop</Link></li>
-			// 				<li className='header__item'><Link className="button" to="/photography">Photography</Link></li>
-			// 				<li className='header__item'><Link className="button" to="/fellowship">Fellowship</Link></li>
-			// 			</ul>
-			// 		</nav>
-			// 	</header>
-			// 	<div id='pageContainer' className='page-container' ref='page-container'>
-			// 		{this.props.children}
-			// 	</div>
-			// 	<footer id='footer' className='footer'>
-			// 		<ul>
-			// 			<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-			// 			<li><Link to="/privacy" className="footer__button button button--footer">Privacy</Link></li>
-			// 			<li><Link to="/legal" className="footer__button button button--footer">Legal</Link></li>
-			// 		</ul>
-			// 	</footer>
-			// </div>
+
 	}
+
+	toggleMenu(e) {
+
+		this.headerMenu.classList.toggle('header__menu--open');
+
+	}
+
+	closeMenu() {
+	
+		this.headerMenu.classList.remove('header__menu--open');
+	
+	}
+
+	handleClickOutside(e) {
+		
+		if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
+			this.closeMenu();
+		}
+
+	}
+
 }
