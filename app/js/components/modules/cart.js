@@ -12,8 +12,7 @@ function getState() {
 		count: CartStore.getCartCount(),
 		total: CartStore.getCartTotal(),
 		visible: CartStore.getCartVisible(),
-		enabled: CartStore.getCartEnabled(),
-		hash: undefined
+		enabled: CartStore.getCartEnabled()
 	};
 
 }

@@ -78,7 +78,13 @@
 	margin: 0 auto;
 	text-align: center;
 
-	cursor: url('/assets/images/cursor_more.png'), pointer;
+	cursor: url('/static/img/cursor_more.cur'), pointer;
+	// cursor: url('/static/img/cursor_more.png'), auto;
+	// cursor: -webkit-image-set(
+	// 	url('/static/img/cursor_more.png') 1x,
+	// 	url('/static/img/cursor_more.png') 2x
+	// 	), auto;
+	// cursor: -webkit-zoom-in;
 
 	visibility: hidden;
 	opacity: 0;
@@ -310,7 +316,7 @@
 .project__bigimage {
 	width: calc(100% - 120px);
 	height: auto;
-	cursor: url('/assets/images/cursor_less.png'), pointer;
+	cursor: url('/static/img/cursor_less.cur'), pointer;
 }
 
 .project__bigprev, .project__bignext {

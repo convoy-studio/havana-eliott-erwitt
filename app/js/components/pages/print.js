@@ -2,7 +2,7 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
-import { Link } from 'react-router';
+import Router, { Link } from 'react-router';
 import Cart from '../modules/cart';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
@@ -37,6 +37,9 @@ export default class Print extends ComponentTransition {
 		this.zoomOut = this.zoomOut.bind(this);
 		this.onMousemove = this.onMousemove.bind(this);
 		this.raf = this.raf.bind(this);
+		this.onTouchstart = this.onTouchstart.bind(this);
+		this.onTouchmove = this.onTouchmove.bind(this);
+		this.onTouchend = this.onTouchend.bind(this);
 
 		// vars
 		this.loaded = false;
@@ -46,16 +49,21 @@ export default class Print extends ComponentTransition {
 		this.scrollOk = false;
 		this.transform = Utils.getSupportedPropertyName('transform');
 		this.printY = 0;
+		this.startX = 0;
+		this.deltaX = 0;
 
 	}
 
 	componentDidMount() {
-		
-		document.addEventListener('mousemove', this.onMousemove);
 
 		PrintApi.getOne(this.props.params.token);
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
+
+		document.addEventListener('mousemove', this.onMousemove);
+		document.addEventListener('touchstart', this.onTouchstart);
+		document.addEventListener('touchmove', this.onTouchmove);
+		document.addEventListener('touchend', this.onTouchend);
 
 	}
 
@@ -63,7 +71,6 @@ export default class Print extends ComponentTransition {
 
 		let file;
 		if (!this.loaded) {
-			this.loaded = true;
 			this.loadImage();
 		}
 
@@ -71,15 +78,19 @@ export default class Print extends ComponentTransition {
 
 	componentWillUnmount() {
 
-		document.removeEventListener('mousemove', this.onMousemove);
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
+
+		document.removeEventListener('mousemove', this.onMousemove);
+		document.removeEventListener('touchstart', this.onTouchstart);
+		document.removeEventListener('touchmove', this.onTouchmove);
+		document.removeEventListener('touchend', this.onTouchend);
 
 	}
 
 	render() {
 
-		let title, city, country, year, price, desc, serials, artist, bigfile, details;
+		let title, city, country, year, price, desc, serials, artist, bigfile, details, prev, next;
 
 		if (this.state.print) {
 			this.validSerials = this.getValidSerials();
@@ -94,6 +105,8 @@ export default class Print extends ComponentTransition {
 			serials = this.state.print.serials;
 			artist = this.state.print.project.artist;
 			bigfile = '/static/prints/'+this.state.print.file+'.jpg';
+			prev = this.state.print.prev;
+			next = this.state.print.next;
 		}
 
 		if (title) {
@@ -116,6 +129,10 @@ export default class Print extends ComponentTransition {
 				<Seo seo={seo} />
 				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
 				<div>
+					<div className='print__nav'>
+						<Link to={'/shop/'+prev} className='print__prev'><div className='arrow'></div></Link>
+						<Link to={'/shop/'+next} className='print__next'><div className='arrow arrow--right'></div></Link>
+					</div>
 					<div className='print'>
 						{this.state.loadedPrint}
 						<div className='print__infos'>
@@ -265,9 +282,11 @@ export default class Print extends ComponentTransition {
 
 	loadImage() {
 
-		let file = new Image();
-		file.onload = this.onImageLoaded.bind(this);
-		file.src = '/static/prints/'+this.state.print.file+'_medium.jpg';
+		if (_.size(this.state.print) > 0) {
+			let file = new Image();
+			file.onload = this.onImageLoaded.bind(this);
+			file.src = '/static/prints/'+this.state.print.file+'_medium.jpg';
+		}
 
 	}
 
@@ -277,7 +296,6 @@ export default class Print extends ComponentTransition {
 		if (path.height >= path.width*1.2) size = 'portrait';
 		else size = 'landscape';
 		let dim = '27.9 × 35.6 cm'; // gérer la conversion (11 × 14 inches)
-
 		this.print = (
 			<div className='print__left'>
 				<div className={'print__image print__image--'+size}>
@@ -304,6 +322,8 @@ export default class Print extends ComponentTransition {
 			'loadedPrint': this.print,
 			'techDesc': this.techDesc
 		});
+
+		this.loaded = true;
 
 	}
 
@@ -355,6 +375,32 @@ export default class Print extends ComponentTransition {
 	// 	// }
 
 	// }
+
+	onTouchstart(e) {
+
+		this.startX = e.changedTouches[0].clientX;
+
+	}
+
+	onTouchmove(e) {
+
+		this.deltaX = e.changedTouches[0].clientX - this.startX;
+
+	}
+
+	onTouchend(e) {
+
+		if (this.deltaX > 100) {
+			this.router.transitionTo('/shop/'+this.state.print.prev);
+		}
+
+		if (this.deltaX < -100) {
+			this.router.transitionTo('/shop/'+this.state.print.next);
+		}
+
+		this.deltaX = 0;
+		
+	}
 
 	onStoreChange() {
 

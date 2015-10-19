@@ -7,6 +7,30 @@
 	width: 958px;
 }
 
+.print__nav {
+	opacity: 0;
+	visibility: hidden;
+	position: relative;
+	z-index: 10;
+}
+
+.print__prev, .print__next {
+	position: fixed;
+	top: 50%;
+	transform: translate(0, -50%);
+	width: 36px;
+	height: 36px;
+	cursor: pointer;
+}
+
+.print__prev {
+	left: 0;
+}
+
+.print__next {
+	right: 0;
+}
+
 .print__left {
 	position: relative;
 	// width: 50%;
@@ -186,15 +210,23 @@
 @include max-screen(958px) {
 	.print {
 		display: block;
-		position: relative;
-		left: 0;
-		top: 0;
-		transform: none;
+		// position: relative;
+		// left: 0;
+		// top: 0;
+		// transform: none;
 		width: 100%;
-		padding: 160px 24px 0;
+		// padding: 160px 38px 0;
 		box-sizing: border-box;
-	}
 
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translate(0, -25vh);
+	}
+	.print__nav {
+		opacity: 1;
+		visibility: visible;
+	}
 	.print__left, .print__infos {
 		padding-right: 0;
 		position: relative;
@@ -208,6 +240,17 @@
 
 	.print__left, .print__file {
 		margin-bottom: 30px;
+	}
+	.print__left {
+		text-align: center;
+	}
+	.print__image, .print__image--portrait {
+		width: 100%;
+		height: 50vh;
+	}
+	.print__file {
+		height: 100%;
+		width: auto;
 	}
 	.print__price {
 		margin-bottom: 40px;

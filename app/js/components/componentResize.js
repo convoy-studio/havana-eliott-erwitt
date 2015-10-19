@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import AppStore from '../stores/appStore';
 import AppConstants from '../constants/appConstants';
 
-export default class ComponentResize extends Component {
+class ComponentResize extends Component {
 
-	constructor() {
+	constructor(props, context) {
 
 		super();
 
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
 		}
+
+		this.router = context.router;
 
 		// binded
 		this.resize = this.resize.bind(this);
@@ -34,3 +36,9 @@ export default class ComponentResize extends Component {
 	}
 
 }
+
+ComponentResize.contextTypes = {
+    router: React.PropTypes.func.isRequired
+};
+
+export default ComponentResize;

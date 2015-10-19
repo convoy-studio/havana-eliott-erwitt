@@ -19,6 +19,14 @@ function generateToken(hash, callback) {
 	}
 }
 
+function getIndexBy(array, name, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i][name] == value) {
+            return i;
+        }
+    }
+}
+
 const controller = {
 
 	getAll : {
@@ -49,10 +57,14 @@ const controller = {
 
 	getByToken : {
 		handler : function(request, reply){
-			Print.findOne({ token: request.params.token }, function(err, print_item) {
+			Print.find({ forsale: true }, function(err, print_items) {
 				if (!err) {
+					let index = getIndexBy(print_items, 'token', request.params.token);
+					let prevIndex = (index-1 < 0) ? print_items.length-1 : index-1;
+					let nextIndex = (index+1 >= print_items.length) ? 0 : index+1
+
 					// recupérer les infos du projet de la photo
-					Project.findById(print_item.project_id, function (err, project_item) {
+					Project.findById(print_items[index].project_id, function (err, project_item) {
 						if (!err) {
 							let project = {
 								artist: project_item.artist,
@@ -60,17 +72,19 @@ const controller = {
 								slug: project_item.slug
 							}
 							let print = {
-								token: print_item.token,
-								title: print_item.title,
-								city: print_item.city,
-								country: print_item.country,
-								year: print_item.year,
-								file: print_item.file,
-								copies: print_item.copies,
-								serials: print_item.serials,
-								desc: print_item.desc,
-								price: print_item.price,
-								forsale: print_item.forsale,
+								token: print_items[index].token,
+								title: print_items[index].title,
+								city: print_items[index].city,
+								country: print_items[index].country,
+								year: print_items[index].year,
+								file: print_items[index].file,
+								copies: print_items[index].copies,
+								serials: print_items[index].serials,
+								desc: print_items[index].desc,
+								price: print_items[index].price,
+								forsale: print_items[index].forsale,
+								prev: print_items[prevIndex].token,
+								next: print_items[nextIndex].token,
 								project: project
 							};
 							return reply(print);
@@ -82,6 +96,39 @@ const controller = {
 					return reply(Boom.badImplementation(err)); // HTTP 500
 				}
 			});
+			// Print.findOne({ token: request.params.token }, function(err, print_item) {
+			// 	if (!err) {
+			// 		// recupérer les infos du projet de la photo
+			// 		Project.findById(print_item.project_id, function (err, project_item) {
+			// 			if (!err) {
+			// 				let project = {
+			// 					artist: project_item.artist,
+			// 					desc: project_item.desc,
+			// 					slug: project_item.slug
+			// 				}
+			// 				let print = {
+			// 					token: print_item.token,
+			// 					title: print_item.title,
+			// 					city: print_item.city,
+			// 					country: print_item.country,
+			// 					year: print_item.year,
+			// 					file: print_item.file,
+			// 					copies: print_item.copies,
+			// 					serials: print_item.serials,
+			// 					desc: print_item.desc,
+			// 					price: print_item.price,
+			// 					forsale: print_item.forsale,
+			// 					project: project
+			// 				};
+			// 				return reply(print);
+			// 			} else {
+			// 				return reply(Boom.badImplementation(err)); // HTTP 500
+			// 			}
+			// 		});
+			// 	} else {
+			// 		return reply(Boom.badImplementation(err)); // HTTP 500
+			// 	}
+			// });
 		}
 	},
 
