@@ -358,18 +358,17 @@
 		transform: translate(0, -50%);
 		height: initial;
 	}
-
 	.project__print {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		width: calc(100% - 100px);
-		height: auto;
+		height: 50vh;
 		cursor: default;
 	}
 	.project__image {
-		height: auto;
-		width: 100%;
+		height: 100%;
+		width: auto;
 	}
 	.project__prev, .project__next {
 		transform: translate(0, -50%);
@@ -381,6 +380,12 @@
 		right: 6px;
 	}
 	.project__footer {
-		display: none !important;
+		bottom: 120px;
+	}
+	.project__bigimage {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 }

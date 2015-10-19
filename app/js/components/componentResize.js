@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppStore from '../stores/appStore';
 import AppConstants from '../constants/appConstants';
 
-class ComponentResize extends Component {
+export default class ComponentResize extends Component {
 
 	constructor(props, context) {
 
@@ -24,6 +24,12 @@ class ComponentResize extends Component {
 		AppStore.on(AppConstants.WINDOW_RESIZE, this.resize);
 
 	}
+
+	componentDidMount() {
+
+		this.resize();
+		
+	}
 	
 	resize() {
 
@@ -40,5 +46,3 @@ class ComponentResize extends Component {
 ComponentResize.contextTypes = {
     router: React.PropTypes.func.isRequired
 };
-
-export default ComponentResize;

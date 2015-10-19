@@ -56,6 +56,8 @@ export default class Print extends ComponentTransition {
 
 	componentDidMount() {
 
+		this.body = document.querySelector('body');
+		
 		PrintApi.getOne(this.props.params.token);
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
@@ -185,15 +187,19 @@ export default class Print extends ComponentTransition {
 
 	raf() {
 
-		if (this.scrollIndex % 3) this.scrollOk = true
-		else this.scrollOk = true
-		this.scrollIndex++
+		if (this.body.classList.has('js-mobile') && this.scrollRaf) {
+			Utils.clearRaf(this.scrollRaf);
+		} else {
+			if (this.scrollIndex % 3) this.scrollOk = true
+			else this.scrollOk = true
+			this.scrollIndex++
 
-		if (this.scrollOk) {
-			this.handleScroll()
+			if (this.scrollOk) {
+				this.handleScroll()
+			}
+
+			this.scrollRaf = raf(this.raf);
 		}
-
-		this.scrollRaf = raf(this.raf);
 
 	}
 

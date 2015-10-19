@@ -48,6 +48,8 @@ export default class Gallery extends Component {
 
 	componentDidMount() {
 
+		this.body = document.querySelector('body');
+
 		document.addEventListener('mousemove', this.onMousemove);
 		document.addEventListener('keydown', this.onkeydown);
 		document.addEventListener('touchstart', this.onTouchstart);
@@ -216,30 +218,25 @@ export default class Gallery extends Component {
 						</div>
 					</div>
 				</div>
-
-				{(() => {
-					if (!this.props.isMobile) return (
-						<div className={'project__bigslideshow ' + bigSlideshowClass}>
-							<div className='project__bigcontent'>
-								<div className='project__bigprints'>
-									{Object.keys(this.props.prints).map((id, index) => {
-										let file = this.props.prints[id].file + '_big.jpg'
-										let status = (index === this.state.current) ? 'project__bigprint--current' : ''
-										return (
-											<div className={'project__bigprint '+status} onClick={this.zoomOut} key={id}>
-												<img className='project__bigimage' src={'/static/prints/'+file}></img>
-											</div>
-										)
-									})}
-								</div>
-								<div className='project__nav'>
-									<div className='project__bigprev' onClick={this.prev}><div className='arrow'></div></div>
-									<div className='project__bignext' onClick={this.next}><div className='arrow arrow--right'></div></div>
-								</div>
-							</div>
+				<div className={'project__bigslideshow ' + bigSlideshowClass}>
+					<div className='project__bigcontent'>
+						<div className='project__bigprints'>
+							{Object.keys(this.props.prints).map((id, index) => {
+								let file = this.props.prints[id].file + '_big.jpg'
+								let status = (index === this.state.current) ? 'project__bigprint--current' : ''
+								return (
+									<div className={'project__bigprint '+status} onClick={this.zoomOut} key={id}>
+										<img className='project__bigimage' src={'/static/prints/'+file}></img>
+									</div>
+								)
+							})}
 						</div>
-					)
-				})()}
+						<div className='project__nav'>
+							<div className='project__bigprev' onClick={this.prev}><div className='arrow'></div></div>
+							<div className='project__bignext' onClick={this.next}><div className='arrow arrow--right'></div></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 
@@ -247,15 +244,19 @@ export default class Gallery extends Component {
 
 	raf() {
 
-		if (this.scrollIndex % 3) this.scrollOk = true;
-		else this.scrollOk = true;
-		this.scrollIndex++;
+		if (this.body.classList.has('js-mobile') && this.scrollRaf) {
+			Utils.clearRaf(this.scrollRaf);
+		} else {
+			if (this.scrollIndex % 3) this.scrollOk = true;
+			else this.scrollOk = true;
+			this.scrollIndex++;
 
-		if (this.scrollOk) {
-			this.handleScroll();
+			if (this.scrollOk) {
+				this.handleScroll();
+			}
+
+			this.scrollRaf = raf(this.raf);
 		}
-
-		this.scrollRaf = raf(this.raf);
 
 	}
 

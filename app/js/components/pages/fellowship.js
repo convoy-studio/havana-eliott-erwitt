@@ -59,6 +59,7 @@ export default class Fellowship extends ComponentTransition {
 			this.back = document.querySelector('.fellowship__back');
 			this.bg = document.querySelector('.fellowship__bg');
 			this.images = document.querySelectorAll('.fellowship img');
+			this.buttonEe = document.querySelector('.button--ee');
 			this.jsReveal = document.querySelectorAll('.js-reveal');
 
 			this.page.style.height = this.fellowship.offsetHeight + 'px';
@@ -129,7 +130,7 @@ export default class Fellowship extends ComponentTransition {
 						<div className='row'>
 							<div className='column'>
 								<img className='fellowship__elliott js-reveal' src='/static/img/elliott-erwitt.jpg'/>
-								<a className='button button--margin js-reveal' href='http://www.elliotterwitt.com' target='_blank'>Elliott Erwitt official website</a>
+								<a className='button button--margin button--ee js-reveal' href='http://www.elliotterwitt.com' target='_blank'>Elliott Erwitt official website</a>
 							</div>
 							<div className='column'>
 								<p className='paragraph text js-reveal'>Elliott Erwitt is one of the world’s most popular and admired photographers. A visual poet and humorist of everyday life, he has created some of the most memorable images of our time, from his observations of daily life at street level, to portraits of the iconic personalities including Marilyn Monroe on the set of the film The Misfits and Truman Capote’s epic 1966 Black and White Ball in New York City. He has photographed Khrushchev and Nixon arguing in Moscow, Fidel Castro and Che Guevara in Havana and President JFK in the Oval office.</p>
@@ -261,6 +262,8 @@ export default class Fellowship extends ComponentTransition {
 			if (this.scrollRaf) {
 				this.scrollRaf = null;
 			}
+			this.buttonEe.style.display = 'none';
+
 			// resize youtube video
 			this.video.style.width = AppStore.Window.w + 'px';
 			this.video.style.height = (AppStore.Window.w * 9 / 16) + 'px';
@@ -271,6 +274,8 @@ export default class Fellowship extends ComponentTransition {
 			if (!this.scrollRaf) {
 				this.raf()
 			}
+			this.buttonEe.style.display = 'block';
+
 			// resize youtube video
 			this.video.style.height = AppStore.Window.h - 206 + 'px';
 			this.video.style.width = (AppStore.Window.h - 206) * 16 / 9 + 'px';

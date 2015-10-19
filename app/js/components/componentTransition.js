@@ -47,6 +47,7 @@ export default class ComponentTransition extends ComponentResize {
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
+		this.enterTl.set(logo, {backgroundColor:'#000000'}, 0);
 	
 	}
 	

@@ -26,16 +26,40 @@ export default class Home extends ComponentTransition {
 
 	}
 
+	_enterStyle() {
+	
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		logo.style.display = 'table';
+		this.enterTl = new TimelineMax({delay:0.3});
+		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
+		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
+		this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
+	
+	}
+	
+	_leaveStyle(callback) {
+		
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+
+		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
+	
+	}
+
 	componentDidMount() {
+
+		super.componentDidMount();
 
 		this.body = document.querySelector('body');
 		this.canvas = document.querySelector('.canvas');
 		this.overlay = document.querySelector('.bg-video__overlay');
-		this.video = document.querySelector('.home__video');
+		this.background = document.querySelector('.home__bg');
 
 		this.fontSize = 36;
-		this.fontSizeMobile = 28;
-		this.fontSizeLogoMobile = 24;
+		this.fontSizeMobile = 24;
+		this.fontSizeLogoMobile = 20;
 
 		if (AppStore.getSplash()) {
 			AppActions.disableSplash();
@@ -63,14 +87,14 @@ export default class Home extends ComponentTransition {
 		};
 
 		let background;
-		if (this.state.isMobile) {
+		if (AppStore.Window.w < 958) {
 			background = (<div className='bg-video' data-src='bg-home'>
-				<img src='../assets/images/home-mobile.jpg'/>
+				<img className='home__bg' src='../assets/images/home-mobile.jpg'/>
 				<div className='home__overlay bg-video__overlay'></div>
 			</div>);
 		} else {
 			background = (<div className='bg-video' data-src='bg-home'>
-				<video autoPlay loop muted className='home__video bg-video__file'>
+				<video autoPlay loop muted className='home__bg home__video bg-video__file'>
 					<source src='/static/videos/bg-home.webm' type='video/webm' />
 					<source src='/static/videos/bg-home.mp4' type='video/mp4' />
 				</video>
@@ -136,14 +160,14 @@ export default class Home extends ComponentTransition {
 	cropDescMobile() {
 
 		let ctx = this.canvas.getContext('2d');
-		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
+		ctx.font = "400 "+this.fontSizeMobile+"px 'hc7modern'";
 		ctx.textAlign = "left";
 		ctx.globalCompositeOperation = "destination-out";
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
-		ctx.fillText('A FELLOWSHIP IS A', 20, this.vh/2 - 46);
-		ctx.fillText('COMMUNION OF PEOPLE', 20, this.vh/2 - 7);
-		ctx.fillText('SHARING A COMMON', 20, this.vh/2 + 32);
-		ctx.fillText('PASSION.', 20, this.vh/2 + 71);
+		ctx.fillText('A FELLOWSHIP IS A', 20, this.vh/2 - 32);
+		ctx.fillText('COMMUNION OF PEOPLE', 20, this.vh/2 - 2);
+		ctx.fillText('SHARING A COMMON', 20, this.vh/2 + 28);
+		ctx.fillText('PASSION.', 20, this.vh/2 + 58);
 
 	}
 
@@ -181,11 +205,11 @@ export default class Home extends ComponentTransition {
 		ctx.globalCompositeOperation = "destination-out";
 		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', this.vw/2, this.vh/2 - 2);
 		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'HC7Craft'";
-		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 27);
+		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 20);
 		
 		ctx.beginPath();
-		ctx.rect(this.vw/2 - 164, this.vh/2 + 19, 84, 2);
-		ctx.rect(this.vw/2 + 80, this.vh/2 + 19, 84, 2);
+		ctx.rect(this.vw/2 - 137, this.vh/2 + 13, 68, 1);
+		ctx.rect(this.vw/2 + 70, this.vh/2 + 13, 68, 1);
 		ctx.fillStyle = 'white';
 		ctx.fill();
 
@@ -210,8 +234,8 @@ export default class Home extends ComponentTransition {
 		this.tlEntry = new TimelineMax({onComplete: () => {
 			this.canvas.parentNode.removeChild(this.canvas);
 		}.bind(this)});
-		this.tlEntry.fromTo(this.video, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
-		this.tlEntry.to(this.video, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
+		this.tlEntry.fromTo(this.background, 0.8, {opacity: 0}, {opacity: 1, ease:Power2.easeOut}, 0);
+		this.tlEntry.to(this.background, 0.8, {opacity: 0, ease:Power2.easeOut}, 4.8);
 		this.tlEntry.addCallback(() => {
 			if (this.body && this.body.classList.contains('js-mobile')) {
 				this.cropLogoMobile()
@@ -219,12 +243,12 @@ export default class Home extends ComponentTransition {
 				this.cropLogo()
 			}
 		}.bind(this), 5.6);
-		this.tlEntry.to(this.video, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
-		this.tlEntry.to(this.video, 0.8, {opacity: 0, ease:Power2.easeOut}, 10.6);
+		this.tlEntry.to(this.background, 0.8, {opacity: 1, ease:Power2.easeOut}, 6.6);
+		this.tlEntry.to(this.background, 0.8, {opacity: 0, ease:Power2.easeOut}, 10.6);
 		this.tlEntry.addCallback(() => {
 			this.resetCanvas()
 		}.bind(this), 11.4);
-		this.tlEntry.set(this.video, {opacity: 1}, 11.4);
+		this.tlEntry.set(this.background, {opacity: 1}, 11.4);
 		this.tlEntry.addCallback(() => {
 			this.overlay.classList.remove('bg-video__overlay--hidden');
 		}.bind(this), 11.4);
