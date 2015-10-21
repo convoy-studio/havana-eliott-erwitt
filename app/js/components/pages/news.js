@@ -41,6 +41,8 @@ export default class News extends ComponentTransition {
 
 	componentDidMount() {
 
+		super.componentDidMount();
+
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--news');
@@ -67,7 +69,7 @@ export default class News extends ComponentTransition {
 		};
 
 		let newsItems = news.map((item, index)=>{
-			if (this.state.isMobile) { return (
+			if (typeof document !== 'undefined' && document.querySelector('body').classList.contains('js-mobile')) { return (
 				<article key={index} className='news__item'>
 					<div className='news__date title'>{item.date}</div>
 					<div className='news__content text'>{item.content}</div>

@@ -53,6 +53,8 @@ export default class ContactSheet extends ComponentTransition {
 
 		this.gallery = document.querySelector('.gallery');
 
+		document.querySelector('.projects__intro').style.display = 'none';
+		
 		this.raf();
 
 	}

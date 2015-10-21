@@ -244,7 +244,7 @@ export default class Gallery extends Component {
 
 	raf() {
 
-		if (this.body.classList.has('js-mobile') && this.scrollRaf) {
+		if (this.body.classList.contains('js-mobile') && this.scrollRaf) {
 			Utils.clearRaf(this.scrollRaf);
 		} else {
 			if (this.scrollIndex % 3) this.scrollOk = true;

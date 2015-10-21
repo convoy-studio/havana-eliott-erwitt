@@ -26,6 +26,11 @@
 	// opacity: 0;
 }
 
+.project__gallery-wrapper {
+	position: relative;
+	z-index: 10;
+}
+
 
 .projects {
 	padding-top: 160px;
@@ -156,10 +161,10 @@
 
 @include max-screen(700px) {
 	.projects {
-		position: absolute;
-		top: calc(50% - 18px);
-		left: 0;
-		padding-top: 0;
+		// position: absolute;
+		// top: calc(50% - 18px);
+		// left: 0;
+		// padding-top: 0;
 	}
 	.projects__image {
 		top: 50%;

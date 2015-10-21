@@ -20,8 +20,8 @@ export default class Project extends Component {
 			project: undefined,
 			prints: undefined,
 
-			galleryVisible: (this.props.params.token) ? true : (Utils.getURLParameter('open')) ? true : false
-			// galleryVisible: (Utils.getURLParameter('open')) ? true : false
+			open: (this.props.params.token) ? true : (Utils.getURLParameter('open')) ? true : false
+			// open: (Utils.getURLParameter('open')) ? true : false
 		};
 
 		// binded
@@ -91,10 +91,12 @@ export default class Project extends Component {
 		ProjectStore.addChangeListener(this.onStoreChange);
 		PrintStore.addChangeListener(this.onStoreChange);
 
-		window.setTimeout(()=>{
+		// window.setTimeout(()=>{
 			ProjectApi.getBySlug(this.props.params.slug);
 			PrintApi.getByArtist(this.props.params.slug);
-		}, 300);
+		// }, 300);
+
+		if (this.state.open) this.props.hideMenu();
 
 	}
 
@@ -114,7 +116,7 @@ export default class Project extends Component {
 			desc = this.state.project.desc;
 		}
 
-		let projectVisibility = (this.state.galleryVisible) ? 'projects__details--hidden' : '';
+		let projectVisibility = (this.state.open) ? 'projects__details--hidden' : '';
 
 		let description = '';
 		_(desc).forEach((value, index) => {
@@ -150,10 +152,10 @@ export default class Project extends Component {
 				{(() => {
 					if (_.size(this.state.prints) > 0) {
 						return (
-							<div>
+							<div className='project__gallery-wrapper'>
 								<Gallery
 									prints={this.state.prints}
-									show={this.state.galleryVisible}
+									show={this.state.open}
 									project={slug}
 									current={this.props.params.token}
 									updateCurrent={this._updateCurrentBinded}
@@ -172,7 +174,7 @@ export default class Project extends Component {
 		
 		this.props.hideMenu();
 		this.setState({
-			galleryVisible: true
+			open: true
 		});
 
 	}
