@@ -204,6 +204,10 @@
 }
 
 @include max-screen(958px) {
+	.page--shop.page--hidden {
+		overflow: auto;
+	}
+	
 	.shop {
 		position: relative;
 		top: initial;
@@ -216,6 +220,9 @@
 		.title, .shop__paragraph {
 			width: 100%;
 			margin-bottom: 30px;
+		}
+		.shop__paragraph {
+			margin-bottom: 90px;
 		}
 	}
 
@@ -251,8 +258,7 @@
 	}
 
 	.shop__print {
-		width: calc(50% - 10px);
-		// width: 100%;
+		width: 100%;
 		opacity: 1;
 		transform: none;
 		&:hover {
