@@ -49,6 +49,14 @@ body {
 
 .page {
 	opacity: 0;
+
+	&.page--admin {
+		opacity: 1;
+	}
+}
+
+.page--admin .page__content {
+	width: 900px !important;
 }
 
 .page--classic .page__content {

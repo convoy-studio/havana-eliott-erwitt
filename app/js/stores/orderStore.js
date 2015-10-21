@@ -7,15 +7,27 @@ let _ = require('lodash')
 const CHANGE_EVENT = 'change';
 
 let _orders = {};
+let _paidOrders = {};
+let _deliveredOrders = {};
 let _order = {};
 let _orderCreated = {};
+let _stateUpdated = undefined;
 
 let OrderStore = assign({}, EventEmitter.prototype, {
 	getAll: function() {
 		return _orders
 	},
+	getPaid: function() {
+		return _paidOrders
+	},
+	getDelivered: function() {
+		return _deliveredOrders
+	},
 	getOne: function() {
 		return _order
+	},
+	getUpdated: function() {
+		return _stateUpdated;
 	},
 	getCreated: function() {
 		return _orderCreated
@@ -39,10 +51,22 @@ let OrderStore = assign({}, EventEmitter.prototype, {
 				_orders = action.item;
 				OrderStore.emitChange();
 				break
+			case OrderConstants.RECEIVE_PAID_ORDERS:
+				_paidOrders = action.item;
+				OrderStore.emitChange();
+				break
+			case OrderConstants.RECEIVE_DELIVERED_ORDERS:
+				_deliveredOrders = action.item;
+				OrderStore.emitChange();
+				break
 			case OrderConstants.RECEIVE_ORDER:
 				_order = action.item;
 				OrderStore.emitChange();
 				break
+			case OrderConstants.STATE_UPDATED:
+				_stateUpdated = action.item;
+				OrderStore.emitChange();
+				break;
 			case OrderConstants.CREATED:
 				_orderCreated = action.item;
 				OrderStore.emitChange();

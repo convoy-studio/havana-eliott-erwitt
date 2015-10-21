@@ -9,13 +9,25 @@ import CartStore from '../../stores/cartStore';
 import OrderApi from '../../utils/orderApi';
 import OrderStore from '../../stores/orderStore';
 let config = require('../../config');
+let validator = require('validator');
 
 function getCartState() {
 
 	return {
 		cartItems: CartStore.getCartItems(),
 		cartCount: CartStore.getCartCount(),
-		cartTotal: CartStore.getCartTotal()
+		cartTotal: CartStore.getCartTotal(),
+
+		status: {
+			mail: undefined,
+			firstname: undefined,
+			lastname: undefined,
+			phone: undefined,
+			address: undefined,
+			zip: undefined,
+			country: undefined,
+			conditions: undefined
+		}
 	}
 
 }
@@ -29,6 +41,11 @@ export default class Payment extends ComponentTransition {
 		this.state.sameAddress = true;
 		
 		this.TVA_RATE = 19.6;
+
+		this.onStoreChange = this.onStoreChange.bind(this);
+		this.onOrderStoreChange = this.onOrderStoreChange.bind(this);
+		this.toggleBill = this.toggleBill.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 
 	}
 
@@ -53,10 +70,6 @@ export default class Payment extends ComponentTransition {
 	}
 
 	componentDidMount() {
-
-		this.onStoreChange = this.onStoreChange.bind(this);
-		this.onOrderStoreChange = this.onOrderStoreChange.bind(this);
-		this.toggleBill = this.toggleBill.bind(this);
 
 		this.bill = document.querySelector('.payment__bill');
 
@@ -90,43 +103,61 @@ export default class Payment extends ComponentTransition {
 		let tva = this.state.cartTotal * this.TVA_RATE / (100+this.TVA_RATE);
 		tva = tva.toFixed(2);
 
+		let error = {
+			mail: (this.state.status.mail === false) ? 'form__input--error' : '',
+			firstname: (this.state.status.firstname === false) ? 'form__input--error' : '',
+			lastname: (this.state.status.lastname === false) ? 'form__input--error' : '',
+			phone: (this.state.status.phone === false) ? 'form__input--error' : '',
+			address: (this.state.status.address === false) ? 'form__input--error' : '',
+			zip: (this.state.status.zip === false) ? 'form__input--error' : '',
+			country: (this.state.status.country === false) ? 'form__input--error' : '',
+			billFirstname: (this.state.status.billFirstname === false) ? 'form__input--error' : '',
+			billLastname: (this.state.status.billLastname === false) ? 'form__input--error' : '',
+			billPhone: (this.state.status.billPhone === false) ? 'form__input--error' : '',
+			billAddress: (this.state.status.billAddress === false) ? 'form__input--error' : '',
+			billZip: (this.state.status.billZip === false) ? 'form__input--error' : '',
+			billCountry: (this.state.status.billCountry === false) ? 'form__input--error' : ''
+		};
+
+		let errorStyle = {color: 'red', fontSize: '14px', textAlign: 'center'};
+
 		return (
 			<div className='page page--payment' ref='view'>
 				<Seo seo={seo} />
 				<h1 className='payment__title title'>Checkout</h1>
 				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
 				<div className='payment'>
-					<form className='payment__form form'>
+					<form className='payment__form form' ref='form' onSubmit={this.onSubmit}>
 						<div className='payment__column'>
 							<h3 className='form__title'>Checkout</h3>
 							<div className='form__row'>
-								<label className='form__label' htmlFor='mail'>Enter your email address</label>
-								<input className='form__input form__input--text' type='mail' id='mail'/>
+								<label className='form__label' htmlFor='mail'>Enter your email address *</label>
+								<input className={'form__input form__input--text '+error.mail} type='mail' id='mail'/>
 							</div>
 							<h3 className='form__title'>Shipping address</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<label className='form__label' htmlFor='firstname'>First name *</label>
-									<input className='form__input form__input--text' type='text' id='firstname'/>
+									<input className={'form__input form__input--text '+error.firstname} type='text' id='firstname'/>
 								</div>
 								<div className='form__column'>
 									<label className='form__label' htmlFor='lastname'>Last name *</label>
-									<input className='form__input form__input--text' type='text' id='lastname'/>
+									<input className={'form__input form__input--text '+error.lastname} type='text' id='lastname'/>
 								</div>
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='phone'>Telephone *</label>
-								<input className='form__input form__input--text' type='tel' id='phone'/>
+								<input className={'form__input form__input--text '+error.phone} type='tel' id='phone'/>
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='address'>Address *</label>
-								<input className='form__input form__input--text form__input--comp' type='text' id='address'/>
-								<input className='form__input form__input--text' type='text' id='addressBis'/>
+								<input className={'form__input form__input--text form__input--comp '+error.address} type='text' id='address'/>
+								<input className={'form__input form__input--text '+error.address} type='text' id='addressBis'/>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<label className='form__label' htmlFor='zip'>Zip/Postal code *</label>
-									<input className='form__input form__input--text' type='text' id='zip'/>
+									<input className={'form__input form__input--text '+error.zip} type='text' id='zip'/>
 								</div>
 								<div className='form__column'>
 									<label className='form__label' htmlFor='city'>City</label>
@@ -135,7 +166,7 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='country'>Country *</label>
-								<input className='form__input form__input--text' type='text' id='country'/>
+								<input className={'form__input form__input--text '+error.country} type='text' id='country'/>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='billCheckbox' defaultChecked/>
@@ -148,26 +179,26 @@ export default class Payment extends ComponentTransition {
 										<div className='form__row form__row--half'>
 											<div className='form__column'>
 												<label className='form__label' htmlFor='billFirstname'>First name *</label>
-												<input className='form__input form__input--text' type='text' id='billFirstname'/>
+												<input className={'form__input form__input--text '+error.billFirstname} type='text' id='billFirstname'/>
 											</div>
 											<div className='form__column'>
 												<label className='form__label' htmlFor='billLastname'>Last name *</label>
-												<input className='form__input form__input--text' type='text' id='billLastname'/>
+												<input className={'form__input form__input--text '+error.billLastname} type='text' id='billLastname'/>
 											</div>
 										</div>
 										<div className='form__row'>
 											<label className='form__label' htmlFor='billPhone'>Telephone *</label>
-											<input className='form__input form__input--text' type='tel' id='billPhone'/>
+											<input className={'form__input form__input--text '+error.billPhone} type='tel' id='billPhone'/>
 										</div>
 										<div className='form__row'>
 											<label className='form__label' htmlFor='billAddress'>Address *</label>
-											<input className='form__input form__input--text form__input--comp' type='text' id='billAddress'/>
-											<input className='form__input form__input--text' type='text' id='billAddressBis'/>
+											<input className={'form__input form__input--text form__input--comp '+error.billAddress} type='text' id='billAddress'/>
+											<input className={'form__input form__input--text '+error.billAddress} type='text' id='billAddressBis'/>
 										</div>
 										<div className='form__row form__row--half'>
 											<div className='form__column'>
 												<label className='form__label' htmlFor='billZip'>Zip/Postal code *</label>
-												<input className='form__input form__input--text' type='text' id='billZip'/>
+												<input className={'form__input form__input--text '+error.billZip} type='text' id='billZip'/>
 											</div>
 											<div className='form__column'>
 												<label className='form__label' htmlFor='billCity'>City</label>
@@ -176,7 +207,7 @@ export default class Payment extends ComponentTransition {
 										</div>
 										<div className='form__row'>
 											<label className='form__label' htmlFor='billCountry'>Country *</label>
-											<input className='form__input form__input--text' type='text' id='billCountry'/>
+											<input className={'form__input form__input--text '+error.billCountry} type='text' id='billCountry'/>
 										</div>
 									</div>
 								)}
@@ -186,7 +217,7 @@ export default class Payment extends ComponentTransition {
 						<div className='payment__column'>
 							<h3 className='form__title'>Shipping method</h3>
 							<div className='form__row'>
-								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard'/>
+								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard' defaultChecked/>
 								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, 10 €</p></label>
 							</div>
 
@@ -260,8 +291,8 @@ export default class Payment extends ComponentTransition {
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
 								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='/terms' target='_blank'>terms and conditions</a>*</p></label>
 							</div>
-
-							<a href='' className='payment__pay button' onClick={this.pay.bind(this)}>Proceed to payment</a>
+							<button type='submit' className='payment__pay button'>Proceed to payment</button>
+							{(this.state.status.conditions===false) ? (<div style={errorStyle} className='text'>You need to accept the terms & conditions</div>) : null}
 						</div>
 					</form>
 
@@ -275,36 +306,100 @@ export default class Payment extends ComponentTransition {
 
 	}
 
-	pay(e) {
+	onSubmit(e) {
 
 		e.preventDefault();
+		
+		this.status = {};
+		this.status.mail = validator.isEmail(document.getElementById('mail').value);
+		this.status.firstname = document.getElementById('firstname').value.length > 0;
+		this.status.lastname = document.getElementById('lastname').value.length > 0;
+		this.status.phone = document.getElementById('phone').value.length > 0;
+		this.status.address = document.getElementById('address').value.length > 0;
+		this.status.zip = document.getElementById('zip').value.length > 0;
+		this.status.country = document.getElementById('country').value.length > 0;
+		this.status.conditions = document.getElementById('conditions').checked;
+		this.status.billCheckbox = document.getElementById('billCheckbox').checked;
+		
+		let valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country && this.status.conditions;
+
+		if (!this.status.billCheckbox) {
+			this.status.billFirstname = document.getElementById('billFirstname').value.length > 0;
+			this.status.billLastname = document.getElementById('billLastname').value.length > 0;
+			this.status.billPhone = document.getElementById('billPhone').value.length > 0;
+			this.status.billAddress = document.getElementById('billAddress').value.length > 0;
+			this.status.billZip = document.getElementById('billZip').value.length > 0;
+			this.status.billCountry = document.getElementById('billCountry').value.length > 0;
+
+			valid = valid && this.status.billFirstname && this.status.billLastname && this.status.billPhone && this.status.billAddress && this.status.billZip && this.status.billCountry;
+		}
+
+		if (valid) {
+			this.pay();
+		} else {
+			this.setState({
+				status: this.status
+			});
+		}
+
+	}
+
+	pay() {
 
 		let orderPrints = [];
 		_(this.state.cartItems).forEach((item) => {
 			orderPrints.push({
-				printId: item.token,
-				serial: item.serial
+				token: item.token,
+				title: item.title,
+				city: item.city,
+				country: item.country,
+				year: item.year,
+				price: item.price,
+				serial: item.serial,
+				file: item.file,
+				artist: item.project.artist
 			});
 		}).value();
 
+		let order = {
+			user: document.getElementById('mail').value,
+			prints: orderPrints,
+			mail: document.getElementById('mail').value,
+			total: this.state.cartTotal * 100,
+
+			firstname: document.getElementById('firstname').value,
+			lastname: document.getElementById('lastname').value,
+			phone: document.getElementById('phone').value,
+			address: document.getElementById('address').value,
+			zip: document.getElementById('zip').value,
+			city: document.getElementById('city').value,
+			country: document.getElementById('country').value
+		}
+
+		if (!this.status.billCheckbox) {
+			order.billFirstname = document.getElementById('billFirstname').value;
+			order.billLastname = document.getElementById('billLastname').value;
+			order.billPhone = document.getElementById('billPhone').value;
+			order.billAddress = document.getElementById('billAddress').value;
+			order.billZip = document.getElementById('billZip').value;
+			order.billCountry = document.getElementById('billCountry').value;
+		}
+
 		if (this.state.cartTotal > 0) {
-			OrderApi.create({
-				user: 'hello@aze.com',
-				prints: orderPrints
-			});
+			OrderApi.create(order);
 		}
 
 		// CartApi.generatePayButton({
-		// 	email: 'hello@aze.com',
-		// 	firstname: 'Nicolas',
-		// 	lastname: 'Daniel',
-		// 	phone: '0102030405',
-		// 	address: '23 rue xxx',
-		// 	zip: '12345',
-		// 	city: 'Azerty',
-		// 	country: 'France',
+		// 	mail: document.getElementById('mail').value,
+		// 	firstname: document.getElementById('firstname').value,
+		// 	lastname: document.getElementById('lastname').value,
+		// 	phone: document.getElementById('phone').value,
+		// 	address: document.getElementById('address').value,
+		// 	zip: document.getElementById('zip').value,
+		// 	city: document.getElementById('city').value,
+		// 	country: document.getElementById('country').value,
 		// 	total: this.state.cartTotal * 100
-		// })
+		// });
 
 	}
 

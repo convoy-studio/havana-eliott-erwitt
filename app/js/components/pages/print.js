@@ -9,7 +9,7 @@ import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
-let _ = require('lodash')
+let _ = require('lodash');
 let raf = Utils.raf();
 let config = require('../../config');
 
@@ -57,7 +57,7 @@ export default class Print extends ComponentTransition {
 	componentDidMount() {
 
 		this.body = document.querySelector('body');
-		
+
 		PrintApi.getOne(this.props.params.token);
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
@@ -187,7 +187,7 @@ export default class Print extends ComponentTransition {
 
 	raf() {
 
-		if (this.body.classList.has('js-mobile') && this.scrollRaf) {
+		if (this.body.classList.contains('js-mobile') && this.scrollRaf) {
 			Utils.clearRaf(this.scrollRaf);
 		} else {
 			if (this.scrollIndex % 3) this.scrollOk = true

@@ -75,6 +75,10 @@ $formBg: $black;
 	color: $formColor;
 }
 
+.form__input--error {
+	border: 1px solid #ff0000;
+}
+
 .form__input--textarea {
 	max-width: 100%;
 	height: 100px;

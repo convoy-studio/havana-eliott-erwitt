@@ -66,39 +66,54 @@ export default class Wrapper {
 						)
 					}
 				}.bind(this))()}
-				<header className='header'>
-					<div className='hamburger' onClick={this.toggleMenu}>
-						<div className='hamburger__line'></div>
-					</div>
-					<h1 className='header__logo'>
-						<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
-					</h1>
-					<nav className='header__menu'>
-						<ul className='header__list'>
-							{Object.keys(nav).map((index) => {
-								let item = nav[index];
-								let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
-								return (
-									<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
-								)
-							})}
-							
-						</ul>
-					</nav>
-				</header>
+				{(() => {
+					if (this.props.location.pathname.indexOf('/admin') === -1) {
+						return (
+							<header className='header'>
+								<div className='hamburger' onClick={this.toggleMenu}>
+									<div className='hamburger__line'></div>
+								</div>
+								<h1 className='header__logo'>
+									<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
+								</h1>
+								<nav className='header__menu'>
+									<ul className='header__list'>
+										{Object.keys(nav).map((index) => {
+											let item = nav[index];
+											let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
+
+											return (
+												<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+											)
+										})}
+										
+									</ul>
+								</nav>
+							</header>
+						)
+					}
+				}.bind(this))()}
+				
 				<div id='pageContainer' className='page-container' ref='page-container'>
 					<Transition component="div">
 						{React.cloneElement(this.props.children || <div />, { key: pathname })}
 					</Transition>
 				</div>
-				<footer className='footer'>
-					<ul>
-						<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-						<li><Link to="/privacy" className="footer__button button button--footer">Privacy</Link></li>
-						<li><Link to="/legal" className="footer__button button button--footer">Legal</Link></li>
-					</ul>
-				</footer>
+
+				{(() => {
+					if (this.props.location.pathname.indexOf('/admin') === -1) {
+						return (
+							<footer className='footer'>
+								<ul>
+									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
+									<li><Link to="/privacy" className="footer__button button button--footer">Privacy</Link></li>
+									<li><Link to="/legal" className="footer__button button button--footer">Legal</Link></li>
+								</ul>
+							</footer>
+						)
+					}
+				}.bind(this))()}
 			</div>
 
 		);
@@ -113,7 +128,9 @@ export default class Wrapper {
 
 	closeMenu() {
 	
-		this.headerMenu.classList.remove('header__menu--open');
+		if (this.props.location.pathname.indexOf('/admin') === -1) {
+			this.headerMenu.classList.remove('header__menu--open');
+		}
 	
 	}
 

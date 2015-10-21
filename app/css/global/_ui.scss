@@ -65,6 +65,12 @@
 	transform: translate(-50%, 0);
 }
 
+.subtitle {
+	margin-bottom: 10px;
+	@extend .title-font;
+	font-size: 24px;
+}
+
 @include max-screen(958px) {
 	.mobile-button {
 		position: fixed;

@@ -11,11 +11,20 @@
 	text-align: center;
 }
 
-.admin__projects, .admin__prints {
+.admin__section {
+	margin-bottom: 20px;
+}
+
+.admin__content {
 	table {
 		width: 100%;
 
 		font-size: 14px;
+
+		img {
+			height: 100px;
+			width: auto;
+		}
 	}
 
 	tbody tr {
@@ -25,8 +34,6 @@
 	}
 
 	tr {
-		height: 100px;
-		
 		border-bottom: 1px solid $white;
 	}
 	
@@ -44,17 +51,16 @@
 		// &:nth-child(2) {
 		// 	text-align: center;
 		// }
-	} 
-	
-	img {
-		height: 100px;
-		width: auto;
+	}
+
+	.cart__products {
+		max-height: inherit;
 	}
 }
 
-.admin__projects {
+.admin__project {
 	tr {
-		height: auto;
+		height: 100px;
 	}
 }
 
