@@ -269,4 +269,17 @@
 			}
 		}
 	}
+
+	.shopTemp {
+		width: 100%;
+		padding: 0 12px;
+		box-sizing: border-box;
+
+		p {
+			width: 100%;
+		}
+		form {
+			margin: 30px auto 120px;
+		}
+	}
 }
