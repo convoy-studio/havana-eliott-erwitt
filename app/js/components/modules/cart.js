@@ -189,11 +189,9 @@ export default class Cart extends Component {
 	onStoreChange() {
 
 		this.setState(getState(), ()=>{
-			// console.log(this.state.enabled);
-			if (this.state.enabled.autoclose) {
-				// console.log('createCountdown');
-				this.createCountdown();
-			}
+			// if (this.state.enabled.autoclose) {
+			// 	this.createCountdown();
+			// }
 		});
 
 	}

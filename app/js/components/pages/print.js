@@ -56,6 +56,8 @@ export default class Print extends ComponentTransition {
 
 	componentDidMount() {
 
+		super.componentDidMount();
+
 		this.body = document.querySelector('body');
 
 		PrintApi.getOne(this.props.params.token);
@@ -146,7 +148,7 @@ export default class Print extends ComponentTransition {
 								{(() => {
 									if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
 										<div>
-											<div className='print__serial-wrapper' onClick={this.toggleListMobile}>
+											<div className='print__serial-wrapper'>
 												<div className='print__serial-opt text'>Choose edition</div>
 												<div className='print__select text'>
 													<div className='print__serial--selected' onClick={this.toggleList}>{this.selectedSerial}</div>
@@ -166,7 +168,7 @@ export default class Print extends ComponentTransition {
 												</div>
 											</div>
 											<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
-											<Link to='/payment' className='print__buy button'>Proceed to payment</Link>
+											<Link to='/payment' className='button'>Proceed to payment</Link>
 										</div>
 									)} else { return (
 										<div className='text'>Out of stock</div>
@@ -178,6 +180,36 @@ export default class Print extends ComponentTransition {
 					<div className={'bigprint ' + bigPrintClass}>
 						<img className='bigprint__image' src={bigfile} onClick={this.zoomOut}></img>
 					</div>
+				</div>
+				<div className='print__mobile'>
+					{(() => {
+						if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
+							<div>
+								<div className='print__serial-wrapper' onClick={this.toggleListMobile}>
+									<div className='print__serial-opt text'>Choose edition</div>
+									<div className='print__select text'>
+										<div className='print__serial--selected'>{this.selectedSerial}</div>
+										<ul className='print__serial-list'>
+											{Object.keys(this.validSerials).map((index) => {
+												let enabled = this.validSerials[index]
+												let serial = parseInt(index)+1
+												// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
+												// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+												if (enabled) {
+													return (<li className='print__serial' onClick={this.selectSerial.bind(this, serial)} key={index}>{serial}</li>)
+												} else {
+													return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
+												}
+											})}
+										</ul>
+									</div>
+								</div>
+								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
+							</div>
+						)} else { return (
+							<div className='text'>Out of stock</div>
+						)}
+					}.bind(this))()}
 				</div>
 				<Cart />
 			</div>
@@ -272,8 +304,12 @@ export default class Print extends ComponentTransition {
 
 	toggleList() {
 
+		console.log('toggleList');
 		if (!document.querySelector('body').classList.contains('js-mobile')) {
-			document.querySelector('.print__serial-list').classList.toggle('enabled');
+			// document.querySelectorAll('.print__serial-list')[0].classList.toggle('enabled');
+			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
+				el.classList.toggle('enabled');
+			}).value();
 		}
 
 	}
@@ -281,7 +317,9 @@ export default class Print extends ComponentTransition {
 	toggleListMobile() {
 
 		if (document.querySelector('body').classList.contains('js-mobile')) {
-			document.querySelector('.print__serial-list').classList.toggle('enabled');
+			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
+				el.classList.toggle('enabled');
+			}).value();
 		}
 
 	}

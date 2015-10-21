@@ -337,11 +337,11 @@
 }
 
 .project__bigprev {
-	left: 12;
+	left: 6px;
 }
 
 .project__bignext {
-	right: 12px;
+	right: 6px;
 }
 
 @include max-screen(958px) {
@@ -359,16 +359,22 @@
 		height: initial;
 	}
 	.project__print {
+		// top: 50%;
+		// left: 50%;
+		// transform: translate(-50%, -50%);
+		// width: calc(100% - 100px);
+		// height: 50vh;
+		// cursor: default;
+	}
+	.project__image {
+		// height: 100%;
+		// width: auto;
+		position: absolute;
+		width: calc(100% - 120px);
+		height: auto;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		width: calc(100% - 100px);
-		height: 50vh;
-		cursor: default;
-	}
-	.project__image {
-		height: 100%;
-		width: auto;
 	}
 	.project__prev, .project__next {
 		transform: translate(0, -50%);
@@ -380,6 +386,7 @@
 		right: 6px;
 	}
 	.project__footer {
+		width: calc(100% - 120px) !important;
 		bottom: 120px;
 	}
 	.project__bigimage {

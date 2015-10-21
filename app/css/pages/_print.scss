@@ -91,6 +91,10 @@
 	text-align: left;
 }
 
+.print__mobile {
+	display: none;
+}
+
 .print__serials {
 	margin: 40px 0 0;
 	position: relative;
@@ -208,6 +212,11 @@
 }
 
 @include max-screen(958px) {
+	.page--print {
+		.submenu {
+			display: none;
+		}
+	}
 	.print {
 		display: block;
 		// position: relative;
@@ -236,7 +245,7 @@
 	}
 
 	.print__infos {
-		padding-bottom: 60px;
+		padding-bottom: 120px;
 	}
 
 	.print__left, .print__file {
@@ -282,8 +291,11 @@
 		width: 50%;
 		left: 50%;
 	}
+	.print__serials {
+		display: none;
+	}
 	.print__serial-wrapper {
-		position: fixed;
+		position: absolute;
 		bottom: 0;
 		left: 0;
 		z-index: 10;
@@ -292,11 +304,15 @@
 		background-color: black;
 		border-top: 1px solid white;
 		border-right: 1px solid white;
+		box-sizing: border-box;
+
+		text-align: center;
 	}
 	.print__serial-opt {
 		line-height: 60px;
 	}
 	.print__select {
+		position: static;
 		vertical-align: middle;
 	}
 	.print__serial--selected {
@@ -304,10 +320,10 @@
 		padding-top: 0;
 	}
 	.print__serial-list {
-		position: fixed;
+		position: absolute;
 		bottom: 60px;
 		top: inherit;
-		width: 50%;
+		width: 100%;
 
 		border-bottom: none;
 		border-left: none;
@@ -325,5 +341,13 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+	}
+	.print__mobile {
+		display: block;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 60px;
 	}
 }
