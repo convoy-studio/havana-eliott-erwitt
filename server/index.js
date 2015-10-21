@@ -24,15 +24,15 @@ mongoose.connect('mongodb://' + config.database.host + '/' + config.database.nam
 const db = mongoose.connection;
 db.on('error', console.error.bind(console,'Connection with database failed.'));
 db.once('open', function(){
-	console.log('Connection with database succeeded.');
+    console.log('Connection with database succeeded.');
 });
 
 server.register([
     { register : require('bell') },
     { register : require('hapi-auth-jwt')},
     { register : require('./plugins/auth/')},
-	{ register : require('./api.js') },
-	{ register : require('good'),
+    { register : require('./api.js') },
+    { register : require('good'),
         options: {
             opsInterval: 1000,
             reporters: [{
@@ -48,20 +48,20 @@ server.register([
     }
 ],
 {
-	routes : {
-    	prefix: '/api'
+    routes : {
+        prefix: '/api'
     }
 },function(error){
-	if(error){
-		console.log(error);
-	}else {
+    if(error){
+        console.log(error);
+    }else {
 
         // prints
         server.route({
             method: 'GET',
             path: '/static/prints/{filename}',
             handler: function(request, reply) {
-                reply.file(config.output.path + '/assets/images/prints/' + request.params.filename);
+                reply.file(__dirname + '/../static/assets/images/prints/' + request.params.filename);
             },
             config: {
                 cache: {
@@ -76,7 +76,7 @@ server.register([
             method: 'GET',
             path: '/static/img/{filename}',
             handler: function(request, reply) {
-                reply.file(config.output.path + '/assets/images/' + request.params.filename);
+                reply.file(__dirname + '/../static/assets/images/' + request.params.filename);
             },
             config: {
                 cache: {
@@ -91,7 +91,7 @@ server.register([
             method: 'GET',
             path: '/static/videos/{filename}',
             handler: function(request, reply) {
-                reply.file(config.output.path + '/assets/videos/' + request.params.filename);
+                reply.file(__dirname + '/../static/assets/videos/' + request.params.filename);
             },
             config: {
                 cache: {
@@ -106,7 +106,7 @@ server.register([
             path: '/{p*}',
             handler: function(request, reply) {
                 console.log(request.url.path);
-                if((request.url.path == ('/css/build.css' || '/js/build.js')) || request.url.path.includes('/assets')){
+                if(request.url.path == '/css/build.css' || request.url.path == '/js/build.js' || request.url.path.includes('/assets')){
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});
@@ -114,6 +114,9 @@ server.register([
                         development : 'http://localhost:4242/js/build.js',
                         production : '/js/build.js'
                     };
+
+                    // let head = Helmet.rewind();
+                    // console.log(head);
 
                     Router.run(routes, location, (error, initialState) => {
                         if(error){
@@ -150,8 +153,8 @@ server.register([
             }
         });
 
-		server.start(function () {
-		    console.log('Server started at: ' + server.info.uri);
-		});
-	}
+        server.start(function () {
+            console.log('Server started at: ' + server.info.uri);
+        });
+    }
 });
