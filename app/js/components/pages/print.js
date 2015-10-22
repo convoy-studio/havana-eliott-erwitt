@@ -168,7 +168,6 @@ export default class Print extends ComponentTransition {
 												</div>
 											</div>
 											<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
-											<Link to='/payment' className='button'>Proceed to payment</Link>
 										</div>
 									)} else { return (
 										<div className='text'>Out of stock</div>
