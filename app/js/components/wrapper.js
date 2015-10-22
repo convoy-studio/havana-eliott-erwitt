@@ -67,7 +67,6 @@ export default class Wrapper {
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.closeMenu;
 
-
 	}
 
 	render() {

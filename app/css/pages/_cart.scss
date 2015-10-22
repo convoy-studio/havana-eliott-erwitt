@@ -86,7 +86,9 @@ $cartColor: $white;
 
 .payment__products {
 	height: inherit;
-	overflow: auto;
+	// overflow: auto;
+	overflow-x: hidden;
+	margin-bottom: 20px;
 }
 
 .cart__product {
