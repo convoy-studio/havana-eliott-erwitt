@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import AppStore from '../stores/appStore';
 import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
-import PopupShop from './modules/popupShop';
 import CartActions from '../actions/cartActions';
 
 // const { TransitionGroup } = React.addons;
@@ -75,13 +74,11 @@ export default class Wrapper {
 
 		if(typeof localStorage !== 'undefined') {
 			this.cookies = window.localStorage.getItem('cookies');
-			this.shopOpening = window.localStorage.getItem('shop_opening');
 		}
 
 		return (
 			<div>
 				{(!this.cookies) ? (<PopupCookie />) : null}
-				{(!this.shopOpening) ? (<PopupShop />) : null}
 				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
 
 				{(() => {

@@ -24,7 +24,9 @@ export default class PopupCookie extends React.Component {
 
 		return (
 			<div className='popup popup--cookie' ref='popup'>
-				<p className='text cookie__content'>Cookies help us offer a better and more personalized experience. By browsing this website, you agree to our use of cookies. <a className='underline' href='/privacy' target='_blank'>Learn more</a> and update your cookie settings.</p>
+				<p className='text cookie__content'>
+					Mr. Elliott Erwitt and Pernod Ricard, SA have decided to co-establish a foundation in Spain under the name “Fundación Elliott Erwitt Havana Club 7 Fellowship”. Currently, the public deed of incorporation of the above Foundation has not been issued and the Foundation is pending to be registered.<br/><br/>Cookies help us offer a better and more personalized experience. By browsing this website, you agree to our use of cookies. <a className='underline' href='/privacy' target='_blank'>Learn more</a> and update your cookie settings.
+				</p>
 				<a href='' className='cookie__continue button' onClick={this.continue}>Continue</a>
 			</div>
 		);
