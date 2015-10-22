@@ -45,7 +45,6 @@ let CartActions = {
 
 	// Update cart enabled status
 	updateCartEnabled: function(cartEnabled, autoclose = false) {
-		console.log('CART_ACTIONS : CART_ENABLED :: ', autoclose);
 		AppDispatcher.handleServerAction({
 			actionType: CartConstants.CART_ENABLED,
 			// cartEnabled: cartEnabled
@@ -66,7 +65,6 @@ let CartActions = {
 
 	// Receive be2bill result verification
 	receiveCheck: function(data) {
-		console.log(data)
 		// AppDispatcher.handleServerAction({
 		// 	actionType: CartConstants.RECEIVE_CHECK,
 		// 	data: data

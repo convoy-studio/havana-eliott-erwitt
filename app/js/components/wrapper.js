@@ -5,6 +5,7 @@ import AppStore from '../stores/appStore';
 import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import PopupShop from './modules/popupShop';
+import CartActions from '../actions/cartActions';
 
 // const { TransitionGroup } = React.addons;
 const Transition = React.addons.TransitionGroup;
@@ -45,6 +46,17 @@ export default class Wrapper {
 		this.toggleMenu = this.toggleMenu.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
+
+		let cartStorage;
+		if(typeof localStorage !== 'undefined') {
+			cartStorage = localStorage.getItem('cart');
+		}
+		if (cartStorage) {
+			cartStorage = JSON.parse(cartStorage);
+			_(cartStorage).forEach((item)=>{
+				CartActions.addToCart(item);
+			}).value();
+		}
 
 	}
 

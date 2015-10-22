@@ -21,25 +21,13 @@ export default class Cart extends Component {
 
 	componentWillMount() {
 
-		let cartStorage;
-		if(typeof localStorage !== 'undefined') {
-			cartStorage = localStorage.getItem('cart');
-		}
-
 		this.state = getState();
-		if (cartStorage) {
-			cartStorage = JSON.parse(cartStorage);
-			this.state.items = cartStorage.items;
-			this.state.count = cartStorage.count;
-			this.state.total = cartStorage.total;
-		}
 
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		
 		// const
 		this.CART_DELAY = 2000;
-
 
 	}
 
@@ -205,11 +193,7 @@ export default class Cart extends Component {
 			// 	this.createCountdown();
 			// }
 			if(typeof localStorage !== 'undefined') {
-				localStorage.setItem('cart', JSON.stringify({
-					items: this.state.items,
-					count: this.state.count,
-					total: this.state.total
-				}));
+				localStorage.setItem('cart', JSON.stringify(this.state.items));
 			}
 		});
 
