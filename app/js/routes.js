@@ -10,6 +10,7 @@ import Shop from './components/pages/shop';
 import ShopTemp from './components/pages/shopTemp';
 import Print from './components/pages/print';
 import Payment from './components/pages/payment';
+import Result from './components/pages/result';
 import News from './components/pages/news';
 import Friends from './components/pages/friends';
 import Contact from './components/pages/contact';
@@ -42,6 +43,7 @@ export default (
 		<Route path="/shop" component={Shop}/>
 		<Route path="/shop/:token" component={Print}/>
 		<Route path="/payment" component={Payment}/>
+		<Route path="/payment/result" component={Result}/>
 		<Route path="/news" component={News}/>
 		<Route path="/friends" component={Friends}/>
 		<Route path="/contact" component={Contact}/>

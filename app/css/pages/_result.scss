@@ -1,7 +1,8 @@
 .result {
 	@extend .vertical-center;
+	text-align: center;
 }
 
-.result__success {
+.result__message {
 	margin-bottom: 40px;
 }

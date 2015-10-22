@@ -28,8 +28,8 @@ if($be2bill->checkHash($_GET) == $_GET['HASH'] && $_GET['EXECCODE'] == '0000') {
 	// check if print is available
 	$collection = $db->prints;
 	foreach ($order['prints'] as $order_print) {
-		$print = $collection->findOne(array('token' => $order_print['printId']));
-		if ($print['serials'][$order_print['serial']-1] != 1) {
+		$print = $collection->findOne(array('token' => $order_print['token']));
+		if ($print['serials'][$order_print['serial']-1] != 1 && $print['serials'][$order_print['serial']-1] != true) {
 			$valid = false;
 		}
 	}
@@ -43,22 +43,22 @@ if($be2bill->checkHash($_GET) == $_GET['HASH'] && $_GET['EXECCODE'] == '0000') {
 		);
 		if ($result['EXECCODE'] == '0000') {
 			foreach ($order['prints'] as $order_print) {
-				$serials = $collection->findOne(array('token' => $order_print['printId']))['serials'];
+				$serials = $collection->findOne(array('token' => $order_print['token']))['serials'];
 				$serials[$order_print['serial']-1] = 0;
 				$newdata = array('$set' => array('serials' => $serials));
-				$collection->update(array('token' => $order_print['printId']), $newdata);
+				$collection->update(array('token' => $order_print['token']), $newdata);
 			}
-    		header('Location: /#/payment/result?result=success');
+    		header('Location: /payment/result?result=success');
 		} else {
 			print_r($result);
 		}
 	} else {
-    	header('Location: /#/payment/result?result=echec');
+    	header('Location: /payment/result?result=error');
 	}
 	
 } else {
     // Suspicious redirection
-    header('Location: /#/payment/result?result=echec');
+    header('Location: /payment/result?result=error');
 }
 
 ?>
