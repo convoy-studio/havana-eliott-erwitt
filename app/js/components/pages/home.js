@@ -122,8 +122,6 @@ export default class Home extends ComponentTransition {
 
 		// this.resize();
 
-		console.log('init canvas');
-
 		let ctx = this.canvas.getContext('2d');
 		let vw = window.innerWidth;
 		let vh = window.innerHeight;
@@ -173,7 +171,6 @@ export default class Home extends ComponentTransition {
 
 	cropLogo() {
 
-		console.log('hello')
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
 		

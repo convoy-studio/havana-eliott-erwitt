@@ -34,7 +34,9 @@ export default class Wrapper {
 	componentWillMount() {
 		
 		this.splash = AppStore.getSplash();
-		if (this.splash && this.props.children.type.name !== 'Home') {
+
+		const { pathname } = this.props.location;
+		if (this.splash && pathname !== '/') {
 			this.splash = false;
 			AppActions.disableSplash();
 		}
