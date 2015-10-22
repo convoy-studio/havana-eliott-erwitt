@@ -41,7 +41,7 @@
             }
 
             /* FONT FACE */
-            /*@font-face {
+            @font-face {
                 font-family: 'hc7modern';
                 src: url('http://havana.hi9.fr/static/fonts/HC7Modern-bold.eot');
                 src: url('http://havana.hi9.fr/static/fonts/HC7Modern-bold.eot?#iefix') format('embedded-opentype'),
@@ -59,7 +59,7 @@
                      url('http://havana.hi9.fr/static/fonts/Stanley_Regular.woff') format('woff'),
                      url('http://havana.hi9.fr/static/fonts/Stanley_Regular.ttf')  format('truetype'),
                      url('http://havana.hi9.fr/static/fonts/Stanley_Regular.svg#Stanley_Regular') format('svg');
-            }*/
+            }
 
             /* GLOBAL */
             html, body {
@@ -67,8 +67,7 @@
                 height: 100%;
                 background-color: #000;
                 color: #fff;
-                font-family: 'Arial';
-                /*font-family: 'stanley';*/
+                font-family: 'stanley';
             }
 
             .title {
@@ -82,8 +81,7 @@
                 transform: translateX(-50%);
                 margin-bottom: 70px;
                 
-                /*font-family: 'hc7modern';*/
-                font-family: 'Arial';
+                font-family: 'hc7modern';
                 text-transform: uppercase;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
@@ -149,8 +147,7 @@
                 outline: none;
                 border: none;
 
-                /*font-family: 'hc7modern';*/
-                font-family: 'Arial';
+                font-family: 'hc7modern';
                 font-size: 18px;
                 text-transform: uppercase;
                 color: #fff;
