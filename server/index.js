@@ -101,6 +101,21 @@ server.register([
             }
         });
 
+        // fonts
+        server.route({
+            method: 'GET',
+            path: '/static/fonts/{filename}',
+            handler: function(request, reply) {
+                reply.file(__dirname + '/../static/assets/fonts/' + request.params.filename);
+            },
+            config: {
+                cache: {
+                    privacy: 'public',
+                    expiresIn: 86400
+                }
+            }
+        });
+
         server.route({
             method: 'GET',
             path: '/{p*}',
