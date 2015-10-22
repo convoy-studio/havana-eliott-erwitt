@@ -1,0 +1,48 @@
+.popup {
+	
+}
+
+.popup--cookie {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	opacity: 0.8;
+	z-index: 100;
+	padding: 20px;
+	
+	background-color: $black;
+	border-top: 1px solid $white;
+
+	text-align: center;
+}
+
+.cookie__content {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50%;
+	margin-right: 20px;
+}
+
+.popup--shop {
+	position: absolute;
+	top: 40px;
+	right: 40px;
+	width: 240px;
+	z-index: 100;
+	padding: 20px;
+	
+	background-color: $black;
+	border: 1px solid $white;
+
+	text-align: right;
+}
+
+.popup__content {
+	text-align: left;
+	margin-bottom: 14px;
+}
+
+.popup__continue {
+	text-align: right;
+}

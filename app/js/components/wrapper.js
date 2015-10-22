@@ -3,6 +3,8 @@ import React from 'react/addons';
 import { Link } from 'react-router';
 import AppStore from '../stores/appStore';
 import AppActions from '../actions/appActions';
+import PopupCookie from './modules/popupCookie';
+import PopupShop from './modules/popupShop';
 
 // const { TransitionGroup } = React.addons;
 const Transition = React.addons.TransitionGroup;
@@ -51,21 +53,23 @@ export default class Wrapper {
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.closeMenu;
 
+
 	}
 
 	render() {
 
 		const { pathname } = this.props.location;
 
+		if(typeof localStorage !== 'undefined') {
+			this.cookies = window.localStorage.getItem('cookies');
+			this.shopOpening = window.localStorage.getItem('shop_opening');
+		}
+
 		return (
 			<div>
-				{(() => {
-					if (this.splash) {
-						return (
-							<canvas	className='canvas'></canvas>
-						)
-					}
-				}.bind(this))()}
+				{(!this.cookies) ? (<PopupCookie />) : null}
+				{(!this.shopOpening) ? (<PopupShop />) : null}
+				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
 
 				{(() => {
 					if (this.props.location.pathname.indexOf('/admin') === -1) {
