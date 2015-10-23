@@ -43,8 +43,10 @@ export default class Wrapper {
 
 		// binded
 		this.toggleMenu = this.toggleMenu.bind(this);
+		this.openMenu = this.openMenu.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
+		this.handleScroll = this.handleScroll.bind(this);
 
 		let cartStorage;
 		if(typeof localStorage !== 'undefined') {
@@ -64,7 +66,7 @@ export default class Wrapper {
 		this.headerMenu = document.querySelector('.header__menu');
 
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
-		window.onscroll = this.closeMenu;
+		window.onscroll = this.handleScroll;
 
 	}
 
@@ -85,13 +87,14 @@ export default class Wrapper {
 					if (this.props.location.pathname.indexOf('/admin') === -1) {
 						return (
 							<header className='header'>
-								<div className='hamburger' onClick={this.toggleMenu}>
+								<div className='hamburger' onClick={this.openMenu}>
 									<div className='hamburger__line'></div>
 								</div>
 								<h1 className='header__logo'>
 									<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
 								</h1>
 								<nav className='header__menu'>
+									<div className='header__close'></div>
 									<ul className='header__list'>
 										{Object.keys(nav).map((index) => {
 											let item = nav[index];
@@ -140,6 +143,12 @@ export default class Wrapper {
 
 	}
 
+	openMenu() {
+	
+		this.headerMenu.classList.add('header__menu--open');
+	
+	}
+
 	closeMenu() {
 	
 		if (this.props.location.pathname.indexOf('/admin') === -1) {
@@ -150,7 +159,16 @@ export default class Wrapper {
 
 	handleClickOutside(e) {
 		
-		if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
+		// if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
+		if (this.headerMenu.classList.contains('header__menu--open')) {
+			this.closeMenu();
+		}
+
+	}
+
+	handleScroll() {
+
+		if (this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
 

@@ -220,6 +220,10 @@ $cartColor: $white;
 	text-align: center;
 } 
 
+.cart__toggle {
+	display: none;
+}
+
 @include max-screen(958px) {
 	.cart__count {
 		display: none;
@@ -269,7 +273,25 @@ $cartColor: $white;
 		border-bottom: 1px solid $white;
 	}
 
+	.cart__checkout--back {
+		border-top: none !important;
+	}
+
 	.body--white .cart__checkout a {
 		color: $white;
+	}
+
+	.cart__toggle {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 60px;
+		height: 60px;
+		display: block;
+
+		background-color: $black;
+
+		text-align: center;
+		line-height: 60px;
 	}
 }

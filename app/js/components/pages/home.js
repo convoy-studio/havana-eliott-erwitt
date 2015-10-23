@@ -30,12 +30,14 @@ export default class Home extends ComponentTransition {
 	
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
+		let hamburger = document.querySelector('.hamburger');
 
 		logo.style.display = 'table';
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
+		this.enterTl.set(hamburger, {backgroundColor: 'transparent'}, 0);
 	
 	}
 	

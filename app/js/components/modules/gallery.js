@@ -211,8 +211,8 @@ export default class Gallery extends Component {
 							<div className='project__sharer'>
 								<a href='#' className='project__share'>Share</a>
 								<div className='project__socials'>
-									<div className='button project__social' data-href="https://developers.facebook.com/docs/plugins/" data-layout="link">facebook</div>
-									<a className='twitter-share-button button project__social' href={'https://twitter.com/intent/tweet?url='+seo.url+'&text='+seo.twitter}>Twitter</a>
+									<div className='button project__social project__social--facebook' data-href="https://developers.facebook.com/docs/plugins/" data-layout="link">facebook</div>
+									<a className='twitter-share-button button project__social project__social--twitter' href={'https://twitter.com/intent/tweet?url='+seo.url+'&text='+seo.twitter}>Twitter</a>
 								</div>
 							</div>
 						</div>

@@ -71,7 +71,12 @@ export default class Payment extends ComponentTransition {
 
 	componentDidMount() {
 
-		this.bill = document.querySelector('.payment__bill');
+		super.componentDidMount();
+
+		if(typeof document !== 'undefined') {
+			this.body = document.querySelector('body');
+			this.bill = document.querySelector('.payment__bill');
+		}
 
 		// let hack = setTimeout(function() {
 		// 	CartActions.updateCartEnabled(false);
@@ -126,6 +131,10 @@ export default class Payment extends ComponentTransition {
 				<Seo seo={seo} />
 				<h1 className='payment__title title'>Checkout</h1>
 				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
+				<div className='text payment__error payment__error--desktop'>
+					{(this.body && !this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>The form contains errors, please change information highlighted in red.</div>) : null}
+					{(this.body && !this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>You need to accept the terms & conditions.</div>) : null}
+				</div>
 				<div className='payment'>
 					<form className='payment__form form' ref='form' onSubmit={this.onSubmit}>
 						<div className='payment__column'>
@@ -292,7 +301,10 @@ export default class Payment extends ComponentTransition {
 								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='/terms' target='_blank'>terms and conditions</a>*</p></label>
 							</div>
 							<button type='submit' className='payment__pay button'>Proceed to payment</button>
-							{(this.state.status.conditions===false) ? (<div style={errorStyle} className='text'>You need to accept the terms & conditions</div>) : null}
+							<div className='text payment__error payment__error--mobile'>
+								{(this.body && this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>The form contains errors, please change information highlighted in red.</div>) : null}
+								{(this.body && this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>You need to accept the terms & conditions.</div>) : null}
+							</div>
 						</div>
 					</form>
 
@@ -321,7 +333,8 @@ export default class Payment extends ComponentTransition {
 		this.status.conditions = document.getElementById('conditions').checked;
 		this.status.billCheckbox = document.getElementById('billCheckbox').checked;
 		
-		let valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country && this.status.conditions;
+		// let valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country && this.status.conditions;
+		this.valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country;
 
 		if (!this.status.billCheckbox) {
 			this.status.billFirstname = document.getElementById('billFirstname').value.length > 0;
@@ -331,10 +344,10 @@ export default class Payment extends ComponentTransition {
 			this.status.billZip = document.getElementById('billZip').value.length > 0;
 			this.status.billCountry = document.getElementById('billCountry').value.length > 0;
 
-			valid = valid && this.status.billFirstname && this.status.billLastname && this.status.billPhone && this.status.billAddress && this.status.billZip && this.status.billCountry;
+			this.valid = this.valid && this.status.billFirstname && this.status.billLastname && this.status.billPhone && this.status.billAddress && this.status.billZip && this.status.billCountry;
 		}
 
-		if (valid) {
+		if (this.valid && this.status.conditions) {
 			this.pay();
 		} else {
 			this.setState({

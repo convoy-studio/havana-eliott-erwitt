@@ -25,6 +25,7 @@ export default class Cart extends Component {
 
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
+		this.toggleBinded = this.toggle.bind(this);
 		
 		// const
 		this.CART_DELAY = 2000;
@@ -33,12 +34,16 @@ export default class Cart extends Component {
 
 	componentDidMount() {
 
-		this.view = document.querySelector('.cart');
-		this.content = this.view.querySelector('.cart__content');
-		this.count = this.view.querySelector('.cart__count');
+		if(typeof document !== 'undefined') {
+			this.body = document.querySelector('body');
+			this.view = document.querySelector('.cart');
+			this.content = this.view.querySelector('.cart__content');
+			this.count = this.view.querySelector('.cart__count');
+
+			document.querySelector('body').addEventListener('click', this.handleClickOutside.bind(this));
+		}
 
 		CartStore.addChangeListener(this.onStoreChange);
-		document.querySelector('body').addEventListener('click', this.handleClickOutside.bind(this));
 		this.content.addEventListener('click', this.handleClickInside.bind(this));
 		this.count.addEventListener('mouseenter', this.handleCountEnter.bind(this));
 		this.view.addEventListener('mouseenter', this.handleEnter.bind(this));
@@ -53,43 +58,64 @@ export default class Cart extends Component {
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
 
 		return (
-			<div className={'cart ' + visibility + isEmpty} ref='cart'>
-				<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
-				<div className='cart__content cart__products-wrapper'>
-					<ul className='cart__products'>
-						{Object.keys(this.state.items).map((index) => {
-							let product = this.state.items[index]
-							let details
-							if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
-							else details = product.city+'. '+product.country+'. '+product.year
-							
-							return ( 
-								<li key={index} className='cart__product'>
-									<div className='cart__column'>
-										<div className='cart__artist'>{product.project.artist}</div>
-										<div className='cart__details'>{details}</div>
-										<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
-										<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
-									</div>
-									<div className='cart__column'>
-										<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
-										<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
-									</div>
-								</li>
+			<div>
+				<div className={'cart ' + visibility + isEmpty} ref='cart'>
+					<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
+					{(() => {
+						if (this.body && this.body.classList.contains('js-mobile')) return (
+							<div className='cart__toggle'>cart</div>
+						)
+					})()}
+					<div className='cart__content cart__products-wrapper'>
+						<ul className='cart__products'>
+							{Object.keys(this.state.items).map((index) => {
+								let product = this.state.items[index]
+								let details
+								if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
+								else details = product.city+'. '+product.country+'. '+product.year
+								
+								return ( 
+									<li key={index} className='cart__product'>
+										<div className='cart__column'>
+											<div className='cart__artist'>{product.project.artist}</div>
+											<div className='cart__details'>{details}</div>
+											<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
+											<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
+										</div>
+										<div className='cart__column'>
+											<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
+											<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
+										</div>
+									</li>
+								)
+							}.bind(this))}
+						</ul>
+						<div className='cart__subtotal'>
+							<div className='cart__column'>Subtotal:</div>
+							<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
+						</div>
+						<div className='cart__checkout'>
+							<Link to='/payment' className='button'>Proceed to checkout</Link>
+						</div>
+						{(() => {
+							if (this.body && this.body.classList.contains('js-mobile')) return (
+								<div className='cart__checkout cart__checkout--back'>
+									<Link to='/shop?open=true' className='button'>Back to shop</Link>
+								</div>
 							)
-						}.bind(this))}
-					</ul>
-					<div className='cart__subtotal'>
-						<div className='cart__column'>Subtotal:</div>
-						<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
+						})()}
 					</div>
-					<div className='cart__checkout'>
-						<Link to='/payment' className='button'>Proceed to checkout</Link>
-					</div>
-				</div>
-				<div className='cart__content cart__empty-wrapper'>
-					<div className='cart__empty'>
-						You have no items in your cart.
+					<div className='cart__content cart__empty-wrapper'>
+						<div className='cart__empty'>
+							You have no items in your cart.
+						</div>
+						{(() => {
+							if (this.body && this.body.classList.contains('js-mobile')) return (
+								<div className='cart__checkout'>
+									<Link to='/shop?open=true' className='button'>Back to shop</Link>
+								</div>
+							)
+						})()}
 					</div>
 				</div>
 			</div>
@@ -99,6 +125,7 @@ export default class Cart extends Component {
 
 	toggle() {
 
+		console.log('toggle', this.state.enabled.cartEnabled);
 		CartActions.updateCartEnabled(!this.state.enabled.cartEnabled);
 
 	}
@@ -138,7 +165,7 @@ export default class Cart extends Component {
 	handleClickOutside(e) {
 
 		if (!e.target.classList.contains('cart__remove') && !e.target.classList.contains('cart__button')) {
-			if (e.target.parentNode.classList.contains('cart__count')) this.toggle();
+			if (e.target.parentNode.classList.contains('cart__count') || e.target.classList.contains('cart__toggle')) this.toggle();
 			else this.close();
 		}
 
@@ -188,6 +215,7 @@ export default class Cart extends Component {
 
 	onStoreChange() {
 
+		console.log('store change');
 		this.setState(getState(), ()=>{
 			// if (this.state.enabled.autoclose) {
 			// 	this.createCountdown();

@@ -41,11 +41,17 @@
 .projects__intro {
 	position: relative;
 	z-index: 0;
-	@extend .visible;
+	display: block;
+	opacity: 1;
+	animation: fadeInFromNone 0.4s ease-out;
+	// @extend .visible;
 }
 
 .projects__intro--hidden {
-	@extend .hidden;
+	// @extend .hidden;
+	display: none;
+	opacity: 0;
+	animation: fadeOutFromBlock 0.4s ease-out forwards;
 }
 
 .projects__title {
@@ -70,7 +76,10 @@
 
 .projects__contents--enabled {
 	.projects__details {
-		@extend .visible;
+		display: block;
+		opacity: 1;
+		animation: fadeInFromNone 0.4s ease-out;
+		// @extend .visible;
 	}
 	.projects__image {
 		opacity: 1 !important;
@@ -85,17 +94,18 @@
 	z-index: 10;
 	padding-bottom: 70px;
 
-	@extend .visible;
+	display: block;
+	opacity: 1;
+	animation: fadeInFromNone 0.4s ease-out;
+	// @extend .visible;
 }
 
 .projects__details--hidden {
-	@extend .hidden;
+	display: none;
+	opacity: 0;
+	animation: fadeOutFromBlock 0.4s ease-out forwards;
+	// @extend .hidden;
 }
-
-// .projects__contents, .projects__content {
-// 	width: 100%;
-// 	height: 100%;
-// }
 
 .projects__button {
 	position: relative;
@@ -137,34 +147,50 @@
 }
 
 .projects__loader {
-	@extend .visible;
+	display: block;
+	opacity: 1;
+	animation: fadeInFromNone 0.4s ease-out;
+	// @extend .visible;
 	margin-bottom: -19px;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
 }
 
 .projects__loader--disabled {
-	@extend .hidden;
+	// @extend .hidden;
+	display: none;
+	opacity: 0;
+	animation: fadeOutFromBlock 0.4s ease-out forwards;
 	transform: translate(0, -20px);
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
 }
 
 .projects__discover {
-	@extend .visible;
+	// @extend .visible;
+	display: block;
+	opacity: 1;
+	animation: fadeInFromNone 0.4s ease-out;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
 }
 
 .projects__discover--disabled {
-	@extend .hidden;
+	// @extend .hidden;
+	display: none;
+	opacity: 0;
+	animation: fadeOutFromBlock 0.4s ease-out forwards;
 	transform: translate(0, 20px);
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
 }
 
-@include max-screen(700px) {
+@include max-screen(958px) {
 	.projects {
+		padding-top: 70px;
 		// position: absolute;
 		// top: calc(50% - 18px);
 		// left: 0;
 		// padding-top: 0;
+	}
+	.project-wrapper {
+		padding-top: 100px;
 	}
 	.projects__image {
 		top: 50%;
@@ -184,14 +210,12 @@
 	.projects__details {
 		width: 100%;
 		height: 100%;
-		padding: 0 12px;
+		padding: 0 24px;
 		box-sizing: border-box;
 		position: relative;
 		top: inherit;
 		left: inherit;
 		transform: none;
-
-		// @extend .hidden;
 	}
 	.projects__loader, .projects__discover {
 		@extend .mobile-button;

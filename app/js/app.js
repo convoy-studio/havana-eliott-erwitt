@@ -3,7 +3,12 @@ import Router from 'react-router';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import routes from './routes';
 import GEvents from './utils/globalEvents';
+let FastClick = require('fastclick');
 // import history from './history';
+
+if(typeof document !== 'undefined') {
+	FastClick.attach(document.body);
+}
 
 window.GlobalEvents = new GEvents();
 GlobalEvents.init();

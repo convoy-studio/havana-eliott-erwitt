@@ -72,46 +72,11 @@ export default class Projects extends ComponentTransition {
 			TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
 		}
 		
-	
 	}
 
-	// _enterStyle() {
-	
-	// 	let el = this.refs.view.getDOMNode();
-	// 	el.style.opacity = 1;
-	// 	let subel = this.refs.subview.getDOMNode();
-
-	// 	console.log(subel.hasChildNodes());
-
-
-	// 	this.enterTl = new TimelineMax({delay:0.3});
-	// 	this.enterTl.fromTo(subel, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
-	
-	// }
-	
-	// _leaveStyle(callback) {
-		
-	// 	let el = this.refs.view.getDOMNode();
-	// 	let subel = this.refs.subview.getDOMNode();
-		
-	// 	console.log(subel.hasChildNodes());
-	// 	// TweenMax.to(subel, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-		
-	// 	this.leaveTl = new TimelineMax({onComplete:()=>{
-	// 		el.style.opacity = 0;
-	// 	}});
-	// 	this.leaveTl.to(subel, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-
-
-	// 	// let el = this.refs.view.getDOMNode();
-		
-	// 	// window.setTimeout(()=>{
-	// 	// 	el.style.opacity = 0;
-	// 	// }, 3000);
-
-	// }
-
 	componentDidMount() {
+
+		super.componentDidMount();
 
 		ProjectApi.getFirsts();
 		ProjectStore.addChangeListener(this.onStoreChange);
@@ -173,13 +138,6 @@ export default class Projects extends ComponentTransition {
 				</div>
 			</div>
 		);
-
-					// <Transition component="div">
-					// 	{React.cloneElement(this.props.children || <div />, { key: this.props.params.slug })}
-					// </Transition>
-					// <CSSTransitionGroup component="div" transitionName="project-transition" transitionLeave={false}>
-					// 	{React.cloneElement(this.props.children || <div />, { key: this.props.params.slug })}
-					// </CSSTransitionGroup>
 
 	}
 

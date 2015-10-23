@@ -127,10 +127,10 @@ export default class Shop extends ComponentTransition {
 			}
 		}).value();
 
+				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
 				<Seo seo={seo} />
-				<div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 				<div className='shop js-smooth'>
 					<div className='shop__intro'>
 						<h2 className='title'>{intro.title}</h2>
