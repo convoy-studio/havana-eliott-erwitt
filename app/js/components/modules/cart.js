@@ -56,8 +56,6 @@ export default class Cart extends Component {
 	}
 
 	componentWillUnmount() {
-
-		console.log('unmount');
 		
 		this.body.removeEventListener('click', this.handleClickOutside);
 		CartStore.removeChangeListener(this.onStoreChange);
@@ -142,34 +140,21 @@ export default class Cart extends Component {
 
 	toggle() {
 
-		console.log('toggle', this.state.enabled.cartEnabled);
 		CartActions.updateCartEnabled(!this.state.enabled.cartEnabled);
 
 	}
 
 	open() {
 
-		// this.props.enabled = true
 		CartActions.updateCartEnabled(true);
-		
-		// this.setState({
-		// 	enabled: true
-		// });
 
 	}
 
 	close() {
 
 		if (this.state.enabled.cartEnabled) {
-			// this.props.enabled = false
-			CartActions.updateCartEnabled(false)
+			CartActions.updateCartEnabled(false);
 		}
-
-		// if (this.state.enabled.cartEnabled) {
-		// 	this.setState({
-		// 		enabled: false
-		// 	});
-		// }
 
 	}
 
@@ -181,7 +166,6 @@ export default class Cart extends Component {
 
 	handleClickOutside(e) {
 
-		console.log('handleClickOutside');
 		if (!e.target.classList.contains('cart__remove') && !e.target.classList.contains('cart__button')) {
 			if (e.target.parentNode.classList.contains('cart__count') || e.target.classList.contains('cart__toggle')) this.toggle();
 			else this.close();
@@ -205,9 +189,7 @@ export default class Cart extends Component {
 
 	handleEnter(e) {
 
-		// console.log('mouseenter');
 		if (this.closeCountdown) {
-			// console.log('clearTimeout');
 			clearTimeout(this.closeCountdown);
 			this.closeCountdown = undefined;
 			this.open();
@@ -233,16 +215,11 @@ export default class Cart extends Component {
 
 	onStoreChange() {
 
-		console.log('store change');
 		this.setState(getState(), ()=>{
-			// if (this.state.enabled.autoclose) {
-			// 	this.createCountdown();
-			// }
 			if(typeof localStorage !== 'undefined') {
 				localStorage.setItem('cart', JSON.stringify(this.state.items));
 			}
 		});
-
 
 	}
 

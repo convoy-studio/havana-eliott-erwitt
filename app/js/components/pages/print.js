@@ -107,7 +107,7 @@ export default class Print extends ComponentTransition {
 	componentWillUnmount() {
 
 		super.componentWillUnmount();
-		
+
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
 
@@ -409,6 +409,7 @@ export default class Print extends ComponentTransition {
 	zoomIn() {
 
 		document.querySelector('body').classList.add('body--hidden');
+		document.querySelector('.print__mobile').classList.add('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
 		
 		if (!this.bigprintLoaded) {
@@ -423,6 +424,7 @@ export default class Print extends ComponentTransition {
 	zoomOut() {
 
 		document.querySelector('body').classList.remove('body--hidden');
+		document.querySelector('.print__mobile').classList.remove('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.add('bigprint--hidden');
 
 	}
