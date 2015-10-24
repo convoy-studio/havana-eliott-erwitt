@@ -15,7 +15,8 @@ export default class Gallery extends Component {
 		this.state = {
 			current: parseInt(this.props.current || 0),
 			bigPrintsLoaded: false,
-			isMobile: false
+			isMobile: false,
+			sizes: undefined
 		};
 
 		// vars
@@ -31,6 +32,7 @@ export default class Gallery extends Component {
 		this.cursorY = 0;
 		this.startX = 0;
 		this.deltaX = 0;
+		this.sizes = [];
 
 		// binded
 		this.prev = this.prev.bind(this);
@@ -63,7 +65,7 @@ export default class Gallery extends Component {
 			this.printsLoaded = true;
 			_(this.props.prints).forEach((print, index) => {
 				file = new Image();
-				file.onload = this.onPrintLoaded.bind(this);
+				file.onload = this.onPrintLoaded.bind(this, index);
 				file.src = '/static/prints/'+print.file+'_big.jpg';
 			}.bind(this)).value();
 		}
@@ -86,13 +88,19 @@ export default class Gallery extends Component {
 
 	}
 
-	onPrintLoaded(e) {
+	onPrintLoaded(index, e) {
 
 		this.nPrintsLoaded++;
 
+		let size, path = e.explicitOriginalTarget || e.target || e.path[0];
+		if (path.height >= path.width*1.2) size = 'portrait';
+		else size = 'landscape';
+
+		this.sizes[index] = size;
+
 		if (this.nPrintsLoaded >= this.nPrints) {
-			document.querySelector('.projects__loader').classList.add('projects__loader--disabled');
-			document.querySelector('.projects__discover').classList.remove('projects__discover--disabled');
+			document.querySelector('.project__loader').classList.add('project__loader--disabled');
+			document.querySelector('.project__discover').classList.remove('project__discover--disabled');
 			
 			this.content = document.querySelector('.project__content');
 			this.prints = document.querySelector('.project__prints');
@@ -111,6 +119,10 @@ export default class Gallery extends Component {
 			this.footer.style.width = this.largerImage.offsetWidth + 'px';
 
 			this.raf();
+
+			this.setState({
+				sizes: this.sizes
+			});
 		}
 	}
 
@@ -179,9 +191,11 @@ export default class Gallery extends Component {
 						<div className='project__prints'>
 							{Object.keys(this.props.prints).map((id, index) => {
 								let file = this.props.prints[id].file + '_big.jpg'
-								let status = (index === this.state.current) ? 'project__print--current' : ''
+								let status = (index === this.state.current) ? 'project__print--current ' : ''
+								let size;
+								if (this.state.sizes) size = 'project__print--'+this.state.sizes[index];
 								return (
-									<div className={'project__print '+status} onClick={this.zoomIn} key={id}>
+									<div className={'project__print '+status+size} onClick={this.zoomIn} key={id}>
 										<img className='project__image' src={'/static/prints/'+file}></img>
 									</div>
 								)

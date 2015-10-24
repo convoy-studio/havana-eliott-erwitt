@@ -12,7 +12,8 @@ export default class ComponentResize extends Component {
 			this.body = document.querySelector('body');
 		}
 
-		this.router = context.router;
+		// this.router = context.router;
+		this.context = context;
 
 		// binded
 		this.resize = this.resize.bind(this);
@@ -30,6 +31,12 @@ export default class ComponentResize extends Component {
 		this.resize();
 		
 	}
+
+	componentWillUnmount() {
+
+		// AppStore.off(AppConstants.WINDOW_RESIZE, this.resize);
+
+	}
 	
 	resize() {
 
@@ -44,5 +51,5 @@ export default class ComponentResize extends Component {
 }
 
 ComponentResize.contextTypes = {
-    router: React.PropTypes.func.isRequired
+	router: React.PropTypes.func.isRequired
 };

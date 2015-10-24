@@ -106,6 +106,8 @@ export default class Print extends ComponentTransition {
 
 	componentWillUnmount() {
 
+		super.componentWillUnmount();
+		
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
 
@@ -458,11 +460,13 @@ export default class Print extends ComponentTransition {
 	onTouchend(e) {
 
 		if (this.deltaX > 100) {
-			this.router.transitionTo('/shop/'+this.state.print.prev);
+			this.context.router.transitionTo('/shop/'+this.state.print.prev);
+			// this.router.transitionTo('/shop/'+this.state.print.prev);
 		}
 
 		if (this.deltaX < -100) {
-			this.router.transitionTo('/shop/'+this.state.print.next);
+			this.context.router.transitionTo('/shop/'+this.state.print.next);
+			// this.router.transitionTo('/shop/'+this.state.print.next);
 		}
 
 		this.deltaX = 0;

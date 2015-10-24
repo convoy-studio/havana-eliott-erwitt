@@ -62,3 +62,7 @@ export default class ComponentTransition extends ComponentResize {
 	}
 
 }
+
+// ComponentTransition.contextTypes = {
+// 	router: React.PropTypes.func.isRequired
+// };

@@ -51,9 +51,9 @@ export default class ContactSheet extends ComponentTransition {
 		PrintApi.getByArtist(this.props.params.slug);
 		PrintStore.addChangeListener(this.onStoreChange);
 
-		this.gallery = document.querySelector('.gallery');
+		this.view = document.querySelector('.contact-sheet');
 
-		document.querySelector('.projects__intro').style.display = 'none';
+		document.querySelector('.projects__list').style.display = 'none';
 		
 		this.raf();
 
@@ -80,23 +80,23 @@ export default class ContactSheet extends ComponentTransition {
 		};
 
 		return (
-			<div className='subpage subpage--gallery' ref='subview'>
+			<div className='subpage subpage--contact-sheet' ref='subview'>
 				<Seo seo={seo} />
 				<div className='submenu'><Link to={'/photography/'+this.props.params.slug+'?open=true'} className='button'><span className='button__content'>Back to gallery</span></Link></div>
-				<div className='gallery js-smooth'>
+				<div className='contact-sheet js-smooth'>
 					{Object.keys(this.state.loadedPrints).reverse().map((year, i) => {
 						return (
 							<div key={year+'_'+i}>
-								<div className='gallery__title title js-reveal'>Elliott Erwitt {year}</div>
-								<div className='gallery__grid'>
-									<div className='gallery__width'></div>
+								<div className='contact-sheet__title title js-reveal'>Elliott Erwitt {year}</div>
+								<div className='contact-sheet__grid'>
+									<div className='contact-sheet__width'></div>
 									{Object.keys(this.state.loadedPrints[year]).map((printId, j) => {
 										let print = this.state.loadedPrints[year][printId]
 										let src = '/static/prints/'+print.file+'_min.jpg'
 										let random = Math.floor(Math.random()*6)
 										printIndex++
 										return (
-											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={printId}><img className='gallery__image' src={src}></img></Link>
+											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={printId}><img className='contact-sheet__image' src={src}></img></Link>
 										)
 									}.bind(this))}
 								</div>
@@ -106,7 +106,6 @@ export default class ContactSheet extends ComponentTransition {
 				</div>
 			</div>
 		);
-											// <div className={'js-reveal gallery__item gallery__item--'+print.size+' gallery__item--'+random} data-random={random} key={printId} onClick={this.zoomPrint.bind(this, printIndex)}><img className='gallery__image' src={src}></img></div>
 
 	}
 
@@ -130,8 +129,8 @@ export default class ContactSheet extends ComponentTransition {
 		this.sTop = Utils.getScrollTop();
 		this.cTop += .1 * (this.sTop - this.cTop);
 		e = -this.cTop;
-		if (this.gallery) {
-			this.gallery.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)';
+		if (this.view) {
+			this.view.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)';
 		}
 
 		_(document.querySelectorAll('.js-reveal')).forEach((el, index) => {
@@ -189,21 +188,10 @@ export default class ContactSheet extends ComponentTransition {
 			}, () => {
 				// hack
 				setTimeout(()=>{
-					document.querySelector('.subpage--gallery').style.height = (this.gallery.offsetHeight-100) + 'px';
+					document.querySelector('.subpage--contact-sheet').style.height = (this.view.offsetHeight-100) + 'px';
 				}, 300);
 			});
 		}
-
-	}
-
-	zoomPrint(id) {
-		
-		// PrintActions.setPrintZoom(id);
-
-		// if(typeof window !== 'undefined') {
-		// 	window.cancelAnimationFrame(this.scrollRaf);
-		// 	window.location.href = '#/photography/'+this.props.idSection;
-		// }
 
 	}
 
@@ -215,12 +203,12 @@ export default class ContactSheet extends ComponentTransition {
 
 		if (this.body && this.body.classList.contains('js-mobile')) { 
 			if (this.scrollRaf) {
-				document.querySelector('.subpage--gallery').style.height = 'auto'
+				document.querySelector('.subpage--contact-sheet').style.height = 'auto'
 				this.setState({
 					isMobile: true
 				});
-				_(document.querySelectorAll('.gallery__item')).forEach((el) => {
-					el.style.height = document.querySelectorAll('.gallery__image')[0].offsetHeight
+				_(document.querySelectorAll('.contact-sheet__item')).forEach((el) => {
+					el.style.height = document.querySelectorAll('.contact-sheet__image')[0].offsetHeight
 				}).value()
 				window.cancelAnimationFrame(this.scrollRaf)
 				this.scrollRaf = null;
@@ -228,7 +216,7 @@ export default class ContactSheet extends ComponentTransition {
 		} else {
 			if (!this.scrollRaf) {
 				if (this.fellowship) {
-					document.querySelector('.subpage--gallery').style.height = this.gallery.offsetHeight + 'px'
+					document.querySelector('.subpage--contact-sheet').style.height = this.view.offsetHeight + 'px'
 				}
 				this.setState({
 					isMobile: false
@@ -248,3 +236,7 @@ export default class ContactSheet extends ComponentTransition {
 	}
 
 }
+
+// ContactSheet.contextTypes = {
+// 	router: React.PropTypes.func.isRequired
+// };

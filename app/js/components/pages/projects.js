@@ -100,7 +100,7 @@ export default class Projects extends ComponentTransition {
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 
-		let introClass = (this.props.params.token || this.props.children && this.props.children.type.name === 'ContactSheet' || !this.state.menuShowed) ? 'projects__intro--hidden' : '';
+		let introClass = (this.props.params.token || this.props.children && this.props.children.type.name === 'ContactSheet' || !this.state.menuShowed) ? 'projects__list--hidden' : '';
 		let projectList;
 		if (_.size(this.state.projects) > 1) {
 			projectList = (
@@ -129,7 +129,7 @@ export default class Projects extends ComponentTransition {
 			<div className='page page--projects' ref='view'>
 				<Seo seo={seo} />
 				<div className='projects'>
-					<div className={'projects__intro ' + introClass}>
+					<div className={'projects__list ' + introClass}>
 						{projectList}
 					</div>
 					<div ref='subview'>
@@ -157,4 +157,14 @@ export default class Projects extends ComponentTransition {
 
 	}
 
+	static fetchData() {
+
+		ProjectApi.getFirsts();
+
+	}
+
 }
+
+// Projects.contextTypes = {
+// 	router: React.PropTypes.func.isRequired
+// };

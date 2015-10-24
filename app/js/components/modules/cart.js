@@ -24,8 +24,13 @@ export default class Cart extends Component {
 		this.state = getState();
 
 		// binded
-		this.onStoreChange = this.onStoreChange.bind(this);
-		this.toggleBinded = this.toggle.bind(this);
+		this.onStoreChange 		= this.onStoreChange.bind(this);
+		this.toggleBinded 		= this.toggle.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+		this.handleClickInside 	= this.handleClickInside.bind(this);
+		this.handleEnter 		= this.handleEnter.bind(this);
+		this.handleLeave 		= this.handleLeave.bind(this);
+		this.handleCountEnter 	= this.handleCountEnter.bind(this);
 		
 		// const
 		this.CART_DELAY = 2000;
@@ -39,15 +44,27 @@ export default class Cart extends Component {
 			this.view = document.querySelector('.cart');
 			this.content = this.view.querySelector('.cart__content');
 			this.count = this.view.querySelector('.cart__count');
-
-			document.querySelector('body').addEventListener('click', this.handleClickOutside.bind(this));
 		}
 
+		this.body.addEventListener('click', this.handleClickOutside);
 		CartStore.addChangeListener(this.onStoreChange);
-		this.content.addEventListener('click', this.handleClickInside.bind(this));
-		this.count.addEventListener('mouseenter', this.handleCountEnter.bind(this));
-		this.view.addEventListener('mouseenter', this.handleEnter.bind(this));
-		this.view.addEventListener('mouseleave', this.handleLeave.bind(this));
+		this.content.addEventListener('click', this.handleClickInside);
+		this.count.addEventListener('mouseenter', this.handleCountEnter);
+		this.view.addEventListener('mouseenter', this.handleEnter);
+		this.view.addEventListener('mouseleave', this.handleLeave);
+
+	}
+
+	componentWillUnmount() {
+
+		console.log('unmount');
+		
+		this.body.removeEventListener('click', this.handleClickOutside);
+		CartStore.removeChangeListener(this.onStoreChange);
+		this.content.removeEventListener('click', this.handleClickInside);
+		this.count.removeEventListener('mouseenter', this.handleCountEnter);
+		this.view.removeEventListener('mouseenter', this.handleEnter);
+		this.view.removeEventListener('mouseleave', this.handleLeave);
 
 	}
 
@@ -164,6 +181,7 @@ export default class Cart extends Component {
 
 	handleClickOutside(e) {
 
+		console.log('handleClickOutside');
 		if (!e.target.classList.contains('cart__remove') && !e.target.classList.contains('cart__button')) {
 			if (e.target.parentNode.classList.contains('cart__count') || e.target.classList.contains('cart__toggle')) this.toggle();
 			else this.close();

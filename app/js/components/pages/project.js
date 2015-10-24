@@ -116,7 +116,7 @@ export default class Project extends Component {
 			desc = this.state.project.desc;
 		}
 
-		let projectVisibility = (this.state.open) ? 'projects__details--hidden' : '';
+		let projectVisibility = (this.state.open) ? 'project__details--hidden' : '';
 
 		let description = '';
 		_(desc).forEach((value, index) => {
@@ -132,10 +132,10 @@ export default class Project extends Component {
 
 					// <Link to={'/photography/'+this.props.params.slug+'?open=true'} className='projects__discover projects__discover--disabled button'>Discover the project</Link>
 		return (
-			<div ref="item" className='project-wrapper'>
+			<div className='project-wrapper' ref="item">
 				<Seo seo={seo} />
-				<div className={'projects__details '+projectVisibility}>
-					<div className='projects__infos'>
+				<div className={'project__details ' + projectVisibility}>
+					<div className='project__infos'>
 						<h2 className='title'>{artist}</h2>
 						<div className='paragraph paragraph--2'>
 							{Object.keys(desc).map((index) => {
@@ -145,8 +145,8 @@ export default class Project extends Component {
 							}.bind(this))}
 						</div>
 					</div>
-					<div className='projects__loader text'>Chargement...</div>
-					<div className='projects__discover projects__discover--disabled button' onClick={this.showGallery}>Discover the project</div>
+					<div className='project__loader text'>Chargement...</div>
+					<div className='project__discover project__discover--disabled button' onClick={this.showGallery}>Discover the project</div>
 				</div>
 
 				{(() => {
@@ -167,8 +167,41 @@ export default class Project extends Component {
 				}.bind(this))()}
 			</div>
 		);
-
 	}
+			// <div ref="item" className='project-wrapper'>
+			// 	<Seo seo={seo} />
+			// 	<div className={'projects__details '+projectVisibility}>
+			// 		<div className='projects__infos'>
+			// 			<h2 className='title'>{artist}</h2>
+			// 			<div className='paragraph paragraph--2'>
+			// 				{Object.keys(desc).map((index) => {
+			// 					return (
+			// 						<p key={index} className='text'>{desc[index]}</p>
+			// 					)
+			// 				}.bind(this))}
+			// 			</div>
+			// 		</div>
+			// 		<div className='projects__loader text'>Chargement...</div>
+			// 		<div className='projects__discover projects__discover--disabled button' onClick={this.showGallery}>Discover the project</div>
+			// 	</div>
+
+			// 	{(() => {
+			// 		if (_.size(this.state.prints) > 0) {
+			// 			return (
+			// 				<div className='project__gallery-wrapper'>
+			// 					<Gallery
+			// 						prints={this.state.prints}
+			// 						show={this.state.open}
+			// 						project={slug}
+			// 						current={this.props.params.token}
+			// 						updateCurrent={this._updateCurrentBinded}
+			// 						isMobile={this.state.isMobile}
+			// 					/>								
+			// 				</div>
+			// 			)
+			// 		}
+			// 	}.bind(this))()}
+			// </div>
 
 	showGallery() {
 		
