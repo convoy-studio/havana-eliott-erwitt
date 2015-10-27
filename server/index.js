@@ -178,6 +178,10 @@ server.register([
                                 <body>
                                     <div id="fb-root"></div>
 
+                                    <div id="landscape">
+                                        <div><p>Please rotate your device</p></div>
+                                    </div>
+
                                     <div id="root" dangerouslySetInnerHTML={{__html: content}}/>
 
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>

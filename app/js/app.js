@@ -10,6 +10,21 @@ if(typeof document !== 'undefined') {
 	FastClick.attach(document.body);
 }
 
+if (window.innerWidth < 768) {
+	if (window.orientation === 90 || window.orientation === -90) {
+		document.getElementById('landscape').style.display = 'block';
+	} else {
+		document.getElementById('landscape').style.display = 'none';
+	}
+	window.addEventListener('orientationchange', () => {
+		if (window.orientation === 90 || window.orientation === -90) {
+			document.getElementById('landscape').style.display = 'block';
+		} else {
+			document.getElementById('landscape').style.display = 'none';
+		}
+	}, false);
+}
+
 window.GlobalEvents = new GEvents();
 GlobalEvents.init();
 
