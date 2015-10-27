@@ -84,7 +84,7 @@ export default class Print extends ComponentTransition {
 
 		this.body = document.querySelector('body');
 
-		PrintApi.getOne(this.props.params.token);
+		PrintApi.getOneForsale(this.props.params.token);
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
 

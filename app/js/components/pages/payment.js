@@ -8,6 +8,8 @@ import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import OrderApi from '../../utils/orderApi';
 import OrderStore from '../../stores/orderStore';
+import NewsletterApi from '../../utils/newsletterApi';
+import NewsletterStore from '../../stores/newsletterStore';
 let config = require('../../config');
 let validator = require('validator');
 
@@ -44,6 +46,7 @@ export default class Payment extends ComponentTransition {
 
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.onOrderStoreChange = this.onOrderStoreChange.bind(this);
+		this.onNewsletterStoreChange = this.onNewsletterStoreChange.bind(this);
 		this.toggleBill = this.toggleBill.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 
@@ -86,6 +89,7 @@ export default class Payment extends ComponentTransition {
 
 		CartStore.addChangeListener(this.onStoreChange);
 		OrderStore.addChangeListener(this.onOrderStoreChange);
+		NewsletterStore.addChangeListener(this.onNewsletterStoreChange);
 		document.getElementById('billCheckbox').addEventListener('change', this.toggleBill);
 
 	}
@@ -399,6 +403,11 @@ export default class Payment extends ComponentTransition {
 		}
 
 		if (this.state.cartTotal > 0) {
+			if (document.getElementById('newsletter').checked) {
+				NewsletterApi.create({
+					mail: order.mail
+				});
+			}
 			OrderApi.create(order);
 		}
 
@@ -478,6 +487,16 @@ export default class Payment extends ComponentTransition {
 				});
 				console.log('paypal');
 				break;
+		}
+
+	}
+
+	onNewsletterStoreChange() {
+
+		let response = NewsletterStore.getCreated();
+		
+		if (response.success) {
+			MailApi.sendTemplateData(this.mail);
 		}
 
 	}

@@ -5,7 +5,7 @@ import OpeningShopApi from '../../../utils/openingShopApi';
 let config = require('../../../config');
 let _ = require('lodash');
 
-export default class AdminOrders extends Component {
+export default class AdminSubscribersShop extends Component {
 
 	componentWillMount() {
 

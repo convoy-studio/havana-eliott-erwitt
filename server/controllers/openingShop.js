@@ -8,7 +8,6 @@ var controller = {
 		handler : function(request, reply){
 			OpeningShop.find({}, function (err, items) {
 				if (!err) {
-					console.log(items);
 					return reply(items);
 				}
 				return reply(Boom.badImplementation(err)); // HTTP 500
@@ -19,7 +18,6 @@ var controller = {
 	getOne : {
 		handler : function(request, reply){
 			OpeningShop.findById(request.params.id, function (err, item) {
-				console.log(item);
 				if (!err) {
 					return reply(item);
 				}

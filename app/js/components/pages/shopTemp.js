@@ -95,10 +95,9 @@ export default class ShopTemp extends ComponentTransition {
 			response: OpeningShopStore.getCreated()
 		}, () => {
 			if (this.state.response.success) {
-				// MailApi.sendTemplate(this.mail);
-				MailApi.sendTemplateData(this.mail);
+				MailApi.sendTemplate('havana-opening-shop', this.mail);
 			}
-		})
+		});
 
 	}
 
