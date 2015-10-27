@@ -1,22 +1,75 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { login } from '../../../actions/authActions';
+import { signup } from '../../../actions/authActions';
 let config = require('../../../config');
 
 export default class Login extends Component {
 
-	componentWillMount(){
+	componentWillMount() {
+
+		// binded
+		this.login = this.login.bind(this);
+		this.signup = this.signup.bind(this);
 		
 	}
 
 	render() {
 
 		return (
-			<div className='page page--login page--classic' ref='view'>
-				<div className='page__content login'>
-					<h1 className='title title--center title--absolute'>Admin - Connexion</h1>
-					<p className='text'>Alignat empore, si dio cor alis aliquae. Ut assimus resti dem sequi omnistrum quam inum cullab in corioss intiae sedit, in parchillat et pore pliatis sernam rem eum qui alibusda porum et atiaeru mquiatquas is intendia cum remqui dolorias sim iur? Atium experi occati sumquam qui bea aut iliquatum nonsequ issime et et la et abo. Omnihilitam qui con renda nest, corro beat maio et volesci assitiis in con cumqui aceaqua tatent audis dolore, sequunti di ant magnihil explicae non pedicat estota di con consequae laborum quiat audam, officit, sequam, alis eum fuga. Nest, assectas et ullatem quas alit volore nonest lati sediste cabore volupitatem ipsum voluptis mo cus, occae. Inveliquias aliaspedis ea vellupta volor sectest iatiur sam assum quiatus ectest iatiur sam assum.</p>
-				</div>
+			<div className='admin__order'>
+				<h1 className='title title--center title--absolute'>Login</h1>
+				<form className='admin__form form'>
+					<div className='form__row'>
+						<label className='form__label' htmlFor='id'>Identifiant</label>
+						<input type='text' ref='id'></input>
+					</div>
+					<div className='form__row'>
+						<label className='form__label' htmlFor='pwd'>Password</label>
+						<input type='password' ref='pwd'></input>
+					</div>
+					<div className='admin__row'>
+						<a href='' className='button' onClick={this.login}>Login</a>
+						<a href='' className='button' onClick={this.signup}>Signup</a>
+					</div>
+				</form>
 			</div>
 		);
 
 	}
+
+	login(e) {
+
+		e.preventDefault()
+
+		let id = this.refs.id.getDOMNode().value;
+		let pwd = this.refs.pwd.getDOMNode().value;
+		
+		if(id && pwd){
+  			let user = {
+	  			identifiant : id,
+	  			password: pwd
+	  		};
+	  		login(user);
+  		}
+
+	}
+
+	signup(e) {
+
+		e.preventDefault()
+
+		let id = this.refs.id.getDOMNode().value;
+		let pwd = this.refs.pwd.getDOMNode().value;
+		
+		if(id && pwd){
+  			let user = {
+	  			identifiant : id,
+	  			password: pwd
+	  		};
+	  		signup(user);
+  		}
+
+	}
+
 }

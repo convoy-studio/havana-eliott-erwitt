@@ -29,6 +29,25 @@ module.exports = {
 		});
 	},
 
+	paypalPayment : function(options) {
+		let data = '';
+		for (let key in options) {
+			if (data != "") {
+				data += "&";
+			}
+			data += key + "=" + encodeURIComponent(options[key]);
+		}
+
+		fetch(config.siteurl + '/paypal.php', {
+			method: 'post',
+			headers: {
+				'Accept': 'application/x-www-form-urlencoded',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: data
+		});
+	},
+
 	checkResponse : function(options) {
 		let data = '';
 		for (let key in options) {

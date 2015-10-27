@@ -3,6 +3,15 @@ import ComponentTransition from '../componentTransition';
 import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 let config = require('../../config');
+// let nodemailer = require('nodemailer');
+
+// let transporter = nodemailer.createTransport({
+// 	service: 'Gmail',
+// 	auth: {
+// 		user: 'nicolas.daniel.29@gmail.com',
+// 		pass: 'userpass'
+// 	}
+// });
 
 export default class Contact extends ComponentTransition {
 
@@ -71,7 +80,7 @@ export default class Contact extends ComponentTransition {
 									<textarea className='form__input form__input--text form__input--textarea' rows='4' cols='50' id='message' required></textarea>
 								</div>
 								<div className='form__row form__row--center'>
-									<input className='form__submit button' type='submit' value='Submit' />
+									<input className='form__submit button' type='submit' value='Submit' onClick={this.sendMail} />
 								</div>
 							</form>
 						</div>
@@ -79,6 +88,28 @@ export default class Contact extends ComponentTransition {
 				</div>
 			</div>
 		);
+
+	}
+
+	sendMail(e) {
+
+		e.preventDefault();
+
+		console.log('send mail');
+		// let mailOptions = {
+		// 	from: 'Fred Foo ✔ <foo@blurdybloop.com>', // sender address 
+		// 	to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers 
+		// 	subject: 'Hello ✔', // Subject line 
+		// 	text: 'Hello world ✔', // plaintext body 
+		// 	html: '<b>Hello world ✔</b>' // html body 
+		// };
+
+		// transporter.sendMail(mailOptions, function(error, info){
+		// 	if(error){
+		// 		return console.log(error);
+		// 	}
+		// 	console.log('Message sent: ' + info.response);
+		// });
 
 	}
 }

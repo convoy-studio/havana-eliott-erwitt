@@ -9,7 +9,7 @@ const controller = {
 			const payload = request.payload.user;
 
 			User.findOne({
-				email : payload.email
+				identifiant : payload.identifiant
 			}, function(error, user){
 				if(error){
 					console.log('Login Error');
@@ -60,8 +60,7 @@ const controller = {
 			const payload = request.payload.user;
 
 			const user = new User({
-				name : payload.name,
-				email : payload.email,
+				identifiant : payload.identifiant,
 				password: payload.password
 			});
 
@@ -73,20 +72,6 @@ const controller = {
 				}
 				return reply(user);
 			});
-		}
-	},
-
-	signupWithFacebook : {
-		auth : 'facebook',
-		handler : function(request, reply){
-			return reply.redirect('/calendars');
-		}
-	},
-
-	signupWithTwitter : {
-		auth : 'twitter',
-		handler : function(request, reply){
-			return reply.redirect('/calendars');
 		}
 	}
 

@@ -43,6 +43,22 @@
 	line-height: 19px;
 }
 
+.response--success {
+	margin-bottom: 12px;
+	
+	text-align: center;
+	font-size: 14px;
+	color: #00FF00;
+}
+
+.response--error {
+	margin-bottom: 12px;
+
+	text-align: center;
+	font-size: 14px;
+	color: #FF0000;
+}
+
 .text--small {
 	font-size: 10px;
 	line-height: 12px;

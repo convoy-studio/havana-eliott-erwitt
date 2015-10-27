@@ -4,4 +4,4 @@ var itemSchema = new mongoose.Schema({
 	mail : String
 });
 
-module.exports = mongoose.model('Newsletter', itemSchema, 'newsletters');
+module.exports = mongoose.model('OpeningShop', itemSchema, 'openingShops');

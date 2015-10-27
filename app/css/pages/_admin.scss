@@ -7,6 +7,37 @@
 	}
 }
 
+.admin__menu {
+	position: fixed;
+	left: 69px;
+	bottom: 0;
+	padding: 0 15px;
+	width: 100vh;
+	box-sizing: border-box;
+	
+	transform-origin: 0 100%;
+	transform: rotate(-90deg);
+}
+
+.admin__item {
+	display: inline-block;
+	margin-right: calc(100% / 3 - 557px / 3);
+	
+	@extend .title-font;
+	text-align: center;
+	font-size: 18px;
+
+	&:last-child {
+		margin-right: 0;
+	}
+
+	a {
+		display: block;
+		margin: 0 auto;
+		padding: 40px 30px 10px;
+	}
+}
+
 .admin__title {
 	text-align: center;
 }

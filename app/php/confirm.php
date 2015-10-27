@@ -48,6 +48,86 @@ if($be2bill->checkHash($_GET) == $_GET['HASH'] && $_GET['EXECCODE'] == '0000') {
 				$newdata = array('$set' => array('serials' => $serials));
 				$collection->update(array('token' => $order_print['token']), $newdata);
 			}
+
+			// $url = 'https://mandrillapp.com/api/1.0/messages/send.json';
+			// $data = array(
+			// 	'key' => 'yLxCSYWSZH8p8vNT83_i3w',
+			// 	'template_name' => 'havana-opening-shop',
+			// 	'template_content' => array(
+			// 		'name' => 'example name',
+			// 		'content' => 'example content'
+			// 	),
+			// 	'message' => array(
+			// 		'from_email' => 'nicolas.daniel.29@gmail.com',
+			// 		'to' => array(
+			// 			'email' => 'nicolas.daniel.29@gmail.com',
+			// 			'name' => 'Nicolas Daniel',
+			// 			'type' => 'to'
+			// 		),
+			// 		'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - Shop opening subscribe',
+			// 		'html' => 'html can be used'
+			// 	)
+			// );
+			// // use key 'http' even if you send the request to https://...
+			// $options = array(
+			// 		'http' => array(
+			// 		'method' => 'POST',
+			// 		'header' => 'Content-Type: application/xml',
+			// 		'content' => http_build_query($data)
+			//     ),
+			// );
+
+			// $context  = stream_context_create($options);
+			// $result_mail = file_get_contents($url, false, $context);
+
+			// $authToken = 'OAuth 2.0 token here';
+			$postdata = array(
+				'key' => 'yLxCSYWSZH8p8vNT83_i3w',
+				'template_name' => 'havana-opening-shop',
+				'template_content' => array(
+					'name' => 'example name',
+					'content' => 'example content'
+				),
+				'message' => array(
+					'from_email' => 'nicolas.daniel.29@gmail.com',
+					'to' => array(
+						'email' => 'nicolas.daniel.29@gmail.com',
+						'name' => 'Nicolas Daniel',
+						'type' => 'to'
+					),
+					'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - Shop opening subscribe',
+					'html' => 'html can be used'
+				)
+			);
+
+			// Create the context for the request
+			// $context = stream_context_create(array(
+			// 	'http' => array(
+			// 		'method' => 'POST',
+			// 		'header' => "Authorization: {$authToken}\r\n".
+			// 			"Content-Type: application/json\r\n",
+			// 		'content' => json_encode($postData)
+			// 	)
+			// ));
+
+			// Send the request
+			// $response = file_get_contents('https://mandrillapp.com/api/1.0/messages/send.json', FALSE, $context);
+
+
+			// $data = array("name" => "Hagrid", "age" => "36");
+			// $data_string = json_encode($postdata);
+
+			// $ch = curl_init('https://mandrillapp.com/api/1.0/messages/send.json');
+			// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+			// curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+			// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			// 	'Content-Type: application/json',
+			// 	'Content-Length: ' . strlen($data_string))
+			// );
+
+			// $result = curl_exec($ch);
+
     		header('Location: /payment/result?result=success');
 		} else {
 			print_r($result);

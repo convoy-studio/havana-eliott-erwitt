@@ -160,7 +160,7 @@ export default class Wrapper {
 	handleClickOutside(e) {
 		
 		// if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
-		if (this.headerMenu.classList.contains('header__menu--open')) {
+		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
 
@@ -168,7 +168,7 @@ export default class Wrapper {
 
 	handleScroll() {
 
-		if (this.headerMenu.classList.contains('header__menu--open')) {
+		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
 

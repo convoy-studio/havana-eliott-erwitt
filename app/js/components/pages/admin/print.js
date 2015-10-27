@@ -44,15 +44,17 @@ export default class AdminPrint extends Component {
 	render() {
 
 		let title, city, country, year, price, file, forsale, artist;
+
+		console.log(this.state.print);
 		if (this.state.print) {
-			title = this.state.print.title;
-			city = this.state.print.city;
-			country = this.state.print.country;
-			year = this.state.print.year;
-			price = this.state.print.price;
+			title = this.state.print.title || '';
+			city = this.state.print.city || '';
+			country = this.state.print.country || '';
+			year = this.state.print.year || '';
+			price = this.state.print.price || '';
 			file = '/static/prints/'+this.state.print.file+'_min.jpg';
 			forsale = this.state.print.forsale;
-			artist = this.state.print.project.artist;
+			artist = (this.state.print.project) ? this.state.print.project.artist : '';
 		}
 
 		return (
@@ -104,9 +106,6 @@ export default class AdminPrint extends Component {
 							text={this.state.price}
 							updateText={this.updatePrice}
 						/>
-					</div>
-					<div className='admin__row'>
-						<Link to={'/admin/project/'+this.props.params.slug} className='button'>Cancel</Link>
 					</div>
 					<div className='admin__row'>
 						<a href='' className='button' onClick={this.save}>Save change</a>
@@ -174,6 +173,7 @@ export default class AdminPrint extends Component {
 
 	toggleForsale() {
 
+		console.log(!this.state.forsale);
 		this.setState({
 			forsale: !this.state.forsale
 		});
@@ -185,14 +185,14 @@ export default class AdminPrint extends Component {
 		this.setState({
 			print: PrintStore.getOne()
 		}, () => {
-			this.setState({
-				forsale: this.state.print.forsale,
-				title: this.state.print.title,
-				city: this.state.print.city,
-				country: this.state.print.country,
-				year: this.state.print.year,
-				price: this.state.print.price
-			})
+			// this.setState({
+			// 	forsale: this.state.forsale || this.state.print.forsale,
+			// 	title: this.state.title || this.state.print.title,
+			// 	city: this.state.city || this.state.print.city,
+			// 	country: this.state.country || this.state.print.country,
+			// 	year: this.state.year || this.state.print.year,
+			// 	price: this.state.price || this.state.print.price
+			// })
 		});
 
 	}

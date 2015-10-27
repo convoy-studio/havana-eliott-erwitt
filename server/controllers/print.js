@@ -57,6 +57,44 @@ const controller = {
 
 	getByToken : {
 		handler : function(request, reply){
+			Print.findOne({ token: request.params.token }, function(err, print_item) {
+				if (!err) {
+					// recupérer les infos du projet de la photo
+					Project.findById(print_item.project_id, function (err, project_item) {
+						if (!err) {
+							let project = {
+								artist: project_item.artist,
+								desc: project_item.desc,
+								slug: project_item.slug
+							}
+							let print = {
+								token: print_item.token,
+								title: print_item.title,
+								city: print_item.city,
+								country: print_item.country,
+								year: print_item.year,
+								file: print_item.file,
+								copies: print_item.copies,
+								serials: print_item.serials,
+								desc: print_item.desc,
+								price: print_item.price,
+								forsale: print_item.forsale,
+								project: project
+							};
+							return reply(print);
+						} else {
+							return reply(Boom.badImplementation(err)); // HTTP 500
+						}
+					});
+				} else {
+					return reply(Boom.badImplementation(err)); // HTTP 500
+				}
+			});
+		}
+	},
+
+	getOneForsale : {
+		handler : function(request, reply){
 			Print.find({ forsale: true }, function(err, print_items) {
 				if (!err) {
 					let index = getIndexBy(print_items, 'token', request.params.token);

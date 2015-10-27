@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 let config = require('../../../config');
 
 export default class AdminHome extends Component {

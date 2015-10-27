@@ -5,13 +5,13 @@ let config = require('../../../config');
 
 const nav = [
 	{
-		section: 'users',
-		url: '/admin/users',
-		label: 'Users'
+		section: 'subscriber-news',
+		url: '/admin/subscriber-news',
+		label: 'Newsletter'
 	},{
-		section: 'fellowship',
-		url: '/fellowship',
-		label: 'Fellowship'
+		section: 'subscriber-shop',
+		url: '/admin/subscriber-shop',
+		label: 'Opening'
 	},{
 		section: 'order',
 		url: '/admin/orders',
@@ -36,14 +36,14 @@ export default class Admin extends Component {
 		return (
 			<div>
 				<header className='header'>
-					<nav className='header__menu'>
-						<ul className='header__list'>
+					<nav className='admin__menu'>
+						<ul className='admin__list'>
 							{Object.keys(nav).map((index) => {
 								let item = nav[index];
 								let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
 								return (
-									<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+									<li className='admin__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
 								)
 							})}
 						</ul>

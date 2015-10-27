@@ -53,6 +53,19 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
+				console.log(json);
+				PrintActions.receive(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
+	getOneForsale : function(id) {
+		fetch(config.siteurl + '/api/print/forsale/' + id)
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				console.log(json);
 				PrintActions.receive(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)

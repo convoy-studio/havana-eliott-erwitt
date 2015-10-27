@@ -45,6 +45,15 @@ export default class Gallery extends Component {
 		this.onTouchstart = this.onTouchstart.bind(this);
 		this.onTouchmove = this.onTouchmove.bind(this);
 		this.onTouchend = this.onTouchend.bind(this);
+		this.facebookShare = this.facebookShare.bind(this);
+
+		window.fbAsyncInit = function() {
+            window.FB.init({
+                appId      : '926790107398740',
+                xfbml      : true,
+                version    : 'v2.5'
+            });
+        }
 
 	}
 
@@ -168,7 +177,7 @@ export default class Gallery extends Component {
 			image = config.siteurl + '/static/prints/' + this.props.prints[this.state.current].file + '.jpg';
 		}
 
-		let seo = {
+		this.seo = {
 			title: 'Elliott Erwitt Havana Club 7 Fellowship | Gallery',
 			description: details,
 			url: config.siteurl + '/photography/' + this.props.project + '/gallery/' + this.state.current,
@@ -177,11 +186,9 @@ export default class Gallery extends Component {
 		};
 		let seoComponent;
 		if (this.props.show) {
-			seoComponent = (<Seo seo={seo} />);
+			seoComponent = (<Seo seo={this.seo} />);
 		}
 
-							// <Link to={'/photography/'+this.props.project+'/gallery/'+prev} className='project__prev'><div className='arrow'></div></Link>
-							// <Link to={'/photography/'+this.props.project+'/gallery/'+next} className='project__next'><div className='arrow arrow--right'></div></Link>
 		return (
 			<div>
 				{seoComponent}
@@ -225,8 +232,8 @@ export default class Gallery extends Component {
 							<div className='project__sharer'>
 								<a href='#' className='project__share'>Share</a>
 								<div className='project__socials'>
-									<div className='button project__social project__social--facebook' data-href="https://developers.facebook.com/docs/plugins/" data-layout="link">facebook</div>
-									<a className='twitter-share-button button project__social project__social--twitter' href={'https://twitter.com/intent/tweet?url='+seo.url+'&text='+seo.twitter}>Twitter</a>
+									<a href='' className='button project__social project__social--facebook' onClick={this.facebookShare}>Facebook</a>
+									<a className='twitter-share-button button project__social project__social--twitter' href={'https://twitter.com/intent/tweet?url='+this.seo.url+'&text='+this.seo.twitter}>Twitter</a>
 								</div>
 							</div>
 						</div>
@@ -388,6 +395,20 @@ export default class Gallery extends Component {
 		}
 
 		this.deltaX = 0;
+
+	}
+
+	facebookShare(e) {
+
+		e.preventDefault();
+
+		window.FB.ui({
+			method: 'feed',
+			link: this.seo.url,
+			picture: this.seo.image,
+			caption: this.seo.title,
+			description: this.seo.description
+		});
 
 	}
 

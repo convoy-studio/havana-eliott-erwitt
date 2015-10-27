@@ -134,10 +134,38 @@ server.register([
                     // console.log(head);
 
                     Router.run(routes, location, (error, initialState) => {
+                        const content = React.renderToString(<Router location={location} {...initialState}/>);
+
+                        // const helmet = Helmet.rewind();
+                        // fetchComponentsdata(initialState.components)
+                        //     .then((response)=> {
+
+
+                        //     })
                         if(error){
                             return reply(Boom.badImplementation(err)); // HTTP 500
-                        }  
+                        }
+                                    // <title>Elliott Erwitt Havana Club 7 Fellowship</title>
+                                    // <div id="root" dangerouslySetInnerHTML={{__html: 
+                                    //     React.renderToString(<Router location={location} {...initialState}/>)
+                                    // }}/>
 
+                        // console.log(helmet);
+
+                        // Get head tags from Helmet
+                        // let headMap = Helmet.rewind();
+
+                        // // Make sure they are all HTML
+                        // headMap.title = `<title>${headMap.title}</title>`;
+
+                        // // Get all dem HTML tags
+                        // let headHtml = Object.values(headMap).join('\n');
+                        // headHtml = headHtml.replace(/(\r\n|\n|\r)/gm, '');
+
+                                    // ${headHtml}
+
+                                    // <script dangerouslySetInnerHTML={{__html: facebook}}/>
+                                    // <script>{facebook}</script>
                         return reply('<!doctype html>\n' + React.renderToString(
                             <html lang="en">
                                 <head>
@@ -149,24 +177,33 @@ server.register([
                                 </head>
                                 <body>
                                     <div id="fb-root"></div>
-                                    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=646684068764207" type="text/javascript"></script>
 
-                                    <div id="root" dangerouslySetInnerHTML={{__html: 
-                                        React.renderToString(<Router location={location} {...initialState}/>)
-                                    }}/>
+                                    <div id="root" dangerouslySetInnerHTML={{__html: content}}/>
 
-                                    <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
                                     <script src={scripts[env]} type="text/javascript"></script>
+
                                 </body>
                             </html>)
                         );
                     });
+                                    // <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=646684068764207" type="text/javascript"></script>
+                                    // <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                 }
             }
         });
+                                   // <script>
+                                   //    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                                   //    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                   //    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                                   //    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                                   //    ga('create', 'UA-69262872-1', 'auto');
+                                   //    ga('send', 'pageview');
+
+                                   //  </script>
 
         server.start(function () {
             console.log('Server started at: ' + server.info.uri);

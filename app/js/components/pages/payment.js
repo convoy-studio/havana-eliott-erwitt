@@ -233,21 +233,21 @@ export default class Payment extends ComponentTransition {
 							<h3 className='payment__method form__title'>Payment method</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='maestro' defaultChecked/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='maestro' id='maestro' defaultChecked/>
 									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
 								</div>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='visa'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='visa' id='visa'/>
 									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='paypal'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='paypal' id='paypal'/>
 									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
 								</div>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' id='americanExpress'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='americanExpress' id='americanExpress'/>
 									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
 								</div>
 							</div>
@@ -281,7 +281,7 @@ export default class Payment extends ComponentTransition {
 							<div className='payment__total cart__total'>
 								<div className='payment__subtotal cart__subtotal'>
 									<div className='cart__column'>Subtotal:</div>
-									<div className='cart__column'>{this.state.cartTotal}<span className='cart__currency'>€</span></div>
+									<div className='cart__column'>{this.state.cartTotal+10}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__tva'>
 									<div className='cart__column'>Included TVA:</div>
@@ -378,7 +378,7 @@ export default class Payment extends ComponentTransition {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			total: this.state.cartTotal * 100,
+			total: (this.state.cartTotal+10) * 100,
 
 			firstname: document.getElementById('firstname').value,
 			lastname: document.getElementById('lastname').value,
@@ -451,19 +451,34 @@ export default class Payment extends ComponentTransition {
 	onOrderStoreChange() {
 
 		let order = OrderStore.getCreated();
+		let method = document.querySelector('input[name=paymentMethod]:checked').getAttribute('data-method');
 		
-		CartApi.generatePayButton({
-			order_id: order._id,
-			user_id: order.user,
-			total: this.state.cartTotal * 100
-			// firstname: 'Nicolas',
-			// lastname: 'Daniel',
-			// phone: '0102030405',
-			// address: '23 rue xxx',
-			// zip: '12345',
-			// city: 'Azerty',
-			// country: 'France',
-		});
+		switch(method) {
+			case 'visa':
+			case 'maestro':
+			case 'americanExpress':
+				CartApi.generatePayButton({
+					order_id: order._id,
+					user_id: order.user,
+					total: this.state.cartTotal * 100
+					// firstname: 'Nicolas',
+					// lastname: 'Daniel',
+					// phone: '0102030405',
+					// address: '23 rue xxx',
+					// zip: '12345',
+					// city: 'Azerty',
+					// country: 'France',
+				});
+				break;
+			case 'paypal':
+				CartApi.paypalPayment({
+					order_id: order._id,
+					user_id: order.user,
+					total: this.state.cartTotal * 100
+				});
+				console.log('paypal');
+				break;
+		}
 
 	}
 
