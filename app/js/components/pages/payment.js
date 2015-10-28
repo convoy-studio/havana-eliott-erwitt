@@ -10,6 +10,7 @@ import OrderApi from '../../utils/orderApi';
 import OrderStore from '../../stores/orderStore';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
+import MailApi from '../../utils/mailApi';
 let config = require('../../config');
 let validator = require('validator');
 
@@ -461,7 +462,7 @@ export default class Payment extends ComponentTransition {
 
 		let order = OrderStore.getCreated();
 		let method = document.querySelector('input[name=paymentMethod]:checked').getAttribute('data-method');
-		
+
 		switch(method) {
 			case 'visa':
 			case 'maestro':
@@ -496,7 +497,10 @@ export default class Payment extends ComponentTransition {
 		let response = NewsletterStore.getCreated();
 		
 		if (response.success) {
-			MailApi.sendTemplateData(this.mail);
+			MailApi.sendDynamicTemplate({
+				template: 'havana-subscribe-newsletter',
+				recipients: [response.data]
+			});
 		}
 
 	}

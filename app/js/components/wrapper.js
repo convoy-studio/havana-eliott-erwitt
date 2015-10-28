@@ -123,9 +123,11 @@ export default class Wrapper {
 						return (
 							<footer className='footer'>
 								<ul>
+									<li><Link to="/newsletter" className="footer__button button button--footer">Newsletter</Link></li>
 									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-									<li><Link to="/privacy" className="footer__button button button--footer">Privacy</Link></li>
-									<li><Link to="/legal" className="footer__button button button--footer">Legal</Link></li>
+									<li><Link to="/privacy" className="footer__button button button--footer">Privacy Policy</Link></li>
+									<li><Link to="/legal" className="footer__button button button--footer">Cookie Policy</Link></li>
+									<li><Link to="/terms" className="footer__button button button--footer">Terms and conditions of use</Link></li>
 								</ul>
 							</footer>
 						)

@@ -177,6 +177,7 @@ server.register([
                                 </head>
                                 <body>
                                     <div id="fb-root"></div>
+                                    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=646684068764207" type="text/javascript"></script>
 
                                     <div id="landscape">
                                         <div><p>Please rotate your device</p></div>
@@ -184,6 +185,7 @@ server.register([
 
                                     <div id="root" dangerouslySetInnerHTML={{__html: content}}/>
 
+                                    <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
@@ -193,8 +195,6 @@ server.register([
                             </html>)
                         );
                     });
-                                    // <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=646684068764207" type="text/javascript"></script>
-                                    // <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                 }
             }
         });

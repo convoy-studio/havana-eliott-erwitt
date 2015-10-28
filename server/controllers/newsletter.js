@@ -53,6 +53,7 @@ var controller = {
 						newsletter.save( function(err, data) {
 							if (!err) {
 								const response = {
+									data: data,
 									success: true,
 									message: 'Email successfully subscribe.'
 								}

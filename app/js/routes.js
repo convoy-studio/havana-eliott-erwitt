@@ -12,11 +12,13 @@ import Print from './components/pages/print';
 import Payment from './components/pages/payment';
 import Result from './components/pages/result';
 import News from './components/pages/news';
+import Newsletter from './components/pages/newsletter';
 import Friends from './components/pages/friends';
 import Contact from './components/pages/contact';
 import Privacy from './components/pages/privacy';
 import Legal from './components/pages/legal';
 import Terms from './components/pages/terms';
+import Unsubscribe from './components/pages/unsubscribe';
 
 import Admin from './components/pages/admin/wrapper';
 import AdminLogin from './components/pages/admin/login';
@@ -27,6 +29,7 @@ import AdminPrint from './components/pages/admin/print';
 import AdminOrders from './components/pages/admin/orders';
 import AdminOrder from './components/pages/admin/order';
 import AdminSubscribersShop from './components/pages/admin/subscriber-shop';
+import AdminSubscribersNews from './components/pages/admin/subscriber-news';
 
 import NotFound from './components/pages/not-found';
 
@@ -48,11 +51,13 @@ export default (
 		<Route path="/payment" component={Payment}/>
 		<Route path="/payment/result" component={Result}/>
 		<Route path="/news" component={News}/>
+		<Route path="/newsletter" component={Newsletter}/>
 		<Route path="/friends" component={Friends}/>
 		<Route path="/contact" component={Contact}/>
 		<Route path="/privacy" component={Privacy}/>
 		<Route path="/legal" component={Legal}/>
 		<Route path="/terms" component={Terms}/>
+		<Route path="/unsubscribe" component={Unsubscribe}/>
 		<Route path="/admin" component={Admin} onEnter={requireLogin}>
 			<Route path="/login" component={AdminLogin}/>
 			<Route path="/projects" component={AdminProjects}/>
@@ -61,6 +66,7 @@ export default (
 			<Route path="/orders" component={AdminOrders}/>
 			<Route path="/order/:token" component={AdminOrder}/>
 			<Route path="/subscriber-shop" component={AdminSubscribersShop}/>
+			<Route path="/subscriber-news" component={AdminSubscribersNews}/>
 		</Route>
 		<Route path="*" component={NotFound}/>
 	</Route>

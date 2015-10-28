@@ -18,6 +18,9 @@ export default class Result extends ComponentTransition {
 				'Votre commande à bien été validée.',
 				'Un email vient de vous être envoyé.'
 			];
+
+			// vider le panier
+			localStorage.setItem('cart', undefined);
 		}
 		if (Utils.getURLParameter('result') === 'error') {
 			message = [

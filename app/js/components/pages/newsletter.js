@@ -3,13 +3,13 @@ import ComponentTransition from '../componentTransition';
 import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
-import OpeningShopApi from '../../utils/openingShopApi';
-import OpeningShopStore from '../../stores/openingShopStore';
+import NewsletterApi from '../../utils/newsletterApi';
+import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
 let config = require('../../config');
 let validator = require('validator');
 
-export default class ShopTemp extends ComponentTransition {
+export default class Newsletter extends ComponentTransition {
 
 	componentWillMount() {
 
@@ -26,16 +26,16 @@ export default class ShopTemp extends ComponentTransition {
 
 	componentDidMount() {
 
-		OpeningShopStore.addChangeListener(this.onStoreChange);
+		NewsletterStore.addChangeListener(this.onStoreChange);
 
 	}
 
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Subscribe opening shop',
-			description: 'Subscribe to the opening shop',
-			url: config.siteurl + '/shopTemp',
+			title: 'Elliott Erwitt Havana Club 7 Fellowship | Newsletter',
+			description: 'Subscribe to the newsletter',
+			url: config.siteurl + '/newsletter',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 
@@ -78,7 +78,7 @@ export default class ShopTemp extends ComponentTransition {
 		this.mail = document.getElementById('mail').value;
 
 		if (validator.isEmail(this.mail)) {
-			OpeningShopApi.create({
+			NewsletterApi.create({
 				mail: this.mail
 			});
 		} else {
@@ -92,10 +92,14 @@ export default class ShopTemp extends ComponentTransition {
 	onStoreChange() {
 
 		this.setState({
-			response: OpeningShopStore.getCreated()
+			response: NewsletterStore.getCreated()
 		}, () => {
 			if (this.state.response.success) {
-				MailApi.sendTemplate('havana-opening-shop', this.mail);
+				// MailApi.sendTemplate('havana-subscribe-newsletter', this.mail);
+				MailApi.sendDynamicTemplate({
+					template: 'havana-subscribe-newsletter',
+					recipients: [this.state.response.data]
+				});
 			}
 		});
 
