@@ -197,13 +197,14 @@ export default class Gallery extends Component {
 					<div className='project__content'>
 						<div className='project__prints'>
 							{Object.keys(this.props.prints).map((id, index) => {
-								let file = this.props.prints[id].file + '_big.jpg'
-								let status = (index === this.state.current) ? 'project__print--current ' : ''
+								let file = this.props.prints[id].file + '_big.jpg';
+								let alt = this.props.prints[id].alt;
+								let status = (index === this.state.current) ? 'project__print--current ' : '';
 								let size;
 								if (this.state.sizes) size = 'project__print--'+this.state.sizes[index];
 								return (
 									<div className={'project__print '+status+size} onClick={this.zoomIn} key={id}>
-										<img className='project__image' src={'/static/prints/'+file}></img>
+										<img className='project__image' src={'/static/prints/'+file} alt={alt}></img>
 									</div>
 								)
 							})}
@@ -243,11 +244,12 @@ export default class Gallery extends Component {
 					<div className='project__bigcontent'>
 						<div className='project__bigprints'>
 							{Object.keys(this.props.prints).map((id, index) => {
-								let file = this.props.prints[id].file + '_big.jpg'
+								let file = this.props.prints[id].file + '_big.jpg';
+								let alt = this.props.prints[id].alt;
 								let status = (index === this.state.current) ? 'project__bigprint--current' : ''
 								return (
 									<div className={'project__bigprint '+status} onClick={this.zoomOut} key={id}>
-										<img className='project__bigimage' src={'/static/prints/'+file}></img>
+										<img className='project__bigimage' src={'/static/prints/'+file} alt={alt}></img>
 									</div>
 								)
 							})}

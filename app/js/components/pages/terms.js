@@ -33,9 +33,9 @@ export default class Terms extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Terms',
-			description: 'Lorem ipsum dolor sit amet',
-			url: config.siteurl + '/terms',
+			title: 'Terms and conditions of use | Elliott Erwitt Havana Club 7 Fellowship',
+			description: '',
+			url: config.siteurl + '/terms-and-condition-of-use',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 

@@ -73,8 +73,8 @@ export default class ContactSheet extends ComponentTransition {
 		let printIndex = -1;
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Contact sheet',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Contact Sheet | Elliott Erwitt Havana Club 7 Fellowship',
+			description: "Discover Magnum photographer Elliott Erwitt's new body of work in Cuba as well as his 1965 photos including Fidel Castro and Che Guevara pictures.",
 			url: config.siteurl + '/photography/' + this.props.params.slug + '/contact-sheet',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
@@ -96,7 +96,7 @@ export default class ContactSheet extends ComponentTransition {
 										let random = Math.floor(Math.random()*6)
 										printIndex++
 										return (
-											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={printId}><img className='contact-sheet__image' src={src}></img></Link>
+											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={printId}><img className='contact-sheet__image' src={src} alt={print.alt}></img></Link>
 										)
 									}.bind(this))}
 								</div>

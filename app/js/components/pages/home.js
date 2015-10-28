@@ -82,8 +82,8 @@ export default class Home extends ComponentTransition {
 	render() {
 		
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Elliott Erwitt documentary photography | Elliott Erwitt Havana Club 7 Fellowship',
+			description: "Legendary Magnum photographer Elliott Erwitt returns to Cuba to capture images in support of the inaugural 'Elliott Erwitt Havana Club 7 Fellowship'.",
 			url: config.siteurl,
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

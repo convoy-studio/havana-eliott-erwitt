@@ -105,8 +105,8 @@ export default class Shop extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Shop',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Buy Elliott Erwitt Print | Havana Club 7 Fellowship',
+			description: 'Buy limited edition prints signed originals by Elliot Erwitt and other documentary photographers member of the Fellowship project.',
 			url: config.siteurl + '/shop',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
@@ -157,7 +157,7 @@ export default class Shop extends ComponentTransition {
 										return (
 											<div className='shop__print' key={index}>
 												<Link to={'/shop/'+print.token}>
-													<img src={'/static/prints/'+file}></img>
+													<img src={'/static/prints/'+file} alt={print.alt}></img>
 													<div className='shop__hover'>
 														<div className='shop__detail-wrapper'>
 															<div className='shop__detail'>

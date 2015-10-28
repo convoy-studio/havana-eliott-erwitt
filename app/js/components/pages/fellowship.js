@@ -82,8 +82,8 @@ export default class Fellowship extends ComponentTransition {
 	render(){
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Fellowship',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Fellowship | Elliott Erwitt Havana Club 7 Fellowship',
+			description: "The fellowship will allow aspiring photographers to follow Elliott's footsteps capturing the human condition through documentary photography in Cuba.",
 			url: config.siteurl + '/fellowship',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

@@ -1,4 +1,6 @@
 import React from 'react';
+import Helmet from 'react-helmet';
+import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import ComponentTransition from '../componentTransition';
 import Utils from '../../utils/utils';
@@ -11,6 +13,13 @@ export default class Result extends ComponentTransition {
 	}
 
 	render() {
+
+		let seo = {
+			title: 'Payment confirmation | Elliott Erwitt Havana Club 7 Fellowship',
+			description: '',
+			url: config.siteurl + '/payment-confirmation',
+			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+		};
 
 		let message = [];
 		if (Utils.getURLParameter('result') === 'success') {
@@ -31,6 +40,7 @@ export default class Result extends ComponentTransition {
 
 		return (
 			<div className='page page--result' ref='view'>
+				<Seo seo={seo} />
 				<div className='result'>
 					<div className='result__message'>
 						{Object.keys(message).map((index) => {

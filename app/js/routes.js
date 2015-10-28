@@ -18,6 +18,7 @@ import Contact from './components/pages/contact';
 import Privacy from './components/pages/privacy';
 import Legal from './components/pages/legal';
 import Terms from './components/pages/terms';
+import PurchaseConditions from './components/pages/purchase-conditions';
 import Unsubscribe from './components/pages/unsubscribe';
 
 import Admin from './components/pages/admin/wrapper';
@@ -49,14 +50,15 @@ export default (
 		<Route path="/shop" component={Shop}/>
 		<Route path="/shop/:token" component={Print}/>
 		<Route path="/payment" component={Payment}/>
-		<Route path="/payment/result" component={Result}/>
+		<Route path="/payment-confirmation" component={Result}/>
 		<Route path="/news" component={News}/>
 		<Route path="/newsletter" component={Newsletter}/>
-		<Route path="/friends" component={Friends}/>
+		<Route path="/friends-of-fellowship" component={Friends}/>
 		<Route path="/contact" component={Contact}/>
-		<Route path="/privacy" component={Privacy}/>
-		<Route path="/legal" component={Legal}/>
-		<Route path="/terms" component={Terms}/>
+		<Route path="/privacy-policy" component={Privacy}/>
+		<Route path="/cookie-policy" component={Legal}/>
+		<Route path="/terms-and-condition-of-use" component={Terms}/>
+		<Route path="/terms-and-condition-of-sale" component={PurchaseConditions}/>
 		<Route path="/unsubscribe" component={Unsubscribe}/>
 		<Route path="/admin" component={Admin} onEnter={requireLogin}>
 			<Route path="/login" component={AdminLogin}/>

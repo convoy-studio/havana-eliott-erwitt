@@ -34,9 +34,9 @@ export default class Friends extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Friends',
-			description: 'Lorem ipsum dolor sit amet',
-			url: config.siteurl + '/friends',
+			title: 'Friends of fellowship | Elliott Erwitt Havana Club 7 Fellowship',
+			description: 'Friends of fellowship',
+			url: config.siteurl + '/friends-of-fellowship',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 

@@ -33,9 +33,9 @@ export default class ShopTemp extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Subscribe opening shop',
-			description: 'Subscribe to the opening shop',
-			url: config.siteurl + '/shopTemp',
+			title: 'Temporary Shop | Elliott Erwitt Havana Club 7 Fellowship',
+			description: 'If you are interested in being contacted when the shop has re-open, please register your email here.',
+			url: config.siteurl + '/shop-temp',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 

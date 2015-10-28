@@ -125,9 +125,15 @@ export default class Wrapper {
 								<ul>
 									<li><Link to="/newsletter" className="footer__button button button--footer">Newsletter</Link></li>
 									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-									<li><Link to="/privacy" className="footer__button button button--footer">Privacy Policy</Link></li>
-									<li><Link to="/legal" className="footer__button button button--footer">Cookie Policy</Link></li>
-									<li><Link to="/terms" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
+									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+									{(() => {
+										if (this.props.location.pathname.indexOf('/shop') === -1) { return (
+											<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+										)} else { return (
+											<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
+										)}
+									}.bind(this))()}
 								</ul>
 							</footer>
 						)

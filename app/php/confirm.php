@@ -128,17 +128,17 @@ if($be2bill->checkHash($_GET) == $_GET['HASH'] && $_GET['EXECCODE'] == '0000') {
 
 			// $result = curl_exec($ch);
 
-    		header('Location: /payment/result?result=success');
+    		header('Location: /payment-confirmation?result=success');
 		} else {
 			print_r($result);
 		}
 	} else {
-    	header('Location: /payment/result?result=error');
+    	header('Location: /payment-confirmation?result=error');
 	}
 	
 } else {
     // Suspicious redirection
-    header('Location: /payment/result?result=error');
+    header('Location: /payment-confirmation?result=error');
 }
 
 ?>

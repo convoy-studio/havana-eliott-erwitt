@@ -123,8 +123,8 @@ export default class Project extends Component {
 			description += value;
 		}.bind(this)).value();
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Gallery',
-			description: description,
+			title: 'Gallery | Elliott Erwitt Havana Club 7 Fellowship',
+			description: "Discover Magnum photographer Elliott Erwitt's new body of work in Cuba as well as his 1965 photos including Fidel Castro and Che Guevara pictures.",
 			url: config.siteurl + '/photography/' + this.props.params.slug,
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

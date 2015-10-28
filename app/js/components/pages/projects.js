@@ -94,8 +94,8 @@ export default class Projects extends ComponentTransition {
 		const { pathname } = this.props.location.pathname;
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Photography',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Photography | Elliott Erwitt Havana Club 7 Fellowship',
+			description: 'Discover more about the project, the current photographer and the next fellowship photographer.',
 			url: config.siteurl + '/photography',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

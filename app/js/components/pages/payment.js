@@ -104,8 +104,8 @@ export default class Payment extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Payment',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Payment | Elliott Erwitt Havana Club 7 Fellowship',
+			description: '',
 			url: config.siteurl + '/payment',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
@@ -303,7 +303,7 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
-								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='/terms' target='_blank'>terms and conditions</a>*</p></label>
+								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='/terms-and-condition-of-sale' target='_blank'>terms and conditions</a>*</p></label>
 							</div>
 							<button type='submit' className='payment__pay button'>Proceed to payment</button>
 							<div className='text payment__error payment__error--mobile'>

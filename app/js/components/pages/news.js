@@ -62,8 +62,8 @@ export default class News extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | News',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'News | Elliott Erwitt Havana Club 7 Fellowship',
+			description: 'Find out the latest news about the Fellowship documentary photography project',
 			url: config.siteurl + '/news',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

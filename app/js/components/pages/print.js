@@ -120,7 +120,7 @@ export default class Print extends ComponentTransition {
 
 	render() {
 
-		let title, city, country, year, price, desc, serials, artist, bigfile, details, prev, next;
+		let title, city, country, year, price, desc, serials, artist, file, bigfile, alt, details, prev, next;
 
 		if (this.state.print) {
 			this.validSerials = this.getValidSerials();
@@ -134,7 +134,9 @@ export default class Print extends ComponentTransition {
 			desc = this.state.print.desc;
 			serials = this.state.print.serials;
 			artist = this.state.print.project.artist;
+			file = '/static/prints/'+this.state.print.file+'_medium.jpg';
 			bigfile = '/static/prints/'+this.state.print.file+'.jpg';
+			alt = this.state.print.alt;
 			prev = this.state.print.prev;
 			next = this.state.print.next;
 		}
@@ -147,11 +149,25 @@ export default class Print extends ComponentTransition {
 		
 		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
 
+		let seoTitle;
+		if (title) {
+			seoTitle = 'Elliott Erwitt Print | ' + title + ' | ' + country + ' ' + year;
+		} else {
+			seoTitle = 'Elliott Erwitt Print | ' + city + ' | ' + country + ' ' + year;
+		}
+
+		let seoDesc;
+		if (title) {
+			seoDesc = 'Buy the limited edition "' + title + '" original print by ' + artist;
+		} else {
+			seoDesc = 'Buy the limited edition "' + city + '" original print by ' + artist;
+		}
+
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Print',
-			description: details,
+			title: seoTitle,
+			description: 'Buy the limited edition "' + title + '" original print by ' + artist,
 			url: config.siteurl + '/shop/' + this.props.params.token,
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + file
 		};
 
 		return (
@@ -203,7 +219,7 @@ export default class Print extends ComponentTransition {
 						</div>
 					</div>
 					<div className={'bigprint ' + bigPrintClass}>
-						<img className='bigprint__image' src={bigfile} onClick={this.zoomOut}></img>
+						<img className='bigprint__image' src={bigfile} alt={alt} onClick={this.zoomOut}></img>
 					</div>
 				</div>
 				<div className='print__mobile'>
@@ -368,7 +384,7 @@ export default class Print extends ComponentTransition {
 		this.print = (
 			<div className='print__left'>
 				<div className={'print__image print__image--'+size}>
-					<img className='print__file' src={'/static/prints/'+this.state.print.file+'_medium.jpg'} onClick={this.zoomIn}></img>
+					<img className='print__file' src={'/static/prints/'+this.state.print.file+'_medium.jpg'} alt={this.state.print.alt} onClick={this.zoomIn}></img>
 				</div>
 			</div>
 		);

@@ -42,8 +42,8 @@ export default class Contact extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Contact',
-			description: 'Lorem ipsum dolor sit amet',
+			title: 'Contact | Elliott Erwitt Havana Club 7 Fellowship',
+			description: 'Contact us here if you have any questions regarding the "Elliott Erwitt Havana Club 7 Fellowship", our brand or product range.',
 			url: config.siteurl + '/contact',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};

@@ -33,9 +33,9 @@ export default class Privacy extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Privacy',
-			description: 'Lorem ipsum dolor sit amet',
-			url: config.siteurl + '/privacy',
+			title: 'Privacy policy | Elliott Erwitt Havana Club 7 Fellowship',
+			description: '',
+			url: config.siteurl + '/privacy-policy',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
 
