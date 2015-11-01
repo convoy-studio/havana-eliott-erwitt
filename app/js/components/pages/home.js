@@ -32,6 +32,7 @@ export default class Home extends ComponentTransition {
 		let logo = document.querySelector('.header__logo');
 		let hamburger = document.querySelector('.hamburger');
 		let footer = document.querySelector('.footer');
+		let body = document.querySelector('body');
 
 		logo.style.display = 'table';
 		this.enterTl = new TimelineMax({delay:0.3});
@@ -39,7 +40,9 @@ export default class Home extends ComponentTransition {
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
 		this.enterTl.set(hamburger, {backgroundColor: 'transparent'}, 0);
-		footer.style.display = 'none';
+		if (body && body.classList.contains('js-mobile')) {
+			footer.style.display = 'none';
+		}
 	
 	}
 	
@@ -78,7 +81,15 @@ export default class Home extends ComponentTransition {
 			TweenMax.to(this.canvas, 0.8, {backgroundColor: 'transparent', delay: 0.2});
 			
 			this.initSplash();
-			this.initAnimation();
+			window.onload = ()=>{
+				this.initAnimation();
+
+				if (this.body && this.body.classList.contains('js-mobile')) {
+					this.cropDescMobile();
+				} else {
+					this.cropDesc();
+				}
+			}
 		}
 
 	}
@@ -141,17 +152,19 @@ export default class Home extends ComponentTransition {
 		ctx.fillStyle = 'black';
 		ctx.fill();
 
-		if (this.body && this.body.classList.contains('js-mobile')) {
-			this.cropDescMobile();
-		} else {
-			this.cropDesc();
-		}
+		// if (this.body && this.body.classList.contains('js-mobile')) {
+		// 	this.cropDescMobile();
+		// } else {
+		// 	this.cropDesc();
+		// }
 
 	}
 
 	cropDesc() {
 
 		let ctx = this.canvas.getContext('2d');
+		this.resetCanvas();
+		
 		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
@@ -164,6 +177,8 @@ export default class Home extends ComponentTransition {
 	cropDescMobile() {
 
 		let ctx = this.canvas.getContext('2d');
+		this.resetCanvas();
+
 		ctx.font = "400 "+this.fontSizeMobile+"px 'hc7modern'";
 		ctx.textAlign = "left";
 		ctx.globalCompositeOperation = "destination-out";

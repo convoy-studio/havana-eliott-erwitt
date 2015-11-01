@@ -175,13 +175,11 @@
 	}
 
 	.header__item {
-		// margin-right: calc(100% / 3 - 542px / 3 - 20px);
-		margin-right: calc(100% / 3 - 452px / 3 - 20px);
-		// margin-right: calc(100% / 3 - 474px / 3 - 10px);
+		margin-right: calc(100% / 3 - 482px / 3 - 20px);
 	}
+
 	.header__item a {
 		padding: 20px 30px 20px;
-		// font-size: 14px;
 	}
 
 	.header__item .button__content {
@@ -199,7 +197,6 @@
 		right: initial;
 		top: initial;
 		transform: none;
-		// @extend .mobile-button;
 		position: fixed;
 		left: 0;
 		bottom: 0;

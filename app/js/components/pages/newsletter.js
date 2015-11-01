@@ -115,7 +115,8 @@ export default class Newsletter extends ComponentTransition {
 				// MailApi.sendTemplate('havana-subscribe-newsletter', this.mail);
 				MailApi.sendDynamicTemplate({
 					template: 'havana-subscribe-newsletter',
-					recipients: [this.state.response.data]
+					recipients: [this.state.response.data],
+					from: 'contact@havana-fellowship.com'
 				});
 			}
 		});

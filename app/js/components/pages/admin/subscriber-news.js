@@ -81,7 +81,8 @@ export default class AdminSubscribersNews extends Component {
 			console.log('send newsletter with the template', this.refs.template.getDOMNode().value);
 			let data = {
 				template: this.refs.template.getDOMNode().value,
-				recipients: this.state.subscribers
+				recipients: this.state.subscribers,
+				from: 'contact@havana-fellowship.com'
 			};
 			MailApi.sendDynamicTemplate(data);
 		}

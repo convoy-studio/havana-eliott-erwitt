@@ -58,11 +58,13 @@ export default class Fellowship extends ComponentTransition {
 		let footer = document.querySelector('.footer');
 
 		logo.style.display = 'table';
-		footer.style.display = 'none';
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
-		if (body && body.classList.contains('js-mobile')) this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
+		if (body && body.classList.contains('js-mobile')) {
+			this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
+			footer.style.display = 'none';
+		}
 		this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
 	
 	}

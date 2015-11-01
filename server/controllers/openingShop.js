@@ -53,7 +53,7 @@ var controller = {
 							if (!err) {
 								const response = {
 									success: true,
-									message: 'Email successfully subscribe.'
+									message: 'Email successfully subscribed.'
 								}
 								return reply(response);
 							} else {

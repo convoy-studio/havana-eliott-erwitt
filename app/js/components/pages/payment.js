@@ -499,7 +499,8 @@ export default class Payment extends ComponentTransition {
 		if (response.success) {
 			MailApi.sendDynamicTemplate({
 				template: 'havana-subscribe-newsletter',
-				recipients: [response.data]
+				recipients: [response.data],
+				from: 'contact@havana-fellowship.com'
 			});
 		}
 

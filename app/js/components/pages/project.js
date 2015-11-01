@@ -24,6 +24,8 @@ export default class Project extends Component {
 			// open: (Utils.getURLParameter('open')) ? true : false
 		};
 
+		this.eventAdded = false;
+
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.showGallery = this.showGallery.bind(this);
@@ -104,6 +106,7 @@ export default class Project extends Component {
 
 		ProjectStore.removeChangeListener(this.onStoreChange);
 		PrintStore.removeChangeListener(this.onStoreChange);
+		window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
 
 	}
 
@@ -154,6 +157,7 @@ export default class Project extends Component {
 						return (
 							<div className='project__gallery-wrapper'>
 								<Gallery
+									ref='gallery'
 									prints={this.state.prints}
 									show={this.state.open}
 									project={slug}
@@ -212,11 +216,38 @@ export default class Project extends Component {
 
 	}
 
+	orientationChange() {
+		const { pathname } = this.props.location;
+
+		if (window.orientation === 90 || window.orientation === -90) {
+			if (this.refs.gallery && this.state.open) {
+				document.getElementById('landscape').style.display = 'none';
+				this.refs.gallery.zoomIn();
+			} else {
+				document.getElementById('landscape').style.display = 'block';
+			}
+		} else {
+			document.getElementById('landscape').style.display = 'none';
+			if (this.refs.gallery && this.state.open) {
+				this.refs.gallery.zoomOut();
+			}
+		}
+
+	}
+
 	onStoreChange() {
 
 		this.setState({
 			project: ProjectStore.getOne(),
 			prints: PrintStore.getArtistPrints()
+		}, ()=>{
+			if(typeof window !== 'undefined' && _.size(this.state.prints) > 0 && !this.eventAdded) {
+				this.eventAdded = true;
+				if (window.innerWidth < 768) {
+					this.orientationChange();
+					window.addEventListener('orientationchange', this.orientationChange.bind(this), false);
+				}
+			}
 		});
 
 	}

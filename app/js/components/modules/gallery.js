@@ -343,14 +343,16 @@ export default class Gallery extends Component {
 
 	zoomOut() {
 
-		this.zoomed = false;
+		if (window.orientation === 0) {
+			this.zoomed = false;
 
-		this.setState({
-			cursorState: 'hidden'
-		});
+			this.setState({
+				cursorState: 'hidden'
+			});
 
-		document.querySelector('body').classList.remove('body--hidden');
-		document.querySelector('.project__bigslideshow').classList.add('project__bigslideshow--hidden');
+			document.querySelector('body').classList.remove('body--hidden');
+			document.querySelector('.project__bigslideshow').classList.add('project__bigslideshow--hidden');
+		}
 
 	}
 

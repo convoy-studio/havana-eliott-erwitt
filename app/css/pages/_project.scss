@@ -517,3 +517,10 @@
 		transform: translate(-50%, -50%) !important;
 	}
 }
+
+@media screen and (max-width: 958px) and (orientation: landscape) {
+	.project__bigimage {
+		width: auto;
+		height: 100%;
+	}
+}
