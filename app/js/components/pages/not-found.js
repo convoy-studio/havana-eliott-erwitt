@@ -23,7 +23,7 @@ export default class NotFound extends ComponentTransition {
 					<Seo seo={seo} />
 					<div className='page__content notfound'>
 						<h1 className='title title--center'>Page not found</h1>
-						<p className='paragraph text'>We're sorry but we couldn't find the page you're looking for.</p>
+						<p className='paragraph text text--center'>We're sorry but we couldn't find the page you're looking for.</p>
 					</div>
 				</div>
 			);

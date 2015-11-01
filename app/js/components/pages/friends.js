@@ -46,8 +46,9 @@ export default class Friends extends ComponentTransition {
 				<div className='fellowship__submenu submenu'><Link to='/fellowship' className='button'>Back to fellowship</Link></div>
 				<h1 className='title title--center title--absolute'>Friends of fellowship</h1>
 				<div className='page__content friends'>
-					<h2 className='friends__intro title'>THE FELLOWSHIP IS ALWAYS LOOKING FOR FRIENDS SHARING THE PASSION FOR GREAT DOCUMENTARY PHOTOGRAPHY.</h2>
-					<p className='text'>Below you can see some of our friends.</p>
+					<p className='text'>The Fellowship is always looking for friends sharing the passion for great documentary photography.</p>
+					<br/>
+					<p className='text text--center'>Below you can see some of our friends.</p>
 					<ul className='friends__sponsors'>
 						<li className='friends__sponsor friends__sponsor--fototeca'>
 							<img src='/static/img/fototeca_de_cuba.png'/>

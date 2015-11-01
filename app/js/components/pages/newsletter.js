@@ -15,7 +15,8 @@ export default class Newsletter extends ComponentTransition {
 
 		this.state = {
 			error: false,
-			response: undefined
+			response: undefined,
+			consent: true
 		}
 
 		// binded
@@ -40,17 +41,19 @@ export default class Newsletter extends ComponentTransition {
 		};
 
 		return (
-			<div className='page page--shop-temp' ref='view'>
+			<div className='page page--newsletter' ref='view'>
 				<Seo seo={seo} />
-				<div className='submenu'><Link to='/shop' className='button'>Back to shop page</Link></div>
-				<div className='shopTemp'>
-					<h2 className='shopTemp__title title'>THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. UNFORTUNATELY OUR SHOP IS CLOSED TEMPORARILY</h2>
-					<p className='text'>If you are interested in being contacted when we open again, please register your email below. Your email given here will be used only once to announce that the shop has re-opened.</p>
+				<div className='newsletter'>
+					<h2 className='newsletter__title title'>Subscribe to our Fellowship news</h2>
+					<p className='text'>Subscribe to be informed of the latest fellowship news and be notified when new photos are available for sale</p>
 					<form className='form'>
-						<div className='form__row'>
+						<div className='form__row newsletter__consent'>
+							<input className='form__input form__input--checkbox' type='checkbox' id='consent'/>
+							<label className='form__label form__label--pointer' htmlFor='consent'><p className='form__text'>I consent to receive news and promotional information about the Elliot Erwitt Havana Club 7 Fellowship from the foundation Elliot Erwitt Havana Club 7 Fellowship</p></label>
+						</div>
+						<div className='form__row newsletter__mail'>
 							<label className='form__label' htmlFor='mail'>Enter your email address*</label>
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
-							{(this.state.error) ? (<div className='text response--error'>Invalid mail.</div>) : null}
 							{(() => {
 								if (this.state.response) { 
 									if (this.state.response.success) { return (
@@ -58,11 +61,18 @@ export default class Newsletter extends ComponentTransition {
 									)} else { return (
 										<div className='text response--error'>{this.state.response.message}</div>
 									)}
+								} else {
+									if (this.state.error) { return (
+										<div className='text response--error'>Invalid mail.</div>
+									)} 
+									if (this.state.consent===false) { return (
+										<div className='text response--error'>You need to consent.</div>
+									)}
 								}
 							}.bind(this))()}
 						</div>
 						<div className='form__row form__row--center'>
-							<input className='form__submit button' type='submit' value='Submit' onClick={this.subscribe} />
+							<input className='form__submit button' type='submit' value='Register' onClick={this.subscribe} />
 						</div>
 					</form>
 				</div>
@@ -75,15 +85,22 @@ export default class Newsletter extends ComponentTransition {
 
 		e.preventDefault();
 
-		this.mail = document.getElementById('mail').value;
+		if (document.getElementById('consent').checked) {
+			this.mail = document.getElementById('mail').value;
 
-		if (validator.isEmail(this.mail)) {
-			NewsletterApi.create({
-				mail: this.mail
-			});
+			if (validator.isEmail(this.mail)) {
+				NewsletterApi.create({
+					mail: this.mail
+				});
+			} else {
+				this.setState({
+					error: true,
+					consent: true
+				});
+			}
 		} else {
 			this.setState({
-				error: true
+				consent: false
 			});
 		}
 

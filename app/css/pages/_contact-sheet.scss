@@ -134,6 +134,10 @@
 }
 
 @include max-screen(958px) {
+	.subpage--contact-sheet {
+		padding-top: 100px;
+		padding-bottom: 60px;
+	}
 	.contact-sheet {
 		position: relative;
 		top: initial;

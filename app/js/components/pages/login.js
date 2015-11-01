@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
+import ComponentTransition from '../componentTransition';
 import { Link } from 'react-router';
-// import { login } from '../../../actions/authActions';
-// import { signup } from '../../../actions/authActions';
-// import storage from '../../../utils/storage';
-import Auth from '../../../utils/AuthService'
-let config = require('../../../config');
+import Auth from '../../utils/authService'
+let config = require('../../config');
 
-export default class Login extends Component {
+export default class Login extends ComponentTransition {
 
-	constructor() {
+	_enterStyle() {
+	
+		let el = this.refs.view.getDOMNode();
+		let header = document.querySelector('.header');
+		let footer = document.querySelector('.footer');
 
-		super();
-
-		this.state = {
-			identifiant: '',
-			password: ''
-		};
-
+		header.style.display = 'none';
+		footer.style.display = 'none';
+		el.style.opacity = 1;
+	
+	}
+	
+	_leaveStyle(callback) {
+		
+		let el = this.refs.view.getDOMNode();
+		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
+	
 	}
 
 	componentWillMount() {
@@ -30,8 +36,8 @@ export default class Login extends Component {
 	render() {
 
 		return (
-			<div className='admin__order'>
-				<h1 className='title title--center title--absolute'>Login</h1>
+			<div className='admin__order' ref='view'>
+				<h1 className='title title--center title--absolute'>Admin</h1>
 				<form className='admin__form form'>
 					<div className='form__row'>
 						<label className='form__label' htmlFor='id'>Identifiant</label>
@@ -43,36 +49,13 @@ export default class Login extends Component {
 					</div>
 					<div className='admin__row'>
 						<a href='' className='button' onClick={this.login}>Login</a>
-						<a href='' className='button' onClick={this.signup}>Signup</a>
 					</div>
 				</form>
 			</div>
 		);
+						// <a href='' className='button' onClick={this.signup}>Signup</a>
 
 	}
-
-	// login(e) {
-		
-	// 	e.preventDefault();
-		
-	// 	let id = this.refs.id.getDOMNode().value;
-	// 	let pwd = this.refs.pwd.getDOMNode().value;
-
-	// 	if(id && pwd){
-	// 		let user = {
-	// 			identifiant : id,
-	// 			password: pwd
-	// 		};
-	// 		login(user).payload
-	// 			.then((payload)=>{
-	// 				console.log(payload);
-	// 				if(payload.success){
-	// 					storage.set('token', payload.data.token);
-	// 				}
-	// 			});
-	// 	}
-
-	// }
 
 	login(e) {
 
@@ -82,15 +65,11 @@ export default class Login extends Component {
 		let pwd = this.refs.pwd.getDOMNode().value;
 
 		if (id && pwd) {
-			// Here, we call an external AuthService. We’ll create it in the next step
 			let user = {
 				identifiant : id,
 				password: pwd
 			};
 			Auth.login(user);
-				// .catch(function(err) {
-				// 	console.log('Error logging in', err);
-				// });
 		}
 	}
 

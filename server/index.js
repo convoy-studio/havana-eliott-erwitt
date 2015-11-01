@@ -145,10 +145,6 @@ server.register([
                         if(error){
                             return reply(Boom.badImplementation(err)); // HTTP 500
                         }
-                                    // <title>Elliott Erwitt Havana Club 7 Fellowship</title>
-                                    // <div id="root" dangerouslySetInnerHTML={{__html: 
-                                    //     React.renderToString(<Router location={location} {...initialState}/>)
-                                    // }}/>
 
                         // console.log(helmet);
 
@@ -162,23 +158,21 @@ server.register([
                         // let headHtml = Object.values(headMap).join('\n');
                         // headHtml = headHtml.replace(/(\r\n|\n|\r)/gm, '');
 
-                                    // ${headHtml}
+                        // ${headHtml}
 
-                                    // <script dangerouslySetInnerHTML={{__html: facebook}}/>
-                                    // <script>{facebook}</script>
                         return reply('<!doctype html>\n' + React.renderToString(
                             <html lang="en">
                                 <head>
                                     <meta charSet="UTF-8" />
-                                    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+                                    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0" />
+                                    <meta name="google-site-verification" content="OjJk1s2tUx3x9j55kdCnUq2SY1MDEZ9lNa9adNQqnzY" />
                                     <title>Elliott Erwitt Havana Club 7 Fellowship</title>
                                     <link rel="stylesheet" href="/css/build.css" />
                                     <link rel="icon" type="image/png" href="assets/images/favicon.ico" />
                                 </head>
                                 <body>
                                     <div id="fb-root"></div>
-                                    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=646684068764207" type="text/javascript"></script>
-
+                                    
                                     <div id="landscape">
                                         <div><p>Please rotate your device</p></div>
                                     </div>
@@ -198,16 +192,6 @@ server.register([
                 }
             }
         });
-                                   // <script>
-                                   //    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                                   //    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                                   //    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                                   //    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                                   //    ga('create', 'UA-69262872-1', 'auto');
-                                   //    ga('send', 'pageview');
-
-                                   //  </script>
 
         server.start(function () {
             console.log('Server started at: ' + server.info.uri);

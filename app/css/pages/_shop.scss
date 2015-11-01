@@ -6,7 +6,7 @@
 	margin: 0 auto;
 }
 
-.shopTemp {
+.shopTemp, .newsletter {
 	width: 680px;
 	margin: 0 auto;
 	top: 50%;
@@ -24,6 +24,22 @@
 	form {
 		width: 200px;
 		margin: 30px auto;
+	}
+}
+
+.newsletter {
+	form {
+		width: 340px;
+	}
+
+	.newsletter__consent {
+		text-align: left;
+		margin-bottom: 24px;
+	}
+
+	.newsletter__mail {
+		width: 200px;
+		margin: 0 auto;
 	}
 }
 
@@ -270,9 +286,13 @@
 		}
 	}
 
-	.shopTemp {
+	.shopTemp, .newsletter {
+		position: relative;
+		top: inherit;
+		left: inherit;
+		transform: none;
 		width: 100%;
-		padding: 0 12px;
+		padding: 100px 12px 12px;
 		box-sizing: border-box;
 
 		p {
@@ -280,6 +300,22 @@
 		}
 		form {
 			margin: 30px auto;
+		}
+	}
+
+	.newsletter {
+		form {
+			width: 100%;
+		}
+
+		.newsletter__consent {
+			text-align: left;
+			margin-bottom: 24px;
+		}
+
+		.newsletter__mail {
+			width: 100%;
+			margin: 0 auto;
 		}
 	}
 }

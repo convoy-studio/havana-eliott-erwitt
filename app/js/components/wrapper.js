@@ -16,7 +16,7 @@ const nav = [
 	},
 	{
 		section: 'shop',
-		url: '/shop',
+		url: '/shop-temp',
 		label: 'Shop'
 	},{
 		section: 'photography',
@@ -29,9 +29,13 @@ const nav = [
 	}
 ];
 
-export default class Wrapper {
+export default class Wrapper extends React.Component {
 
 	componentWillMount() {
+
+		this.state = {
+			popupVisibility: false
+		};
 		
 		this.splash = AppStore.getSplash();
 
@@ -47,6 +51,8 @@ export default class Wrapper {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleScroll = this.handleScroll.bind(this);
+
+		this.visible = false;
 
 		let cartStorage;
 		if(typeof localStorage !== 'undefined') {
@@ -76,11 +82,24 @@ export default class Wrapper {
 
 		if(typeof localStorage !== 'undefined') {
 			this.cookies = window.localStorage.getItem('cookies');
+			if (!this.cookies) {
+				if (pathname === '/') {
+					TweenMax.delayedCall(12.4, ()=>{
+						this.setState({
+							popupVisibility: true
+						});
+					}.bind(this));
+				} else {
+					this.setState({
+						popupVisibility: true
+					});
+				}
+			}
 		}
 
 		return (
 			<div>
-				{(!this.cookies) ? (<PopupCookie />) : null}
+				{(!this.cookies) ? (<PopupCookie visible={this.state.popupVisibility} />) : null}
 				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
 
 				{(() => {
@@ -123,7 +142,7 @@ export default class Wrapper {
 						return (
 							<footer className='footer'>
 								<ul>
-									<li><Link to="/newsletter" className="footer__button button button--footer">Newsletter</Link></li>
+									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
 									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
 									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
 									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>

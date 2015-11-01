@@ -20,8 +20,65 @@ export default class Result extends ComponentTransition {
 			url: config.siteurl + '/payment-confirmation',
 			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
 		};
-
 		let message = [];
+
+		switch(Utils.getURLParameter('result')) {
+			case 'success':
+				message = [
+					'Your order been validated.',
+					'An email has been sent to you.'
+				];
+				break;
+			case 'insuffisiant-funds':
+				message = [
+					'Insufficient funds.',
+					'The wallet balance doesn’t allow to process transaction.',
+				];
+				break;
+			case 'suspected-fraud':
+				message = [
+					'The card is considered as fraudulent by the bank.',
+					'Please use a different card.',
+				];
+				break;
+			case 'lost-card':
+				message = [
+					'Card reported as lost.',
+					'Please use a different card or contact your card-issuing bank for more information.',
+				];
+				break;
+			case 'stolen-card':
+				message = [
+					'Card reported as stolen.',
+					'Please use a different card or contact your card-issuing bank for more information.',
+				];
+				break;
+			case 'echec-transaction':
+				message = [
+					'Transaction failed.',
+					'Please try again or ask your bank for more details.',
+				];
+				break;
+			case 'invalid-card-information':
+				message = [
+					'Invalid card information.',
+					'Please verify the name, card number, expiration date and CVV.',
+				];
+				break;
+			case 'expired-card':
+				message = [
+					'Card reported as expired.',
+					'Please contact your card-issuing bank for more information.',
+				];
+				break;
+			case 'error':
+				message = [
+					'An error occurred when ordering.',
+					'Please try again',
+				];
+				break;
+		}
+
 		if (Utils.getURLParameter('result') === 'success') {
 			message = [
 				'Votre commande à bien été validée.',

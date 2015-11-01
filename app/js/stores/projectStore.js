@@ -14,6 +14,7 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
 		return _projects;
 	},
 	getFirsts: function() {
+		// check if window.__data
 		return _firsts;
 	},
 	getOne: function() {

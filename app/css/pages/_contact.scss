@@ -10,3 +10,24 @@
 	padding: 0 20px;
 	box-sizing: border-box;
 }
+
+.feedback {
+	margin-top: 12px;
+}
+
+@include max-screen(958px) {
+	.contact__content {
+		display: block;
+		width: 100%;
+
+		form {
+			padding-top: 24px;
+		}
+	}
+
+	.contact__column {
+		display: block;
+		padding: 0 20px;
+		box-sizing: border-box;
+	}
+}

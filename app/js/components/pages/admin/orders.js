@@ -51,9 +51,6 @@ export default class AdminOrders extends Component {
 			)
 		}).value();
 
-		console.log(this.state.deliveredOrders);
-		console.log(deliveredOrders);
-
 		return (
 			<div className='admin__orders'>
 				<h1 className='title title--center title--absolute'><Link to='/admin'>Orders</Link></h1>

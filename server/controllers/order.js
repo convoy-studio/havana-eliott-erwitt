@@ -17,7 +17,6 @@ var controller = {
 	getPaid : {
 		handler : function(request, reply){
 			Order.find({ state: 'in_progress' }, function (err, items) {
-				console.log(items);
 				if (!err) {
 					return reply(items);
 				}
@@ -40,7 +39,6 @@ var controller = {
 	getOne : {
 		handler : function(request, reply){
 			Order.findById(request.params.id, function (err, item) {
-				console.log(item);
 				if (!err) {
 					return reply(item);
 				}
@@ -70,7 +68,6 @@ var controller = {
 
 	create : {
 		handler : function(request, reply){
-			console.log(request.payload.prints);
 			var order = new Order({
 				// time : new Date().getTime(),
 

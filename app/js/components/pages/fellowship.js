@@ -100,13 +100,13 @@ export default class Fellowship extends ComponentTransition {
 		return (
 			<div className='page page--fellowship' ref='view'>
 				<Seo seo={seo} />
-				<div className='fellowship__submenu submenu'><Link to='/friends' className='button'>Friends of the fellowship</Link></div>
+				<div className='fellowship__submenu submenu'><Link to='/friends-of-fellowship' className='button'>Friends of the fellowship</Link></div>
 
 				<div className='bg-video fellowship__video'>
 					<div className='youtube-wrapper'>
 						<YouTube
 							className='youtube-video'
-							url={'https://www.youtube.com/watch?v=70S8CmZQeaA'}
+							url={'https://youtu.be/KcjK36YKLqY'}
 							opts={opts}
 							onReady={this.handleVideoReady}
 						/>

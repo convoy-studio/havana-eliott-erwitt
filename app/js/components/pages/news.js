@@ -2,6 +2,7 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
+import { Link } from 'react-router';
 import AppStore from '../../stores/appStore';
 import Utils from '../../utils/utils';
 import news from '../../../data/news';
@@ -90,7 +91,15 @@ export default class News extends ComponentTransition {
 		return (
 			<div className='page page--news' ref='view'>
 				<Seo seo={seo} />
-				<section className='news'>{newsItems}</section>
+				{(() => {
+					if (newsItems.length > 0) { return (
+						<section className='news'>{newsItems}</section>
+					)} else { return (
+						<section className='news'>
+							<p className='text text--center news__message'>Watch this space for news, please subscribe to our <Link className='underline' to='/newsletter'>Fellowship News</Link> to be notified</p>
+						</section>
+					)}
+				}.bind(this))()}
 			</div>
 		);
 

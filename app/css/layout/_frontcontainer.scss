@@ -222,7 +222,17 @@
 	}
 
 	.footer {
-		display: none;
+		position: relative;
+		right: inherit;
+		bottom: inherit;
+		padding-bottom: 100px;
+		z-index: 0;
+
+		text-align: center;
+
+		li {
+			margin-bottom: 12px;
+		}
 	}
 
 	.hamburger {
@@ -288,14 +298,5 @@
 		&:after {
 			transform: translate(-50%, -50%) rotate(-45deg);
 		}
-	}
-}
-
-@media screen and (max-width: 958px) and (orientation: landscape) {
-	.header__item {
-		margin-right: calc(100% / 3 - 474px / 3 - 10px);
-	}
-	.header__item a {
-		font-size: 14px;
 	}
 }

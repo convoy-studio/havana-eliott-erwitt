@@ -43,6 +43,10 @@
 	line-height: 19px;
 }
 
+.text--center {
+	text-align: center;
+}
+
 .response--success {
 	margin-bottom: 12px;
 	
@@ -88,6 +92,10 @@
 }
 
 @include max-screen(958px) {
+	.button {
+		font-size: 14px;
+		line-height: 14px;
+	}
 	.mobile-button {
 		position: fixed;
 		left: 0;
@@ -101,22 +109,18 @@
 		box-sizing: border-box;
 		border-top: 1px solid white;
 	}
-	// .text {
-	// 	font-size: 16px;
-	// 	line-height: 19px;
-	// }
-
 	.title {
-		font-size: 28px;
-	}
-}
-
-@include max-screen(700px) {
-	.title {
-		width: 100%;
-		// padding: 0 12px;
 		box-sizing: border-box;
 
+		font-size: 24px;
 		text-align: left;
+	}
+	.title--absolute {
+		width: 60%;
+		top: 18px;
+		text-align: center !important;
+	}
+	.table {
+		font-size: 10px;
 	}
 }

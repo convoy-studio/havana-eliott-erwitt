@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import Utils from '../../utils/utils';
+import Cursor from './cursor';
 let _ = require('lodash');
 let raf = Utils.raf();
 let config = require('../../config');
@@ -16,7 +17,8 @@ export default class Gallery extends Component {
 			current: parseInt(this.props.current || 0),
 			bigPrintsLoaded: false,
 			isMobile: false,
-			sizes: undefined
+			sizes: undefined,
+			cursorState: 'hidden'
 		};
 
 		// vars
@@ -45,27 +47,24 @@ export default class Gallery extends Component {
 		this.onTouchstart = this.onTouchstart.bind(this);
 		this.onTouchmove = this.onTouchmove.bind(this);
 		this.onTouchend = this.onTouchend.bind(this);
+		this.onMouseenter = this.onMouseenter.bind(this);
+		this.onMouseleave = this.onMouseleave.bind(this);
 		this.facebookShare = this.facebookShare.bind(this);
-
-		window.fbAsyncInit = function() {
-            window.FB.init({
-                appId      : '926790107398740',
-                xfbml      : true,
-                version    : 'v2.5'
-            });
-        }
 
 	}
 
 	componentDidMount() {
 
 		this.body = document.querySelector('body');
+		this.print = document.querySelector('.project__print');
 
 		document.addEventListener('mousemove', this.onMousemove);
 		document.addEventListener('keydown', this.onkeydown);
 		document.addEventListener('touchstart', this.onTouchstart);
 		document.addEventListener('touchmove', this.onTouchmove);
 		document.addEventListener('touchend', this.onTouchend);
+		this.print.addEventListener('mouseenter', this.onMouseenter);
+		this.print.addEventListener('mouseleave', this.onMouseleave);
 		
 		let file;
 		this.nPrints = _.size(this.props.prints);
@@ -159,7 +158,8 @@ export default class Gallery extends Component {
 			year = current.year;
 			story = current.desc;
 			forsale = current.forsale;
-			url = '/shop/' + current.token;
+			url = '/shop-temp';
+			// url = '/shop/' + current.token;
 		}
 
 		if (title) details = title+'. '+city+'. '+country+'. '+year;
@@ -189,9 +189,13 @@ export default class Gallery extends Component {
 			seoComponent = (<Seo seo={this.seo} />);
 		}
 
+		// <div className="fb-share-button button project__social project__social--facebook" data-href="http://www.havana-fellowship.com/" data-layout="link">Facebook</div>
 		return (
 			<div>
 				{seoComponent}
+				<Cursor
+					state={this.state.cursorState}
+				/>
 				<div className={'project__slideshow ' + slideshowClass}>
 					<div className='project__contact submenu'><Link to={'/photography/'+this.props.project+'/contact-sheet'} className='button'>Contact sheet</Link></div>
 					<div className='project__content'>
@@ -233,7 +237,7 @@ export default class Gallery extends Component {
 							<div className='project__sharer'>
 								<a href='#' className='project__share'>Share</a>
 								<div className='project__socials'>
-									<a href='' className='button project__social project__social--facebook' onClick={this.facebookShare}>Facebook</a>
+									<a className='button project__social project__social--facebook' href={"https://www.facebook.com/sharer/sharer.php?u="+this.seo.url} target="_blank">Facebook</a>
 									<a className='twitter-share-button button project__social project__social--twitter' href={'https://twitter.com/intent/tweet?url='+this.seo.url+'&text='+this.seo.twitter}>Twitter</a>
 								</div>
 							</div>
@@ -315,44 +319,35 @@ export default class Gallery extends Component {
 
 	zoomIn() {
 
-		if (!this.props.isMobile) {
-			// this.tlZoomIn = new TimelineMax({paused: true})
-			// this.tlZoomIn.staggerTo([
-			// 	dom('.front-container'),
-			// 	dom('.project__footer'),
-			// 	dom('.project__contact'),
-			// 	dom('.project__slideshow')
-			// ], 0.4, {opacity: 0}, 0)
-			// this.tlZoomIn.play()
+		this.zoomed = true;
 
-			document.querySelector('body').classList.add('body--hidden');
-			document.querySelector('.project__bigslideshow').classList.remove('project__bigslideshow--hidden');
+		document.querySelector('body').classList.add('body--hidden');
+		document.querySelector('.project__bigslideshow').classList.remove('project__bigslideshow--hidden');
 
-			this.nBigPrints = _.size(this.state.prints)
-			if (this.nBigPrints > 0 && !this.bigPrintsLoaded) {
-				this.bigPrintsLoaded = true;
-				let file;
-				_(this.state.prints).forEach((print, index) => {
-					file = new Image();
-					file.onload = this.onBigPrintLoaded.bind(this);
-					file.src = '/static/prints/'+print.file+'_big.jpg';
-				}.bind(this)).value();
-			}
+		this.nBigPrints = _.size(this.state.prints)
+		if (this.nBigPrints > 0 && !this.bigPrintsLoaded) {
+			this.bigPrintsLoaded = true;
+			let file;
+			_(this.state.prints).forEach((print, index) => {
+				file = new Image();
+				file.onload = this.onBigPrintLoaded.bind(this);
+				file.src = '/static/prints/'+print.file+'_big.jpg';
+			}.bind(this)).value();
 		}
+
+		this.setState({
+			cursorState: 'less'
+		});
 
 	}
 
 	zoomOut() {
 
-		// console.log('_zoomOut')
-		// this.tlZoomOut = new TimelineMax({paused: true})
-		// this.tlZoomOut.staggerTo([
-		// 	dom('.front-container'),
-		// 	dom('.project__footer'),
-		// 	dom('.project__contact'),
-		// 	dom('.project__slideshow')
-		// ], 0.4, {opacity: 1}, 0)
-		// this.tlZoomOut.play()
+		this.zoomed = false;
+
+		this.setState({
+			cursorState: 'hidden'
+		});
 
 		document.querySelector('body').classList.remove('body--hidden');
 		document.querySelector('.project__bigslideshow').classList.add('project__bigslideshow--hidden');
@@ -404,13 +399,33 @@ export default class Gallery extends Component {
 
 		e.preventDefault();
 
-		window.FB.ui({
-			method: 'feed',
-			link: this.seo.url,
-			picture: this.seo.image,
-			caption: this.seo.title,
-			description: this.seo.description
+		// window.FB.ui({
+		// 	method: 'feed',
+		// 	link: this.seo.url,
+		// 	picture: this.seo.image,
+		// 	caption: this.seo.title,
+		// 	description: this.seo.description
+		// });
+
+		window.postToFeed(this.seo.title, this.seo.description, this.seo.url, this.seo.image);
+
+	}
+
+	onMouseenter() {
+
+		this.setState({
+			cursorState: 'more'
 		});
+
+	}
+
+	onMouseleave() {
+		
+		if (!this.zoomed) {
+			this.setState({
+				cursorState: 'hidden'
+			});
+		}
 
 	}
 

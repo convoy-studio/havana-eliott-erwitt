@@ -1,15 +1,21 @@
 import MailActions from '../actions/mailActions';
 let config = require('../config');
 
+const MAILCHIMP_KEY = 'qw7mssBl9En7cQMR_yQ-TQ';
+const MAILCHIMP_FROM = 'havana@noreply.fr';
+const MAILCHIMP_CONTACT = 'contact@havana.com';
+// const MAILCHIMP_CONTACT = 'nicolas.daniel.29@gmail.com';
+
+
 module.exports = {
 
 	send : function(mail) {
 		const mailData = {
-			'key': 'yLxCSYWSZH8p8vNT83_i3w',
+			'key': MAILCHIMP_KEY,
 			'message': {
-				'from_email': 'nicolas.daniel.29@gmail.com',
+				'from_email': MAILCHIMP_FROM,
 				'to': [{
-					'email': 'nicolas.daniel.29@gmail.com',
+					'email': MAILCHIMP_FROM,
 					'name': 'Nicolas Daniel',
 					'type': 'to'
 				}],
@@ -37,17 +43,43 @@ module.exports = {
 		// });
 	},
 
+	// send mail to Havana from contact page
+	sendMail : function(data) {
+		const mailData = {
+			'key': MAILCHIMP_KEY,
+			'message': {
+				'from_email': data.mail,
+				'from_name': data.name,
+				'to': [{
+					'email': MAILCHIMP_CONTACT,
+					'type': 'to'
+				}],
+				'subject': data.subject,
+				'html': '<p>' + data.name + ' (' + data.country + ') from www.havana-fellowship.com says:</p><br/><br/><p>' + data.message + '</p>'
+			}
+		};
+
+		fetch('https://mandrillapp.com/api/1.0/messages/send.json', {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(mailData)
+		});
+	},
+
 	// send templated mail to a specific person
 	sendTemplate : function(template, mail) {
 		const mailData = {
-			'key': 'yLxCSYWSZH8p8vNT83_i3w',
+			'key': MAILCHIMP_KEY,
 			'template_name': template,
 			'template_content': [{
 				'name': 'example name',
 				'content': 'example content'
 			}],
 			'message': {
-				'from_email': 'nicolas.daniel.29@gmail.com',
+				'from_email': MAILCHIMP_FROM,
 				'to': [{
 					'email': mail,
 					'type': 'to'
@@ -69,17 +101,16 @@ module.exports = {
 
 	sendTemplateData : function(mail) {
 		const mailData = {
-			'key': 'yLxCSYWSZH8p8vNT83_i3w',
+			'key': MAILCHIMP_KEY,
 			'template_name': 'havana-payment-confirmation',
 			'template_content': [{
 				'name': 'example name',
 				'content': 'example content'
 			}],
 			'message': {
-				'from_email': 'nicolas.daniel.29@gmail.com',
+				'from_email': MAILCHIMP_FROM,
 				'to': [{
-					'email': 'nicolas.daniel.29@gmail.com',
-					'name': 'Nicolas Daniel',
+					'email': mail,
 					'type': 'to'
 				}],
 				'subject': 'Elliott Erwitt Havana Club 7 Fellowship - Shop opening subscribe',
@@ -136,14 +167,14 @@ module.exports = {
 		}).value();
 
 		const mailData = {
-			'key': 'yLxCSYWSZH8p8vNT83_i3w',
+			'key': MAILCHIMP_KEY,
 			'template_name': data.template,
 			'template_content': [{
 				'name': 'example name',
 				'content': 'example content'
 			}],
 			'message': {
-				'from_email': 'nicolas.daniel.29@gmail.com',
+				'from_email': MAILCHIMP_FROM,
 				'to': recipients,
 				'subject': 'Elliott Erwitt Havana Club 7 Fellowship - Newsletter',
 				'merge_language': 'handlebars',
@@ -165,7 +196,7 @@ module.exports = {
 
 	getTemplates() {
 		const data = {
-			'key': 'yLxCSYWSZH8p8vNT83_i3w',
+			'key': MAILCHIMP_KEY,
 		};
 
 		fetch('https://mandrillapp.com/api/1.0/templates/list.json', {

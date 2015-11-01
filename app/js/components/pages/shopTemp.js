@@ -42,7 +42,6 @@ export default class ShopTemp extends ComponentTransition {
 		return (
 			<div className='page page--shop-temp' ref='view'>
 				<Seo seo={seo} />
-				<div className='submenu'><Link to='/shop' className='button'>Back to shop page</Link></div>
 				<div className='shopTemp'>
 					<h2 className='shopTemp__title title'>THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. UNFORTUNATELY OUR SHOP IS CLOSED TEMPORARILY</h2>
 					<p className='text'>If you are interested in being contacted when we open again, please register your email below. Your email given here will be used only once to announce that the shop has re-opened.</p>

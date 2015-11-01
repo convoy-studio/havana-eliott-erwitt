@@ -20,9 +20,10 @@ import Legal from './components/pages/legal';
 import Terms from './components/pages/terms';
 import PurchaseConditions from './components/pages/purchase-conditions';
 import Unsubscribe from './components/pages/unsubscribe';
+import Login from './components/pages/login';
 
 import Admin from './components/pages/admin/wrapper';
-import AdminLogin from './components/pages/admin/login';
+// import AdminLogin from './components/pages/admin/login';
 import AdminHome from './components/pages/admin/home';
 import AdminProjects from './components/pages/admin/projects';
 import AdminProject from './components/pages/admin/project';
@@ -34,7 +35,9 @@ import AdminSubscribersNews from './components/pages/admin/subscriber-news';
 
 import NotFound from './components/pages/not-found';
 
-import { isLoaded as isAuthLoaded, load as loadAuth } from './actions/authActions';
+// import { isLoaded as isAuthLoaded, load as loadAuth } from './actions/authActions';
+
+import LoginStore from './stores/loginStore';
 
 export default (
 	<Route component={Wrapper}>
@@ -47,10 +50,6 @@ export default (
 			<Route path="/:slug/contact-sheet" component={ContactSheet}/>
 		</Route>
 		<Route path="/shop-temp" component={ShopTemp}/>
-		<Route path="/shop" component={Shop}/>
-		<Route path="/shop/:token" component={Print}/>
-		<Route path="/payment" component={Payment}/>
-		<Route path="/payment-confirmation" component={Result}/>
 		<Route path="/news" component={News}/>
 		<Route path="/newsletter" component={Newsletter}/>
 		<Route path="/friends-of-fellowship" component={Friends}/>
@@ -60,30 +59,41 @@ export default (
 		<Route path="/terms-and-condition-of-use" component={Terms}/>
 		<Route path="/terms-and-condition-of-sale" component={PurchaseConditions}/>
 		<Route path="/unsubscribe" component={Unsubscribe}/>
-		<Route path="/admin" component={Admin} onEnter={requireLogin}>
-			<Route path="/login" component={AdminLogin}/>
-			<Route path="/projects" component={AdminProjects}/>
-			<Route path="/project/:slug" component={AdminProject}/>
-			<Route path="/project/:slug/:token" component={AdminPrint}/>
-			<Route path="/orders" component={AdminOrders}/>
-			<Route path="/order/:token" component={AdminOrder}/>
-			<Route path="/subscriber-shop" component={AdminSubscribersShop}/>
-			<Route path="/subscriber-news" component={AdminSubscribersNews}/>
-		</Route>
+		<Route path="/login" component={Login}/>
+		
 		<Route path="*" component={NotFound}/>
 	</Route>
 );
 
-function requireLogin(nextState, replaceState, callback) {
+// <Route path="/shop" component={Shop}/>
+// <Route path="/shop/:token" component={Print}/>
+// <Route path="/payment" component={Payment}/>
+// <Route path="/payment-confirmation" component={Result}/>
+// <Route path="/admin" component={Admin}>
+// 	<Route path="/projects" component={AdminProjects}/>
+// 	<Route path="/project/:slug" component={AdminProject}/>
+// 	<Route path="/project/:slug/:token" component={AdminPrint}/>
+// 	<Route path="/orders" component={AdminOrders}/>
+// 	<Route path="/order/:token" component={AdminOrder}/>
+// 	<Route path="/subscriber-shop" component={AdminSubscribersShop}/>
+// 	<Route path="/subscriber-news" component={AdminSubscribersNews}/>
+// </Route>
 
-	let userLogged = false;
-	console.log('requireLogin');
-	// console.log(transition);
+		// <Route path="/admin" component={Admin} onEnter={requireLogin}>
+			// <Route path="/login" component={AdminLogin}/>
 
-	if (!userLogged) {
-		console.log('Redirect to login');
-		// replaceState('fellowship', 'http://localhost:3000/fellowship');
+function requireLogin(nextState, transitionTo, callback) {
+
+	console.log(LoginStore.isLoggedIn());
+	// if (LoginStore.isLoggedIn()) {
+	// 	callback();
+	// } else {
+	// 	transitionTo.to('/login', null);
+	// 	callback();
+	// }
+	if (!LoginStore.isLoggedIn()) {
+		transitionTo.to('/login', null);
+		callback();
 	}
-	callback();
 
 }

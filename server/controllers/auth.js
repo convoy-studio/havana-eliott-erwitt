@@ -6,10 +6,12 @@ const controller = {
 
 	login : {
 		handler : function(request, reply){
-			const payload = request.payload.user;
+			// const payload = request.payload.user;
+			// console.log(payload);
 
 			User.findOne({
-				identifiant : payload.identifiant
+				// identifiant : payload.identifiant
+				identifiant : request.payload.identifiant
 			}, function(error, user){
 				if(error){
 					console.log('Login Error');
@@ -30,7 +32,7 @@ const controller = {
 					};
 					return reply(response);
 				} else if(user){
-					user.comparePassword(payload.password, function(error, isMatch){
+					user.comparePassword(request.payload.password, function(error, isMatch){
 						if(!isMatch){
 							const res = {
 								success : false,

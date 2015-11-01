@@ -2,20 +2,21 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
+import MailApi from '../../utils/mailApi';
 let config = require('../../config');
-// let nodemailer = require('nodemailer');
-
-// let transporter = nodemailer.createTransport({
-// 	service: 'Gmail',
-// 	auth: {
-// 		user: 'nicolas.daniel.29@gmail.com',
-// 		pass: 'userpass'
-// 	}
-// });
+let validator = require('validator');
 
 export default class Contact extends ComponentTransition {
 
 	componentWillMount() {
+
+		this.state = {
+			valid: true,
+			sended: false
+		};
+
+		// binded
+		this.sendMail = this.sendMail.bind(this);
 
 	}
 
@@ -55,7 +56,7 @@ export default class Contact extends ComponentTransition {
 					<h1 className='title title--center title--absolute'>Contact</h1>
 					<div className='contact__content'>
 						<div className='contact__column'>
-							<p className='text'>Please use this contact form if you have questions about the fellowship.<br/><br/>Please note that Photographers wishing to be considered to join the Fellowship will not be able to apply using this form. The Photographers invited to join the Fellowship will be invited based on the merit of their past work by an independent group of Photography professionals.</p>
+							<p className='text'>Please use this contact form if you have questions about the fellowship.<br/><br/>Please note that Photographers wishing to be considered to join the Fellowship will not be able to apply using this form. The Photographers invited to join the Fellowship will be invited based on the merit of their past work by an independent group of Photography professionals.<br/><br/>Please be informed that any personal information collected through this form will be used for the sole purpose of answering your questions and will thereafter be deleted</p>
 						</div>
 						<div className='contact__column'>
 							<form className='form'>
@@ -82,6 +83,10 @@ export default class Contact extends ComponentTransition {
 								<div className='form__row form__row--center'>
 									<input className='form__submit button' type='submit' value='Submit' onClick={this.sendMail} />
 								</div>
+								<div className='feedback'>
+									{(!this.state.valid) ? (<div className='text response--error'>The form contains errors.</div>) : null}
+									{(this.state.sended) ? (<div className='text response--success'>Email sended.</div>) : null}
+								</div>
 							</form>
 						</div>
 					</div>
@@ -95,21 +100,31 @@ export default class Contact extends ComponentTransition {
 
 		e.preventDefault();
 
-		console.log('send mail');
-		// let mailOptions = {
-		// 	from: 'Fred Foo ✔ <foo@blurdybloop.com>', // sender address 
-		// 	to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers 
-		// 	subject: 'Hello ✔', // Subject line 
-		// 	text: 'Hello world ✔', // plaintext body 
-		// 	html: '<b>Hello world ✔</b>' // html body 
-		// };
-
-		// transporter.sendMail(mailOptions, function(error, info){
-		// 	if(error){
-		// 		return console.log(error);
-		// 	}
-		// 	console.log('Message sent: ' + info.response);
-		// });
+		// let mail = validator.isEmail(document.getElementById('mail').value);
+		let mail = document.getElementById('mail').value;
+		let name = document.getElementById('name').value;
+		let subject = document.getElementById('subject').value;
+		let country = document.getElementById('country').value;
+		let message = document.getElementById('message').value;
+		let valid = validator.isEmail(mail) && name.length > 0 && subject.length > 0 && country.length > 0 && message.length > 0;
+		
+		if (valid) {
+			this.setState({
+				sended: true,
+				valid: true
+			});
+			MailApi.sendMail({
+				mail: mail,
+				name: name,
+				subject: subject,
+				country: country,
+				message: message.replace(/(\r\n|\n|\r)/g,'<br/>')
+			});
+		} else {
+			this.setState({
+				valid: false
+			});
+		}
 
 	}
 }

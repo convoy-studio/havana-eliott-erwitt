@@ -55,7 +55,7 @@ var controller = {
 								const response = {
 									data: data,
 									success: true,
-									message: 'Email successfully subscribe.'
+									message: 'Email successfully subscribed.'
 								}
 								return reply(response);
 							} else {
