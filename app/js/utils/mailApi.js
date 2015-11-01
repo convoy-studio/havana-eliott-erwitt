@@ -2,8 +2,9 @@ import MailActions from '../actions/mailActions';
 let config = require('../config');
 
 const MAILCHIMP_KEY = 'qw7mssBl9En7cQMR_yQ-TQ';
-const MAILCHIMP_FROM = 'havana@noreply.fr';
-const MAILCHIMP_CONTACT = 'contact@havana.com';
+const MAILCHIMP_NEWSLETTER = 'contact@havana-fellowship.com ';
+const MAILCHIMP_REOPENING = 'support@havana-fellowship.com';
+const MAILCHIMP_CONTACT = 'contact@havana-fellowship.com';
 // const MAILCHIMP_CONTACT = 'nicolas.daniel.29@gmail.com';
 
 
@@ -70,7 +71,7 @@ module.exports = {
 	},
 
 	// send templated mail to a specific person
-	sendTemplate : function(template, mail) {
+	sendTemplate : function(template, mail, from = 'contact@havana-fellowship.com') {
 		const mailData = {
 			'key': MAILCHIMP_KEY,
 			'template_name': template,
@@ -79,7 +80,7 @@ module.exports = {
 				'content': 'example content'
 			}],
 			'message': {
-				'from_email': MAILCHIMP_FROM,
+				'from_email': from,
 				'to': [{
 					'email': mail,
 					'type': 'to'

@@ -31,6 +31,7 @@ export default class Home extends ComponentTransition {
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 		let hamburger = document.querySelector('.hamburger');
+		let footer = document.querySelector('.footer');
 
 		logo.style.display = 'table';
 		this.enterTl = new TimelineMax({delay:0.3});
@@ -38,6 +39,7 @@ export default class Home extends ComponentTransition {
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
 		this.enterTl.set(hamburger, {backgroundColor: 'transparent'}, 0);
+		footer.style.display = 'none';
 	
 	}
 	
@@ -45,7 +47,9 @@ export default class Home extends ComponentTransition {
 		
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
+		let footer = document.querySelector('.footer');
 
+		footer.style.display = 'block';
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
 	
 	}
@@ -194,7 +198,6 @@ export default class Home extends ComponentTransition {
 
 	cropLogoMobile() {
 
-		console.log('hello mobile')
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
 		

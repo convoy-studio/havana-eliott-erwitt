@@ -49,6 +49,34 @@ export default class Fellowship extends ComponentTransition {
 
 	}
 
+	_enterStyle() {
+	
+		let el = this.refs.view.getDOMNode();
+		let logo = document.querySelector('.header__logo');
+		let hamburger = document.querySelector('.hamburger');
+		let body = document.querySelector('body');
+		let footer = document.querySelector('.footer');
+
+		logo.style.display = 'table';
+		footer.style.display = 'none';
+		this.enterTl = new TimelineMax({delay:0.3});
+		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
+		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
+		if (body && body.classList.contains('js-mobile')) this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
+		this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
+	
+	}
+	
+	_leaveStyle(callback) {
+		
+		let el = this.refs.view.getDOMNode();
+		let footer = document.querySelector('.footer');
+
+		footer.style.display = 'block';
+		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
+	
+	}
+
 	componentDidMount() {
 
 		if(typeof document !== 'undefined') {
@@ -111,7 +139,7 @@ export default class Fellowship extends ComponentTransition {
 							onReady={this.handleVideoReady}
 						/>
 					</div>
-					<img className='fellowship__bg' src='/static/img/fellowship-mobile.jpg'/>
+					<div className='fellowship__bg'></div>
 					<div className='bg-video__overlay'></div>
 				</div>
 				
@@ -225,6 +253,7 @@ export default class Fellowship extends ComponentTransition {
 	showInterview() {
 
 		this.player.playVideo();
+		this.video.classList.add('open');
 		this.fellowship.classList.add('fellowship--hidden');
 		this.overlay.classList.add('bg-video__overlay--hidden');
 		this.bg.classList.add('fellowship__bg--hidden');
@@ -235,6 +264,7 @@ export default class Fellowship extends ComponentTransition {
 	hideInterview() {
 
 		this.player.pauseVideo();
+		this.video.classList.remove('open');
 		this.fellowship.classList.remove('fellowship--hidden');
 		this.overlay.classList.remove('bg-video__overlay--hidden');
 		this.bg.classList.remove('fellowship__bg--hidden');

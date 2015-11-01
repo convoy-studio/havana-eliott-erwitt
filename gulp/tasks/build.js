@@ -22,6 +22,10 @@ gulp.task('build', ['clean', 'sass', 'static'], () => {
 		watch(config.watch.videos, function(){
 			gulp.start('videos');
 		});
+		//Sitemap
+		watch(config.watch.sitemap, function(){
+			gulp.start('sitemap');
+		});
 		//Fonts
 		watch(config.watch.fonts, function(){
 			gulp.start('fonts');
