@@ -26,6 +26,10 @@ gulp.task('build', ['clean', 'sass', 'static'], () => {
 		watch(config.watch.sitemap, function(){
 			gulp.start('sitemap');
 		});
+		//Robots
+		watch(config.watch.robots, function(){
+			gulp.start('robots');
+		});
 		//Fonts
 		watch(config.watch.fonts, function(){
 			gulp.start('fonts');

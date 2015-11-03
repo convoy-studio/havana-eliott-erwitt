@@ -130,45 +130,29 @@ server.register([
                         production : '/js/build.js'
                     };
 
-                    // let head = Helmet.rewind();
-                    // console.log(head);
-
                     Router.run(routes, location, (error, initialState) => {
                         const content = React.renderToString(<Router location={location} {...initialState}/>);
-
-                        // const helmet = Helmet.rewind();
+                        const head = Helmet.rewind();
+                        
                         // fetchComponentsdata(initialState.components)
                         //     .then((response)=> {
-
-
                         //     })
+
                         if(error){
                             return reply(Boom.badImplementation(err)); // HTTP 500
                         }
 
-                        // console.log(helmet);
-
-                        // Get head tags from Helmet
-                        // let headMap = Helmet.rewind();
-
-                        // // Make sure they are all HTML
-                        // headMap.title = `<title>${headMap.title}</title>`;
-
-                        // // Get all dem HTML tags
-                        // let headHtml = Object.values(headMap).join('\n');
-                        // headHtml = headHtml.replace(/(\r\n|\n|\r)/gm, '');
-
-                        // ${headHtml}
-
-                        return reply('<!doctype html>\n' + React.renderToString(
-                            <html lang="en">
+                        const html = `
+                            <!doctype html>
+                            <html>
                                 <head>
                                     <meta charSet="UTF-8" />
                                     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0" />
                                     <meta name="google-site-verification" content="OjJk1s2tUx3x9j55kdCnUq2SY1MDEZ9lNa9adNQqnzY" />
-                                    <title>Elliott Erwitt Havana Club 7 Fellowship</title>
                                     <link rel="stylesheet" href="/css/build.css" />
                                     <link rel="icon" type="image/png" href="assets/images/favicon.ico" />
+                                    <title>{head.title}</title>
+                                    ${head.meta.toString()}
                                 </head>
                                 <body>
                                     <div id="fb-root"></div>
@@ -183,11 +167,13 @@ server.register([
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
-                                    <script src={scripts[env]} type="text/javascript"></script>
-
+                                    <script src="`+scripts[env]+`" type="text/javascript"></script>
                                 </body>
-                            </html>)
-                        );
+                            </html>
+                        `;
+
+                        return reply(html);
+
                     });
                 }
             }

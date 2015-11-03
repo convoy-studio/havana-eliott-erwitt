@@ -1,6 +1,5 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 let config = require('../../config');
 

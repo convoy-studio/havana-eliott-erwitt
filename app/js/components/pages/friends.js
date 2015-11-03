@@ -1,6 +1,5 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 let config = require('../../config');
@@ -51,16 +50,16 @@ export default class Friends extends ComponentTransition {
 					<p className='text text--center'>Below you can see some of our friends.</p>
 					<ul className='friends__sponsors'>
 						<li className='friends__sponsor friends__sponsor--fototeca'>
-							<img src='/static/img/fototeca_de_cuba.png'/>
+							<a href='http://www.fototecadecuba.com/' target='_blank'><img src='/static/img/fototeca_de_cuba.png'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--ee'>
-							<img src='/static/img/ee_official.png'/>
+							<a href='http://www.elliotterwitt.com/' target='_blank'><img src='/static/img/ee_official.png'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--icop'>
-							<img src='/static/img/international-center-of-photography.png'/>
+							<a href='http://www.icp.org/' target='_blank'><img src='/static/img/international-center-of-photography.png'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--unseen'>
-							<img src='/static/img/unseen_photo_fair.png'/>
+							<a href='http://unseenamsterdam.com/' target='_blank'><img src='/static/img/unseen_photo_fair.png'/></a>
 						</li>
 					</ul>
 				</div>

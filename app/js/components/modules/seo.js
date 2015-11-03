@@ -8,6 +8,7 @@ export default class Seo extends Component {
 
 		return (
 			<Helmet
+				title={this.props.seo.title}
 				meta={[
 					{'name': 'description', 'content': this.props.seo.description},
 					{'property': 'og:type', 'content': 'article'},

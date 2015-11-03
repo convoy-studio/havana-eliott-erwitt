@@ -8,6 +8,23 @@
 	min-height: 100vh;
 	box-sizing: border-box;
 }
+
+.news--empty {
+	padding: 0;
+	display: table;
+}
+
+.news__message {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+	// position: absolute;
+	// top: 50%;
+	// left: 0;
+	// transform: translate(0, -50%);
+	padding: 24px;
+}
+
 .news__item {
 	display: table;
 	width: 100%;
@@ -49,15 +66,6 @@
 	vertical-align: middle;
 
 	text-align: center;
-}
-
-.news__message {
-	width: 100%;
-	position: absolute;
-	top: 50%;
-	left: 0;
-	transform: translate(0, -50%);
-	padding: 24px;
 }
 
 @include max-screen(958px) {

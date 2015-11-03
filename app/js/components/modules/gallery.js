@@ -343,7 +343,7 @@ export default class Gallery extends Component {
 
 	zoomOut() {
 
-		if (window.orientation === 0) {
+		if (window.orientation === 0 || window.orientation === undefined) {
 			this.zoomed = false;
 
 			this.setState({
@@ -373,25 +373,31 @@ export default class Gallery extends Component {
 
 	onTouchstart(e) {
 
-		this.startX = e.changedTouches[0].clientX;
+		if (e.touches.length < 2) {
+			this.startX = e.changedTouches[0].clientX;
+		}
 
 	}
 
 	onTouchmove(e) {
 
-		this.deltaX = e.changedTouches[0].clientX - this.startX;
+		if (e.touches.length < 2) {
+			this.deltaX = e.changedTouches[0].clientX - this.startX;
+		}	
 
 	}
 
 	onTouchend(e) {
 
-		if (this.deltaX > 100) {
-			this.prev();
-		}
+		if (e.touches.length < 2) {
+			if (this.deltaX > 100) {
+				this.prev();
+			}
 
-		if (this.deltaX < -100) {
-			this.next();
-		}
+			if (this.deltaX < -100) {
+				this.next();
+			}
+		}	
 
 		this.deltaX = 0;
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import NewsletterApi from '../../utils/newsletterApi';
@@ -66,7 +65,7 @@ export default class Newsletter extends ComponentTransition {
 										<div className='text response--error'>Invalid mail.</div>
 									)} 
 									if (this.state.consent===false) { return (
-										<div className='text response--error'>You need to consent.</div>
+										<div className='text response--error'>Please tick the box to subscribe.</div>
 									)}
 								}
 							}.bind(this))()}

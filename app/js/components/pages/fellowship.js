@@ -1,6 +1,5 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import AppStore from '../../stores/appStore';
@@ -21,6 +20,11 @@ export default class Fellowship extends ComponentTransition {
 		if(typeof window !== 'undefined') {
 			this.vw = window.innerWidth;
 			this.vh = window.innerHeight;
+
+			if (window.innerWidth < 768) {
+				this.orientationChange();
+				window.addEventListener('orientationchange', this.orientationChange.bind(this), false);
+			}
 		}
 
 		// binded
@@ -91,6 +95,8 @@ export default class Fellowship extends ComponentTransition {
 			this.images = document.querySelectorAll('.fellowship img');
 			this.buttonEe = document.querySelector('.button--ee');
 			this.jsReveal = document.querySelectorAll('.js-reveal');
+			this.menu = document.querySelector('.fellowship__menu');
+			this.header = document.querySelector('.header');
 
 			this.page.style.height = this.fellowship.offsetHeight + 'px';
 		}
@@ -105,6 +111,7 @@ export default class Fellowship extends ComponentTransition {
 
 		if(typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
+			window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
 		}
 
 	}
@@ -123,7 +130,8 @@ export default class Fellowship extends ComponentTransition {
 			width: (AppStore.Window.h - 206) * 16 / 9,
 			playerVars: { // https://developers.google.com/youtube/player_parameters 
 				autoplay: 0,
-				showinfo: 0
+				showinfo: 0,
+				rel: 0
 			}
 		};
 
@@ -135,6 +143,7 @@ export default class Fellowship extends ComponentTransition {
 				<div className='bg-video fellowship__video'>
 					<div className='youtube-wrapper'>
 						<YouTube
+							ref='youtube'
 							className='youtube-video'
 							url={'https://youtu.be/KcjK36YKLqY'}
 							opts={opts}
@@ -254,6 +263,7 @@ export default class Fellowship extends ComponentTransition {
 
 	showInterview() {
 
+		this.interviewShown = true;
 		this.player.playVideo();
 		this.video.classList.add('open');
 		this.fellowship.classList.add('fellowship--hidden');
@@ -265,6 +275,7 @@ export default class Fellowship extends ComponentTransition {
 
 	hideInterview() {
 
+		this.interviewShown = false;
 		this.player.pauseVideo();
 		this.video.classList.remove('open');
 		this.fellowship.classList.remove('fellowship--hidden');
@@ -311,6 +322,26 @@ export default class Fellowship extends ComponentTransition {
 			// resize youtube video
 			this.video.style.height = AppStore.Window.h - 206 + 'px';
 			this.video.style.width = (AppStore.Window.h - 206) * 16 / 9 + 'px';
+		}
+
+	}
+
+	orientationChange() {
+
+		if (window.orientation === 90 || window.orientation === -90) {
+			if (this.refs.youtube && this.interviewShown) {
+				if (this.header) this.header.style.display = 'none';
+				if (this.menu) this.menu.style.display = 'none';
+				if (this.back) this.back.style.display = 'none';
+				document.getElementById('landscape').style.display = 'none';
+			} else {
+				document.getElementById('landscape').style.display = 'block';
+			}
+		} else {
+			if (this.header) this.header.style.display = 'block';
+			if (this.menu) this.menu.style.display = 'table';
+			if (this.back) this.back.style.display = 'block';
+			document.getElementById('landscape').style.display = 'none';
 		}
 
 	}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import ProjectApi from '../../utils/projectApi';

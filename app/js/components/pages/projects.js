@@ -1,11 +1,5 @@
-// import React, { Component } from 'react';
-// import React from 'react/addons';
-// import React from 'react';
-
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import ProjectApi from '../../utils/projectApi';
@@ -13,7 +7,6 @@ import ProjectStore from '../../stores/projectStore';
 let _ = require('lodash');
 let config = require('../../config');
 
-// const { CSSTransitionGroup } = React.addons;
 const Transition = React.addons.TransitionGroup;
 
 export default class Projects extends ComponentTransition {

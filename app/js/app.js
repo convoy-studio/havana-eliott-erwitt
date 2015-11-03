@@ -3,6 +3,7 @@ import Router from 'react-router';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import routes from './routes';
 import GEvents from './utils/globalEvents';
+require('babel-core/polyfill');
 let FastClick = require('fastclick');
 // import history from './history';
 

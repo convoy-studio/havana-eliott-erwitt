@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /payment/
+Sitemap: http://www.havana-fellowship.com/sitemap.xml
+

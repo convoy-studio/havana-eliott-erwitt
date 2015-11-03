@@ -41,7 +41,7 @@ var controller = {
 					if (alreadyExist) {
 						const response = {
 							success: false,
-							message: 'Email already subscribe.'
+							message: 'Email already subscribed.'
 						}
 						return reply(response);
 					} else {

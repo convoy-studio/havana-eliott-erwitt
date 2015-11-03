@@ -23,6 +23,7 @@ const config = {
 		images : appFolder + '/assets/images/**/*',
 		videos : appFolder + '/assets/videos/**/*',
 		sitemap : appFolder + '/sitemap.xml',
+		robots : appFolder + '/robots.txt',
 		fonts : appFolder + '/assets/fonts/**/*',
 		json : appFolder + '/data/*.json',
 		index : appFolder + '/index.html'
@@ -37,6 +38,7 @@ const config = {
 		images : staticFolder + '/assets/images/',
 		videos : staticFolder + '/assets/videos/',
 		sitemap : staticFolder + '/',
+		robots : staticFolder + '/',
 		fonts : staticFolder + '/assets/fonts/',
 		json : staticFolder + '/data',
 		index : staticFolder + '/'

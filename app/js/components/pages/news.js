@@ -1,6 +1,5 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
-import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import AppStore from '../../stores/appStore';
@@ -95,7 +94,7 @@ export default class News extends ComponentTransition {
 					if (newsItems.length > 0) { return (
 						<section className='news'>{newsItems}</section>
 					)} else { return (
-						<section className='news'>
+						<section className='news news--empty'>
 							<p className='text text--center news__message'>Watch this space for news, please subscribe to our <Link className='underline' to='/newsletter'>Fellowship News</Link> to be notified</p>
 						</section>
 					)}

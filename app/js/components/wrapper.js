@@ -1,12 +1,10 @@
 import React from 'react/addons';
-// import ReactAddons from 'react/addons';
 import { Link } from 'react-router';
 import AppStore from '../stores/appStore';
 import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import CartActions from '../actions/cartActions';
 
-// const { TransitionGroup } = React.addons;
 const Transition = React.addons.TransitionGroup;
 const nav = [
 	{
