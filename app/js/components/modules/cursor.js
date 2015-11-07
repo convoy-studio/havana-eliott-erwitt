@@ -10,6 +10,8 @@ export default class Input extends React.Component {
 		this.props = props;
 
 		// binded
+		this.onClick = this.onClick.bind(this);
+
 		document.addEventListener('mousemove', this.onMousemove.bind(this));
 
 	}
@@ -17,6 +19,8 @@ export default class Input extends React.Component {
 	componentDidMount() {
 	
 		this.view = this.refs.cursor.getDOMNode();
+
+		this.view.addEventListener('click', this.onClick)
 
 	}
 
@@ -37,6 +41,13 @@ export default class Input extends React.Component {
 	onMousemove(e) {
 
 		this.view.style.transform = 'translate('+e.clientX+'px, '+e.clientY+'px)';
+
+	}
+
+	onClick(e) {
+
+		e.stopPropagation();
+		e.preventDefault();
 
 	}
 

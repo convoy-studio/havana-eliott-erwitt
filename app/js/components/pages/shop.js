@@ -107,7 +107,7 @@ export default class Shop extends ComponentTransition {
 			title: 'Buy Elliott Erwitt Print | Havana Club 7 Fellowship',
 			description: 'Buy limited edition prints signed originals by Elliot Erwitt and other documentary photographers member of the Fellowship project.',
 			url: config.siteurl + '/shop',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		let pageClass = this.state.open ? '' : 'page--hidden';

@@ -39,13 +39,17 @@ export default class Projects extends ComponentTransition {
 	
 		let el = this.refs.view.getDOMNode();
 		let subel = this.refs.subview.getDOMNode();
+		let logo = document.querySelector('.header__logo');
 
+		logo.style.display = 'table';
 		if (subel.hasChildNodes()) {
 			el.style.opacity = 1;
 			this.enterTl = new TimelineMax({delay:0.3});
+			this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 			this.enterTl.fromTo(subel, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
 		} else {
 			this.enterTl = new TimelineMax({delay:0.3});
+			this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 			this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
 		}
 	
@@ -90,7 +94,7 @@ export default class Projects extends ComponentTransition {
 			title: 'Photography | Elliott Erwitt Havana Club 7 Fellowship',
 			description: 'Discover more about the project, the current photographer and the next fellowship photographer.',
 			url: config.siteurl + '/photography',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		let introClass = (this.props.params.token || this.props.children && this.props.children.type.name === 'ContactSheet' || !this.state.menuShowed) ? 'projects__list--hidden' : '';

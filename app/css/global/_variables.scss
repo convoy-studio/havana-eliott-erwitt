@@ -12,7 +12,7 @@ $text-font: 'Stanley';
 
 .text-font {
 	font-family: $text-font;
-	text-transform: initial;
+	text-transform: inherit;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

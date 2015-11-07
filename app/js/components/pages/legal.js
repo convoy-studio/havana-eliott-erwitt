@@ -35,14 +35,14 @@ export default class Legal extends ComponentTransition {
 			title: 'Cookie Policy | Elliott Erwitt Havana Club 7 Fellowship',
 			description: '',
 			url: config.siteurl + '/cookie-policy',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		return (
 			<div className='page page--legal page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content legal'>
-					<h1 className='title title--center title--absolute'>Cookie Policy</h1>
+					<h1 className='title title--center title--absolute'><span>Cookie Policy</span></h1>
 					<p className='text'>This website uses cookies and similar technologies (“cookies”).<br/><br/>This cookies policy describes how the Fundación Elliott Erwitt Havana Club 7 Fellowship (the “Foundation”) is committed to respecting your privacy regarding its use of cookies on this website.</p>
 					<br/><br/>
 					<p className='text'>Este sitio web utiliza cookies y tecnologías similares (“cookies”).<br/><br/>Esta política de cookies describe la forma en que la Fundación Elliott Erwitt Havana Club 7 Fellowship (la “Fundación”) se compromete a respetar su privacidad respecto del uso de cookies en este sitio web.</p>

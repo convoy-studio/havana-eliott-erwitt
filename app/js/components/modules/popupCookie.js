@@ -22,7 +22,6 @@ export default class PopupCookie extends React.Component {
 
 	render() {
 
-		console.log(this.props.visible)
 		let visibility = (this.props.visible) ? 'popup--visible' : '';
 
 		return (
@@ -44,7 +43,7 @@ export default class PopupCookie extends React.Component {
 			localStorage.setItem('cookies', true);
 		}
 		
-		TweenMax.to(this.popup, 0.3, {y:this.popup.offsetHeight, ease:Power2.easeOut, onComplete:()=>{
+		TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
 			this.popup.style.display = 'none';
 		}});
 

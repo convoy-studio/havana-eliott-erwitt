@@ -3,8 +3,10 @@ import Router from 'react-router';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import routes from './routes';
 import GEvents from './utils/globalEvents';
+import Seo from './components/modules/seo';
 require('babel-core/polyfill');
 let FastClick = require('fastclick');
+let config = require('./config');
 // import history from './history';
 
 if(typeof document !== 'undefined') {
@@ -43,7 +45,13 @@ GlobalEvents.init();
 
 const history = new BrowserHistory();
 const container = document.getElementById('root');
-const app = (<Router history={history} children={routes} onUpdate={() => window.scrollTo(0, 0)}/>);
+let seo = {
+	title: 'Elliott Erwitt documentary photography | Elliott Erwitt Havana Club 7 Fellowship',
+	description: "Legendary Magnum photographer Elliott Erwitt returns to Cuba to capture images in support of the inaugural 'Elliott Erwitt Havana Club 7 Fellowship'.",
+	url: config.siteurl,
+	image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
+};
+const app = (<div><Seo seo={seo} /><Router history={history} children={routes} onUpdate={() => window.scrollTo(0, 0)}/></div>);
 
 React.render(app, container);
 

@@ -94,7 +94,7 @@
 	}
 }
 
-.footer {
+.footer, .footer-hack {
 	position: fixed;
 	right: 40px;
 	bottom: 40px;
@@ -218,7 +218,7 @@
 		}
 	}
 
-	.footer {
+	.footer, .footer-hack {
 		position: relative;
 		right: inherit;
 		bottom: inherit;

@@ -12,6 +12,7 @@
 .news--empty {
 	padding: 0;
 	display: table;
+	height: 100vh;
 }
 
 .news__message {
@@ -78,6 +79,11 @@
 		box-sizing: border-box;
 		transform: none !important;
 	}
+
+	.news--empty {
+		padding: 0 24px;
+	}
+
 	.news__item {
 		display: block;
 		margin-bottom: 100px;

@@ -59,7 +59,7 @@ export default class AdminProject extends Component {
 		return (
 			<div className='admin__project'>
 				<div className='submenu'><Link to='/admin/projects' className='button'>Back to projects</Link></div>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>Project — {artist}</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Project — {artist}</Link></span></h1>
 				<table>
 					<tr>
 						<th>Token</th>

@@ -39,7 +39,7 @@ export default class AdminProjects extends Component {
 
 		return (
 			<div className='admin__projects'>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>Projects</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Projects</Link></span></h1>
 				<table>
 					<tr>
 						<th>Artist</th>

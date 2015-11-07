@@ -35,14 +35,14 @@ export default class Terms extends ComponentTransition {
 			title: 'Terms and conditions of use | Elliott Erwitt Havana Club 7 Fellowship',
 			description: '',
 			url: config.siteurl + '/terms-and-condition-of-use',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		return (
 			<div className='page page--rerms page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content terms'>
-					<h1 className='title title--center title--absolute'>Terms and conditions of use</h1>
+					<h1 className='title title--center title--absolute'><span>Terms and<br/>conditions of use</span></h1>
 					<p className='paragraph paragraph--2 paragraph--margin text'>
 						<span className='paragraph__title'>1. Identification data</span>
 						The owner of this website is the Fundación Elliott Erwitt Havana Club 7 Fellowship (the “Foundation”), with address at Calle Manuel Marañón 8, 28043 Madrid, Spain. The Foundation is pending incorporation.

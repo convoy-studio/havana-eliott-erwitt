@@ -39,7 +39,7 @@ export default class AdminSubscribersShop extends Component {
 
 		return (
 			<div className='admin__orders'>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>Subscribers opening shop</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Subscribers opening shop</Link></span></h1>
 				<section className='admin__section'>
 					<table>
 						<tr>

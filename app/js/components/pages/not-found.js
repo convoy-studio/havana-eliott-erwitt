@@ -14,7 +14,7 @@ export default class NotFound extends ComponentTransition {
 				title: 'Elliott Erwitt Havana Club 7 Fellowship | 404',
 				description: 'Lorem ipsum dolor sit amet',
 				url: config.siteurl + '/not-found',
-				image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+				image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 			};
 
 			return (

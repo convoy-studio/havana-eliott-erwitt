@@ -37,7 +37,7 @@ export default class Login extends ComponentTransition {
 
 		return (
 			<div className='admin__order' ref='view'>
-				<h1 className='title title--center title--absolute'>Admin</h1>
+				<h1 className='title title--center title--absolute'><span>Admin</span></h1>
 				<form className='admin__form form'>
 					<div className='form__row'>
 						<label className='form__label' htmlFor='id'>Identifiant</label>

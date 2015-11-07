@@ -35,15 +35,15 @@ export default class ShopTemp extends ComponentTransition {
 			title: 'Temporary Shop | Elliott Erwitt Havana Club 7 Fellowship',
 			description: 'If you are interested in being contacted when the shop has re-open, please register your email here.',
 			url: config.siteurl + '/shop-temp',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		return (
 			<div className='page page--shop-temp' ref='view'>
 				<Seo seo={seo} />
 				<div className='shopTemp'>
-					<h2 className='shopTemp__title title'>THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. UNFORTUNATELY OUR SHOP IS CLOSED TEMPORARILY</h2>
-					<p className='text'>If you are interested in being contacted when we open again, please register your email below. Your email given here will be used only once to announce that the shop has re-opened.</p>
+					<h2 className='shopTemp__title title'>THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. OUR SHOP WILL OPEN IN A FEW WEEKS!</h2>
+					<p className='text'>Register below to be informed as soon as Elliott Erwitt’s limited editions are available for sale.Your email will be used only for this purpose.</p>
 					<form className='form'>
 						<div className='form__row'>
 							<label className='form__label' htmlFor='mail'>Enter your email address*</label>

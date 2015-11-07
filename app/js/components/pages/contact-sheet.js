@@ -8,6 +8,7 @@ import PrintStore from '../../stores/printStore';
 import Utils from '../../utils/utils';
 import offset from '../../utils/offset';
 let raf = Utils.raf();
+let _ = require('lodash');
 let config = require('../../config');
 
 export default class ContactSheet extends ComponentTransition {
@@ -75,27 +76,34 @@ export default class ContactSheet extends ComponentTransition {
 			title: 'Contact Sheet | Elliott Erwitt Havana Club 7 Fellowship',
 			description: "Discover Magnum photographer Elliott Erwitt's new body of work in Cuba as well as his 1965 photos including Fidel Castro and Che Guevara pictures.",
 			url: config.siteurl + '/photography/' + this.props.params.slug + '/contact-sheet',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
+
+		// console.log(this.state.loadedPrints);
+		// console.log(this.state.prints);
+		// _.map(_.sortByOrder(this.state.prints, ['year'], ['desc']), _.values);
+		// console.log(this.state.prints);
+		_.map(_.sortByOrder(this.state.loadedPrints, ['year'], ['desc']), _.values);
 
 		return (
 			<div className='subpage subpage--contact-sheet' ref='subview'>
 				<Seo seo={seo} />
 				<div className='submenu'><Link to={'/photography/'+this.props.params.slug+'?open=true'} className='button'><span className='button__content'>Back to gallery</span></Link></div>
 				<div className='contact-sheet js-smooth'>
-					{Object.keys(this.state.loadedPrints).reverse().map((year, i) => {
+					{Object.keys(this.state.loadedPrints).map((index) => {
+						let group = this.state.loadedPrints[index];
 						return (
-							<div key={year+'_'+i}>
-								<div className='contact-sheet__title title js-reveal'>Elliott Erwitt {year}</div>
+							<div key={index}>
+								<div className='contact-sheet__title title js-reveal'>Elliott Erwitt {group.year}</div>
 								<div className='contact-sheet__grid'>
 									<div className='contact-sheet__width'></div>
-									{Object.keys(this.state.loadedPrints[year]).map((printId, j) => {
-										let print = this.state.loadedPrints[year][printId]
-										let src = '/static/prints/'+print.file+'_min.jpg'
-										let random = Math.floor(Math.random()*6)
-										printIndex++
+									{Object.keys(group.prints).map((index, j) => {
+										let print = group.prints[index];
+										let src = '/static/prints/'+print.file+'_min.jpg';
+										let random = Math.floor(Math.random()*6);
+										printIndex++;
 										return (
-											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={printId}><img className='contact-sheet__image' src={src} alt={print.alt}></img></Link>
+											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={index}><img className='contact-sheet__image' src={src} alt={print.alt}></img></Link>
 										)
 									}.bind(this))}
 								</div>
@@ -158,13 +166,29 @@ export default class ContactSheet extends ComponentTransition {
 
 		let file;
 		this.max = _.size(this.state.prints);
-		this.printsDate = {};
+		// this.printsDate = {};
+		this.printsDate = [];
+		this.printsIndex = {};
+		this.index = 0;
 
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true;
 			_(this.state.prints).forEach((print, index) => {
-				if (!this.printsDate[print.year]) this.printsDate[print.year] = [];
-				this.printsDate[print.year].push(print);
+				if (this.printsIndex[print.year] === undefined) {
+					this.printsIndex[print.year] = this.index;
+					this.index++;
+				}
+
+				if (!this.printsDate[this.printsIndex[print.year]]) {
+					this.printsDate[this.printsIndex[print.year]] = {
+						year: print.year,
+						prints: []
+					};
+				}
+				this.printsDate[this.printsIndex[print.year]].prints.push(print);
+
+				// if (!this.printsDate[print.year]) this.printsDate[print.year] = [];
+				// this.printsDate[print.year].push(print);
 
 				file = new Image();
 				file.onload = this.onImageLoaded.bind(this, print);

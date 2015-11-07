@@ -28,17 +28,17 @@ export default class Home extends ComponentTransition {
 	_enterStyle() {
 	
 		let el = this.refs.view.getDOMNode();
-		let logo = document.querySelector('.header__logo');
-		let hamburger = document.querySelector('.hamburger');
+		// let logo = document.querySelector('.header__logo');
+		// let hamburger = document.querySelector('.hamburger');
 		let footer = document.querySelector('.footer');
 		let body = document.querySelector('body');
 
-		logo.style.display = 'table';
+		// logo.style.display = 'table';
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
-		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
-		this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
-		this.enterTl.set(hamburger, {backgroundColor: 'transparent'}, 0);
+		// this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
+		// this.enterTl.set(logo, {backgroundColor: 'transparent'}, 0);
+		// this.enterTl.set(hamburger, {backgroundColor: 'transparent'}, 0);
 		if (body && body.classList.contains('js-mobile')) {
 			footer.style.display = 'none';
 		}
@@ -48,7 +48,7 @@ export default class Home extends ComponentTransition {
 	_leaveStyle(callback) {
 		
 		let el = this.refs.view.getDOMNode();
-		let logo = document.querySelector('.header__logo');
+		// let logo = document.querySelector('.header__logo');
 		let footer = document.querySelector('.footer');
 
 		footer.style.display = 'block';
@@ -99,7 +99,7 @@ export default class Home extends ComponentTransition {
 			title: 'Elliott Erwitt documentary photography | Elliott Erwitt Havana Club 7 Fellowship',
 			description: "Legendary Magnum photographer Elliott Erwitt returns to Cuba to capture images in support of the inaugural 'Elliott Erwitt Havana Club 7 Fellowship'.",
 			url: config.siteurl,
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		let background;
@@ -129,6 +129,21 @@ export default class Home extends ComponentTransition {
 						<Link className='home__discover button' to="/fellowship">Learn more about the fellowship</Link>
 					</div>
 				</div>
+				{(() => {
+					if (typeof window !== 'undefined' && window.innerWidth <= 958) {
+						return (
+							<footer className='footer-hack'>
+								<ul>
+									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
+									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
+									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
+									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+									<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+								</ul>
+							</footer>
+						)
+					}
+				}.bind(this))()}
 			</div>
 		);
 
@@ -144,6 +159,33 @@ export default class Home extends ComponentTransition {
 
 		this.canvas.width = vw;
 		this.canvas.height = vh;
+
+		const devicePixelRatio = window.devicePixelRatio || 1;
+		const backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+							ctx.mozBackingStorePixelRatio ||
+							ctx.msBackingStorePixelRatio ||
+							ctx.oBackingStorePixelRatio ||
+							ctx.backingStorePixelRatio || 1;
+
+		const ratio = devicePixelRatio / backingStoreRatio;
+
+		if (devicePixelRatio !== backingStoreRatio) {
+
+			let oldWidth = this.canvas.width;
+			let oldHeight = this.canvas.height;
+
+			this.canvas.width = oldWidth * ratio;
+			this.canvas.height = oldHeight * ratio;
+
+			this.canvas.style.width = oldWidth + 'px';
+			this.canvas.style.height = oldHeight + 'px';
+
+			// now scale the context to counter
+			// the fact that we've manually scaled
+			// our canvas element
+			ctx.scale(ratio, ratio);
+
+		}
 
 		// background black
 		ctx.beginPath();

@@ -8,6 +8,7 @@ import offset from '../../utils/offset';
 import YouTube from 'react-youtube';
 let raf = Utils.raf();
 let config = require('../../config');
+const keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
 export default class Fellowship extends ComponentTransition {
 
@@ -20,6 +21,7 @@ export default class Fellowship extends ComponentTransition {
 		if(typeof window !== 'undefined') {
 			this.vw = window.innerWidth;
 			this.vh = window.innerHeight;
+			this.isIE = this.msieversion();
 
 			if (window.innerWidth < 768) {
 				this.orientationChange();
@@ -53,11 +55,24 @@ export default class Fellowship extends ComponentTransition {
 
 	}
 
+	msieversion() {
+
+		var ua = window.navigator.userAgent;
+		var msie = ua.indexOf("MSIE ");
+
+		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	_enterStyle() {
 	
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
-		let hamburger = document.querySelector('.hamburger');
+		// let hamburger = document.querySelector('.hamburger');
 		let body = document.querySelector('body');
 		let footer = document.querySelector('.footer');
 
@@ -66,10 +81,10 @@ export default class Fellowship extends ComponentTransition {
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		if (body && body.classList.contains('js-mobile')) {
-			this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
+		// 	this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
 			footer.style.display = 'none';
 		}
-		this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
+		// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
 	
 	}
 	
@@ -86,6 +101,7 @@ export default class Fellowship extends ComponentTransition {
 	componentDidMount() {
 
 		if(typeof document !== 'undefined') {
+			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--fellowship');
 			this.fellowship = document.querySelector('.fellowship');
 			this.overlay = document.querySelector('.bg-video__overlay');
@@ -97,8 +113,16 @@ export default class Fellowship extends ComponentTransition {
 			this.jsReveal = document.querySelectorAll('.js-reveal');
 			this.menu = document.querySelector('.fellowship__menu');
 			this.header = document.querySelector('.header');
+			this.footerHack = document.querySelector('.footer-hack');
 
 			this.page.style.height = this.fellowship.offsetHeight + 'px';
+		}
+
+		console.log('FELLOWSHIP IS IE : ', this.isIE);
+		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
+		if (this.isIE) {
+			// this.refs.backgroundVideo.getDOMNode().style.display = 'none';
+			this.refs.backgroundVideo.getDOMNode().style.visibility = 'hidden';
 		}
 
 		this.resize();
@@ -109,9 +133,14 @@ export default class Fellowship extends ComponentTransition {
 
 	componentWillUnmount() {
 
+		if(typeof document !== 'undefined') {
+			document.querySelector('body').classList.remove('frozen');
+		}
+
 		if(typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
 			window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
+			this.enableScroll();
 		}
 
 	}
@@ -122,7 +151,7 @@ export default class Fellowship extends ComponentTransition {
 			title: 'Fellowship | Elliott Erwitt Havana Club 7 Fellowship',
 			description: "The fellowship will allow aspiring photographers to follow Elliott's footsteps capturing the human condition through documentary photography in Cuba.",
 			url: config.siteurl + '/fellowship',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		const opts = {
@@ -140,7 +169,7 @@ export default class Fellowship extends ComponentTransition {
 				<Seo seo={seo} />
 				<div className='fellowship__submenu submenu'><Link to='/friends-of-fellowship' className='button'>Friends of the fellowship</Link></div>
 
-				<div className='bg-video fellowship__video'>
+				<div className='bg-video fellowship__video' ref='backgroundVideo'>
 					<div className='youtube-wrapper'>
 						<YouTube
 							ref='youtube'
@@ -185,6 +214,22 @@ export default class Fellowship extends ComponentTransition {
 					<div className='fellowship__item button' onClick={this.showInterview}>Elliott Erwitt interview</div>
 					<Link to='/photography/elliott_erwitt' className='fellowship__item button'>Discover his project</Link>
 				</div>
+
+				{(() => {
+					if (typeof window !== 'undefined' && window.innerWidth <= 958) {
+						return (
+							<footer className='footer-hack'>
+								<ul>
+									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
+									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
+									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
+									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+									<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+								</ul>
+							</footer>
+						)
+					}
+				}.bind(this))()}
 			</div>
 		);
 
@@ -263,25 +308,41 @@ export default class Fellowship extends ComponentTransition {
 
 	showInterview() {
 
+		console.log('FELLOWSHIP IS IE : ', this.isIE);
+		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
+		this.disableScroll();
 		this.interviewShown = true;
 		this.player.playVideo();
+		if (this.body.classList.contains('js-mobile')) this.footerHack.style.visibility = 'hidden';
 		this.video.classList.add('open');
 		this.fellowship.classList.add('fellowship--hidden');
 		this.overlay.classList.add('bg-video__overlay--hidden');
 		this.bg.classList.add('fellowship__bg--hidden');
 		this.back.classList.add('fellowship__back--visible');
+		if (this.isIE) {
+			// this.refs.backgroundVideo.getDOMNode().style.display = 'block';
+			this.refs.backgroundVideo.getDOMNode().style.visibility = 'visible';
+		}
 
 	}
 
 	hideInterview() {
 
+		console.log('FELLOWSHIP IS IE : ', this.isIE);
+		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
+		this.enableScroll();
 		this.interviewShown = false;
 		this.player.pauseVideo();
+		if (this.body.classList.contains('js-mobile')) this.footerHack.style.visibility = 'visible';
 		this.video.classList.remove('open');
 		this.fellowship.classList.remove('fellowship--hidden');
 		this.overlay.classList.remove('bg-video__overlay--hidden');
 		this.bg.classList.remove('fellowship__bg--hidden');
 		this.back.classList.remove('fellowship__back--visible');
+		if (this.isIE) {
+			// this.refs.backgroundVideo.getDOMNode().style.display = 'none';
+			this.refs.backgroundVideo.getDOMNode().style.visibility = 'hidden';
+		}
 
 	}
 
@@ -344,6 +405,47 @@ export default class Fellowship extends ComponentTransition {
 			document.getElementById('landscape').style.display = 'none';
 		}
 
+	}
+
+	preventDefault(e) {
+
+		e = e || window.event;
+		if (e.preventDefault) e.preventDefault();
+		e.returnValue = false;  
+	
+	}
+
+	preventDefaultForScrollKeys(e) {
+
+		if (keys[e.keyCode]) {
+			this.preventDefault(e);
+			return false;
+		}
+	
+	}
+
+	disableScroll() {
+
+		// if (window.addEventListener) // older FF
+		// 	window.addEventListener('DOMMouseScroll', this.preventDefault.bind(this), false);
+		// window.onwheel = this.preventDefault; // modern standard
+		// window.onmousewheel = document.onmousewheel = this.preventDefault.bind(this); // older browsers, IE
+		// window.ontouchmove  = this.preventDefault.bind(this); // mobile
+		// document.onkeydown  = this.preventDefaultForScrollKeys.bind(this);
+		document.querySelector('body').classList.add('frozen');
+	
+	}
+
+	enableScroll() {
+
+		// if (window.removeEventListener)
+		// 	window.removeEventListener('DOMMouseScroll', this.preventDefault.bind(this), false);
+		// window.onmousewheel = document.onmousewheel = null; 
+		// window.onwheel = null; 
+		// window.ontouchmove = null;  
+		// document.onkeydown = null;  
+		document.querySelector('body').classList.remove('frozen')
+	
 	}
 
 }

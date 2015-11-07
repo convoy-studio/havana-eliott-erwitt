@@ -65,7 +65,7 @@ export default class News extends ComponentTransition {
 			title: 'News | Elliott Erwitt Havana Club 7 Fellowship',
 			description: 'Find out the latest news about the Fellowship documentary photography project',
 			url: config.siteurl + '/news',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		let newsItems = news.map((item, index)=>{

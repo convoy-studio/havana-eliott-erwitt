@@ -106,7 +106,7 @@ export default class Payment extends ComponentTransition {
 			title: 'Payment | Elliott Erwitt Havana Club 7 Fellowship',
 			description: '',
 			url: config.siteurl + '/payment',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		let tva = this.state.cartTotal * this.TVA_RATE / (100+this.TVA_RATE);

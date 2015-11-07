@@ -45,14 +45,14 @@ export default class Contact extends ComponentTransition {
 			title: 'Contact | Elliott Erwitt Havana Club 7 Fellowship',
 			description: 'Contact us here if you have any questions regarding the "Elliott Erwitt Havana Club 7 Fellowship", our brand or product range.',
 			url: config.siteurl + '/contact',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 // <input className='form__input form__input--text' type='text' id='country' required/>
 		return (
 			<div className='page page--contact page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content contact'>
-					<h1 className='title title--center title--absolute'>Contact</h1>
+					<h1 className='title title--center title--absolute'><span>Contact</span></h1>
 					<div className='contact__content'>
 						<div className='contact__column'>
 							<p className='text'>Please use this contact form if you have questions about the fellowship.<br/><br/>Please note that Photographers wishing to be considered to join the Fellowship will not be able to apply using this form. The Photographers invited to join the Fellowship will be invited based on the merit of their past work by an independent group of Photography professionals.<br/><br/>Please be informed that any personal information collected through this form will be used for the sole purpose of answering your questions and will thereafter be deleted</p>

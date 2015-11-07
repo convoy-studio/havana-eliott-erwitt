@@ -69,7 +69,7 @@ export default class AdminOrder extends Component {
 		return (
 			<div className='admin__order'>
 				<div className='submenu'><Link to='/admin/orders' className='button'>Back to orders</Link></div>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>Order n°{id}</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Order n°{id}</Link></span></h1>
 				
 				<section className='admin__section'>
 					<h2 className='subtitle'>Information</h2>

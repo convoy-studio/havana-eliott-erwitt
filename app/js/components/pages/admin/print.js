@@ -60,7 +60,7 @@ export default class AdminPrint extends Component {
 		return (
 			<div className='admin__print'>
 				<div className='submenu'><Link to={'/admin/project/'+this.props.params.slug} className='button'>Back to project</Link></div>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>{artist} — Print</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>{artist} — Print</Link></span></h1>
 				<div className='admin__img'><img src={file}/></div>
 				<form className='admin__form form'>
 					<div className='form__row'>

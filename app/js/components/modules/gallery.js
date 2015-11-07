@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import Utils from '../../utils/utils';
-import Cursor from './cursor';
+// import Cursor from './cursor';
 let _ = require('lodash');
 let raf = Utils.raf();
 let config = require('../../config');
@@ -63,8 +63,10 @@ export default class Gallery extends Component {
 		document.addEventListener('touchstart', this.onTouchstart);
 		document.addEventListener('touchmove', this.onTouchmove);
 		document.addEventListener('touchend', this.onTouchend);
-		this.print.addEventListener('mouseenter', this.onMouseenter);
-		this.print.addEventListener('mouseleave', this.onMouseleave);
+		// this.print.addEventListener('mouseenter', this.onMouseenter);
+		// this.print.addEventListener('mouseleave', this.onMouseleave);
+		// this.print.addEventListener('mouseover', this.onMouseenter);
+		// this.print.addEventListener('mouseout', this.onMouseleave);
 		
 		let file;
 		this.nPrints = _.size(this.props.prints);
@@ -93,6 +95,10 @@ export default class Gallery extends Component {
 		document.removeEventListener('touchstart', this.onTouchstart);
 		document.removeEventListener('touchmove', this.onTouchmove);
 		document.removeEventListener('touchend', this.onTouchend);
+		// this.print.removeEventListener('mouseenter', this.onMouseenter);
+		// this.print.removeEventListener('mouseleave', this.onMouseleave);
+		// this.print.removeEventListener('mouseover', this.onMouseenter);
+		// this.print.removeEventListener('mouseout', this.onMouseleave);
 
 	}
 
@@ -172,17 +178,17 @@ export default class Gallery extends Component {
 		let next = (this.state.current+1 >= this.nPrints) ? 0 : this.state.current+1;
 
 		// SEO
-		let image = config.siteurl + '/static/img/elliott-erwitt.jpg';
+		let image = config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg';
 		if (_.size(this.props.prints) > 0) {
 			image = config.siteurl + '/static/prints/' + this.props.prints[this.state.current].file + '.jpg';
 		}
 
 		this.seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Gallery',
+			title: 'Photography gallery | Elliott Erwitt Havana Club 7 Fellowship',
 			description: details,
 			url: config.siteurl + '/photography/' + this.props.project + '/gallery/' + this.state.current,
 			image: image,
-			twitter: 'Elliott%20Erwitt%20Havana%20Club%207%20Fellowship%20%7C%20Gallery'
+			twitter: 'Discover%20Elliott%20Erwitt%27s%20new%20body%20of%20work%20in%20Cuba%2E'
 		};
 		let seoComponent;
 		if (this.props.show) {
@@ -190,12 +196,12 @@ export default class Gallery extends Component {
 		}
 
 		// <div className="fb-share-button button project__social project__social--facebook" data-href="http://www.havana-fellowship.com/" data-layout="link">Facebook</div>
+				// <Cursor
+				// 	state={this.state.cursorState}
+				// />
 		return (
 			<div>
 				{seoComponent}
-				<Cursor
-					state={this.state.cursorState}
-				/>
 				<div className={'project__slideshow ' + slideshowClass}>
 					<div className='project__contact submenu'><Link to={'/photography/'+this.props.project+'/contact-sheet'} className='button'>Contact sheet</Link></div>
 					<div className='project__content'>
@@ -421,6 +427,7 @@ export default class Gallery extends Component {
 
 	onMouseenter() {
 
+		console.log('enter');
 		this.setState({
 			cursorState: 'more'
 		});
@@ -429,6 +436,7 @@ export default class Gallery extends Component {
 
 	onMouseleave() {
 		
+		console.log('leave');
 		if (!this.zoomed) {
 			this.setState({
 				cursorState: 'hidden'

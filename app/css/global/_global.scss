@@ -16,6 +16,9 @@ body {
 	background-color: $black;
 	color: $white;
 	a { color: $white; }
+	&.frozen {
+		overflow: hidden;
+	}
 }
 
 #landscape {

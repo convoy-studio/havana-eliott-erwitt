@@ -31,7 +31,7 @@ export default class Login extends Component {
 
 		return (
 			<div className='admin__order'>
-				<h1 className='title title--center title--absolute'>Login</h1>
+				<h1 className='title title--center title--absolute'><span>Login</span></h1>
 				<form className='admin__form form'>
 					<div className='form__row'>
 						<label className='form__label' htmlFor='id'>Identifiant</label>

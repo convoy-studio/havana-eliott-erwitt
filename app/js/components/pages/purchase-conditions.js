@@ -35,14 +35,14 @@ export default class purchaseConditions extends ComponentTransition {
 			title: 'Terms and condition of sale | Elliott Erwitt Havana Club 7 Fellowship',
 			description: '',
 			url: config.siteurl + '/terms-and-condition-of-sale',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		return (
 			<div className='page page--rerms page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content terms'>
-					<h1 className='title title--center title--absolute'>Terms and condition of sale</h1>
+					<h1 className='title title--center title--absolute'><span>Terms and condition of sale</span></h1>
 					<p className='paragraph paragraph--2 paragraph--margin text'>
 						<span className='paragraph__title'>Title 1</span>
 						Alignat empore, si dio cor alis aliquae. Ut assimus resti dem sequi omnistrum quam inum cullab in corioss intiae sedit, in parchillat et pore pliatis sernam rem eum qui alibusda porum et atiaeru mquiatquas is intendia cum remqui dolorias sim iur? Atium experi occati sumquam qui bea aut iliquatum nonsequ issime et et la et abo. Omnihilitam qui con renda nest, corro beat maio et volesci assitiis in con cumqui aceaqua tatent audis dolore, sequunti di ant magnihil explicae non pedicat estota di con consequae laborum quiat audam, officit, sequam, alis eum fuga. Nest, assectas et ullatem quas alit volore nonest lati sediste cabore volupitatem ipsum voluptis mo cus, occae. Inveliquias aliaspedis ea vellupta volor sectest iatiur sam assum quiatus ectest iatiur sam assum.

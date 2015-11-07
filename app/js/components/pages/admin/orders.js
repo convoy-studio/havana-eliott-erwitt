@@ -53,7 +53,7 @@ export default class AdminOrders extends Component {
 
 		return (
 			<div className='admin__orders'>
-				<h1 className='title title--center title--absolute'><Link to='/admin'>Orders</Link></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Orders</Link></span></h1>
 				{(() => {
 					if (paidOrders.length > 0) { return (
 						<section className='admin__section'>

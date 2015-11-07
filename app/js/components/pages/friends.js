@@ -36,14 +36,14 @@ export default class Friends extends ComponentTransition {
 			title: 'Friends of fellowship | Elliott Erwitt Havana Club 7 Fellowship',
 			description: 'Friends of fellowship',
 			url: config.siteurl + '/friends-of-fellowship',
-			image: config.siteurl + '/static/img/elliott-erwitt.jpg'
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
 		return (
 			<div className='page page--friends page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='fellowship__submenu submenu'><Link to='/fellowship' className='button'>Back to fellowship</Link></div>
-				<h1 className='title title--center title--absolute'>Friends of fellowship</h1>
+				<h1 className='title title--center title--absolute'><span>Friends of fellowship</span></h1>
 				<div className='page__content friends'>
 					<p className='text'>The Fellowship is always looking for friends sharing the passion for great documentary photography.</p>
 					<br/>

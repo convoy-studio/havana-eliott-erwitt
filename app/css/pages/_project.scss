@@ -18,7 +18,7 @@
 	top: calc(50% - 12px);
 	left: 50%;
 	transform: translate(-50%, 0);
-	z-index: 10;
+	z-index: 20;
 	padding-bottom: 70px;
 
 	display: block;
@@ -72,11 +72,14 @@
 	min-height: 100vh;
 	top: 0;
 	left: 0;
-	z-index: 0;
+	z-index: 10;
 
 	visibility: visible;
 	opacity: 1;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	// display: block;
+	// opacity: 1;
+	// animation: fadeInFromNone 0.4s ease-out;
 }
 
 .project__slideshow--hidden {
@@ -86,6 +89,9 @@
 	visibility: hidden;
 	opacity: 0;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+	// display: none;
+	// opacity: 0;
+	// animation: fadeOutFromBlock 0.4s ease-out forwards;
 }
 
 .project__content {
@@ -118,7 +124,8 @@
 	margin: 0 auto;
 	text-align: center;
 
-	cursor: url('/static/img/alpha.png'), pointer;
+	// cursor: url('/static/img/alpha.png'), pointer;
+	cursor: url('/static/img/cursor_more.png'), pointer;
 
 	visibility: hidden;
 	opacity: 0;
@@ -298,18 +305,25 @@
 	height: 100%;
 	top: 0;
 	left: 0;
-	z-index: 0;
+	z-index: 20;
 
 	visibility: visible;
 	opacity: 1;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+	// display: block;
+	// opacity: 1;
+	// animation: fadeInFromNone 0.4s ease-out;
 }
 
 .project__bigslideshow--hidden {
+	pointer-events: none;
 	visibility: hidden;
 	opacity: 0;
-	pointer-events: none;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+	z-index: 0;
+	// display: none;
+	// opacity: 0;
+	// animation: fadeOutFromBlock 0.4s ease-out forwards;
 }
 
 .project__bigcontent {
@@ -350,7 +364,8 @@
 .project__bigimage {
 	width: calc(100% - 120px);
 	height: auto;
-	cursor: url('/static/img/alpha.png'), pointer;
+	// cursor: url('/static/img/alpha.png'), pointer;
+	cursor: url('/static/img/cursor_less.png'), pointer;
 }
 
 .project__bigprev, .project__bignext {
