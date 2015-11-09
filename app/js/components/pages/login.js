@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ComponentTransition from '../componentTransition';
+import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import Auth from '../../utils/authService'
 let config = require('../../config');
@@ -35,8 +36,16 @@ export default class Login extends ComponentTransition {
 
 	render() {
 
+		let seo = {
+			title: 'Login | Elliott Erwitt Havana Club 7 Fellowship',
+			description: '',
+			url: config.siteurl + '/login',
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
+		};
+
 		return (
 			<div className='admin__order' ref='view'>
+				<Seo seo={seo} />
 				<h1 className='title title--center title--absolute'><span>Admin</span></h1>
 				<form className='admin__form form'>
 					<div className='form__row'>
@@ -50,6 +59,7 @@ export default class Login extends ComponentTransition {
 					<div className='admin__row'>
 						<a href='' className='button' onClick={this.login}>Login</a>
 					</div>
+					<Link to={'/admin'}>Admin</Link>
 				</form>
 			</div>
 		);
@@ -59,6 +69,7 @@ export default class Login extends ComponentTransition {
 
 	login(e) {
 
+		console.log(this.context);
 		e.preventDefault();
 		
 		let id = this.refs.id.getDOMNode().value;
@@ -69,7 +80,10 @@ export default class Login extends ComponentTransition {
 				identifiant : id,
 				password: pwd
 			};
-			Auth.login(user);
+			Auth.login(user)
+				.then((response)=>{
+					this.context.router.transitionTo('/admin');
+				});
 		}
 	}
 

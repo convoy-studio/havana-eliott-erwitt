@@ -14,7 +14,7 @@ login(user) {
 	// 	data: user
 	// })));
 
-	fetch(config.siteurl + '/api/auth/login', {
+	return fetch(config.siteurl + '/api/auth/login', {
 		method: 'post',
 		headers: {
 			'Accept': 'application/json',

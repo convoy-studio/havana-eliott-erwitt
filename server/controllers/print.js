@@ -296,6 +296,7 @@ const controller = {
 
 	// private admin
 	create : {
+		auth: 'token',
 		handler : function(request, reply) {
 			if (request.payload.secret === 'havana2015admin') {
 				Project.findOne({ slug: request.payload.project_slug }, function(err, project) {
@@ -337,6 +338,7 @@ const controller = {
 	
 	// ADMIN
 	update : {
+		auth: 'token',
 		handler : function(request, reply) {
 			Print.findOne({ token: request.params.token }, function(err, print) {
 				if (!err) {

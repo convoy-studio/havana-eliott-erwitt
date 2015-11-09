@@ -87,12 +87,16 @@ module.exports = {
 	},
 
 	create : function(print){
+		let headers = {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		};
+		if (userToken) {
+			headers['Authorization'] = 'Bearer ' + userToken;
+		}
 		fetch(config.siteurl + '/api/prints', {
 			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
+			headers: headers,
 			body: JSON.stringify({
 				'print' : print
 			})
@@ -101,12 +105,17 @@ module.exports = {
 
 	// ADMIN
 	update : function(token, print){
+		let userToken = localStorage.getItem('jwt');
+		let headers = {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		};
+		if (userToken) {
+			headers['Authorization'] = 'Bearer ' + userToken;
+		}
 		fetch(config.siteurl + '/api/admin/print/' + token, {
 			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
+			headers: headers,
 			body: JSON.stringify({
 				'print' : print
 			})

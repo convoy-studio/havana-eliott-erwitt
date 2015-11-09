@@ -59,8 +59,18 @@ export default (
 		<Route path="/terms-and-condition-of-use" component={Terms}/>
 		<Route path="/terms-and-condition-of-sale" component={PurchaseConditions}/>
 		<Route path="/unsubscribe" component={Unsubscribe}/>
-		<Route path="/login" component={Login}/>
 		
+		<Route path="/login" component={Login}/>
+		<Route path="/admin" component={Admin}>
+			<Route path="/projects" component={AdminProjects}/>
+			<Route path="/project/:slug" component={AdminProject}/>
+			<Route path="/project/:slug/:token" component={AdminPrint}/>
+			<Route path="/orders" component={AdminOrders}/>
+			<Route path="/order/:token" component={AdminOrder}/>
+			<Route path="/subscriber-shop" component={AdminSubscribersShop}/>
+			<Route path="/subscriber-news" component={AdminSubscribersNews}/>
+		</Route>
+
 		<Route path="*" component={NotFound}/>
 	</Route>
 );
@@ -69,31 +79,28 @@ export default (
 // <Route path="/shop/:token" component={Print}/>
 // <Route path="/payment" component={Payment}/>
 // <Route path="/payment-confirmation" component={Result}/>
-// <Route path="/admin" component={Admin}>
-// 	<Route path="/projects" component={AdminProjects}/>
-// 	<Route path="/project/:slug" component={AdminProject}/>
-// 	<Route path="/project/:slug/:token" component={AdminPrint}/>
-// 	<Route path="/orders" component={AdminOrders}/>
-// 	<Route path="/order/:token" component={AdminOrder}/>
-// 	<Route path="/subscriber-shop" component={AdminSubscribersShop}/>
-// 	<Route path="/subscriber-news" component={AdminSubscribersNews}/>
-// </Route>
 
 		// <Route path="/admin" component={Admin} onEnter={requireLogin}>
 			// <Route path="/login" component={AdminLogin}/>
 
-function requireLogin(nextState, transitionTo, callback) {
+function requireLogin(nextState, replaceState, callback) {
 
-	console.log(LoginStore.isLoggedIn());
+	// replaceState({ nextPathName: nextState.location.pathname }, '/login');
+	console.log(nextState, replaceState);
+	replaceState.to('/login', null, 'login');
+	callback();
+	// transitionTo('/admin/projects');
+	
+	// console.log(LoginStore.isLoggedIn());
 	// if (LoginStore.isLoggedIn()) {
 	// 	callback();
 	// } else {
 	// 	transitionTo.to('/login', null);
 	// 	callback();
 	// }
-	if (!LoginStore.isLoggedIn()) {
-		transitionTo.to('/login', null);
-		callback();
-	}
+	// if (!LoginStore.isLoggedIn()) {
+	// 	transitionTo.to('/login', null);
+	// 	callback();
+	// }
 
 }

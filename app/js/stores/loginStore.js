@@ -9,8 +9,12 @@ class LoginStore extends BaseStore {
 		super();
 	
 		this.subscribe(() => this._registerToActions.bind(this))
-		this._user = null;
 		this._jwt = null;
+		this._user = null;
+		if(typeof window !== 'undefined') {
+			this._jwt = (window.localStorage.getItem('jwt')) ? window.localStorage.getItem('jwt') : null;
+			this._user = (this._jwt) ? jwt_decode(this._jwt) : null;
+		}
 	
 	}
 
@@ -21,9 +25,7 @@ class LoginStore extends BaseStore {
 		switch(action.actionType) {
 			case LOGIN_USER:
 				this._jwt = action.jwt;
-				console.log(this._jwt);
 				this._user = jwt_decode(this._jwt);
-				console.log(this._user);
 				this.emitChange();
 				break;
 			case LOGOUT_USER:

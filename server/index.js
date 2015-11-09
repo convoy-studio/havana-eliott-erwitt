@@ -133,6 +133,7 @@ server.register([
                     Router.run(routes, location, (error, initialState) => {
                         const content = React.renderToString(<Router location={location} {...initialState}/>);
                         const head = Helmet.rewind();
+                        let meta = (head && head.meta) ? head.meta.toString() : '';
                         
                         // fetchComponentsdata(initialState.components)
                         //     .then((response)=> {
@@ -142,6 +143,7 @@ server.register([
                             return reply(Boom.badImplementation(err)); // HTTP 500
                         }
 
+                                    // ${head.meta.toString()}
                         const html = `
                             <!doctype html>
                             <html>
@@ -151,9 +153,9 @@ server.register([
                                     <meta name="google-site-verification" content="OjJk1s2tUx3x9j55kdCnUq2SY1MDEZ9lNa9adNQqnzY" />
                                     <link rel="stylesheet" href="/css/build.css" />
                                     <link rel="icon" type="image/png" href="assets/images/favicon.ico" />
-                                    <title>{head.title}</title>
-                                    ${head.meta.toString()}
-                                </head>
+                                    <title>{head.title}</title>` +
+                                    meta
+                                + `</head>
                                 <body>
                                     <div id="fb-root"></div>
                                     

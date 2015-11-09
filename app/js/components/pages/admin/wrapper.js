@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Home from './home';
 import { Link } from 'react-router';
+import LoginStore from '../../../stores/LoginStore';
 let config = require('../../../config');
 
 const nav = [
@@ -25,8 +26,12 @@ const nav = [
 
 export default class Admin extends Component {
 
-	componentWillMount(){
+	componentDidMount(){
 		
+		if (!LoginStore.isLoggedIn()) {
+			this.context.router.transitionTo('/login');
+		}
+
 	}
 
 	render() {
@@ -69,3 +74,7 @@ export default class Admin extends Component {
 
 	}
 }
+
+Admin.contextTypes = {
+	router: React.PropTypes.func.isRequired
+};
