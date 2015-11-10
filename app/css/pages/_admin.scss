@@ -96,8 +96,15 @@
 }
 
 .admin__form {
+	// padding-top: 160px;
+	text-align: center;
+
 	.form__input--text {
 		height: 40px;
+	}
+	.form__row {
+		text-align: left;
+		margin-bottom: 20px;
 	}
 }
 
@@ -106,20 +113,11 @@
 	text-align: center;
 
 	img {
-		width: 50%;
+		width: auto;
 	}
 }
 
 .admin__row {
 	margin-top: 20px;
 	text-align: center;
-}
-
-.admin__form {
-	padding-top: 160px;
-	text-align: center;
-
-	.form__row {
-		margin-bottom: 20px;
-	}
 }

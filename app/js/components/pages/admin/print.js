@@ -71,7 +71,7 @@ export default class AdminPrint extends Component {
 						<label className='form__label' htmlFor='title'>Title</label>
 						<Input 
 							id='title'
-							text={this.state.title}
+							text={title}
 							updateText={this.updateTitle}
 						/>
 					</div>
@@ -79,7 +79,7 @@ export default class AdminPrint extends Component {
 						<label className='form__label' htmlFor='city'>City</label>
 						<Input 
 							id='city'
-							text={this.state.city}
+							text={city}
 							updateText={this.updateCity}
 						/>
 					</div>
@@ -87,7 +87,7 @@ export default class AdminPrint extends Component {
 						<label className='form__label' htmlFor='country'>Country</label>
 						<Input 
 							id='country'
-							text={this.state.country}
+							text={country}
 							updateText={this.updateCountry}
 						/>
 					</div>
@@ -95,7 +95,7 @@ export default class AdminPrint extends Component {
 						<label className='form__label' htmlFor='year'>Year</label>
 						<Input 
 							id='year'
-							text={this.state.year}
+							text={year}
 							updateText={this.updateYear}
 						/>
 					</div>
@@ -103,7 +103,7 @@ export default class AdminPrint extends Component {
 						<label className='form__label' htmlFor='price'>Price (€)</label>
 						<Input 
 							id='price'
-							text={this.state.price}
+							text={price}
 							updateText={this.updatePrice}
 						/>
 					</div>
