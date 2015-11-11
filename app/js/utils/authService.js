@@ -42,6 +42,14 @@ logout() {
 signup(user) {
 
 	console.log(user);
+	return fetch(config.siteurl + '/api/auth/signup', {
+		method: 'post',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user)
+	});
 	// return this.handleAuth(when(request({
 	// 	url: config.siteurl + '/api/auth/signup',
 	// 	method: 'POST',

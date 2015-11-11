@@ -163,6 +163,7 @@ export default class Fellowship extends ComponentTransition {
 				rel: 0
 			}
 		};
+							// url={'https://youtu.be/KcjK36YKLqY'}
 
 		return (
 			<div className='page page--fellowship' ref='view'>
@@ -174,7 +175,7 @@ export default class Fellowship extends ComponentTransition {
 						<YouTube
 							ref='youtube'
 							className='youtube-video'
-							url={'https://youtu.be/KcjK36YKLqY'}
+							url={'//www.youtube.com/embed/KcjK36YKLqY'}
 							opts={opts}
 							onReady={this.handleVideoReady}
 						/>

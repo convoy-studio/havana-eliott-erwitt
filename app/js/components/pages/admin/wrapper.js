@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Home from './home';
 import { Link } from 'react-router';
-import LoginStore from '../../../stores/LoginStore';
+import LoginStore from '../../../stores/loginStore';
 let config = require('../../../config');
 
 const nav = [

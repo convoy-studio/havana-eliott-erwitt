@@ -109,6 +109,7 @@ export default class Payment extends ComponentTransition {
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
+		let total = (parseFloat(this.state.cartTotal) + 10).toFixed(2);
 		let tva = this.state.cartTotal * this.TVA_RATE / (100+this.TVA_RATE);
 		tva = tva.toFixed(2);
 
@@ -285,7 +286,7 @@ export default class Payment extends ComponentTransition {
 							<div className='payment__total cart__total'>
 								<div className='payment__subtotal cart__subtotal'>
 									<div className='cart__column'>Subtotal:</div>
-									<div className='cart__column'>{this.state.cartTotal+10}<span className='cart__currency'>€</span></div>
+									<div className='cart__column'>{total}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__tva'>
 									<div className='cart__column'>Included TVA:</div>
@@ -294,7 +295,7 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='cart__bigtotal'>
 								<div className='cart__column'>Grand total:</div>
-								<div className='cart__column'>{this.state.cartTotal}<span className='cart__currency'>€</span></div>
+								<div className='cart__column'>{total}<span className='cart__currency'>€</span></div>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
@@ -382,7 +383,7 @@ export default class Payment extends ComponentTransition {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			total: (this.state.cartTotal+10) * 100,
+			total: (parseFloat(this.state.cartTotal) + 10) * 100,
 
 			firstname: document.getElementById('firstname').value,
 			lastname: document.getElementById('lastname').value,

@@ -319,3 +319,15 @@
 		}
 	}
 }
+
+@media screen and (max-height: 600px) {
+	.shop__intro {
+		.title {
+			margin-bottom: 20px;
+		}
+		.shop__paragraph {
+			margin-bottom: 20px;
+		}
+	}
+	
+}

@@ -45,7 +45,6 @@ export default class AdminPrint extends Component {
 
 		let title, city, country, year, price, file, forsale, artist;
 
-		console.log(this.state.print);
 		if (this.state.print) {
 			title = this.state.print.title || '';
 			city = this.state.print.city || '';
@@ -173,7 +172,6 @@ export default class AdminPrint extends Component {
 
 	toggleForsale() {
 
-		console.log(!this.state.forsale);
 		this.setState({
 			forsale: !this.state.forsale
 		});

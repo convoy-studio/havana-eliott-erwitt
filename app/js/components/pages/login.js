@@ -30,7 +30,7 @@ export default class Login extends ComponentTransition {
 
 		// binded
 		this.login = this.login.bind(this);
-		this.signup = this.signup.bind(this);
+		// this.signup = this.signup.bind(this);
 		
 	}
 
@@ -44,7 +44,7 @@ export default class Login extends ComponentTransition {
 		};
 
 		return (
-			<div className='admin__order' ref='view'>
+			<div className='admin__login' ref='view'>
 				<Seo seo={seo} />
 				<h1 className='title title--center title--absolute'><span>Admin</span></h1>
 				<form className='admin__form form'>
@@ -59,17 +59,17 @@ export default class Login extends ComponentTransition {
 					<div className='admin__row'>
 						<a href='' className='button' onClick={this.login}>Login</a>
 					</div>
-					<Link to={'/admin'}>Admin</Link>
 				</form>
 			</div>
 		);
-						// <a href='' className='button' onClick={this.signup}>Signup</a>
 
+		// <div className='admin__row'>
+		// 	<a href='' className='button' onClick={this.signup}>Signup</a>
+		// </div>
 	}
 
 	login(e) {
 
-		console.log(this.context);
 		e.preventDefault();
 		
 		let id = this.refs.id.getDOMNode().value;
@@ -87,25 +87,23 @@ export default class Login extends ComponentTransition {
 		}
 	}
 
-	signup(e) {
+	// signup(e) {
 
-		e.preventDefault()
+	// 	e.preventDefault()
 
-		let id = this.refs.id.getDOMNode().value;
-		let pwd = this.refs.pwd.getDOMNode().value;
+	// 	let id = this.refs.id.getDOMNode().value;
+	// 	let pwd = this.refs.pwd.getDOMNode().value;
 
-		if(id && pwd){
-			let user = {
-				identifiant : id,
-				password: pwd
-			};
-			// signup(user);
-			Auth.signup(user);
-				// .catch(function(err) {
-				// 	console.log('Error logging in', err);
-				// });
-		}
+	// 	console.log(id, pwd);
+	// 	if(id && pwd){
+	// 		let user = {
+	// 			identifiant : id,
+	// 			password: pwd
+	// 		};
+	// 		// signup(user);
+	// 		Auth.signup(user);
+	// 	}
 
-	}
+	// }
 
 }

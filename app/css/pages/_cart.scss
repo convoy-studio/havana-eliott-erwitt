@@ -89,6 +89,8 @@ $cartColor: $white;
 	// overflow: auto;
 	overflow-x: hidden;
 	margin-bottom: 20px;
+	
+	max-height: inherit;
 }
 
 .cart__product {

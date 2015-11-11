@@ -20,10 +20,9 @@ import Legal from './components/pages/legal';
 import Terms from './components/pages/terms';
 import PurchaseConditions from './components/pages/purchase-conditions';
 import Unsubscribe from './components/pages/unsubscribe';
-import Login from './components/pages/login';
 
+import Login from './components/pages/login';
 import Admin from './components/pages/admin/wrapper';
-// import AdminLogin from './components/pages/admin/login';
 import AdminHome from './components/pages/admin/home';
 import AdminProjects from './components/pages/admin/projects';
 import AdminProject from './components/pages/admin/project';
@@ -34,8 +33,6 @@ import AdminSubscribersShop from './components/pages/admin/subscriber-shop';
 import AdminSubscribersNews from './components/pages/admin/subscriber-news';
 
 import NotFound from './components/pages/not-found';
-
-// import { isLoaded as isAuthLoaded, load as loadAuth } from './actions/authActions';
 
 import LoginStore from './stores/loginStore';
 
@@ -60,6 +57,11 @@ export default (
 		<Route path="/terms-and-condition-of-sale" component={PurchaseConditions}/>
 		<Route path="/unsubscribe" component={Unsubscribe}/>
 		
+		<Route path="/shop" component={Shop}/>
+		<Route path="/shop/:token" component={Print}/>
+		<Route path="/payment" component={Payment}/>
+		<Route path="/payment-confirmation" component={Result}/>
+
 		<Route path="/login" component={Login}/>
 		<Route path="/admin" component={Admin}>
 			<Route path="/projects" component={AdminProjects}/>
@@ -74,33 +76,3 @@ export default (
 		<Route path="*" component={NotFound}/>
 	</Route>
 );
-
-// <Route path="/shop" component={Shop}/>
-// <Route path="/shop/:token" component={Print}/>
-// <Route path="/payment" component={Payment}/>
-// <Route path="/payment-confirmation" component={Result}/>
-
-		// <Route path="/admin" component={Admin} onEnter={requireLogin}>
-			// <Route path="/login" component={AdminLogin}/>
-
-function requireLogin(nextState, replaceState, callback) {
-
-	// replaceState({ nextPathName: nextState.location.pathname }, '/login');
-	console.log(nextState, replaceState);
-	replaceState.to('/login', null, 'login');
-	callback();
-	// transitionTo('/admin/projects');
-	
-	// console.log(LoginStore.isLoggedIn());
-	// if (LoginStore.isLoggedIn()) {
-	// 	callback();
-	// } else {
-	// 	transitionTo.to('/login', null);
-	// 	callback();
-	// }
-	// if (!LoginStore.isLoggedIn()) {
-	// 	transitionTo.to('/login', null);
-	// 	callback();
-	// }
-
-}

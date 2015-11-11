@@ -59,7 +59,7 @@ const controller = {
 
 	signup : {
 		handler : function(request, reply){
-			const payload = request.payload.user;
+			const payload = request.payload;
 
 			const user = new User({
 				identifiant : payload.identifiant,
