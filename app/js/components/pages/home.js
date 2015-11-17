@@ -83,8 +83,11 @@ export default class Home extends ComponentTransition {
 			window.onload = ()=>{
 				this.initAnimation();
 
-				if (this.body && this.body.classList.contains('js-mobile')) {
+				// if (this.body && this.body.classList.contains('js-mobile')) {
+				if (window.innerWidth < 768) {
 					this.cropDescMobile();
+				} else if (window.innerWidth < 1024) {
+					this.cropDescTablet();
 				} else {
 					this.cropDesc();
 				}
@@ -212,6 +215,20 @@ export default class Home extends ComponentTransition {
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
 		ctx.fillText('A FELLOWSHIP IS A COMMUNION OF PEOPLE', this.vw/2, this.vh/2 - 7);
 		ctx.fillText('SHARING A COMMON PASSION.', this.vw/2, this.vh/2 + 32);
+
+	}
+
+	cropDescTablet() {
+
+		let ctx = this.canvas.getContext('2d');
+		this.resetCanvas();
+		
+		ctx.font = "400 24px 'hc7modern'";
+		ctx.textAlign = "center";
+		ctx.globalCompositeOperation = "destination-out";
+		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
+		ctx.fillText('A FELLOWSHIP IS A COMMUNION OF PEOPLE', this.vw/2, this.vh/2 - 2);
+		ctx.fillText('SHARING A COMMON PASSION.', this.vw/2, this.vh/2 + 28);
 
 	}
 

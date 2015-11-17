@@ -171,3 +171,16 @@
 		transform: none !important;
 	}
 }
+
+@media only screen 
+  // and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+	.contact-sheet__item--small {
+		max-width: 110px;
+	}
+
+	.contact-sheet__item--large {
+		max-width: 250px;
+	}
+}
