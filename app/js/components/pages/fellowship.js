@@ -29,6 +29,10 @@ export default class Fellowship extends ComponentTransition {
 			}
 		}
 
+		if(typeof navigator !== 'undefined') {
+			this.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		}
+
 		// binded
 		this.raf = this.raf.bind(this);
 		this.showInterview = this.showInterview.bind(this);
@@ -117,8 +121,6 @@ export default class Fellowship extends ComponentTransition {
 			this.page.style.height = this.fellowship.offsetHeight + 'px';
 		}
 
-		console.log('FELLOWSHIP IS IE : ', this.isIE);
-		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
 		if (this.isIE) {
 			// this.refs.backgroundVideo.getDOMNode().style.display = 'none';
 			this.refs.backgroundVideo.getDOMNode().style.visibility = 'hidden';
@@ -291,14 +293,11 @@ export default class Fellowship extends ComponentTransition {
 
 	showInterview() {
 
-		console.log('FELLOWSHIP IS IE : ', this.isIE);
-		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
+		if (!this.iOS) this.player.playVideo();
 		this.disableScroll();
 		this.interviewShown = true;
-
 		var iframe = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/KcjK36YKLqY?autoplay=1&showinfo=0&rel=0"></iframe>';
 		this.video.innerHTML = iframe;
-
 		if (this.body.classList.contains('js-mobile')) this.footerHack.style.visibility = 'hidden';
 		this.video.classList.add('open');
 		this.fellowship.classList.add('fellowship--hidden');
@@ -314,8 +313,6 @@ export default class Fellowship extends ComponentTransition {
 
 	hideInterview() {
 
-		console.log('FELLOWSHIP IS IE : ', this.isIE);
-		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
 		this.enableScroll();
 		this.interviewShown = false;
 		setTimeout(()=>{

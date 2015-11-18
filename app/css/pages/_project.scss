@@ -560,6 +560,13 @@
   			text-align: center;
   		}
   	} 
+	.project__prints {
+		position: absolute;
+		top: 120px;
+		left: 0;
+		width: 100%;
+		height: calc(100vh - 206px);
+	}
 }
 
 @media only screen 
