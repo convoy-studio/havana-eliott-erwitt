@@ -173,22 +173,22 @@ const controller = {
 		}
 	},
 
-	getByArtist : {
-		handler : function(request, reply) {
-			Print.find({ slugArtist: request.params.slug })
-				 .sort({ year: 'desc'})
-				 .exec(function(err, items) {
-					if (!err) {
-						let result = []
-						for(i = 0; i < items.length; i++){
-							result.push(items[i]);
-						}
-						return reply(result);
-					}
-					return reply(Boom.badImplementation(err)); // HTTP 500
-				});
-		}
-	},
+	// getByArtist : {
+	// 	handler : function(request, reply) {
+	// 		Print.find({ slugArtist: request.params.slug })
+	// 			 .sort({ year: 'desc'})
+	// 			 .exec(function(err, items) {
+	// 				if (!err) {
+	// 					let result = []
+	// 					for(i = 0; i < items.length; i++){
+	// 						result.push(items[i]);
+	// 					}
+	// 					return reply(result);
+	// 				}
+	// 				return reply(Boom.badImplementation(err)); // HTTP 500
+	// 			});
+	// 	}
+	// },
 
 	getByArtist : {
 		handler : function(request, reply){

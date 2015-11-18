@@ -90,11 +90,14 @@ export default class Gallery extends Component {
 
 	componentWillUnmount() {
 
+		this.zoomOut()
+
 		document.removeEventListener('mousemove', this.onMousemove);
 		document.removeEventListener('keydown', this.onkeydown);
 		document.removeEventListener('touchstart', this.onTouchstart);
 		document.removeEventListener('touchmove', this.onTouchmove);
 		document.removeEventListener('touchend', this.onTouchend);
+
 		// this.print.removeEventListener('mouseenter', this.onMouseenter);
 		// this.print.removeEventListener('mouseleave', this.onMouseleave);
 		// this.print.removeEventListener('mouseover', this.onMouseenter);

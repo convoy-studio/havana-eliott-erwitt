@@ -50,16 +50,16 @@ export default class Friends extends ComponentTransition {
 					<p className='text text--center'>Below you can see some of our friends.</p>
 					<ul className='friends__sponsors'>
 						<li className='friends__sponsor friends__sponsor--fototeca'>
-							<a href='http://www.fototecadecuba.com/' target='_blank'><img src='/static/img/fototeca_de_cuba.png'/></a>
+							<a href='http://www.fototecadecuba.com/' target='_blank'><img src='/static/img/fototeca_de_cuba.jpg'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--ee'>
-							<a href='http://www.elliotterwitt.com/' target='_blank'><img src='/static/img/ee_official.png'/></a>
+							<a href='http://www.elliotterwitt.com/' target='_blank'>ELLIOTT ERWITT OFFICIAL WEBSITE</a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--icop'>
-							<a href='http://www.icp.org/' target='_blank'><img src='/static/img/international-center-of-photography.png'/></a>
+							<a href='http://www.icp.org/' target='_blank'><img src='/static/img/international-center-of-photography.jpg'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--unseen'>
-							<a href='http://unseenamsterdam.com/' target='_blank'><img src='/static/img/unseen_photo_fair.png'/></a>
+							<a href='http://unseenamsterdam.com/' target='_blank'><img src='/static/img/unseen_photo_fair.jpg'/></a>
 						</li>
 					</ul>
 				</div>

@@ -29,6 +29,8 @@ export default class Project extends Component {
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.showGallery = this.showGallery.bind(this);
 
+		console.log('componentWillMount')
+
 	}
 
 	componentWillAppear(callback) {
@@ -45,6 +47,7 @@ export default class Project extends Component {
 
 	componentWillEnter(callback) {
 
+		console.log('componentWillEnter')
 		setTimeout(callback, 1);
 
 	}
@@ -56,7 +59,6 @@ export default class Project extends Component {
 	}
 
 	componentWillLeave(callback) {
-	
 		this._leaveStyle(callback);
 		// setTimeout(callback, 300); // matches transition duration
 	
@@ -109,7 +111,6 @@ export default class Project extends Component {
 		ProjectStore.removeChangeListener(this.onStoreChange);
 		PrintStore.removeChangeListener(this.onStoreChange);
 		window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
-
 	}
 
 	render() {

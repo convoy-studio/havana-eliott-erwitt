@@ -34,7 +34,6 @@ export default class Fellowship extends ComponentTransition {
 		this.showInterview = this.showInterview.bind(this);
 		this.hideInterview = this.hideInterview.bind(this);
 		this.onImageLoaded = this.onImageLoaded.bind(this);
-		this.handleVideoReady = this.handleVideoReady.bind(this);
 
 
 		// const
@@ -154,17 +153,6 @@ export default class Fellowship extends ComponentTransition {
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
-		const opts = {
-			height: AppStore.Window.h - 206,
-			width: (AppStore.Window.h - 206) * 16 / 9,
-			playerVars: { // https://developers.google.com/youtube/player_parameters 
-				autoplay: 0,
-				showinfo: 0,
-				rel: 0
-			}
-		};
-							// url={'https://youtu.be/KcjK36YKLqY'}
-
 		return (
 			<div className='page page--fellowship' ref='view'>
 				<Seo seo={seo} />
@@ -172,13 +160,7 @@ export default class Fellowship extends ComponentTransition {
 
 				<div className='bg-video fellowship__video' ref='backgroundVideo'>
 					<div className='youtube-wrapper'>
-						<YouTube
-							ref='youtube'
-							className='youtube-video'
-							url={'//www.youtube.com/embed/KcjK36YKLqY'}
-							opts={opts}
-							onReady={this.handleVideoReady}
-						/>
+						<img src='assets/images/video-background.jpg' />
 					</div>
 					<div className='fellowship__bg'></div>
 					<div className='bg-video__overlay'></div>
@@ -313,7 +295,10 @@ export default class Fellowship extends ComponentTransition {
 		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
 		this.disableScroll();
 		this.interviewShown = true;
-		this.player.playVideo();
+
+		var iframe = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/KcjK36YKLqY?autoplay=1&showinfo=0&rel=0"></iframe>';
+		this.video.innerHTML = iframe;
+
 		if (this.body.classList.contains('js-mobile')) this.footerHack.style.visibility = 'hidden';
 		this.video.classList.add('open');
 		this.fellowship.classList.add('fellowship--hidden');
@@ -333,7 +318,9 @@ export default class Fellowship extends ComponentTransition {
 		console.log('FELLOWSHIP VIDEO : ', this.refs.backgroundVideo.getDOMNode());
 		this.enableScroll();
 		this.interviewShown = false;
-		this.player.pauseVideo();
+		setTimeout(()=>{
+			this.video.innerHTML = '<img src="assets/images/video-background.jpg" />';
+		}, 200)
 		if (this.body.classList.contains('js-mobile')) this.footerHack.style.visibility = 'visible';
 		this.video.classList.remove('open');
 		this.fellowship.classList.remove('fellowship--hidden');
@@ -345,10 +332,6 @@ export default class Fellowship extends ComponentTransition {
 			this.refs.backgroundVideo.getDOMNode().style.visibility = 'hidden';
 		}
 
-	}
-
-	handleVideoReady(e) {
-		this.player = e.target;
 	}
 
 	resize() {

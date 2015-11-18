@@ -4,41 +4,49 @@
 	&.page__content {
 		position: absolute;
 		left: 50%;
-		top: calc(50vh - 54px);
+		top: calc(50vh - 120px);
 		transform: translate(-50%, 0);
 		margin: 0 auto;
 		z-index: 20;
 		padding: 0 0 70px 0;
-		text-align: left;
+		text-align: center;
 	}
 }
 
 .friends__sponsors {
 	font-size: 0;
-	padding: 10px 50px 0;
+	padding: 10px 0px;
 }
 
 .friends__sponsor {
 	display: inline-block;
 	width: 50%;
-	padding: 20px;
+	padding: 20px 0;
 	box-sizing: border-box;
 	vertical-align: middle;
 
 	&.friends__sponsor--fototeca img {
-		width: 120px;
+		width: 140px;
 	}
 
 	&.friends__sponsor--ee {
-
+		color: white;
+		a {
+			color: white;
+			font-size: 19px;
+			font-family: "hc7modern";
+			white-space: nowrap;
+		}
 	}
 
 	&.friends__sponsor--icop {
-
+		width: 340px;
 	}
 
 	&.friends__sponsor--unseen img {
-		width: 120px;
+		width: 140px;
+		position: relative;
+		top: -10px;
 	}
 
 }
