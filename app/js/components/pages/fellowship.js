@@ -293,7 +293,6 @@ export default class Fellowship extends ComponentTransition {
 
 	showInterview() {
 
-		if (!this.iOS) this.player.playVideo();
 		this.disableScroll();
 		this.interviewShown = true;
 		var iframe = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/KcjK36YKLqY?autoplay=1&showinfo=0&rel=0"></iframe>';
