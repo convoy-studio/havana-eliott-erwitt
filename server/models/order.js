@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var itemSchema = new mongoose.Schema({
+	token	: String,
 	time	: Number,
 	user 	: String,
 	state 	: String,

@@ -26,6 +26,17 @@ module.exports = {
 			});
 	},
 
+	getUnsold : function() {
+		fetch(config.siteurl + '/api/prints/unsold')
+			.then(function(response) {
+				return response.json()
+			}).then(function(json) {
+				PrintActions.receiveUnsold(json)
+			}).catch(function(ex) {
+				console.log('parsing failed', ex)
+			});
+	},
+
 	getSlideshow : function(artist, id) {
 		fetch(config.siteurl + '/api/prints/' + artist + '/slideshow/' + id)
 			.then(function(response) {

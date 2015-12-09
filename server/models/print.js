@@ -14,7 +14,8 @@ var itemSchema = new mongoose.Schema({
 	forsale		: Boolean,
 	desc 		: String,
 	price 		: Number,
-	alt			: String
+	alt			: String,
+	logistic_id : String
 });
 
 module.exports = mongoose.model('Print', itemSchema, 'prints');

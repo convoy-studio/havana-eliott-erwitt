@@ -46,7 +46,8 @@ const controller = {
 							serials: items[i].serials,
 							desc: items[i].desc,
 							price: items[i].price,
-							forsale: items[i].forsale
+							forsale: items[i].forsale,
+							logistic_id: items[i].logistic_id
 						});
 					}
 					return reply(prints);
@@ -81,6 +82,7 @@ const controller = {
 								desc: print_item.desc,
 								price: print_item.price,
 								forsale: print_item.forsale,
+								logistic_id: print_item.logistic_id,
 								project: project
 							};
 							return reply(print);
@@ -126,6 +128,7 @@ const controller = {
 								forsale: print_items[index].forsale,
 								prev: print_items[prevIndex].token,
 								next: print_items[nextIndex].token,
+								logistic_id: print_items[nextIndex].logistic_id,
 								project: project
 							};
 							return reply(print);
@@ -214,7 +217,8 @@ const controller = {
 										serials: print_items[i].serials,
 										desc: print_items[i].desc,
 										price: print_items[i].price,
-										forsale: print_items[i].forsale
+										forsale: print_items[i].forsale,
+										logistic_id: print_items[i].logistic_id
 									});
 								}
 								prints = _.sortByOrder(prints, ['forsale'], ['desc']);
@@ -248,10 +252,33 @@ const controller = {
 							serials: items[i].serials,
 							desc: items[i].desc,
 							price: items[i].price,
-							forsale: items[i].forsale
+							forsale: items[i].forsale,
+							logistic_id: items[i].logistic_id
 						});
 					}
 					return reply(prints);
+				}
+				return reply(Boom.badImplementation(err)); // HTTP 500
+			});
+		}
+	},
+
+	getUnsold : {
+		handler : function(request, reply) {
+			Print.find({ forsale: true }, function(err, items) {
+				if (!err) {
+					let unsold = 0;
+					let print, serial;
+					for (let i=0; i<items.length; ++i) {
+						print = items[i];
+						for (let j=0; j<print.serials.length; ++j) {
+							serial = print.serials[j];
+							if (serial) {
+								unsold += print.price;
+							}
+						}
+					}
+					return reply(unsold);
 				}
 				return reply(Boom.badImplementation(err)); // HTTP 500
 			});
@@ -280,7 +307,8 @@ const controller = {
 								serials: item.serials,
 								desc: item.desc,
 								price: item.price,
-								forsale: item.forsale
+								forsale: item.forsale,
+								logistic_id: item.logistic_id
 							};
 							return reply(print);
 						} else {

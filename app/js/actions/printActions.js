@@ -18,6 +18,13 @@ let PrintActions = {
 		});
 	},
 
+	receiveUnsold : function(unsold){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_UNSOLD,
+			item: unsold
+		});
+	},
+
 	receiveSlideshow : function(prints){
 		AppDispatcher.handleServerAction({
 			actionType: PrintConstants.RECEIVE_PRINTS_SLIDESHOW,

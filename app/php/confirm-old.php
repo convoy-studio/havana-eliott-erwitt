@@ -11,7 +11,7 @@ Be2bill_Api_Autoloader::registerAutoloader();
 // Use fallback URL
 // Be2bill_Api_ClientBuilder::switchProductionUrls();
 
-$be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient('CONVOY', 'I>3Dod7KdP$DJKVT');
+$be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient('CONVOY', '//FellowshipConvoy7');
 
 if($be2bill->checkHash($_GET) == $_GET['HASH'] && $_GET['EXECCODE'] == '0000') {
 

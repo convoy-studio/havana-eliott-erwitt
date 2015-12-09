@@ -321,6 +321,7 @@ export default class Print extends ComponentTransition {
 		e.stopPropagation();
 		e.preventDefault();
 
+		console.log(this.state.print);
 		let update = {
 			token: this.state.print.token,
 			title: this.state.print.title,
@@ -331,7 +332,8 @@ export default class Print extends ComponentTransition {
 			serial: this.state.selectedSerial,
 			file: this.state.print.file,
 			copies: this.state.print.copies,
-			project: this.state.print.project
+			project: this.state.print.project,
+			logistic_id: this.state.print.logistic_id
 		};
 		CartActions.addToCart(update);
 		CartActions.updateCartEnabled(true, true);

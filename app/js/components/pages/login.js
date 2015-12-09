@@ -30,7 +30,7 @@ export default class Login extends ComponentTransition {
 
 		// binded
 		this.login = this.login.bind(this);
-		// this.signup = this.signup.bind(this);
+		this.signup = this.signup.bind(this);
 		
 	}
 
@@ -59,13 +59,13 @@ export default class Login extends ComponentTransition {
 					<div className='admin__row'>
 						<a href='' className='button' onClick={this.login}>Login</a>
 					</div>
+					<div className='admin__row'>
+						<a href='' className='button' onClick={this.signup}>Signup</a>
+					</div>
 				</form>
 			</div>
 		);
 
-		// <div className='admin__row'>
-		// 	<a href='' className='button' onClick={this.signup}>Signup</a>
-		// </div>
 	}
 
 	login(e) {
@@ -87,23 +87,23 @@ export default class Login extends ComponentTransition {
 		}
 	}
 
-	// signup(e) {
+	signup(e) {
 
-	// 	e.preventDefault()
+		e.preventDefault()
 
-	// 	let id = this.refs.id.getDOMNode().value;
-	// 	let pwd = this.refs.pwd.getDOMNode().value;
+		let id = this.refs.id.getDOMNode().value;
+		let pwd = this.refs.pwd.getDOMNode().value;
 
-	// 	console.log(id, pwd);
-	// 	if(id && pwd){
-	// 		let user = {
-	// 			identifiant : id,
-	// 			password: pwd
-	// 		};
-	// 		// signup(user);
-	// 		Auth.signup(user);
-	// 	}
+		console.log(id, pwd);
+		if(id && pwd){
+			let user = {
+				identifiant : id,
+				password: pwd
+			};
+			// signup(user);
+			Auth.signup(user);
+		}
 
-	// }
+	}
 
 }

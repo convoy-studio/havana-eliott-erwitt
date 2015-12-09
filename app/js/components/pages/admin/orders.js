@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import OrderStore from '../../../stores/orderStore';
 import OrderApi from '../../../utils/orderApi';
+import PrintStore from '../../../stores/printStore';
+import PrintApi from '../../../utils/printApi';
 let config = require('../../../config');
 let _ = require('lodash');
 
@@ -11,7 +13,8 @@ export default class AdminOrders extends Component {
 
 		this.state = {
 			paidOrders: {},
-			deliveredOrders: {}
+			deliveredOrders: {},
+			unsold: 0
 		};
 
 		this.onStoreChange = this.onStoreChange.bind(this)
@@ -21,14 +24,17 @@ export default class AdminOrders extends Component {
 	componentDidMount() {
 		
 		OrderStore.addChangeListener(this.onStoreChange);
+		PrintStore.addChangeListener(this.onStoreChange);
 
 		OrderApi.getPaid();
 		OrderApi.getDelivered();
+		PrintApi.getUnsold();
 
 	}
 
 	render() {
 
+		console.log(this.state.unsold);
 		let paidOrders = [];
 		_(this.state.paidOrders).forEach((order, index) => {
 			paidOrders.push(
@@ -54,6 +60,7 @@ export default class AdminOrders extends Component {
 		return (
 			<div className='admin__orders'>
 				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Orders</Link></span></h1>
+				<h2 className='subtitle title--center'>Total Stock Value : {this.state.unsold}€</h2>
 				{(() => {
 					if (paidOrders.length > 0) { return (
 						<section className='admin__section'>
@@ -95,7 +102,8 @@ export default class AdminOrders extends Component {
 
 		this.setState({
 			paidOrders: OrderStore.getPaid(),
-			deliveredOrders: OrderStore.getDelivered()
+			deliveredOrders: OrderStore.getDelivered(),
+			unsold: PrintStore.getUnsold()
 		});
 
 	}
