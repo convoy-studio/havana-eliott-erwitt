@@ -87,6 +87,14 @@ export default class Payment extends ComponentTransition {
 			this.bill = document.querySelector('.payment__bill');
 		}
 
+		// update default amout supply
+		let country = document.getElementById('country').value;
+		let amountSupply = this.getAmoutSupply(country);
+		this.setState({
+			amountSupply: amountSupply,
+			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
+		});
+
 		// let hack = setTimeout(function() {
 		// 	CartActions.updateCartEnabled(false);
 		// 	CartActions.updateCartVisible(false);
@@ -194,8 +202,14 @@ export default class Payment extends ComponentTransition {
 								<div className={'form__select'+error.country}><select id='country' name='country' onChange={this.handleCountryChange}>
 									{Object.keys(dhl).map((index) => {
 										let country = dhl[index].country;
+										let option;
+										if (country === 'France') {
+											option = <option value={country} selected>{country}</option>
+										} else {
+											option = <option value={country}>{country}</option>
+										}
 										return (
-											<option value={country}>{country}</option>
+											{option}
 										)
 									}.bind(this))}
 									
@@ -540,14 +554,18 @@ export default class Payment extends ComponentTransition {
 
 	handleCountryChange(e) {
 		let country = document.getElementById('country').value;
-		let index = _.findIndex(dhl, { 'country': country });
-		let zone = dhl[index].zone;
-		let amountSupply = zones[zone][this.state.cartItems.length-1]; // TODO: Interdire plus de 3 articles
+		let amountSupply = this.getAmoutSupply(country);
 
 		this.setState({
 			amountSupply: amountSupply,
 			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
 		});
+	}
+
+	getAmoutSupply(country) {
+		let index = _.findIndex(dhl, { 'country': country });
+		let zone = dhl[index].zone;
+		return zones[zone][this.state.cartItems.length-1]; // TODO: Interdire plus de 3 articles
 	}
 
 }
