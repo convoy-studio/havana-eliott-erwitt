@@ -63,6 +63,26 @@ var controller = {
 		}
 	},
 
+	updateOrder : {
+		handler : function(request, reply) {
+			Order.findById(request.params.id, function(err, item) {
+				if (!err) {
+					item.state = request.payload.state;
+					item.tracking = request.payload.tracking;
+					item.save(function(err){
+						if(!err){
+							return reply({message:'success'});
+						} else {
+							return reply('Update state failed');
+						}
+					});
+				} else {
+					return reply(Boom.badRequest(err)); // HTTP 500
+				}
+			});
+		}
+	},
+
 	updateState : {
 		handler : function(request, reply) {
 			Order.findById(request.params.id, function(err, item) {
@@ -92,7 +112,7 @@ var controller = {
 					user: request.payload.user,
 					prints: request.payload.prints,
 					total: request.payload.total,
-					state : 'in_progress',
+					state : 'Nouvelle commande',
 					
 					mail: request.payload.mail,
 					firstname: request.payload.firstname,

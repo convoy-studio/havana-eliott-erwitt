@@ -48,6 +48,26 @@ module.exports = {
 			});
 	},
 
+	updateOrder : function(id, status, tracking) {
+		fetch(config.siteurl + '/api/order/' + id, {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				state : status,
+				tracking : tracking
+			})
+		}).then(function(response) {
+			return response.json();
+		}).then(function(json) {
+			OrderActions.stateUpdated(json);
+		}).catch(function(err) {
+			console.log('parsing failed', err);
+		});
+	},
+
 	updateState : function(id, state) {
 		fetch(config.siteurl + '/api/order/' + id + '/state', {
 			method: 'post',

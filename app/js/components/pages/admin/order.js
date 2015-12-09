@@ -10,12 +10,13 @@ export default class AdminOrder extends Component {
 
 		this.state = {
 			order: undefined,
-			updated: undefined
+			updated: undefined,
+			error: undefined
 		};
 
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
-		this.onClickDelivered = this.onClickDelivered.bind(this);
+		this.save = this.save.bind(this);
 
 	}
 
@@ -29,7 +30,7 @@ export default class AdminOrder extends Component {
 
 	render() {
 
-		let id, orderId, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry;
+		let id, orderId, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
 		if (this.state.order) {
 			id = this.state.order._id;
 			orderId = this.state.token;
@@ -54,16 +55,20 @@ export default class AdminOrder extends Component {
 			billCity = this.state.order.billCity || this.state.order.city;
 			billCountry = this.state.order.billCountry || this.state.order.country;
 
-			switch(state) {
-				case 'in_progress': 
-					stateLabel = 'In progress';
-					break;
-				case 'paid': 
-					stateLabel = 'Paid — en attente de livraison';
-					break;
-				case 'delivered': 
-					stateLabel = 'Delivered';
-					break;
+			if (state === 'Nouvelle commande') {
+				select = (
+					<select id='orderState' name='orderState'>
+						<option value="Nouvelle commande" selected>Nouvelle commande</option>
+						<option value="Commande expédiée">Commande expédiée</option>
+					</select>
+				);
+			} else {
+				select = (
+					<select id='orderState' name='orderState'>
+						<option value="Nouvelle commande">Nouvelle commande</option>
+						<option value="Commande expédiée" selected>Commande expédiée</option>
+					</select>
+				);
 			}
 		}
 
@@ -105,7 +110,7 @@ export default class AdminOrder extends Component {
 
 				<section className='admin__section'>
 					<h2 className='subtitle'>Tracking</h2>
-					<input type='text' placeholder='Tracking' />
+					<input id='tracking' type='text' placeholder='Tracking' />
 				</section>
 
 				<section className='admin__section'>
@@ -114,14 +119,14 @@ export default class AdminOrder extends Component {
 
 				<div className='admin__section'>
 					<label className='form__label' htmlFor='orderState'>état de la commande</label>
-					<div className='form__select'><select id='orderState' name='orderState'>
-						<option value="Nouvelle commande">Nouvelle commande</option>
-						<option value="Commande expédiée">Commande expédiée</option>
-					</select></div>
+					<div className='form__select'>
+						{select}
+					</div>
 				</div>
 				
 				<section className='admin__section'>
 					<a href='' className='button' onClick={this.save}>Enregistrer</a>
+					{(this.state.error) ? (<div className='text'>{this.state.error}</div>) : null}
 					{(this.state.updated && this.state.updated.message === 'success') ? (<div className='text'>Modifications de la commande enregistrées</div>) : null}
 					{(this.state.updated && this.state.updated.message === 'error') ? (<div className='text'>Une erreur est survenur lors de la modification de la commande</div>) : null}
 				</section>
@@ -198,20 +203,32 @@ export default class AdminOrder extends Component {
 
 	}
 
-	onClickDelivered(e) {
-
-		e.preventDefault();
-
-		OrderApi.updateState(this.state.order._id, 'delivered');
-
-	}
-
 	onStoreChange() {
 
 		this.setState({
 			order: OrderStore.getOne(),
 			updated: OrderStore.getUpdated()
 		});
+
+	}
+
+	save(e) {
+
+		e.preventDefault();
+
+		let tracking = document.getElementById('tracking').value;
+		let status = document.getElementById('orderState').value;
+
+		if (tracking === '') {
+			this.setState({
+				error: 'Veuillez renseigner le numéro de tracking'
+			});
+		} else {
+			this.setState({
+				error: undefined
+			});
+			OrderApi.updateOrder(this.state.order._id, status, tracking);
+		}
 
 	}
 
