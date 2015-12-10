@@ -24,7 +24,6 @@ login(user) {
 	}).then(function(response) {
 		return response.json();
 	}).then(function(json) {
-		console.log(json);
 		let jwt = json.data.token;
 		LoginActions.loginUser(jwt);
 	}).catch(function(err) {
@@ -41,7 +40,6 @@ logout() {
 
 signup(user) {
 
-	console.log(user);
 	return fetch(config.siteurl + '/api/auth/signup', {
 		method: 'post',
 		headers: {
@@ -64,7 +62,6 @@ handleAuth(loginPromise) {
 
 	return loginPromise
 		.then(function(response) {
-			console.log(response);
 			var jwt = response.token;
 			LoginActions.loginUser(jwt);
 			return true;

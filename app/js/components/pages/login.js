@@ -63,9 +63,9 @@ export default class Login extends ComponentTransition {
 			</div>
 		);
 
-		// <div className='admin__row'>
-		// 	<a href='' className='button' onClick={this.signup}>Signup</a>
-		// </div>
+					// <div className='admin__row'>
+					// 	<a href='' className='button' onClick={this.signup}>Signup</a>
+					// </div>
 	}
 
 	login(e) {

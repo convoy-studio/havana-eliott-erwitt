@@ -73,7 +73,7 @@
 
 .print__infos {
 	// width: 50%;
-	width: 298px;
+	width: 299px;
 	display: table-cell;
 	vertical-align: middle;
 
@@ -178,9 +178,21 @@
 	}
 }
 
+.print__buy-wrapper {
+	position: relative;
+}
+
 .print__buy {
 	display: block;
 	margin-top: 50px;
+}
+
+.print__buy-error {
+	position: absolute;
+	bottom: -24px;
+	left: 0;
+
+	width: 100%;
 }
 
 .bigprint {

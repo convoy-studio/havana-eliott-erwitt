@@ -10,8 +10,11 @@ import OrderStore from '../../stores/orderStore';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
+import dhl from '../../utils/dhl';
+import zones from '../../utils/zones';
 let config = require('../../config');
 let validator = require('validator');
+let _ = require('lodash');
 
 function getCartState() {
 
@@ -41,7 +44,9 @@ export default class Payment extends ComponentTransition {
 		this.state = getCartState();
 		this.state.form = undefined;
 		this.state.sameAddress = true;
-		
+		this.state.amountSupply = 0;
+		this.state.orderTotal = this.state.cartTotal + this.state.amountSupply;
+
 		this.TVA_RATE = 19.6;
 
 		this.onStoreChange = this.onStoreChange.bind(this);
@@ -49,6 +54,7 @@ export default class Payment extends ComponentTransition {
 		this.onNewsletterStoreChange = this.onNewsletterStoreChange.bind(this);
 		this.toggleBill = this.toggleBill.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.handleCountryChange = this.handleCountryChange.bind(this);
 
 	}
 
@@ -81,6 +87,14 @@ export default class Payment extends ComponentTransition {
 			this.bill = document.querySelector('.payment__bill');
 		}
 
+		// update default amout supply
+		let country = document.getElementById('country').value;
+		let amountSupply = this.getAmoutSupply(country);
+		this.setState({
+			amountSupply: amountSupply,
+			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
+		});
+
 		// let hack = setTimeout(function() {
 		// 	CartActions.updateCartEnabled(false);
 		// 	CartActions.updateCartVisible(false);
@@ -109,7 +123,9 @@ export default class Payment extends ComponentTransition {
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
-		let total = (parseFloat(this.state.cartTotal) + 10).toFixed(2);
+		// let total = (parseFloat(this.state.cartTotal) + 10).toFixed(2);
+		// let total = parseFloat(this.state.orderTotal).toFixed(2);
+		let total = this.state.orderTotal;
 		let tva = this.state.cartTotal * this.TVA_RATE / (100+this.TVA_RATE);
 		tva = tva.toFixed(2);
 
@@ -130,6 +146,8 @@ export default class Payment extends ComponentTransition {
 		};
 
 		let errorStyle = {color: 'red', fontSize: '14px', textAlign: 'center'};
+
+		// <input className={'form__input form__input--text '+error.country} type='text' id='country'/>
 
 		return (
 			<div className='page page--payment' ref='view'>
@@ -180,7 +198,22 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='country'>Country *</label>
-								<input className={'form__input form__input--text '+error.country} type='text' id='country'/>
+								
+								<div className={'form__select'+error.country}><select id='country' name='country' onChange={this.handleCountryChange}>
+									{Object.keys(dhl).map((index) => {
+										let country = dhl[index].country;
+										let option;
+										if (country === 'France') {
+											option = <option value={country} selected>{country}</option>
+										} else {
+											option = <option value={country}>{country}</option>
+										}
+										return (
+											{option}
+										)
+									}.bind(this))}
+									
+								</select></div>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='billCheckbox' defaultChecked/>
@@ -232,7 +265,7 @@ export default class Payment extends ComponentTransition {
 							<h3 className='form__title'>Shipping method</h3>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, 10 €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, {this.state.amountSupply} €</p></label>
 							</div>
 
 							<h3 className='payment__method form__title'>Payment method</h3>
@@ -366,6 +399,7 @@ export default class Payment extends ComponentTransition {
 
 		let orderPrints = [];
 		_(this.state.cartItems).forEach((item) => {
+			console.log(item);
 			orderPrints.push({
 				token: item.token,
 				title: item.title,
@@ -375,7 +409,8 @@ export default class Payment extends ComponentTransition {
 				price: item.price,
 				serial: item.serial,
 				file: item.file,
-				artist: item.project.artist
+				artist: item.project.artist,
+				logistic_id: item.logistic_id
 			});
 		}).value();
 
@@ -383,7 +418,8 @@ export default class Payment extends ComponentTransition {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			total: (parseFloat(this.state.cartTotal) + 10) * 100,
+			// total: (parseFloat(this.state.cartTotal) + 10) * 100,
+			total: this.state.orderTotal * 100,
 
 			firstname: document.getElementById('firstname').value,
 			lastname: document.getElementById('lastname').value,
@@ -394,23 +430,31 @@ export default class Payment extends ComponentTransition {
 			country: document.getElementById('country').value
 		}
 
-		if (!this.status.billCheckbox) {
-			order.billFirstname = document.getElementById('billFirstname').value;
-			order.billLastname = document.getElementById('billLastname').value;
-			order.billPhone = document.getElementById('billPhone').value;
-			order.billAddress = document.getElementById('billAddress').value;
-			order.billZip = document.getElementById('billZip').value;
-			order.billCountry = document.getElementById('billCountry').value;
-		}
+		console.log(order);
 
-		if (this.state.cartTotal > 0) {
-			if (document.getElementById('newsletter').checked) {
-				NewsletterApi.create({
-					mail: order.mail
-				});
-			}
-			OrderApi.create(order);
-		}
+		// if (!this.status.billCheckbox) {
+		// 	order.billFirstname = document.getElementById('billFirstname').value;
+		// 	order.billLastname = document.getElementById('billLastname').value;
+		// 	order.billPhone = document.getElementById('billPhone').value;
+		// 	order.billAddress = document.getElementById('billAddress').value;
+		// 	order.billZip = document.getElementById('billZip').value;
+		// 	order.billCountry = document.getElementById('billCountry').value;
+		// }
+
+		// if (this.state.cartTotal > 0) {
+		// 	if (document.getElementById('newsletter').checked) {
+		// 		NewsletterApi.create({
+		// 			mail: order.mail
+		// 		});
+		// 	}
+		// 	OrderApi.create(order);
+		// }
+
+		
+
+
+
+
 
 		// CartApi.generatePayButton({
 		// 	mail: document.getElementById('mail').value,
@@ -470,7 +514,8 @@ export default class Payment extends ComponentTransition {
 				CartApi.generatePayButton({
 					order_id: order._id,
 					user_id: order.user,
-					total: this.state.cartTotal * 100
+					// total: this.state.cartTotal * 100
+					total: this.state.orderTotal
 					// firstname: 'Nicolas',
 					// lastname: 'Daniel',
 					// phone: '0102030405',
@@ -484,7 +529,8 @@ export default class Payment extends ComponentTransition {
 				CartApi.paypalPayment({
 					order_id: order._id,
 					user_id: order.user,
-					total: this.state.cartTotal * 100
+					// total: this.state.cartTotal * 100
+					total: this.state.orderTotal
 				});
 				console.log('paypal');
 				break;
@@ -504,6 +550,22 @@ export default class Payment extends ComponentTransition {
 			});
 		}
 
+	}
+
+	handleCountryChange(e) {
+		let country = document.getElementById('country').value;
+		let amountSupply = this.getAmoutSupply(country);
+
+		this.setState({
+			amountSupply: amountSupply,
+			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
+		});
+	}
+
+	getAmoutSupply(country) {
+		let index = _.findIndex(dhl, { 'country': country });
+		let zone = dhl[index].zone;
+		return zones[zone][this.state.cartItems.length-1]; // TODO: Interdire plus de 3 articles
 	}
 
 }

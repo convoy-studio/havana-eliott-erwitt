@@ -15,6 +15,7 @@ let _printsSlideshow = {};
 let _artistPrints = {};
 let _print = {};
 let _printZoomed;
+let _unsold = 0;
 
 function _addPrints(prints) {
 	_(prints).forEach((print) => {
@@ -51,6 +52,9 @@ let PrintStore = assign({}, EventEmitter.prototype, {
 	},
 	getForSale: function() {
 		return _printsForSale
+	},
+	getUnsold: function() {
+		return _unsold;
 	},
 	getSlideshow: function() {
 		return _printsSlideshow
@@ -89,6 +93,10 @@ let PrintStore = assign({}, EventEmitter.prototype, {
 			case PrintConstants.RECEIVE_PRINTS_FORSALE:
 				// _addPrintsForSale(action.item);
 				_printsForSale = action.item;
+				PrintStore.emitChange();
+				break
+			case PrintConstants.RECEIVE_UNSOLD:
+				_unsold = action.item;
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_PRINTS_SLIDESHOW:

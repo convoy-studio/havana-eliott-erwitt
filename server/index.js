@@ -123,6 +123,9 @@ server.register([
                 console.log(request.url.path);
                 if(request.url.path == '/css/build.css' || request.url.path == '/js/build.js' || request.url.path.includes('/assets')){
                     return reply.file(__dirname + '/../static' + request.url.path);
+                } else if (request.url.path.includes('/vendors')) {
+                    console.log(__dirname + '/../static' + request.url.path);
+                    return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});
                     const scripts = {
@@ -169,6 +172,8 @@ server.register([
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" type="text/javascript"></script>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
+                                    <script src="/vendors/pdfmake.js" type="text/javascript"></script>
+                                    <script src="/vendors/vfs_fonts.js" type="text/javascript"></script>
                                     <script src="`+scripts[env]+`" type="text/javascript"></script>
                                 </body>
                             </html>

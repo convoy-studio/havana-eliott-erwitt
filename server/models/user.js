@@ -6,7 +6,8 @@ var bcrypt = require('bcrypt');
 */
 var userSchema = new mongoose.Schema({
 	identifiant: String,
-	password: { type: String }
+	password: { type: String },
+	type: { type: String }
 });
 
 /*
@@ -27,8 +28,6 @@ userSchema.pre('save', function(next){
 ** Methods
 */
 userSchema.methods.comparePassword = function(password, cb) {
-	console.log(password);
-	console.log(this);
 	bcrypt.compare(password, this.password, function(err, isMatch) {
 		cb(err, isMatch);
 	});

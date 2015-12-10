@@ -30,7 +30,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json();
 			}).then(function(json) {
-				console.log(json);
 				OrderActions.receiveDelivered(json);
 			}).catch(function(ex) {
 				console.log('parsing failed', ex);
@@ -46,6 +45,26 @@ module.exports = {
 			}).catch(function(ex) {
 				console.log('parsing failed', ex);
 			});
+	},
+
+	updateOrder : function(id, status, tracking) {
+		fetch(config.siteurl + '/api/order/' + id, {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				state : status,
+				tracking : tracking
+			})
+		}).then(function(response) {
+			return response.json();
+		}).then(function(json) {
+			OrderActions.stateUpdated(json);
+		}).catch(function(err) {
+			console.log('parsing failed', err);
+		});
 	},
 
 	updateState : function(id, state) {

@@ -11,6 +11,7 @@ Be2bill_Api_Autoloader::registerAutoloader();
 // Use fallback URL
 // Be2bill_Api_ClientBuilder::switchProductionUrls();
 
+// $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient('CONVOY', '//FellowshipConvoy7');
 $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient('CONVOY', 'I>3Dod7KdP$DJKVT');
 
 if($be2bill->checkHash($_GET) == $_GET['HASH']) {
@@ -22,6 +23,7 @@ if($be2bill->checkHash($_GET) == $_GET['HASH']) {
 		$m = new MongoClient();
 		$db = $m->selectDB('havana');
 
+		echo $_GET['ORDERID'];
 		// get order prints
 		$collection = $db->orders;
 		$order = $collection->findOne(array('_id' => new MongoId($_GET['ORDERID'])));
