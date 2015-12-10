@@ -36,6 +36,7 @@ export default class News extends ComponentTransition {
 		this.scrollIndex = 0;
 		this.scrollOk = false;
 		this.transform = Utils.getSupportedPropertyName('transform');
+		this.onImageLoaded = this.onImageLoaded.bind(this)
 
 	}
 
@@ -52,11 +53,23 @@ export default class News extends ComponentTransition {
 			// this.page.style.height = this.news.offsetHeight + 'px';
 		}
 
+		var imgs = document.getElementsByTagName("img");
+		for (var i = 0; i < imgs.length; i++) {
+			var img = imgs[i]
+			var image = new Image()
+			image.onload = this.onImageLoaded
+			image.src = img.src
+		};
+
 		document.querySelector('.page--news').style.height = this.news.offsetHeight + 'px'
 
 		this.raf();
 		// this.resize();
 
+	}
+
+	onImageLoaded() {
+		document.querySelector('.page--news').style.height = this.news.offsetHeight + 'px'
 	}
 
 	render() {
@@ -69,20 +82,21 @@ export default class News extends ComponentTransition {
 		};
 
 		let newsItems = news.map((item, index)=>{
+			var imageDiv = (item.image != undefined) ? <img src={"assets/images/news/" + item.image}/> : ''
 			if (typeof document !== 'undefined' && document.querySelector('body').classList.contains('js-mobile')) { return (
 				<article key={index} className='news__item'>
 					<div className='news__date title'>{item.date}</div>
-					<div className='news__content text'>{item.content}</div>
+					<div className='news__content text'>{item.content}{imageDiv}</div>
 				</article>
 			)} else if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
-					<div className='news__content text'>{item.content}</div>
+					<div className='news__content text'>{item.content}{imageDiv}</div>
 					<div className='news__date title'>{item.date}</div>
 				</article>
 			)} else { return (
 				<article key={index} className='news__item news__item--left'>
 					<div className='news__date title'>{item.date}</div>
-					<div className='news__content text'>{item.content}</div>
+					<div className='news__content text'>{item.content}{imageDiv}</div>
 				</article>
 			)}
 		});
