@@ -32,7 +32,7 @@ var controller = {
 
 	getPaid : {
 		handler : function(request, reply){
-			Order.find({ state: 'in_progress' }, function (err, items) {
+			Order.find({ state: 'Nouvelle commande' }, function (err, items) {
 				if (!err) {
 					return reply(items);
 				}
@@ -43,7 +43,7 @@ var controller = {
 
 	getDelivered : {
 		handler : function(request, reply){
-			Order.find({ state: 'delivered' }, function (err, items) {
+			Order.find({ state: 'Commande expédiée' }, function (err, items) {
 				if (!err) {
 					return reply(items);
 				}
