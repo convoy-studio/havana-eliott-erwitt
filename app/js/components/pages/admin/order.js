@@ -79,8 +79,8 @@ export default class AdminOrder extends Component {
 
 		return (
 			<div className='admin__order'>
-				<div className='submenu'><Link to='/admin/orders' className='button'>Back to orders</Link></div>
-				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande {orderId}</Link></span></h1>
+				<div className='submenu'><Link to='/admin/orders' className='button'>Retour au commandes</Link></div>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande n°{orderId}</Link></span></h1>
 				
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse de livraison</h2>
@@ -123,7 +123,7 @@ export default class AdminOrder extends Component {
 				</section>
 
 				<div className='admin__section'>
-					<label className='form__label' htmlFor='orderState'>état de la commande</label>
+					<h2 className='subtitle'>état de la commande</h2>
 					<div className='form__select'>
 						{select}
 					</div>
