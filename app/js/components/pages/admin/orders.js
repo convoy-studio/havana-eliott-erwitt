@@ -34,13 +34,12 @@ export default class AdminOrders extends Component {
 
 	render() {
 
-		console.log(this.state.unsold);
 		let paidOrders = [];
 		_(this.state.paidOrders).forEach((order, index) => {
 			paidOrders.push(
 				<tr key={index}>
-					<td><Link to={'/admin/order/'+order._id}>{order._id}</Link></td>
-					<td><Link to={'/admin/order/'+order._id}>{order.total/100}€</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{(order.total/100).toFixed(2)}€</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
 				</tr>
 			)
@@ -50,8 +49,8 @@ export default class AdminOrders extends Component {
 		_(this.state.deliveredOrders).forEach((order, index) => {
 			deliveredOrders.push(
 				<tr key={index}>
-					<td><Link to={'/admin/order/'+order._id}>{order._id}</Link></td>
-					<td><Link to={'/admin/order/'+order._id}>{order.total/100}€</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{(order.total/100).toFixed(2)}€</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
 				</tr>
 			)

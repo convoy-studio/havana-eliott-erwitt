@@ -36,9 +36,10 @@ export default class AdminOrder extends Component {
 	render() {
 
 		let id, orderId, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
+		console.log(this.state.order);
 		if (this.state.order) {
 			id = this.state.order._id;
-			orderId = this.state.token;
+			orderId = this.state.order.token;
 			mail = this.state.order.mail;
 			prints = this.state.order.prints;
 			total = this.state.order.total;
@@ -80,7 +81,7 @@ export default class AdminOrder extends Component {
 		return (
 			<div className='admin__order'>
 				<div className='submenu'><Link to='/admin/orders' className='button'>Retour aux commandes</Link></div>
-				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande n°{orderId}</Link></span></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande — {orderId}</Link></span></h1>
 				
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse de livraison</h2>
@@ -103,7 +104,6 @@ export default class AdminOrder extends Component {
 					<h2 className='subtitle'>Référence(s) photo(s)</h2>
 					{Object.keys(prints).map((index) => {
 						let product = prints[index];
-						console.log(product);
 						let serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
 						let logisticId = product.logistic_id + '_' + serial;
 						

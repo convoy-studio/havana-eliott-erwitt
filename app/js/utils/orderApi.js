@@ -30,7 +30,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json();
 			}).then(function(json) {
-				console.log(json);
 				OrderActions.receiveDelivered(json);
 			}).catch(function(ex) {
 				console.log('parsing failed', ex);
