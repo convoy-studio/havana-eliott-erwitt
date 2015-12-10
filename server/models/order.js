@@ -17,7 +17,8 @@ var itemSchema = new mongoose.Schema({
 		price 	: String,
 		serial 	: Number,
 		file 	: String,
-		artist 	: String
+		artist 	: String,
+		logistic_id : String
 	}],
 	mail	 	: String,
 	firstname 	: String,
