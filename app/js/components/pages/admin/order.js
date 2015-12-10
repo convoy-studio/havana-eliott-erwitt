@@ -35,11 +35,12 @@ export default class AdminOrder extends Component {
 
 	render() {
 
-		let id, orderId, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
+		let id, orderId, tracking, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
 		console.log(this.state.order);
 		if (this.state.order) {
 			id = this.state.order._id;
 			orderId = this.state.order.token;
+			tracking = this.state.order.tracking;
 			mail = this.state.order.mail;
 			prints = this.state.order.prints;
 			total = this.state.order.total;
@@ -76,6 +77,13 @@ export default class AdminOrder extends Component {
 					</select>
 				);
 			}
+		}
+
+		let inputTracking;
+		if (tracking) {
+			inputTracking = (<p>{tracking}</p>);
+		} else {
+			inputTracking = (<input id='tracking' type='text' placeholder='Tracking' />);
 		}
 
 		return (
@@ -115,7 +123,7 @@ export default class AdminOrder extends Component {
 
 				<section className='admin__section'>
 					<h2 className='subtitle'>Tracking</h2>
-					<input id='tracking' type='text' placeholder='Tracking' />
+					{inputTracking}
 				</section>
 
 				<section className='admin__section'>
