@@ -25,7 +25,8 @@ export default class Print extends ComponentTransition {
 			cartCount: 0,
 			validSerials: [],
 			bigImageShowed: false,
-			techDesc: ''
+			techDesc: '',
+			error: undefined
 		};
 
 		// binded
@@ -94,11 +95,17 @@ export default class Print extends ComponentTransition {
 
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(nextProps, nextState) {
 
 		let file;
 		if (!this.loaded) {
 			this.loadImage();
+		}
+
+		if (nextState.cartCount !== this.state.cartCount && nextState.cartCount < 3) {
+			this.setState({
+				error: undefined
+			});
 		}
 
 	}
@@ -208,7 +215,10 @@ export default class Print extends ComponentTransition {
 													</ul>
 												</div>
 											</div>
-											<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
+											<div className='print__buy-wrapper'>
+												<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
+												{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
+											</div>
 										</div>
 									)} else { return (
 										<div className='text'>Out of stock</div>
@@ -321,26 +331,31 @@ export default class Print extends ComponentTransition {
 		e.stopPropagation();
 		e.preventDefault();
 
-		console.log(this.state.print);
-		let update = {
-			token: this.state.print.token,
-			title: this.state.print.title,
-			city: this.state.print.city,
-			country: this.state.print.country,
-			year: this.state.print.year,
-			price: this.state.print.price,
-			serial: this.state.selectedSerial,
-			file: this.state.print.file,
-			copies: this.state.print.copies,
-			project: this.state.print.project,
-			logistic_id: this.state.print.logistic_id
-		};
-		CartActions.addToCart(update);
-		CartActions.updateCartEnabled(true, true);
+		if (this.state.cartCount < 3) {
+			let update = {
+				token: this.state.print.token,
+				title: this.state.print.title,
+				city: this.state.print.city,
+				country: this.state.print.country,
+				year: this.state.print.year,
+				price: this.state.print.price,
+				serial: this.state.selectedSerial,
+				file: this.state.print.file,
+				copies: this.state.print.copies,
+				project: this.state.print.project,
+				logistic_id: this.state.print.logistic_id
+			};
+			CartActions.addToCart(update);
+			CartActions.updateCartEnabled(true, true);
 
-		this.setState({
-			selectedSerial: this.getFirstSerial()
-		});
+			this.setState({
+				selectedSerial: this.getFirstSerial()
+			});
+		} else {
+			this.setState({
+				error: 'Your cart is full (max 3)'
+			});
+		}
 
 	}
 
