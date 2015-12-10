@@ -53,7 +53,7 @@ export default class Admin extends Component {
 					content = (<div className='admin__content'><Orders /></div>);
 				}
 			} else {
-				content = (<div className='admin__content'><Orders /></div>);
+				content = (<div className='admin__content'>{this.props.children}</div>);
 			}
 		} else {
 			if (LoginStore.user && LoginStore.user.type === 'delivery') {
