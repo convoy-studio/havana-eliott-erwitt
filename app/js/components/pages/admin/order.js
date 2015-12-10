@@ -242,7 +242,7 @@ export default class AdminOrder extends Component {
 		e.preventDefault();
 
 		let id = this.state.order._id;
-		let orderId = this.state.token;
+		let orderId = this.state.order.token;
 		let mail = this.state.order.mail;
 		let prints = this.state.order.prints;
 		let total = this.state.order.total;
@@ -270,7 +270,7 @@ export default class AdminOrder extends Component {
 			let product = prints[index];
 			let serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
 			let logisticId = product.logistic_id + '_' + serial;
-			refs.push(logisticId);
+			refs.push({text:logisticId});
 		}).value();
 
 		var docDefinition = {
@@ -305,7 +305,7 @@ export default class AdminOrder extends Component {
 					text: 'RÉFÉRENCE(S) PHOTO(S)',
 					style: 'title'
 				},{ 
-					text: refs 
+					ul: refs 
 				},{
 					text: 'NUMÉRO DE TRACKING',
 					style: 'title',
