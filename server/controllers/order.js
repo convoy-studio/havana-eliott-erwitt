@@ -141,6 +141,14 @@ var controller = {
 			})
 
 		}
+	},
+
+	generatePdf : {
+		handler : function(request, reply) {
+
+			return reply('pdf');
+
+		}
 	}
 	
 };
