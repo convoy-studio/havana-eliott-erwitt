@@ -96,7 +96,6 @@ let PrintStore = assign({}, EventEmitter.prototype, {
 				PrintStore.emitChange();
 				break
 			case PrintConstants.RECEIVE_UNSOLD:
-				console.log(action.item);
 				_unsold = action.item;
 				PrintStore.emitChange();
 				break

@@ -19,7 +19,6 @@ let LoginActions = {
 		});
 
 		if (savedJwt !== jwt) {
-			console.log('go to next path');
 			// var nextPath = RouterContainer.get().getCurrentQuery().nextPath || '/';
 
 			// RouterContainer.get().transitionTo(nextPath);
@@ -30,7 +29,6 @@ let LoginActions = {
 
 	logoutUser: () => {
 
-		console.log('logout');
 		// RouterContainer.get().transitionTo('/login');
 		// localStorage.removeItem('jwt');
 		// AppDispatcher.dispatch({
