@@ -65,6 +65,12 @@
 	font-family: $text-font;
 }
 
+.admin__pdf {
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 .admin__content {
 	table {
 		width: 100%;

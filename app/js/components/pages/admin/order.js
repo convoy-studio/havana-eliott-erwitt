@@ -79,7 +79,7 @@ export default class AdminOrder extends Component {
 
 		return (
 			<div className='admin__order'>
-				<div className='submenu'><Link to='/admin/orders' className='button'>Retour au commandes</Link></div>
+				<div className='submenu'><Link to='/admin/orders' className='button'>Retour aux commandes</Link></div>
 				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande n°{orderId}</Link></span></h1>
 				
 				<section className='admin__section'>
@@ -119,7 +119,7 @@ export default class AdminOrder extends Component {
 				</section>
 
 				<section className='admin__section'>
-					<a href='' onClick={this.getPdf}>Télécharger une copie de la commande</a>
+					<a className='admin__pdf' href='' onClick={this.getPdf}>Télécharger une copie de la commande</a>
 				</section>
 
 				<div className='admin__section'>
