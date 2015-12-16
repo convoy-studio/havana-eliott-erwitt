@@ -122,6 +122,11 @@ export default class AdminOrder extends Component {
 				</section>
 
 				<section className='admin__section'>
+					<h2 className='subtitle'>Total de la commande</h2>
+					<p>{(total / 100)}€</p>
+				</section>
+
+				<section className='admin__section'>
 					<h2 className='subtitle'>Tracking</h2>
 					{inputTracking}
 				</section>
@@ -320,6 +325,12 @@ export default class AdminOrder extends Component {
 					margin: [ 0, 24, 0, 6 ]
 				},{
 					text: '' + tracking,
+					style: 'lastLine'
+				},{
+					text: 'TOTAL DE LA COMMANDE',
+					style: 'title'
+				},{
+					text: (total / 100) + '€',
 					style: 'lastLine'
 				}
 			],

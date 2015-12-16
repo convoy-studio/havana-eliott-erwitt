@@ -46,15 +46,7 @@ export default class Admin extends Component {
 		let dom = (<div></div>);
 		let content;
 		if (this.props.children) {
-			if (LoginStore.user && LoginStore.user.type === 'delivery') {
-				if (this.props.children.type.name === 'AdminOrders' || this.props.children.type.name === 'AdminOrder') {
-					content = (<div className='admin__content'>{this.props.children}</div>);
-				} else {
-					content = (<div className='admin__content'><Orders /></div>);
-				}
-			} else {
-				content = (<div className='admin__content'>{this.props.children}</div>);
-			}
+			content = (<div className='admin__content'>{this.props.children}</div>);
 		} else {
 			if (LoginStore.user && LoginStore.user.type === 'delivery') {
 				content = (<div className='admin__content'><Orders /></div>);

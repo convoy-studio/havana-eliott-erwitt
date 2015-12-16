@@ -10,6 +10,7 @@ import Location from 'react-router/lib/Location';
 import routes from '../app/js/routes';
 
 const env = process.NODE_ENV || 'development';
+// const env = 'production';
 const config = configs[env];
 const server = new Hapi.Server();
 
@@ -120,11 +121,9 @@ server.register([
             method: 'GET',
             path: '/{p*}',
             handler: function(request, reply) {
-                console.log(request.url.path);
                 if(request.url.path == '/css/build.css' || request.url.path == '/js/build.js' || request.url.path.includes('/assets')){
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else if (request.url.path.includes('/vendors')) {
-                    console.log(__dirname + '/../static' + request.url.path);
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});

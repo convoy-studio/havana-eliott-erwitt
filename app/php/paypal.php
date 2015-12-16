@@ -47,8 +47,11 @@ $result = $be2bill->redirectForPayment(
     []
 );
 
+echo "CLIENT_IP :"; 
 echo $user_ip;
+echo " --- USER_AGENT :"; 
 echo $_SERVER['HTTP_USER_AGENT'];
+echo " --- RESULT :"; 
 var_dump($result);
 
 function getUserIP() {

@@ -104,17 +104,17 @@ if($be2bill->checkHash($_GET) == $_GET['HASH']) {
 				);
 
 				// Create the context for the request
-				// $context = stream_context_create(array(
-				// 	'http' => array(
-				// 		'method' => 'POST',
-				// 		'header' => "Authorization: {$authToken}\r\n".
-				// 			"Content-Type: application/json\r\n",
-				// 		'content' => json_encode($postData)
-				// 	)
-				// ));
+				$context = stream_context_create(array(
+					'http' => array(
+						'method' => 'POST',
+						'header' => "Authorization: {$authToken}\r\n".
+							"Content-Type: application/json\r\n",
+						'content' => json_encode($postData)
+					)
+				));
 
 				// Send the request
-				// $response = file_get_contents('https://mandrillapp.com/api/1.0/messages/send.json', FALSE, $context);
+				$response = file_get_contents('https://mandrillapp.com/api/1.0/messages/send.json', FALSE, $context);
 
 
 				// $data = array("name" => "Hagrid", "age" => "36");
@@ -138,6 +138,8 @@ if($be2bill->checkHash($_GET) == $_GET['HASH']) {
 		} else {
 	    	header('Location: /payment-confirmation?result=error');
 		}
+	} else if ($_GET['EXECCODE'] == '4001') {
+		header('Location: /payment-confirmation?result=transaction-refused');
 	} else if ($_GET['EXECCODE'] == '4002') {
 		header('Location: /payment-confirmation?result=insuffisiant-funds');
 	} else if ($_GET['EXECCODE'] == '4005') {
