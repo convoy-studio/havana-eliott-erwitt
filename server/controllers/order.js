@@ -1,5 +1,7 @@
+import Order from '../models/order';
+import Print from '../models/print';
 var Boom = require('boom');
-var Order = require('../models/order');
+// var Order = require('../models/order');
 let rand = require('rand-token').uid;
 
 function generateToken(hash, callback) {

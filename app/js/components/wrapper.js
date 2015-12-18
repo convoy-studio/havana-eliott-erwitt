@@ -53,16 +53,12 @@ export default class Wrapper extends React.Component {
 		this.visible = false;
 
 		let cartStorage;
-		if(typeof localStorage !== 'undefined') {
-			cartStorage = localStorage.getItem('cart');
-		}
-		if (cartStorage) {
-			cartStorage = JSON.parse(cartStorage);
+		if (typeof localStorage !== 'undefined' && typeof localStorage['cart'] !== 'undefined' && localStorage['cart'] !== 'undefined') {
+			cartStorage = JSON.parse(localStorage['cart']);
 			_(cartStorage).forEach((item)=>{
 				CartActions.addToCart(item);
 			}).value();
 		}
-
 	}
 
 	componentDidMount() {

@@ -432,23 +432,23 @@ export default class Payment extends ComponentTransition {
 
 		console.log(order);
 
-		// if (!this.status.billCheckbox) {
-		// 	order.billFirstname = document.getElementById('billFirstname').value;
-		// 	order.billLastname = document.getElementById('billLastname').value;
-		// 	order.billPhone = document.getElementById('billPhone').value;
-		// 	order.billAddress = document.getElementById('billAddress').value;
-		// 	order.billZip = document.getElementById('billZip').value;
-		// 	order.billCountry = document.getElementById('billCountry').value;
-		// }
+		if (!this.status.billCheckbox) {
+			order.billFirstname = document.getElementById('billFirstname').value;
+			order.billLastname = document.getElementById('billLastname').value;
+			order.billPhone = document.getElementById('billPhone').value;
+			order.billAddress = document.getElementById('billAddress').value;
+			order.billZip = document.getElementById('billZip').value;
+			order.billCountry = document.getElementById('billCountry').value;
+		}
 
-		// if (this.state.cartTotal > 0) {
-		// 	if (document.getElementById('newsletter').checked) {
-		// 		NewsletterApi.create({
-		// 			mail: order.mail
-		// 		});
-		// 	}
-		// 	OrderApi.create(order);
-		// }
+		if (this.state.cartTotal > 0) {
+			if (document.getElementById('newsletter').checked) {
+				NewsletterApi.create({
+					mail: order.mail
+				});
+			}
+			OrderApi.create(order);
+		}
 
 		
 
@@ -515,7 +515,7 @@ export default class Payment extends ComponentTransition {
 					order_id: order._id,
 					user_id: order.user,
 					// total: this.state.cartTotal * 100
-					total: this.state.orderTotal
+					total: this.state.orderTotal * 100
 					// firstname: 'Nicolas',
 					// lastname: 'Daniel',
 					// phone: '0102030405',
@@ -530,7 +530,7 @@ export default class Payment extends ComponentTransition {
 					order_id: order._id,
 					user_id: order.user,
 					// total: this.state.cartTotal * 100
-					total: this.state.orderTotal
+					total: this.state.orderTotal * 100
 				});
 				console.log('paypal');
 				break;

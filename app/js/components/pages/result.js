@@ -28,6 +28,12 @@ export default class Result extends ComponentTransition {
 					'An email has been sent to you.'
 				];
 				break;
+			case 'transaction-refused':
+				message = [
+					'Transaction refused.',
+					'Transaction rejected by the banking network.',
+				];
+				break;
 			case 'insuffisiant-funds':
 				message = [
 					'Insufficient funds.',
