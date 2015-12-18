@@ -47,10 +47,14 @@ export default class News extends ComponentTransition {
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--news');
+			
 			this.news = document.querySelector('.news');
-			this.newsItems = document.querySelector('.news__item');
-		
+
+			this.newsDates = document.getElementsByClassName('news__date')
+			this.newsContents = document.getElementsByClassName('news__content')
+			
 			// this.page.style.height = this.news.offsetHeight + 'px';
+			
 		}
 
 		var imgs = document.getElementsByTagName("img");
@@ -63,6 +67,8 @@ export default class News extends ComponentTransition {
 
 		document.querySelector('.page--news').style.height = this.news.offsetHeight + 'px'
 
+		this.resizeTitles()
+
 		this.raf();
 		// this.resize();
 
@@ -70,6 +76,15 @@ export default class News extends ComponentTransition {
 
 	onImageLoaded() {
 		document.querySelector('.page--news').style.height = this.news.offsetHeight + 'px'
+	}
+
+	resizeTitles() {
+		for (var i = 0; i < this.newsDates.length; i++) {
+			var date = this.newsDates[i]
+			var content = this.newsContents[i]
+			date.style.height = content.clientHeight + 'px'
+			// console.log(date, content, content.clientHeight)
+		};
 	}
 
 	render() {
@@ -82,21 +97,37 @@ export default class News extends ComponentTransition {
 		};
 
 		let newsItems = news.map((item, index)=>{
-			var imageDiv = (item.image != undefined) ? <img src={"assets/images/news/" + item.image}/> : ''
+			// var imageDiv = (item.image != undefined) ? <img src={"assets/images/news/" + item.image}/> : ''
+			var images = item.images.map((image, imgIndex)=>{
+				return(
+					<img key={imgIndex} src={"assets/images/news/" + image}/>
+				)
+			})
+
 			if (typeof document !== 'undefined' && document.querySelector('body').classList.contains('js-mobile')) { return (
 				<article key={index} className='news__item'>
-					<div className='news__date title'>{item.date}</div>
-					<div className='news__content text'>{item.content}{imageDiv}</div>
+					<div className="top-container">
+
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
+						<div className='news__content text'>{item.content}</div>
+					</div>
+					<div className="news_images_container">{images}</div>
 				</article>
 			)} else if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
-					<div className='news__content text'>{item.content}{imageDiv}</div>
-					<div className='news__date title'>{item.date}</div>
+					<div className="top-container">
+						<div className='news__content text'>{item.content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
+					</div>
+					<div className="news_images_container">{images}</div>
 				</article>
 			)} else { return (
 				<article key={index} className='news__item news__item--left'>
-					<div className='news__date title'>{item.date}</div>
-					<div className='news__content text'>{item.content}{imageDiv}</div>
+					<div className="top-container">
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
+						<div className='news__content text'>{item.content}</div>
+					</div>
+					<div className="news_images_container">{images}</div>
 				</article>
 			)}
 		});
