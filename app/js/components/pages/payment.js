@@ -62,7 +62,7 @@ export default class Payment extends ComponentTransition {
 	
 		let el = this.refs.view.getDOMNode();
 
-		TweenMax.to(document.querySelector('.header'), 0.3, {opacity: 0, ease:Power2.easeOut});
+		TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 0, ease:Power2.easeOut});
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
 	
@@ -72,7 +72,7 @@ export default class Payment extends ComponentTransition {
 		
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: ()=>{
-			TweenMax.to(document.querySelector('.header'), 0.3, {opacity: 1, ease:Power2.easeOut});
+			TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 1, ease:Power2.easeOut});
 			callback();
 		}});
 	
@@ -94,12 +94,6 @@ export default class Payment extends ComponentTransition {
 			amountSupply: amountSupply,
 			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
 		});
-
-		// let hack = setTimeout(function() {
-		// 	CartActions.updateCartEnabled(false);
-		// 	CartActions.updateCartVisible(false);
-		// 	clearTimeout(hack);
-		// }, 0);
 
 		CartStore.addChangeListener(this.onStoreChange);
 		OrderStore.addChangeListener(this.onOrderStoreChange);
@@ -123,8 +117,8 @@ export default class Payment extends ComponentTransition {
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
 
-		// let total = (parseFloat(this.state.cartTotal) + 10).toFixed(2);
-		// let total = parseFloat(this.state.orderTotal).toFixed(2);
+		let dhltotal = this.state.amountSupply;
+		let subtotal = this.state.orderTotal - dhltotal;
 		let total = this.state.orderTotal;
 		let tva = this.state.cartTotal * this.TVA_RATE / (100+this.TVA_RATE);
 		tva = tva.toFixed(2);
@@ -146,8 +140,6 @@ export default class Payment extends ComponentTransition {
 		};
 
 		let errorStyle = {color: 'red', fontSize: '14px', textAlign: 'center'};
-
-		// <input className={'form__input form__input--text '+error.country} type='text' id='country'/>
 
 		return (
 			<div className='page page--payment' ref='view'>
@@ -265,7 +257,7 @@ export default class Payment extends ComponentTransition {
 							<h3 className='form__title'>Shipping method</h3>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>UPS Standard - Delivery within 3-5 business days, {this.state.amountSupply} €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>DHL - Including full insurance - Delivery within 3-5 business days, {this.state.amountSupply} €</p></label>
 							</div>
 
 							<h3 className='payment__method form__title'>Payment method</h3>
@@ -319,7 +311,11 @@ export default class Payment extends ComponentTransition {
 							<div className='payment__total cart__total'>
 								<div className='payment__subtotal cart__subtotal'>
 									<div className='cart__column'>Subtotal:</div>
-									<div className='cart__column'>{total}<span className='cart__currency'>€</span></div>
+									<div className='cart__column'>{(subtotal)}<span className='cart__currency'>€</span></div>
+								</div>
+								<div className='cart__tva'>
+									<div className='cart__column'>DHL:</div>
+									<div className='cart__column'>{dhltotal}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__tva'>
 									<div className='cart__column'>Included TVA:</div>
@@ -350,7 +346,6 @@ export default class Payment extends ComponentTransition {
 					
 				</div>
 
-
 			</div>
 		);
 
@@ -371,7 +366,6 @@ export default class Payment extends ComponentTransition {
 		this.status.conditions = document.getElementById('conditions').checked;
 		this.status.billCheckbox = document.getElementById('billCheckbox').checked;
 		
-		// let valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country && this.status.conditions;
 		this.valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country;
 
 		if (!this.status.billCheckbox) {
@@ -399,7 +393,6 @@ export default class Payment extends ComponentTransition {
 
 		let orderPrints = [];
 		_(this.state.cartItems).forEach((item) => {
-			console.log(item);
 			orderPrints.push({
 				token: item.token,
 				title: item.title,
@@ -418,7 +411,6 @@ export default class Payment extends ComponentTransition {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			// total: (parseFloat(this.state.cartTotal) + 10) * 100,
 			total: this.state.orderTotal * 100,
 
 			firstname: document.getElementById('firstname').value,
@@ -429,8 +421,6 @@ export default class Payment extends ComponentTransition {
 			city: document.getElementById('city').value,
 			country: document.getElementById('country').value
 		}
-
-		console.log(order);
 
 		if (!this.status.billCheckbox) {
 			order.billFirstname = document.getElementById('billFirstname').value;
@@ -450,24 +440,6 @@ export default class Payment extends ComponentTransition {
 			OrderApi.create(order);
 		}
 
-		
-
-
-
-
-
-		// CartApi.generatePayButton({
-		// 	mail: document.getElementById('mail').value,
-		// 	firstname: document.getElementById('firstname').value,
-		// 	lastname: document.getElementById('lastname').value,
-		// 	phone: document.getElementById('phone').value,
-		// 	address: document.getElementById('address').value,
-		// 	zip: document.getElementById('zip').value,
-		// 	city: document.getElementById('city').value,
-		// 	country: document.getElementById('country').value,
-		// 	total: this.state.cartTotal * 100
-		// });
-
 	}
 
 	removeItem(id) {
@@ -479,18 +451,11 @@ export default class Payment extends ComponentTransition {
 
 	toggleBill() {
 
-		// this.bill.classList.toggle('payment__bill--visible')
 		this.setState({
 			sameAddress: !this.state.sameAddress
 		});
 
 	}
-
-	// resize() {
-	// 	let windowW = AppStore.Window.w
-	// 	let windowH = AppStore.Window.h
-	// 	super.resize()
-	// }
 
 	onStoreChange() {
 	
@@ -514,25 +479,15 @@ export default class Payment extends ComponentTransition {
 				CartApi.generatePayButton({
 					order_id: order._id,
 					user_id: order.user,
-					// total: this.state.cartTotal * 100
 					total: this.state.orderTotal * 100
-					// firstname: 'Nicolas',
-					// lastname: 'Daniel',
-					// phone: '0102030405',
-					// address: '23 rue xxx',
-					// zip: '12345',
-					// city: 'Azerty',
-					// country: 'France',
 				});
 				break;
 			case 'paypal':
 				CartApi.paypalPayment({
 					order_id: order._id,
 					user_id: order.user,
-					// total: this.state.cartTotal * 100
 					total: this.state.orderTotal * 100
 				});
-				console.log('paypal');
 				break;
 		}
 
@@ -563,9 +518,11 @@ export default class Payment extends ComponentTransition {
 	}
 
 	getAmoutSupply(country) {
+
 		let index = _.findIndex(dhl, { 'country': country });
 		let zone = dhl[index].zone;
-		return zones[zone][this.state.cartItems.length-1]; // TODO: Interdire plus de 3 articles
+		return zones[zone][this.state.cartItems.length-1];
+
 	}
 
 }
