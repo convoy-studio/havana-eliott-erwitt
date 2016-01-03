@@ -446,6 +446,7 @@ export default class Payment extends ComponentTransition {
 
 		CartActions.removeFromCart(id);
 		this.setState(getCartState());
+		this.updateSupply();
 
 	}
 
@@ -508,6 +509,13 @@ export default class Payment extends ComponentTransition {
 	}
 
 	handleCountryChange(e) {
+		
+		this.updateSupply();
+	
+	}
+
+	updateSupply() {
+	
 		let country = document.getElementById('country').value;
 		let amountSupply = this.getAmoutSupply(country);
 
@@ -515,6 +523,7 @@ export default class Payment extends ComponentTransition {
 			amountSupply: amountSupply,
 			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
 		});
+	
 	}
 
 	getAmoutSupply(country) {
