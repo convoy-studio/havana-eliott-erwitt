@@ -128,7 +128,7 @@ const controller = {
 								forsale: print_items[index].forsale,
 								prev: print_items[prevIndex].token,
 								next: print_items[nextIndex].token,
-								logistic_id: print_items[nextIndex].logistic_id,
+								logistic_id: print_items[index].logistic_id,
 								project: project
 							};
 							return reply(print);
