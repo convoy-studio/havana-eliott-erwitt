@@ -17,7 +17,7 @@ export default class Print extends ComponentTransition {
 	componentWillMount(){
 
 		// state
-		this.state = { 
+		this.state = {
 			print: undefined,
 			selectedSerial: undefined,
 			loadedPrint: undefined,
@@ -56,7 +56,7 @@ export default class Print extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 		// let hamburger = document.querySelector('.hamburger');
@@ -68,19 +68,21 @@ export default class Print extends ComponentTransition {
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		// if (body && body.classList.contains('js-mobile')) this.enterTl.set(logo, {width:window.innerWidth-116, backgroundColor:'#000000'}, 0);
 		// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
 
 		super.componentDidMount();
+
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.body = document.querySelector('body');
 
@@ -152,7 +154,7 @@ export default class Print extends ComponentTransition {
 		} else {
 			details = city+'. '+country+'. '+year;
 		}
-		
+
 		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
 
 		let seoTitle;
@@ -443,7 +445,7 @@ export default class Print extends ComponentTransition {
 		document.querySelector('body').classList.add('body--hidden');
 		document.querySelector('.print__mobile').classList.add('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
-		
+
 		if (!this.bigprintLoaded) {
 			this.bigprintLoaded = true;
 			let file = new Image();
@@ -474,7 +476,7 @@ export default class Print extends ComponentTransition {
 	// 	super.resize()
 
 	// 	// if (document.querySelector('body').classList.contains('js-mobile')) {
-			
+
 	// 	// }
 
 	// }
@@ -504,7 +506,7 @@ export default class Print extends ComponentTransition {
 		}
 
 		this.deltaX = 0;
-		
+
 	}
 
 	onStoreChange() {

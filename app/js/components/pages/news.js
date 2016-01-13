@@ -10,6 +10,9 @@ let offset = require('../../utils/offset');
 let config = require('../../config');
 
 export default class News extends ComponentTransition {
+	componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+	}
 
 	componentWillMount() {
 
@@ -47,14 +50,14 @@ export default class News extends ComponentTransition {
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--news');
-			
+
 			this.news = document.querySelector('.news');
 
 			this.newsDates = document.getElementsByClassName('news__date')
 			this.newsContents = document.getElementsByClassName('news__content')
-			
+
 			// this.page.style.height = this.news.offsetHeight + 'px';
-			
+
 		}
 
 		var imgs = document.getElementsByTagName("img");
@@ -169,10 +172,10 @@ export default class News extends ComponentTransition {
 		this.sTop = Utils.getScrollTop();
 		this.cTop += .1 * (this.sTop - this.cTop);
 		e = -this.cTop;
-		
+
 		if (this.news) {
 			this.news.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)';
-		}	
+		}
 
 		_(document.querySelectorAll('.news__item')).forEach((el, index) => {
 			this.lTop = offset(el).top;
@@ -185,7 +188,7 @@ export default class News extends ComponentTransition {
 				this.eShow[index] = true;
 				TweenMax.to(el, 0.6, {y: 0, opacity: 1, ease: Power2.easeOut, delay: Math.random()*0.2});
 			}
-			
+
 			// off viewport
 			if (this.lTop - this.vh > 0 && this.eShow[index]) {
 				this.eShow[index] = false;

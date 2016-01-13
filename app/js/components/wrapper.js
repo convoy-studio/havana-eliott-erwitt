@@ -34,7 +34,7 @@ export default class Wrapper extends React.Component {
 		this.state = {
 			popupVisibility: false
 		};
-		
+
 		this.splash = AppStore.getSplash();
 
 		const { pathname } = this.props.location;
@@ -62,7 +62,7 @@ export default class Wrapper extends React.Component {
 	}
 
 	componentDidMount() {
-	
+
 		this.headerMenu = document.querySelector('.header__menu');
 
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
@@ -74,20 +74,12 @@ export default class Wrapper extends React.Component {
 
 		const { pathname } = this.props.location;
 
-		if(typeof localStorage !== 'undefined') {
+		if (typeof localStorage !== 'undefined') {
 			this.cookies = window.localStorage.getItem('cookies');
 			if (!this.cookies) {
-				if (pathname === '/') {
-					TweenMax.delayedCall(12.4, ()=>{
-						this.setState({
-							popupVisibility: true
-						});
-					}.bind(this));
-				} else {
-					this.setState({
-						popupVisibility: true
-					});
-				}
+				this.setState({
+					popupVisibility: true
+				});
 			}
 		}
 
@@ -117,14 +109,14 @@ export default class Wrapper extends React.Component {
 												<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
 											)
 										})}
-										
+
 									</ul>
 								</nav>
 							</header>
 						)
 					}
 				}.bind(this))()}
-				
+
 				<div id='pageContainer' className='page-container' ref='page-container'>
 					<Transition component="div">
 						{React.cloneElement(this.props.children || <div />, { key: pathname })}
@@ -165,21 +157,21 @@ export default class Wrapper extends React.Component {
 	}
 
 	openMenu() {
-	
+
 		this.headerMenu.classList.add('header__menu--open');
-	
+
 	}
 
 	closeMenu() {
-	
+
 		if (this.props.location.pathname.indexOf('/admin') === -1) {
 			this.headerMenu.classList.remove('header__menu--open');
 		}
-	
+
 	}
 
 	handleClickOutside(e) {
-		
+
 		// if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
 		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();

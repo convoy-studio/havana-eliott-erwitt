@@ -9,13 +9,14 @@ import YouTube from 'react-youtube';
 let raf = Utils.raf();
 let config = require('../../config');
 const keys = {37: 1, 38: 1, 39: 1, 40: 1};
+let TweenMax;
 
 export default class Fellowship extends ComponentTransition {
 
 	componentWillMount() {
 
 		super.componentWillMount();
-		
+
 		this.vw = 0;
 		this.vh = 0;
 		if(typeof window !== 'undefined') {
@@ -43,7 +44,7 @@ export default class Fellowship extends ComponentTransition {
 		// const
 		this.PARALLAX_MARGE = 30;
 		this.PARALLAX_DURATION = this.vh;
-		
+
 		// vars
 		this.eShow = [];
 		this.speed = .2;
@@ -72,7 +73,7 @@ export default class Fellowship extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 		// let hamburger = document.querySelector('.hamburger');
@@ -88,22 +89,24 @@ export default class Fellowship extends ComponentTransition {
 			footer.style.display = 'none';
 		}
 		// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		let footer = document.querySelector('.footer');
 
 		footer.style.display = 'block';
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
 
 		if(typeof document !== 'undefined') {
+			TweenMax = require('gsap/src/uncompressed/TweenMax');
+
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--fellowship');
 			this.fellowship = document.querySelector('.fellowship');
@@ -167,7 +170,7 @@ export default class Fellowship extends ComponentTransition {
 					<div className='fellowship__bg'></div>
 					<div className='bg-video__overlay'></div>
 				</div>
-				
+
 				<div className='fellowship__back button' onClick={this.hideInterview}>Back to fellowship page</div>
 
 				<div className='fellowship'>
@@ -247,7 +250,7 @@ export default class Fellowship extends ComponentTransition {
 
 		_(this.jsReveal).forEach((el, index) => {
 			this.lTop = offset(el).top;
-			
+
 			if (!this.eShow[index]) {
 				this.eShow[index] = false;
 			}
@@ -257,7 +260,7 @@ export default class Fellowship extends ComponentTransition {
 				this.eShow[index] = true;
 				TweenMax.to(el, 1.2, {y: 0, opacity: 1, ease: Power2.easeOut, delay: Math.random()*0.2});
 			}
-			
+
 			// off viewport
 			if (this.lTop - window.innerHeight > 0 && this.eShow[index]) {
 				this.eShow[index] = false;
@@ -391,8 +394,8 @@ export default class Fellowship extends ComponentTransition {
 
 		e = e || window.event;
 		if (e.preventDefault) e.preventDefault();
-		e.returnValue = false;  
-	
+		e.returnValue = false;
+
 	}
 
 	preventDefaultForScrollKeys(e) {
@@ -401,7 +404,7 @@ export default class Fellowship extends ComponentTransition {
 			this.preventDefault(e);
 			return false;
 		}
-	
+
 	}
 
 	disableScroll() {
@@ -413,19 +416,19 @@ export default class Fellowship extends ComponentTransition {
 		// window.ontouchmove  = this.preventDefault.bind(this); // mobile
 		// document.onkeydown  = this.preventDefaultForScrollKeys.bind(this);
 		document.querySelector('body').classList.add('frozen');
-	
+
 	}
 
 	enableScroll() {
 
 		// if (window.removeEventListener)
 		// 	window.removeEventListener('DOMMouseScroll', this.preventDefault.bind(this), false);
-		// window.onmousewheel = document.onmousewheel = null; 
-		// window.onwheel = null; 
-		// window.ontouchmove = null;  
-		// document.onkeydown = null;  
+		// window.onmousewheel = document.onmousewheel = null;
+		// window.onwheel = null;
+		// window.ontouchmove = null;
+		// document.onkeydown = null;
 		document.querySelector('body').classList.remove('frozen')
-	
+
 	}
 
 }

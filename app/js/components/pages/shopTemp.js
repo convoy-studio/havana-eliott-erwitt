@@ -23,10 +23,8 @@ export default class ShopTemp extends ComponentTransition {
 
 	}
 
-	componentDidMount() {
-
+    componentDidMount() {
 		OpeningShopStore.addChangeListener(this.onStoreChange);
-
 	}
 
 	render() {
@@ -50,7 +48,7 @@ export default class ShopTemp extends ComponentTransition {
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
 							{(this.state.error) ? (<div className='text response--error'>Invalid mail.</div>) : null}
 							{(() => {
-								if (this.state.response) { 
+								if (this.state.response) {
 									if (this.state.response.success) { return (
 										<div className='text response--success'>{this.state.response.message}</div>
 									)} else { return (

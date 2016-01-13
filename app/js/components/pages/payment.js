@@ -40,7 +40,7 @@ function getCartState() {
 export default class Payment extends ComponentTransition {
 
 	componentWillMount() {
-		
+
 		this.state = getCartState();
 		this.state.form = undefined;
 		this.state.sameAddress = true;
@@ -59,28 +59,30 @@ export default class Payment extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 
 		TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 0, ease:Power2.easeOut});
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: ()=>{
 			TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 1, ease:Power2.easeOut});
 			callback();
 		}});
-	
+
 	}
 
 	componentDidMount() {
 
 		super.componentDidMount();
+
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
@@ -190,7 +192,7 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='country'>Country *</label>
-								
+
 								<div className={'form__select'+error.country}><select id='country' name='country' onChange={this.handleCountryChange}>
 									{Object.keys(dhl).map((index) => {
 										let country = dhl[index].country;
@@ -204,7 +206,7 @@ export default class Payment extends ComponentTransition {
 											{option}
 										)
 									}.bind(this))}
-									
+
 								</select></div>
 							</div>
 							<div className='form__row'>
@@ -291,7 +293,7 @@ export default class Payment extends ComponentTransition {
 									let details
 									if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
 									else details = product.city+'. '+product.country+'. '+product.year
-									
+
 									return (
 										<li key={index} className='payment__product cart__product'>
 											<div className='cart__column'>
@@ -343,7 +345,7 @@ export default class Payment extends ComponentTransition {
 					</form>
 
 					<div dangerouslySetInnerHTML={{__html: this.state.form}} />
-					
+
 				</div>
 
 			</div>
@@ -354,7 +356,7 @@ export default class Payment extends ComponentTransition {
 	onSubmit(e) {
 
 		e.preventDefault();
-		
+
 		this.status = {};
 		this.status.mail = validator.isEmail(document.getElementById('mail').value);
 		this.status.firstname = document.getElementById('firstname').value.length > 0;
@@ -365,7 +367,7 @@ export default class Payment extends ComponentTransition {
 		this.status.country = document.getElementById('country').value.length > 0;
 		this.status.conditions = document.getElementById('conditions').checked;
 		this.status.billCheckbox = document.getElementById('billCheckbox').checked;
-		
+
 		this.valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country;
 
 		if (!this.status.billCheckbox) {
@@ -459,7 +461,7 @@ export default class Payment extends ComponentTransition {
 	}
 
 	onStoreChange() {
-	
+
 		this.setState({
 			form: CartStore.getForm()
 		}, () => {
@@ -497,7 +499,7 @@ export default class Payment extends ComponentTransition {
 	onNewsletterStoreChange() {
 
 		let response = NewsletterStore.getCreated();
-		
+
 		if (response.success) {
 			MailApi.sendDynamicTemplate({
 				template: 'havana-subscribe-newsletter',
@@ -509,13 +511,13 @@ export default class Payment extends ComponentTransition {
 	}
 
 	handleCountryChange(e) {
-		
+
 		this.updateSupply();
-	
+
 	}
 
 	updateSupply() {
-	
+
 		let country = document.getElementById('country').value;
 		let amountSupply = this.getAmoutSupply(country);
 
@@ -523,7 +525,7 @@ export default class Payment extends ComponentTransition {
 			amountSupply: amountSupply,
 			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
 		});
-	
+
 	}
 
 	getAmoutSupply(country) {

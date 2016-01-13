@@ -36,7 +36,7 @@ export default class Project extends Component {
 	componentWillAppear(callback) {
 
 		setTimeout(callback, 1); // need at least one tick to fire transition
-	
+
 	}
 
 	componentDidAppear() {
@@ -61,16 +61,16 @@ export default class Project extends Component {
 	componentWillLeave(callback) {
 		this._leaveStyle(callback);
 		// setTimeout(callback, 300); // matches transition duration
-	
+
 	}
-	
+
 	componentDidLeave() {
-		
-	
+
+
 	}
-	
+
 	_enterStyle() {
-	
+
 		let el = this.refs.item.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 
@@ -82,18 +82,19 @@ export default class Project extends Component {
 			ProjectApi.getBySlug(this.props.params.slug);
 			PrintApi.getByArtist(this.props.params.slug);
 		}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.item.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
-	
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+
 		ProjectStore.addChangeListener(this.onStoreChange);
 		PrintStore.addChangeListener(this.onStoreChange);
 
@@ -167,7 +168,7 @@ export default class Project extends Component {
 									current={this.props.params.token}
 									updateCurrent={this._updateCurrentBinded}
 									isMobile={this.state.isMobile}
-								/>								
+								/>
 							</div>
 						)
 					}
@@ -203,7 +204,7 @@ export default class Project extends Component {
 			// 						current={this.props.params.token}
 			// 						updateCurrent={this._updateCurrentBinded}
 			// 						isMobile={this.state.isMobile}
-			// 					/>								
+			// 					/>
 			// 				</div>
 			// 			)
 			// 		}
@@ -211,7 +212,7 @@ export default class Project extends Component {
 			// </div>
 
 	showGallery() {
-		
+
 		this.props.hideMenu();
 		this.setState({
 			open: true

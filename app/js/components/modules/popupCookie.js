@@ -15,7 +15,7 @@ export default class PopupCookie extends React.Component {
 	}
 
 	componentDidMount() {
-	
+
 		this.popup = this.refs.popup.getDOMNode();
 
 	}
@@ -42,10 +42,15 @@ export default class PopupCookie extends React.Component {
 		if(typeof localStorage !== 'undefined') {
 			localStorage.setItem('cookies', true);
 		}
-		
-		TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
+
+		if(typeof document !== 'undefined') {
+			const TweenMax = require('gsap/src/uncompressed/TweenMax');
+			TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
+				this.popup.style.display = 'none';
+			}});
+		} else {
 			this.popup.style.display = 'none';
-		}});
+		}
 
 	}
 

@@ -6,9 +6,12 @@ import Auth from '../../utils/authService'
 let config = require('../../config');
 
 export default class Login extends ComponentTransition {
+	componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let header = document.querySelector('.header');
 		let footer = document.querySelector('.footer');
@@ -16,14 +19,14 @@ export default class Login extends ComponentTransition {
 		header.style.display = 'none';
 		footer.style.display = 'none';
 		el.style.opacity = 1;
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentWillMount() {
@@ -31,7 +34,7 @@ export default class Login extends ComponentTransition {
 		// binded
 		this.login = this.login.bind(this);
 		// this.signup = this.signup.bind(this);
-		
+
 	}
 
 	render() {
@@ -71,7 +74,7 @@ export default class Login extends ComponentTransition {
 	login(e) {
 
 		e.preventDefault();
-		
+
 		let id = this.refs.id.getDOMNode().value;
 		let pwd = this.refs.pwd.getDOMNode().value;
 
