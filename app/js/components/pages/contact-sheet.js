@@ -212,7 +212,7 @@ export default class ContactSheet extends ComponentTransition {
 			}, () => {
 				// hack
 				setTimeout(()=>{
-					document.querySelector('.subpage--contact-sheet').style.height = (this.view.offsetHeight-100) + 'px';
+					document.querySelector('.subpage--contact-sheet').style.height = (this.view.offsetHeight) + 'px';
 				}, 300);
 			});
 		}
