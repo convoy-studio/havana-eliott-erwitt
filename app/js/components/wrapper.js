@@ -30,6 +30,16 @@ const nav = [
 export default class Wrapper extends React.Component {
 
 	componentWillMount() {
+		const { pathname } = this.props.location;
+
+		if (typeof localStorage !== 'undefined' && pathname != '/login' && pathname.indexOf('admin') < 0) {
+			this.cookies = window.localStorage.getItem('cookies');
+			if (!this.cookies) {
+				this.setState({
+					popupVisibility: true
+				});
+			}
+		}
 
 		this.state = {
 			popupVisibility: false
@@ -37,7 +47,6 @@ export default class Wrapper extends React.Component {
 
 		this.splash = AppStore.getSplash();
 
-		const { pathname } = this.props.location;
 		if (this.splash && pathname !== '/') {
 			this.splash = false;
 			AppActions.disableSplash();
@@ -73,15 +82,6 @@ export default class Wrapper extends React.Component {
 	render() {
 
 		const { pathname } = this.props.location;
-
-		if (typeof localStorage !== 'undefined') {
-			this.cookies = window.localStorage.getItem('cookies');
-			if (!this.cookies) {
-				this.setState({
-					popupVisibility: true
-				});
-			}
-		}
 
 		return (
 			<div>

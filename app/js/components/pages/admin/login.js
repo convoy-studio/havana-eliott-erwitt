@@ -24,7 +24,7 @@ export default class Login extends Component {
 		// binded
 		this.login = this.login.bind(this);
 		this.signup = this.signup.bind(this);
-		
+
 	}
 
 	render() {
@@ -52,9 +52,9 @@ export default class Login extends Component {
 	}
 
 	// login(e) {
-		
+
 	// 	e.preventDefault();
-		
+
 	// 	let id = this.refs.id.getDOMNode().value;
 	// 	let pwd = this.refs.pwd.getDOMNode().value;
 
@@ -77,7 +77,7 @@ export default class Login extends Component {
 	login(e) {
 
 		e.preventDefault();
-		
+
 		let id = this.refs.id.getDOMNode().value;
 		let pwd = this.refs.pwd.getDOMNode().value;
 

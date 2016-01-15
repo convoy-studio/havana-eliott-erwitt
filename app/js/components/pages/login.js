@@ -6,6 +6,15 @@ import Auth from '../../utils/authService'
 let config = require('../../config');
 
 export default class Login extends ComponentTransition {
+    constructor() {
+
+		super();
+
+		this.state = {
+            error: false
+		};
+	}
+
 	componentDidMount() {
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
@@ -51,6 +60,7 @@ export default class Login extends ComponentTransition {
 				<Seo seo={seo} />
 				<h1 className='title title--center title--absolute'><span>Admin</span></h1>
 				<form className='admin__form form'>
+					{this.state.error && (<div className="form__error">Invalid username or password</div>) }
 					<div className='form__row'>
 						<label className='form__label' htmlFor='id'>Identifiant</label>
 						<input type='text' ref='id'></input>
@@ -86,7 +96,12 @@ export default class Login extends ComponentTransition {
 			Auth.login(user)
 				.then((response)=>{
 					this.context.router.transitionTo('/admin');
-				});
+				}).catch(function(err) {
+					console.log('here');
+            		this.setState({
+                        error: true,
+                    });
+            	}.bind(this));
 		}
 	}
 
