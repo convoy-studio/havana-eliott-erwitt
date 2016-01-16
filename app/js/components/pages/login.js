@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
-import Auth from '../../utils/authService'
+import Auth from '../../utils/authService';
 let config = require('../../config');
 
 export default class Login extends ComponentTransition {
@@ -97,7 +97,6 @@ export default class Login extends ComponentTransition {
 				.then((response)=>{
 					this.context.router.transitionTo('/admin');
 				}).catch(function(err) {
-					console.log('here');
             		this.setState({
                         error: true,
                     });
