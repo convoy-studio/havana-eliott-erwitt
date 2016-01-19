@@ -1,6 +1,7 @@
 import CartActions from '../actions/cartActions';
 let config = require('../config');
-// const siteurl = 'http://localhost/havana_be2bill';
+const siteUrl = config.siteurl;
+// const siteurl = 'http://localhost:3010';
 
 module.exports = {
 
@@ -13,8 +14,7 @@ module.exports = {
 			data += key + "=" + encodeURIComponent(options[key]);
 		}
 
-		fetch(config.siteurl + '/authorization.php', {
-		// fetch(siteurl + '/authorization.php', {
+		fetch(siteurl + '/authorization.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',
@@ -22,6 +22,7 @@ module.exports = {
 			},
 			body: data
 		}).then(function(response) {
+			console.log('receiveForm', response);
 			return response.text()
 		}).then(function(body) {
 			CartActions.receiveForm(body)
@@ -39,8 +40,7 @@ module.exports = {
 			data += key + "=" + encodeURIComponent(options[key]);
 		}
 
-		fetch(config.siteurl + '/paypal.php', {
-		// fetch(siteurl + '/paypal.php', {
+		fetch(siteurl + '/paypal.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',
@@ -58,8 +58,7 @@ module.exports = {
 			}
 			data += key + "=" + encodeURIComponent(options[key]);
 		}
-		fetch(config.siteurl + '/check.php', {
-		// fetch(siteurl + '/check.php', {
+		fetch(siteurl + '/check.php', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/x-www-form-urlencoded',

@@ -11,8 +11,6 @@ export default class Friends extends ComponentTransition {
 	}
 
 	componentDidMount() {
-		super.componentDidMount();
-
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
 

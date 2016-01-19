@@ -5,8 +5,8 @@ let config = require('../../config');
 
 export default class Terms extends ComponentTransition {
 
-	componentWillMount(){
-
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
 
 	componentDidMount() {

@@ -20,7 +20,6 @@ function generateToken(hash, callback) {
 }
 
 var controller = {
-
 	getAll : {
 		handler : function(request, reply){
 			Order.find({}, function (err, items) {
@@ -115,7 +114,7 @@ var controller = {
 					prints: request.payload.prints,
 					total: request.payload.total,
 					state : 'Nouvelle commande',
-					
+
 					mail: request.payload.mail,
 					firstname: request.payload.firstname,
 					lastname: request.payload.lastname,
@@ -152,7 +151,7 @@ var controller = {
 
 		}
 	}
-	
+
 };
 
 module.exports = controller;

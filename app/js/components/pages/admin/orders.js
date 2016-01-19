@@ -18,11 +18,11 @@ export default class AdminOrders extends Component {
 		};
 
 		this.onStoreChange = this.onStoreChange.bind(this)
-		
+
 	}
 
 	componentDidMount() {
-		
+
 		OrderStore.addChangeListener(this.onStoreChange);
 		PrintStore.addChangeListener(this.onStoreChange);
 
@@ -58,16 +58,16 @@ export default class AdminOrders extends Component {
 
 		return (
 			<div className='admin__orders'>
-				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commandes</Link></span></h1>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Orders</Link></span></h1>
 				<h2 className='subtitle title--center admin__stock'>Total Stock Value : <span className='admin__stock-value'>{this.state.unsold}€</span></h2>
 				{(() => {
 					if (paidOrders.length > 0) { return (
 						<section className='admin__section'>
-							<h2 className='subtitle title--center'>Nouvelles commandes</h2>
+							<h2 className='subtitle title--center'>New orders</h2>
 							<table>
 								<tr>
-									<th>N° commande</th>
-									<th>Montant</th>
+									<th>Number</th>
+									<th>Amout</th>
 									<th>Client</th>
 								</tr>
 								{paidOrders}
@@ -79,11 +79,11 @@ export default class AdminOrders extends Component {
 				{(() => {
 					if (deliveredOrders.length > 0) { return (
 						<section className='admin__section'>
-							<h2 className='subtitle title--center'>Commandes expédiées</h2>
+							<h2 className='subtitle title--center'>Shipped order</h2>
 							<table>
 								<tr>
-									<th>N° commande</th>
-									<th>Montant</th>
+									<th>Number</th>
+									<th>Amout</th>
 									<th>Client</th>
 								</tr>
 								{deliveredOrders}
@@ -91,7 +91,7 @@ export default class AdminOrders extends Component {
 						</section>
 					)}
 				}.bind(this))()}
-				
+
 			</div>
 		);
 

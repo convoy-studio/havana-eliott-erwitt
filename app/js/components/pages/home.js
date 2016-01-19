@@ -59,9 +59,6 @@ export default class Home extends ComponentTransition {
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
-
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.body = document.querySelector('body');

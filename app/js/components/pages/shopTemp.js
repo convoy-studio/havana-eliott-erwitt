@@ -10,7 +10,8 @@ let validator = require('validator');
 
 export default class ShopTemp extends ComponentTransition {
 
-	componentWillMount() {
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.state = {
 			error: false,

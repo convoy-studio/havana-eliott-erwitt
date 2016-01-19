@@ -46,7 +46,8 @@ export default class ContactSheet extends ComponentTransition {
 
 	}
 
-	componentDidMount() {
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		PrintApi.getByArtist(this.props.params.slug);
 		PrintStore.addChangeListener(this.onStoreChange);

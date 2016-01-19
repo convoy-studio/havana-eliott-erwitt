@@ -46,6 +46,13 @@ let PrintActions = {
 		});
 	},
 
+    receiveBlocked: function(print){
+		AppDispatcher.handleServerAction({
+			actionType: PrintConstants.RECEIVE_PRINT_BLOCKED,
+			item: print
+		});
+	},
+
 	receiveError : function(error){
 		AppDispatcher.handleServerAction({
 			actionType: PrintConstants.ERROR,
@@ -57,7 +64,7 @@ let PrintActions = {
 		AppDispatcher.handleServerAction({
 			actionType: PrintConstants.ZOOM,
 			item: id
-		});	
+		});
 	}
 
 }

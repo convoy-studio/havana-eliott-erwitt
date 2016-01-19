@@ -79,9 +79,6 @@ export default class Payment extends ComponentTransition {
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
-
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		if(typeof document !== 'undefined') {
@@ -461,7 +458,6 @@ export default class Payment extends ComponentTransition {
 	}
 
 	onStoreChange() {
-
 		this.setState({
 			form: CartStore.getForm()
 		}, () => {

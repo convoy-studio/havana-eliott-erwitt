@@ -72,9 +72,6 @@ export default class Projects extends ComponentTransition {
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
-
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		ProjectApi.getFirsts();

@@ -9,12 +9,13 @@ let validator = require('validator');
 
 export default class Unsubscribe extends ComponentTransition {
 
-	componentWillMount() {
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.state = {
 			response: undefined
 		};
-		
+
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 
