@@ -29,7 +29,7 @@ export default class ComponentResize extends Component {
 	componentDidMount() {
 
 		this.resize();
-		
+
 	}
 
 	componentWillUnmount() {
@@ -37,7 +37,7 @@ export default class ComponentResize extends Component {
 		// AppStore.off(AppConstants.WINDOW_RESIZE, this.resize);
 
 	}
-	
+
 	resize() {
 
 		if (AppStore.Window.w < 958) {
@@ -51,5 +51,5 @@ export default class ComponentResize extends Component {
 }
 
 ComponentResize.contextTypes = {
-	router: React.PropTypes.func.isRequired
+	router: React.PropTypes.object.isRequired
 };

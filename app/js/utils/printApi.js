@@ -63,7 +63,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				console.log(json);
 				PrintActions.receive(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
@@ -75,7 +74,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				console.log(json);
 				PrintActions.receive(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
@@ -109,7 +107,6 @@ module.exports = {
 	},
 
 	order : function(id, serial) {
-		console.log(serial)
 		fetch(config.siteurl + '/api/print/' + id, {
 			method: 'post',
 			headers: {

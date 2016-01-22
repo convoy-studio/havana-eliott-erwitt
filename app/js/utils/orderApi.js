@@ -1,5 +1,51 @@
 import OrderActions from '../actions/orderActions';
 let config = require('../config');
+const paymenturl = config.siteUrl;
+// const paymenturl = 'http://localhost:3010';
+
+function generatePayButton(options) {
+	let data = '';
+	for (let key in options) {
+		if (data != "") {
+			data += "&";
+		}
+		data += key + "=" + encodeURIComponent(options[key]);
+	}
+
+	return fetch(paymenturl + '/authorization.php', {
+		method: 'post',
+		headers: {
+			'Accept': 'application/x-www-form-urlencoded',
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		body: data
+	}).then(function(response) {
+		return response.text()
+	}).then(function(body) {
+		OrderActions.setPaymentForm(body)
+	}).catch(function(err) {
+		console.log('parsing failed', err)
+	});
+}
+
+function paypalPayment(options) {
+	let data = '';
+	for (let key in options) {
+		if (data != "") {
+			data += "&";
+		}
+		data += key + "=" + encodeURIComponent(options[key]);
+	}
+
+	return fetch(paymenturl + '/paypal.php', {
+		method: 'post',
+		headers: {
+			'Accept': 'application/x-www-form-urlencoded',
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		body: data
+	});
+}
 
 module.exports = {
 
@@ -95,7 +141,21 @@ module.exports = {
 		}).then(function(response) {
 			return response.json();
 		}).then(function(json) {
-			OrderActions.created(json);
+            const method = json.paymentMethod;
+			const options = {
+				order_id: json._id,
+				user_id: json.user,
+				total: json.total
+			};
+
+    		switch(method) {
+    			case 'visa':
+    			case 'maestro':
+    			case 'americanExpress':
+    				return generatePayButton(options);
+    			case 'paypal':
+    				return paypalPayment(options);
+    		}
 		}).catch(function(err) {
 			console.log('parsing failed', err);
 		});

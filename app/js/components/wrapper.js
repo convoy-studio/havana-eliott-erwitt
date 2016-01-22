@@ -28,29 +28,13 @@ const nav = [
 ];
 
 export default class Wrapper extends React.Component {
-
 	componentWillMount() {
 		const { pathname } = this.props.location;
 
-		if (typeof localStorage !== 'undefined' && pathname != '/login' && pathname.indexOf('admin') < 0) {
-			this.cookies = window.localStorage.getItem('cookies');
-			if (!this.cookies) {
-				this.setState({
-					popupVisibility: true
-				});
-			}
-		}
-
 		this.state = {
-			popupVisibility: false
+			popupVisibility: false,
+            splash: pathname === '/'
 		};
-
-		this.splash = AppStore.getSplash();
-
-		if (this.splash && pathname !== '/') {
-			this.splash = false;
-			AppActions.disableSplash();
-		}
 
 		// binded
 		this.toggleMenu = this.toggleMenu.bind(this);
@@ -58,64 +42,59 @@ export default class Wrapper extends React.Component {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleScroll = this.handleScroll.bind(this);
-
-		this.visible = false;
-
-		let cartStorage;
-		if (typeof localStorage !== 'undefined' && typeof localStorage['cart'] !== 'undefined' && localStorage['cart'] !== 'undefined') {
-			cartStorage = JSON.parse(localStorage['cart']);
-			_(cartStorage).forEach((item)=>{
-				CartActions.addToCart(item);
-			}).value();
-		}
 	}
 
 	componentDidMount() {
+		const { pathname } = this.props.location;
 
 		this.headerMenu = document.querySelector('.header__menu');
 
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.handleScroll;
 
+        if (pathname != '/login' && pathname.indexOf('admin') < 0) {
+			const cookies = window.localStorage.getItem('cookies');
+			if (!cookies) {
+				this.setState({
+					popupVisibility: true
+				});
+			}
+		}
 	}
 
 	render() {
-
 		const { pathname } = this.props.location;
+		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
 
 		return (
 			<div>
-				{(!this.cookies) ? (<PopupCookie visible={this.state.popupVisibility} />) : null}
-				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
+				{this.state.popupVisibility && (<PopupCookie />)}
+				{this.state.splash && (<canvas className='canvas'></canvas>)}
 
-				{(() => {
-					if (this.props.location.pathname.indexOf('/admin') === -1) {
-						return (
-							<header className='header'>
-								<div className='hamburger' onClick={this.openMenu}>
-									<div className='hamburger__line'></div>
-								</div>
-								<h1 className='header__logo'>
-									<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
-								</h1>
-								<nav className='header__menu'>
-									<div className='header__close'></div>
-									<ul className='header__list'>
-										{Object.keys(nav).map((index) => {
+				{!isAdmin && (
+					<header className='header'>
+						<div className='hamburger' onClick={this.openMenu}>
+							<div className='hamburger__line'></div>
+						</div>
+						<h1 className='header__logo'>
+							<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
+						</h1>
+						<nav className='header__menu'>
+							<div className='header__close'></div>
+							<ul className='header__list'>
+											{Object.keys(nav).map((index) => {
 											let item = nav[index];
-											let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
+												let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
-											return (
-												<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
-											)
-										})}
+												return (
+								<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+								)
+								})}
 
-									</ul>
-								</nav>
-							</header>
-						)
-					}
-				}.bind(this))()}
+							</ul>
+						</nav>
+					</header>
+				)}
 
 				<div id='pageContainer' className='page-container' ref='page-container'>
 					<Transition component="div">
@@ -123,68 +102,55 @@ export default class Wrapper extends React.Component {
 					</Transition>
 				</div>
 
-				{(() => {
-					if (this.props.location.pathname.indexOf('/admin') === -1) {
-						return (
-							<footer className='footer'>
-								<ul>
-									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
-									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
-									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
-									{(() => {
-										if (this.props.location.pathname.indexOf('/shop') === -1) { return (
-											<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
-										)} else { return (
-											<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
-										)}
-									}.bind(this))()}
-								</ul>
-							</footer>
-						)
-					}
-				}.bind(this))()}
+				{!isAdmin && (
+					<footer className='footer'>
+						<ul>
+							<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
+							<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
+							<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
+							<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+								{(() => {
+								if (this.props.location.pathname.indexOf('/shop') === -1) { return (
+							<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+							)} else { return (
+							<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
+							)}
+							}.bind(this))()}
+						</ul>
+					</footer>
+				)}
 			</div>
-
 		);
-
 	}
 
 	toggleMenu(e) {
-
 		this.headerMenu.classList.toggle('header__menu--open');
-
 	}
 
 	openMenu() {
-
 		this.headerMenu.classList.add('header__menu--open');
-
 	}
 
 	closeMenu() {
+		const { pathname } = this.props.location;
+		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
 
-		if (this.props.location.pathname.indexOf('/admin') === -1) {
+		if (!isAdmin) {
 			this.headerMenu.classList.remove('header__menu--open');
 		}
-
 	}
 
 	handleClickOutside(e) {
-
 		// if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
 		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
-
 	}
 
 	handleScroll() {
-
 		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
-
 	}
 
 }

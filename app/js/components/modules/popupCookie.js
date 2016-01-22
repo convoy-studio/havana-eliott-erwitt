@@ -22,10 +22,8 @@ export default class PopupCookie extends React.Component {
 
 	render() {
 
-		let visibility = (this.props.visible) ? 'popup--visible' : '';
-
 		return (
-			<div className={'popup popup--cookie '+visibility} ref='popup'>
+			<div className={'popup popup--cookie popup--visible'} ref='popup'>
 				<p className='text cookie__content'>
 					Mr. Elliott Erwitt and Pernod Ricard, SA have decided to co-establish a foundation in Spain under the name “Fundación Elliott Erwitt Havana Club 7 Fellowship”. Currently, the public deed of incorporation of the above Foundation has not been issued and the Foundation is pending to be registered.<br/><br/>Cookies help us offer a better and more personalized experience. By continuing to browse, you consent to the use of first and third party cookies on your device for profiling and analytical purposes. Consult our <a className='underline' href='/cookie-policy' target='_blank'>cookies policy.</a>
 				</p>
@@ -39,18 +37,12 @@ export default class PopupCookie extends React.Component {
 
 		e.preventDefault();
 
-		if(typeof localStorage !== 'undefined') {
-			localStorage.setItem('cookies', true);
-		}
+		window.localStorage.setItem('cookies', true);
 
-		if(typeof document !== 'undefined') {
-			const TweenMax = require('gsap/src/uncompressed/TweenMax');
-			TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
-				this.popup.style.display = 'none';
-			}});
-		} else {
+		const TweenMax = require('gsap/src/uncompressed/TweenMax');
+		TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
 			this.popup.style.display = 'none';
-		}
+		}});
 
 	}
 

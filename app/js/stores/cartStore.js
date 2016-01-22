@@ -7,11 +7,23 @@ let _ = require('lodash');
 const CHANGE_EVENT = 'change';
 
 // Define initial data points
-let _products = [], _cartVisible = true, _cartEnabled = false, _form;
+let _products = [];
+let _cartVisible = true, _cartEnabled = false;
+
+// Init products
+function _init() {
+	const cart = window.localStorage.getItem('cart');
+	if (cart) {
+		_products = JSON.parse(cart);
+	}
+}
 
 // Add product to cart
 function _add(update) {
-	_products.push(update)
+	_products.push(update);
+    if (typeof window.localStorage !== 'undefined') {
+        window.localStorage.setItem('cart', JSON.stringify(_products));
+    }
 }
 
 // Set cart visibility
@@ -27,10 +39,16 @@ function _setCartEnabled(data) {
 // Remove item from cart
 function _removeItem(index) {
 	_products.splice(index, 1);
+    if (typeof window.localStorage !== 'undefined') {
+        window.localStorage.setItem('cart', JSON.stringify(_products));
+    }
 }
 
-function _addForm(data) {
-	_form = data;
+function _clearItem() {
+	_products = [];
+	if (typeof window.localStorage !== 'undefined') {
+        window.localStorage.setItem('cart', undefined);
+    }
 }
 
 let CartStore = assign({}, EventEmitter.prototype, {
@@ -38,24 +56,18 @@ let CartStore = assign({}, EventEmitter.prototype, {
 		return _products;
 	},
 	getCartCount: function() {
-		return Object.keys(_products).length;
+		return _products.length;
 	},
 	getCartTotal: function() {
-		let total = 0;
-		_(_products).forEach((product, index) => {
-			total += product.price
-		}).value()
-
-		return total.toFixed(2);
+		return _products.reduce(function (total, product) {
+			return total += product.price;
+		}, 0).toFixed(2);
 	},
 	getCartVisible: function() {
 		return _cartVisible;
 	},
 	getCartEnabled: function() {
 		return _cartEnabled;
-	},
-	getForm: function() {
-		return _form;
 	},
 	// Emit Change event
 	emitChange: function() {
@@ -73,6 +85,10 @@ let CartStore = assign({}, EventEmitter.prototype, {
 		let action = payload.action
 
 		switch(action.actionType) {
+			case CartConstants.CART_INIT:
+				_init();
+				CartStore.emitChange()
+				break
 			case CartConstants.CART_ADD:
 				_add(action.update)
 				CartStore.emitChange()
@@ -89,12 +105,8 @@ let CartStore = assign({}, EventEmitter.prototype, {
 				_removeItem(action.index)
 				CartStore.emitChange()
 				break
-			case CartConstants.RECEIVE_FORM:
-				_addForm(action.data)
-				CartStore.emitChange()
-				break
-			case CartConstants.RECEIVE_CHECK:
-				_addForm(action.data)
+			case CartConstants.CART_CLEAR:
+				_clearItem()
 				CartStore.emitChange()
 				break
 		}
@@ -104,4 +116,3 @@ let CartStore = assign({}, EventEmitter.prototype, {
 })
 
 export default CartStore
-

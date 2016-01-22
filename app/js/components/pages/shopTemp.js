@@ -10,9 +10,7 @@ let validator = require('validator');
 
 export default class ShopTemp extends ComponentTransition {
 
-    componentDidMount() {
-		TweenMax = require('gsap/src/uncompressed/TweenMax');
-
+    componentWillMount() {
 		this.state = {
 			error: false,
 			response: undefined
@@ -21,11 +19,11 @@ export default class ShopTemp extends ComponentTransition {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.subscribe = this.subscribe.bind(this);
-
+		OpeningShopStore.addChangeListener(this.onStoreChange);
 	}
 
     componentDidMount() {
-		OpeningShopStore.addChangeListener(this.onStoreChange);
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
 
 	render() {

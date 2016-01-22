@@ -113,6 +113,7 @@ var controller = {
 					user: request.payload.user,
 					prints: request.payload.prints,
 					total: request.payload.total,
+                    paymentMethod: request.payload.paymentMethod,
 					state : 'Nouvelle commande',
 
 					mail: request.payload.mail,

@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import ComponentTransition from '../componentTransition';
 import Utils from '../../utils/utils';
 let config = require('../../config');
+import CartActions from '../../actions/cartActions';
 
 export default class Result extends ComponentTransition {
 
@@ -90,8 +91,7 @@ export default class Result extends ComponentTransition {
 				'Un email vient de vous être envoyé.'
 			];
 
-			// vider le panier
-			localStorage.setItem('cart', undefined);
+			CartActions.clearCart();
 		}
 		if (Utils.getURLParameter('result') === 'error') {
 			message = [

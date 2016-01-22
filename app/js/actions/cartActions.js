@@ -4,10 +4,9 @@ import AppDispatcher from '../dispatchers/appDispatcher';
 let CartActions = {
 
 	// Receive inital product data
-	receiveProduct: function(data) {
+	initCart: function() {
 		AppDispatcher.handleServerAction({
-			actionType: CartConstants.RECEIVE_DATA,
-			data: data
+			actionType: CartConstants.CART_INIT
 		})
 	},
 
@@ -34,6 +33,12 @@ let CartActions = {
 			index: index
 		})
 	},
+
+    clearCart: function() {
+        AppDispatcher.handleServerAction({
+			actionType: CartConstants.CART_CLEAR
+		})
+    },
 
 	// Update cart visibility status
 	updateCartVisible: function(cartVisible) {
@@ -74,6 +79,3 @@ let CartActions = {
 }
 
 export default CartActions;
-
-
-	  

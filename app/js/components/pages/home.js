@@ -70,28 +70,24 @@ export default class Home extends ComponentTransition {
 		this.fontSizeMobile = 24;
 		this.fontSizeLogoMobile = 20;
 
-		if (AppStore.getSplash()) {
-			AppActions.disableSplash();
+		this.overlay.classList.add('bg-video__overlay--hidden');
 
-			this.overlay.classList.add('bg-video__overlay--hidden');
+		// TweenMax.set(document.querySelector('.header'), {opacity: 0});
+		// TweenMax.set(document.querySelector('.footer'), {opacity: 0});
+		TweenMax.set(document.querySelector('.home'), {opacity: 0});
+		TweenMax.to(this.canvas, 0.8, {backgroundColor: 'transparent', delay: 0.2});
 
-			// TweenMax.set(document.querySelector('.header'), {opacity: 0});
-			// TweenMax.set(document.querySelector('.footer'), {opacity: 0});
-			TweenMax.set(document.querySelector('.home'), {opacity: 0});
-			TweenMax.to(this.canvas, 0.8, {backgroundColor: 'transparent', delay: 0.2});
+		this.initSplash();
+		window.onload = ()=>{
+			this.initAnimation();
 
-			this.initSplash();
-			window.onload = ()=>{
-				this.initAnimation();
-
-				// if (this.body && this.body.classList.contains('js-mobile')) {
-				if (window.innerWidth < 768) {
-					this.cropDescMobile();
-				} else if (window.innerWidth < 1024) {
-					this.cropDescTablet();
-				} else {
-					this.cropDesc();
-				}
+			// if (this.body && this.body.classList.contains('js-mobile')) {
+			if (window.innerWidth < 768) {
+				this.cropDescMobile();
+			} else if (window.innerWidth < 1024) {
+				this.cropDescTablet();
+			} else {
+				this.cropDesc();
 			}
 		}
 

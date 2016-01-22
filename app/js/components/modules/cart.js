@@ -49,6 +49,7 @@ export default class Cart extends Component {
 
 		this.body.addEventListener('click', this.handleClickOutside);
 		CartStore.addChangeListener(this.onStoreChange);
+		CartActions.initCart();
 		this.content.addEventListener('click', this.handleClickInside);
 		this.count.addEventListener('mouseenter', this.handleCountEnter);
 		this.view.addEventListener('mouseenter', this.handleEnter);
@@ -70,12 +71,12 @@ export default class Cart extends Component {
 	render() {
 
 		let itemLabel = (this.state.count > 1) ? 'items' : 'item';
-		let visibility = (this.state.enabled.cartEnabled ? 'cart--enabled ' : ' ') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
+		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
 
 		return (
 			<div>
-				<div className={'cart ' + visibility + isEmpty} ref='cart'>
+				<div className={'cart' + visibility + isEmpty} ref='cart'>
 					<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
@@ -216,13 +217,7 @@ export default class Cart extends Component {
 	}
 
 	onStoreChange() {
-
-		this.setState(getState(), ()=>{
-			if(typeof localStorage !== 'undefined') {
-				localStorage.setItem('cart', JSON.stringify(this.state.items));
-			}
-		});
-
+		this.setState(getState());
 	}
 
 }

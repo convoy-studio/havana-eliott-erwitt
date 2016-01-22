@@ -116,5 +116,5 @@ export default class Admin extends Component {
 }
 
 Admin.contextTypes = {
-	router: React.PropTypes.func.isRequired
+	router: React.PropTypes.object.isRequired
 };

@@ -23,14 +23,15 @@ echo $be2bill->buildAuthorizationFormButton(
     $htmlOptions = array(
         'SUBMIT' => array('value' => 'Proceed to payment'),
         'FORM' => array('id' => 'paymentForm')
-    )
-	// $options = array(
+    ),
+	$options = array(
+        'LANGUAGE' => 'en',
 	// 	'3DSECURE'         => 'yes',
 	// 	'CARDFULLNAME'     => $_POST['firstname'].' '.$_POST['lastname'],
 	// 	'CLIENTEMAIL'      => 'john.doe@email.com',
 	// 	'HIDECARDFULLNAME' => 'yes',
 	// 	'HIDECLIENTEMAIL'  => 'yes'
-	// )
+	)
 );
 
 ?>
