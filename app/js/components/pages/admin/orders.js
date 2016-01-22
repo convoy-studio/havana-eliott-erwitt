@@ -60,38 +60,32 @@ export default class AdminOrders extends Component {
 			<div className='admin__orders'>
 				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Orders</Link></span></h1>
 				<h2 className='subtitle title--center admin__stock'>Total Stock Value : <span className='admin__stock-value'>{this.state.unsold}€</span></h2>
-				{(() => {
-					if (paidOrders.length > 0) { return (
-						<section className='admin__section'>
-							<h2 className='subtitle title--center'>New orders</h2>
-							<table>
-								<tr>
-									<th>Number</th>
-									<th>Amout</th>
-									<th>Client</th>
-								</tr>
-								{paidOrders}
-							</table>
-						</section>
-					)}
-				}.bind(this))()}
-
-				{(() => {
-					if (deliveredOrders.length > 0) { return (
-						<section className='admin__section'>
-							<h2 className='subtitle title--center'>Shipped order</h2>
-							<table>
-								<tr>
-									<th>Number</th>
-									<th>Amout</th>
-									<th>Client</th>
-								</tr>
-								{deliveredOrders}
-							</table>
-						</section>
-					)}
-				}.bind(this))()}
-
+				{(paidOrders.length > 0) && (
+					<section className='admin__section'>
+						<h2 className='subtitle title--center'>New orders</h2>
+						<table>
+							<tr>
+								<th>Number</th>
+								<th>Amout</th>
+								<th>Client</th>
+							</tr>
+							{paidOrders}
+						</table>
+					</section>
+				)}
+				{(deliveredOrders.length > 0) && (
+					<section className='admin__section'>
+						<h2 className='subtitle title--center'>Shipped order</h2>
+						<table>
+							<tr>
+								<th>Number</th>
+								<th>Amout</th>
+								<th>Client</th>
+							</tr>
+							{deliveredOrders}
+						</table>
+					</section>
+				)}
 			</div>
 		);
 

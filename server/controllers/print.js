@@ -302,7 +302,7 @@ const controller = {
 		handler : function(request, reply) {
 			Print.find({ forsale: true }, function(err, items) {
 				if (!err) {
-					Order.find(function (err, solded_items) {
+					Order.find({ transactionId: { $exists: true } }, function (err, solded_items) {
 						if (!err) {
 							let sold = 0;
 							for (let i in solded_items) {

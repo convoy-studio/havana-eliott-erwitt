@@ -33,7 +33,7 @@ var controller = {
 
 	getPaid : {
 		handler : function(request, reply){
-			Order.find({ state: 'Nouvelle commande' }, function (err, items) {
+			Order.find({ state: 'Nouvelle commande', transactionId: { $exists: true } }, function (err, items) {
 				if (!err) {
 					return reply(items);
 				}
