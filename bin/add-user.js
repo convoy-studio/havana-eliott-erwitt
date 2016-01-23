@@ -12,17 +12,16 @@ mongoose.connect('mongodb://' + config.database.host + '/' + config.database.nam
 const db = mongoose.connection;
 db.on('error', console.error.bind(console,'Connection with database failed.'));
 db.once('open', function(){
-    console.log('Connection with database succeeded.');
-});
-
-User.create({
-   identifiant: 'admin',
-   password: 'admin',
-   type: 'admin'
-}, (error, user) => {
-   if (error) {
-      console.error('Error during user creation', error);
-   } else {
-      console.log('Admin user created');
-   }
+   User.create({
+      identifiant: 'admin',
+      password: 'admin',
+      type: 'admin'
+   }, (error, user) => {
+      if (error) {
+         console.error('Error during user creation', error);
+      } else {
+         console.log('Admin user created');
+      }
+      db.close();
+   });
 });
