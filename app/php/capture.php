@@ -6,7 +6,7 @@ require_once __DIR__.'/config.php';
 $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
 //$be2bill = Be2bill_Api_ClientBuilder::buildProductionDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
 
-$mandrill = new Mandrill('MANDRILL_API_KEY');
+$mandrill = new Mandrill(MANDRILL_API_KEY);
 
 $transactionId = $_GET['TRANSACTIONID'];
 $orderId = $_GET['ORDERID'];
@@ -62,11 +62,13 @@ try {
 		)
 	);
 	$message = array(
-		'from_email' => 'nicolas.daniel.29@gmail.com',
+		'from_email' => 'jerome.macias@gmail.com',
 		'to' => array(
-			'email' => 'nicolas.daniel.29@gmail.com',
-			'name' => 'Nicolas Daniel',
-			'type' => 'to'
+			array(
+				'email' => 'jerome.macias@gmail.com',
+				'name' => 'Jérôme Macias',
+				'type' => 'to',
+			),
 		),
 		'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - Order',
 		'html' => 'html can be used'
@@ -75,12 +77,14 @@ try {
 
 	// send logistic email for new order
 	$message = array(
-		'from_email' => 'nicolas.daniel.29@gmail.com',
+		'from_email' => 'jerome.macias@gmail.com',
 		'from_name' => 'Havana Fellowship',
 		'to' => array(
-			'email' => 'nicolas.daniel.29@gmail.com',
-			'name' => 'Nicolas Daniel',
-			'type' => 'to'
+			array(
+				'email' => 'jerome.macias@gmail.com',
+				'name' => 'Jérôme Macias',
+				'type' => 'to'
+			),
 		),
 		'headers' => array('Reply-To' => 'no-reply@havana.com'),
 		'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - New order',
