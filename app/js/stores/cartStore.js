@@ -47,7 +47,7 @@ function _removeItem(index) {
 function _clearItem() {
 	_products = [];
 	if (typeof window.localStorage !== 'undefined') {
-        window.localStorage.setItem('cart', undefined);
+        window.localStorage.removeItem('cart');
     }
 }
 

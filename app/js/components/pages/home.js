@@ -117,7 +117,6 @@ export default class Home extends ComponentTransition {
 				<div className='home__overlay bg-video__overlay'></div>
 			</div>);
 		}
-				// <canvas className='canvas'></canvas>
 
 		return (
 			<div className='page page--home' ref='view'>

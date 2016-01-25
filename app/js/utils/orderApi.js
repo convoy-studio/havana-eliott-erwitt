@@ -1,6 +1,6 @@
 import OrderActions from '../actions/orderActions';
 let config = require('../config');
-const paymenturl = config.siteUrl;
+const paymenturl = config.siteurl;
 // const paymenturl = 'http://localhost:3010';
 
 function generatePayButton(options) {

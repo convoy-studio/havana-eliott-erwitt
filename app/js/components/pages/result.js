@@ -100,7 +100,7 @@ export default class Result extends ComponentTransition {
 							)
 						}.bind(this))}
 					</div>
-					<Link to='/' className='button'>Back to home</Link>
+					<Link to='/shop' className='button'>Back to shop</Link>
 				</div>
 			</div>
 		);
