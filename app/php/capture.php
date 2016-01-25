@@ -1,25 +1,86 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-require 'config.php';
-require './Be2bill/Api/Autoloader.php';
-
-Be2bill_Api_Autoloader::registerAutoloader();
-
-// Use fallback URL
-// Be2bill_Api_ClientBuilder::switchProductionUrls();
+require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/config.php';
 
 $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
+//$be2bill = Be2bill_Api_ClientBuilder::buildProductionDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
+
+$mandrill = new Mandrill('MANDRILL_API_KEY');
+
+$transactionId = $_GET['TRANSACTIONID'];
+$orderId = $_GET['ORDERID'];
 
 // $result = $be2bill->stopNTimes($_GET['schedule']);
 $result = $be2bill->capture(
-	$_GET['TRANSACTIONID'],
-	$_GET['ORDERID'],
-	'capture_transaction_'.$_GET['TRANSACTIONID']
+	$transactionId,
+	$orderId,
+	'capture_transaction_'.$transactionId
 );
+if ($result['EXECCODE'] != '0000') {
+	echo 'KO';
+	exit(1);
+}
 
-var_dump($result)
+$m = new MongoClient();
+$db = $m->selectDB('havana');
 
-?>
+// get order prints
+$collection = $db->orders;
+try {
+	$order = $collection->findAndModify(
+		array('_id' => new MongoId($orderId)),
+		array('$set' => array('transactionId' => $transactionId)),
+	);
+} catch(MongoResultException $e) {
+    error_log('Order update transactionID error '.$e->getCode().': '.$e->getMessage());
+    echo 'KO';
+	exit(1);
+}
+
+if (!$order) {
+	echo 'KO';
+	exit(1);
+}
+
+echo 'OK';
+
+try {
+	// send client email for validated order
+	$template_name = 'havana-opening-shop';
+	$template_content = array(
+		array(
+			'name' => 'example name',
+			'content' => 'example content'
+		)
+	);
+	$message = array(
+		'from_email' => 'nicolas.daniel.29@gmail.com',
+		'to' => array(
+			'email' => 'nicolas.daniel.29@gmail.com',
+			'name' => 'Nicolas Daniel',
+			'type' => 'to'
+		),
+		'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - Order',
+		'html' => 'html can be used'
+	);
+	$mandrill->messages->sendTemplate($template_name, $template_content, $message, true);
+
+	// send logistic email for new order
+	$message = array(
+		'from_email' => 'nicolas.daniel.29@gmail.com',
+		'from_name' => 'Havana Fellowship',
+		'to' => array(
+			'email' => 'nicolas.daniel.29@gmail.com',
+			'name' => 'Nicolas Daniel',
+			'type' => 'to'
+		),
+		'headers' => array('Reply-To' => 'no-reply@havana.com'),
+		'subject' => 'Elliott Erwitt Havana Club 7 Fellowship - New order',
+		'html' => 'new order'
+	);
+	$mandrill->messages->send($message, true);
+
+} cactch (\Exception $e) {
+	error_log('New order email send error: '.$e->getMessage());
+}
