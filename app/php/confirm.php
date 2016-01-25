@@ -29,13 +29,8 @@ if ($be2bill->checkHash($_GET) !== $_GET['HASH']) {
     header('Location: /payment-confirmation?result=error');
 }
 
-$m = new MongoClient();
-$db = $m->selectDB('havana');
-
-$orderId = $_GET['ORDERID'];
-// get order prints
-$collection = $db->orders;
-$order = $collection->findOne(array('_id' => new MongoId($_GET['ORDERID'])));
+$collection = (new MongoDB\Client)->havana->orders;
+$order = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['ORDERID'])])
 
 if (!$order) {
 	header('Location: /payment-confirmation?result=error');

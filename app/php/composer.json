@@ -2,7 +2,8 @@
     "name": "havana/fellowship",
     "require": {
         "be2bill/php-merchant-api": "~1.4.1",
-        "mandrill/mandrill": "^1.0"
+        "mandrill/mandrill": "^1.0",
+        "mongodb/mongodb": "^1.0"
     },
     "authors": [
         {
