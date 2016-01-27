@@ -1,7 +1,7 @@
 const config = {
 	server : {
 		host : 'localhost',
-		port : 3000
+		port : 4242
 	},
 	database: {
 		host : '127.0.0.1',
