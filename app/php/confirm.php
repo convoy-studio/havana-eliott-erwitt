@@ -25,12 +25,12 @@ if ($be2bill->checkHash($_GET) !== $_GET['HASH']) {
     header('Location: /payment-confirmation?result=invalid-card-information');
 } else if ($_GET['EXECCODE'] == '4015') {
     header('Location: /payment-confirmation?result=expired-card');
-} else if ($_GET['EXECCODE'] != '0000') { {
+} else if ($_GET['EXECCODE'] != '0000') {
     header('Location: /payment-confirmation?result=error');
 }
 
 $collection = (new MongoDB\Client)->havana->orders;
-$order = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['ORDERID'])])
+$order = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['ORDERID'])]);
 
 if (!$order) {
 	header('Location: /payment-confirmation?result=error');

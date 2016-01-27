@@ -10,9 +10,6 @@ let offset = require('../../utils/offset');
 let config = require('../../config');
 
 export default class News extends ComponentTransition {
-	componentDidMount() {
-		TweenMax = require('gsap/src/uncompressed/TweenMax');
-	}
 
 	componentWillMount() {
 
@@ -176,6 +173,8 @@ export default class News extends ComponentTransition {
 		if (this.news) {
 			this.news.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)';
 		}
+
+        const TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		_(document.querySelectorAll('.news__item')).forEach((el, index) => {
 			this.lTop = offset(el).top;
