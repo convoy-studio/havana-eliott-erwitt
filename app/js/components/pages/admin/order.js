@@ -28,7 +28,7 @@ export default class AdminOrder extends Component {
 	componentDidMount() {
 
 		OrderStore.addChangeListener(this.onStoreChange);
-		
+
 		OrderApi.getOne(this.props.params.token);
 
 	}
@@ -72,7 +72,6 @@ export default class AdminOrder extends Component {
 			} else {
 				select = (
 					<select id='orderState' name='orderState'>
-						<option value="Nouvelle commande">Nouvelle commande</option>
 						<option value="Commande expédiée" selected>Commande expédiée</option>
 					</select>
 				);
@@ -90,14 +89,14 @@ export default class AdminOrder extends Component {
 			<div className='admin__order'>
 				<div className='submenu'><Link to='/admin/orders' className='button'>Retour aux commandes</Link></div>
 				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande — {orderId}</Link></span></h1>
-				
+
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse de livraison</h2>
 					<p><span className='admin--uppercase'>{lastname}</span> {firstname}</p>
 					<p>{address}</p>
 					<p>{zip} <span className='admin--uppercase'>{city}</span>, {country}</p>
 				</section>
-				
+
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse email</h2>
 					<p>{mail}</p>
@@ -111,19 +110,19 @@ export default class AdminOrder extends Component {
 				<section className='admin__section'>
 					<h2 className='subtitle'>Référence(s) photo(s)</h2>
 					{Object.keys(prints).map((index) => {
-						let product = prints[index];
-						let serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
-						let logisticId = product.logistic_id + '_' + serial;
-						
+						const product = prints[index];
+						const serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
+						const logisticId = product.token + '_' + serial;
+
 						return (
 							<p>{logisticId}</p>
 						)
-					}.bind(this))}
+					})}
 				</section>
 
 				<section className='admin__section'>
 					<h2 className='subtitle'>Total de la commande</h2>
-					<p>{(total / 100)}€</p>
+					<p>{total} €</p>
 				</section>
 
 				<section className='admin__section'>
@@ -141,7 +140,7 @@ export default class AdminOrder extends Component {
 						{select}
 					</div>
 				</div>
-				
+
 				<section className='admin__section'>
 					<a href='' className='button' onClick={this.save}>Enregistrer</a>
 					{(this.state.error) ? (<div className='text'>{this.state.error}</div>) : null}
@@ -162,7 +161,7 @@ export default class AdminOrder extends Component {
 				// <section className='admin__section'>
 				// 	<h2 className='subtitle'>Checkout</h2>
 				// </section>
-				
+
 				// <section className='admin__section'>
 				// 	<h2 className='subtitle'>Shipping address</h2>
 				// 	<p>Firstname : {firstname}</p>
@@ -197,7 +196,7 @@ export default class AdminOrder extends Component {
 				// 			let details
 				// 			if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
 				// 			else details = product.city+'. '+product.country+'. '+product.year
-							
+
 				// 			return (
 				// 				<li key={index} className='payment__product cart__product'>
 				// 					<div className='cart__column'>
@@ -293,7 +292,7 @@ export default class AdminOrder extends Component {
 					width: 250,
 					alignment: 'center',
 					margin: [ 0, 0, 0, 54 ]
-				},{ 
+				},{
 					text: 'ADRESSE DE LIVRAISON',
 					style: 'title'
 				},
@@ -308,7 +307,7 @@ export default class AdminOrder extends Component {
 				},{
 					text: mail,
 					style: 'lastLine'
-				},{ 
+				},{
 					text: 'NUMÉRO DE TÉLÉPHONE',
 					style: 'title'
 				},{
@@ -317,8 +316,8 @@ export default class AdminOrder extends Component {
 				},{
 					text: 'RÉFÉRENCE(S) PHOTO(S)',
 					style: 'title'
-				},{ 
-					ul: refs 
+				},{
+					ul: refs
 				},{
 					text: 'NUMÉRO DE TRACKING',
 					style: 'title',

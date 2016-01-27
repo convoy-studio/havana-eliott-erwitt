@@ -3,6 +3,7 @@ import Print from '../models/print';
 var Boom = require('boom');
 // var Order = require('../models/order');
 let rand = require('rand-token').uid;
+import getAmountSupply from '../../common/shiiping';
 
 function generateToken(hash, callback) {
 	let key = rand(4, 'numeric');
@@ -104,44 +105,58 @@ var controller = {
 	},
 
 	create : {
-		handler : function(request, reply){
+		handler : function(request, reply) {
+            const prints = request.payload.prints;
+            const printsToken = prints.reduce(function (result, print) {
+                result.push(print.token);
+				return result;
+            }, []);
 
-			generateToken('', function(token) {
-				var order = new Order({
-					// time : new Date().getTime(),
-					token: 'EEHC7F_' + token,
-					user: request.payload.user,
-					prints: request.payload.prints,
-					total: request.payload.total,
-                    paymentMethod: request.payload.paymentMethod,
-					state : 'Nouvelle commande',
+            Print.find({ token: { $in: printsToken } }, function(err, dbPrints) {
+                let total = dbPrints.reduce(function (total, print) {
+        			return total += print.price;
+        		}, 0);
 
-					mail: request.payload.mail,
-					firstname: request.payload.firstname,
-					lastname: request.payload.lastname,
-					phone: request.payload.phone,
-					address: request.payload.address,
-					zip: request.payload.zip,
-					city: request.payload.city,
-					country: request.payload.country,
+                const country = request.payload.country;
+                total += getAmountSupply(country, prints.length);
+				total = total.toFixed(2);
 
-					billFirstname: request.payload.billFirstname || undefined,
-					billLastname: request.payload.billLastname || undefined,
-					billPhone: request.payload.billPhone || undefined,
-					billAddress: request.payload.billAddress || undefined,
-					billZip: request.payload.billZip || undefined,
-					billCity: request.payload.billCity || undefined,
-					billCountry: request.payload.billCountry || undefined
-				});
+                generateToken('', function(token) {
+                    var order = new Order({
+                        // time : new Date().getTime(),
+                        token: 'EEHC7F_' + token,
+                        user: request.payload.user,
+                        prints: prints,
+                        total: total,
+                        paymentMethod: request.payload.paymentMethod,
+                        state : 'Nouvelle commande',
 
-				order.save( function(err, data) {
-					if (!err) {
-						return reply(data)
-					}
-					return reply(Boom.badImplementation(err)); // HTTP 500
-				});
-			})
+                        mail: request.payload.mail,
+                        firstname: request.payload.firstname,
+                        lastname: request.payload.lastname,
+                        phone: request.payload.phone,
+                        address: request.payload.address,
+                        zip: request.payload.zip,
+                        city: request.payload.city,
+                        country: request.payload.country,
 
+                        billFirstname: request.payload.billFirstname || undefined,
+                        billLastname: request.payload.billLastname || undefined,
+                        billPhone: request.payload.billPhone || undefined,
+                        billAddress: request.payload.billAddress || undefined,
+                        billZip: request.payload.billZip || undefined,
+                        billCity: request.payload.billCity || undefined,
+                        billCountry: request.payload.billCountry || undefined
+                    });
+
+                    order.save( function(err, data) {
+                        if (!err) {
+                            return reply(data)
+                        }
+                        return reply(Boom.badImplementation(err)); // HTTP 500
+                    });
+                })
+            });
 		}
 	},
 

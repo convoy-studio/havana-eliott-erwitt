@@ -145,7 +145,7 @@ module.exports = {
 			const options = {
 				order_id: json._id,
 				user_id: json.user,
-				total: json.total
+				total: json.total * 100
 			};
 
     		switch(method) {

@@ -39,7 +39,7 @@ export default class AdminOrders extends Component {
 			paidOrders.push(
 				<tr key={index}>
 					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
-					<td><Link to={'/admin/order/'+order._id}>{(order.total/100).toFixed(2)}€</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.total.toFixed(2)} €</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
 				</tr>
 			)
@@ -50,7 +50,7 @@ export default class AdminOrders extends Component {
 			deliveredOrders.push(
 				<tr key={index}>
 					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
-					<td><Link to={'/admin/order/'+order._id}>{(order.total/100).toFixed(2)}€</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.total.toFixed(2)} €</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
 				</tr>
 			)

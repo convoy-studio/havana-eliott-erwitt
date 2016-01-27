@@ -10,11 +10,10 @@ import OrderStore from '../../stores/orderStore';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
-import dhl from '../../utils/dhl';
-import zones from '../../utils/zones';
+import getAmountSupply from '../../../../common/shiiping';
+import dhl from '../../../../common/shipping/dhl';
 let config = require('../../config');
 let validator = require('validator');
-let _ = require('lodash');
 
 function getCartState() {
 	return {
@@ -384,15 +383,7 @@ export default class Payment extends ComponentTransition {
 		_(this.state.cartItems).forEach((item) => {
 			orderPrints.push({
 				token: item.token,
-				title: item.title,
-				city: item.city,
-				country: item.country,
-				year: item.year,
-				price: item.price,
-				serial: item.serial,
-				file: item.file,
-				artist: item.project.artist,
-				logistic_id: item.logistic_id
+				serial: item.serial
 			});
 		}).value();
 
@@ -409,7 +400,7 @@ export default class Payment extends ComponentTransition {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			total: this.state.orderTotal * 100,
+			//total: this.state.orderTotal * 100,
 			paymentMethod: paymentMethod,
 
 			firstname: document.getElementById('firstname').value,
@@ -498,9 +489,7 @@ export default class Payment extends ComponentTransition {
 	getSupply(cartState) {
 
 		const country = document.getElementById('country').value;
-		const index = _.findIndex(dhl, { 'country': country });
-		const zone = dhl[index].zone;
-		const amountSupply = zones[zone][cartState.cartItems.length-1];
+		const amountSupply = getAmountSupply(country, cartState.cartItems.length);
 
 		return {
 			amountSupply: amountSupply,
