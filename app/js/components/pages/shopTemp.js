@@ -26,6 +26,10 @@ export default class ShopTemp extends ComponentTransition {
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
 
+    componentWillUnmount() {
+        OpeningShopStore.removeChangeListener(this.onStoreChange);
+    }
+
 	render() {
 
 		let seo = {

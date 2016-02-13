@@ -28,6 +28,7 @@ export default class Project extends Component {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.showGallery = this.showGallery.bind(this);
+        this.onOrientationChange = this.orientationChange.bind(this);
 
 		console.log('componentWillMount')
 
@@ -111,7 +112,10 @@ export default class Project extends Component {
 
 		ProjectStore.removeChangeListener(this.onStoreChange);
 		PrintStore.removeChangeListener(this.onStoreChange);
-		window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
+        if (this.eventAdded) {
+            window.removeEventListener('orientationchange', this.onOrientationChange)
+            this.eventAdded = false;
+        }
 	}
 
 	render() {
@@ -245,13 +249,14 @@ export default class Project extends Component {
 			project: ProjectStore.getOne(),
 			prints: PrintStore.getArtistPrints()
 		}, ()=>{
-			if(typeof window !== 'undefined' && _.size(this.state.prints) > 0 && !this.eventAdded) {
-				this.eventAdded = true;
-				if (window.innerWidth < 768) {
-					this.orientationChange();
-					window.addEventListener('orientationchange', this.orientationChange.bind(this), false);
-				}
-			}
+			if(window.innerWidth < 768 && _.size(this.state.prints) > 0 && !this.eventAdded) {
+				this.orientationChange();
+				window.addEventListener('orientationchange', this.onOrientationChange, false);
+                this.eventAdded = true;
+			} else if (window.innerWidth >= 768 && this.eventAdded) {
+                window.removeEventListener('orientationchange', this.onOrientationChange)
+                this.eventAdded = false;
+            }
 		});
 
 	}

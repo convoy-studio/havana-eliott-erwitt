@@ -105,6 +105,7 @@ export default class Shop extends ComponentTransition {
 			window.cancelAnimationFrame(this.scrollRaf);
 		}
 		PrintStore.removeChangeListener(this.onStoreChange);
+		CartStore.removeChangeListener(this.onStoreChange);
 
 	}
 

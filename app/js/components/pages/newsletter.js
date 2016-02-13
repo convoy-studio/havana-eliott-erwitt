@@ -31,6 +31,10 @@ export default class Newsletter extends ComponentTransition {
 
 	}
 
+    componentWillMount() {
+        NewsletterStore.removeChangeListener(this.onStoreChange);
+    }
+
 	render() {
 
 		let seo = {

@@ -9,10 +9,6 @@ export default class Terms extends ComponentTransition {
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 	}
 
-	componentDidMount() {
-		TweenMax = require('gsap/src/uncompressed/TweenMax');
-	}
-
 	_enterStyle() {
 
 		let el = this.refs.view.getDOMNode();

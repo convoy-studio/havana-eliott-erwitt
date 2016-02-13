@@ -94,6 +94,10 @@ export default class Payment extends ComponentTransition {
 	componentWillUnmount() {
 
 		CartActions.updateCartVisible(true);
+        CartStore.removeChangeListener(this.onStoreChange);
+		OrderStore.removeChangeListener(this.onOrderStoreChange);
+		NewsletterStore.removeChangeListener(this.onNewsletterStoreChange);
+		document.getElementById('billCheckbox').removeEventListener('change', this.toggleBill);
 
 	}
 
@@ -291,7 +295,7 @@ export default class Payment extends ComponentTransition {
 											</div>
 											<div className='cart__column'>
 												<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
-												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index)}><span className='button__content'>Remove item</span></div>
+												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index, product)}><span className='button__content'>Remove item</span></div>
 											</div>
 										</li>
 									)
@@ -433,7 +437,7 @@ export default class Payment extends ComponentTransition {
 		});
 	}
 
-	removeItem(id) {
+	removeItem(id, print) {
 		CartActions.removeFromCart(id);
         PrintApi.unblockSerial(print.token, print.serial);
 	}

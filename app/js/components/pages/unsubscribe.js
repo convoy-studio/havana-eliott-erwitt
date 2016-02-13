@@ -33,6 +33,10 @@ export default class Unsubscribe extends ComponentTransition {
 
 	}
 
+    componentWillUnmount() {
+        NewsletterStore.removeChangeListener(this.onStoreChange);
+    }
+
 	render() {
 
 		let message;
