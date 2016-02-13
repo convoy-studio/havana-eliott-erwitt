@@ -2,18 +2,18 @@ import Order from '../models/order';
 import Print from '../models/print';
 var Boom = require('boom');
 // var Order = require('../models/order');
-let rand = require('rand-token').uid;
+import { uid } from 'rand-token';
 import getAmountSupply from '../../common/shiiping';
 
 function generateToken(hash, callback) {
-	let key = rand(4, 'numeric');
+	let key = uid(4, '0123456789');
 	if ( key != hash ) {
-		Print.find({ token: key }, function(err, print){
-			if ( print.length == 0 ) {
+		Print.find({ token: key }, function(err, prints) {
+			if ( prints.length == 0 ) {
 				callback(key);
-			} else {
-				generateToken(hash);
+				return;
 			}
+			generateToken(hash);
 		});
 	} else {
 		generateToken(hash);
