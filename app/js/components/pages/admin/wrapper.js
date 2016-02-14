@@ -23,11 +23,11 @@ const adminNav = [
 ];
 
 const deliveryNav = [
-	// {
-	// 	section: 'order',
-	// 	url: '/admin/orders',
-	// 	label: 'Orders'
-	// }
+	{
+		section: 'order',
+		url: '/admin/orders',
+		label: 'Orders'
+	}
 ];
 
 export default class Admin extends Component {
@@ -88,6 +88,10 @@ export default class Admin extends Component {
 					<header className='header'>
 						<nav className='admin__menu'>
 							<ul className='admin__list'>
+                                <li className='admin__item' key="0"><a className="button" onClick={() => {
+                                    Auth.logout();
+                                    this.context.router.transitionTo('/login');
+                                }}>LOGOUT</a></li>
 								{Object.keys(deliveryNav).map((index) => {
 									let item = deliveryNav[index];
 									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
