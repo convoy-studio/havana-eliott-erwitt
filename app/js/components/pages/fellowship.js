@@ -14,32 +14,12 @@ let TweenMax;
 export default class Fellowship extends ComponentTransition {
 
 	componentWillMount() {
-
-		super.componentWillMount();
-
-		this.vw = 0;
-		this.vh = 0;
-		if(typeof window !== 'undefined') {
-			this.vw = window.innerWidth;
-			this.vh = window.innerHeight;
-			this.isIE = this.msieversion();
-
-			if (window.innerWidth < 768) {
-				this.orientationChange();
-				window.addEventListener('orientationchange', this.orientationChange.bind(this), false);
-			}
-		}
-
-		if(typeof navigator !== 'undefined') {
-			this.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-		}
-
 		// binded
 		this.raf = this.raf.bind(this);
 		this.showInterview = this.showInterview.bind(this);
 		this.hideInterview = this.hideInterview.bind(this);
 		this.onImageLoaded = this.onImageLoaded.bind(this);
-
+		this.onOrientationChange = this.orientationChange.bind(this);
 
 		// const
 		this.PARALLAX_MARGE = 30;
@@ -57,6 +37,23 @@ export default class Fellowship extends ComponentTransition {
 		this.scrollOk = false;
 		this.transform = Utils.getSupportedPropertyName('transform');
 
+		this.vw = 0;
+		this.vh = 0;
+		if(typeof window !== 'undefined') {
+			this.vw = window.innerWidth;
+			this.vh = window.innerHeight;
+			this.isIE = this.msieversion();
+
+			if (window.innerWidth < 768) {
+				this.orientationChange();
+				window.addEventListener('orientationchange', this.onOrientationChange, false);
+			}
+		}
+
+		if(typeof navigator !== 'undefined') {
+			this.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		}
+
 	}
 
 	msieversion() {
@@ -72,35 +69,35 @@ export default class Fellowship extends ComponentTransition {
 
 	}
 
-	_enterStyle() {
-
-		let el = this.refs.view.getDOMNode();
-		let logo = document.querySelector('.header__logo');
-		// let hamburger = document.querySelector('.hamburger');
-		let body = document.querySelector('body');
-		let footer = document.querySelector('.footer');
-
-		logo.style.display = 'table';
-		this.enterTl = new TimelineMax({delay:0.3});
-		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
-		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
-		if (body && body.classList.contains('js-mobile')) {
-		// 	this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
-			footer.style.display = 'none';
-		}
-		// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
-
-	}
-
-	_leaveStyle(callback) {
-
-		let el = this.refs.view.getDOMNode();
-		let footer = document.querySelector('.footer');
-
-		footer.style.display = 'block';
-		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-
-	}
+	// _enterStyle() {
+    //
+	// 	let el = this.refs.view.getDOMNode();
+	// 	let logo = document.querySelector('.header__logo');
+	// 	// let hamburger = document.querySelector('.hamburger');
+	// 	let body = document.querySelector('body');
+	// 	let footer = document.querySelector('.footer');
+    //
+	// 	logo.style.display = 'table';
+	// 	this.enterTl = new TimelineMax({delay:0.3});
+	// 	this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
+	// 	this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
+	// 	if (body && body.classList.contains('js-mobile')) {
+	// 	// 	this.enterTl.set(logo, {width:window.innerWidth, backgroundColor:'#000000'}, 0);
+	// 		footer.style.display = 'none';
+	// 	}
+	// 	// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
+    //
+	// }
+    //
+	// _leaveStyle(callback) {
+    //
+	// 	let el = this.refs.view.getDOMNode();
+	// 	let footer = document.querySelector('.footer');
+    //
+	// 	footer.style.display = 'block';
+	// 	TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
+    //
+	// }
 
 	componentDidMount() {
 
@@ -143,7 +140,7 @@ export default class Fellowship extends ComponentTransition {
 
 		if(typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
-			window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
+			window.removeEventListener('orientationchange', this.onOrientationChange, false);
 			this.enableScroll();
 		}
 

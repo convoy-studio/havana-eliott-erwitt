@@ -25,9 +25,11 @@ export default class Login extends ComponentTransition {
 		let header = document.querySelector('.header');
 		let footer = document.querySelector('.footer');
 
-		header.style.display = 'none';
-		footer.style.display = 'none';
-		el.style.opacity = 1;
+        if (el && header && footer) {
+    		header.style.display = 'none';
+    		footer.style.display = 'none';
+    		el.style.opacity = 1;
+        }
 
 	}
 

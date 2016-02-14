@@ -20,21 +20,16 @@ export default class ComponentResize extends Component {
 
 	}
 
-	componentWillMount() {
-
-		AppStore.on(AppConstants.WINDOW_RESIZE, this.resize);
-
-	}
-
 	componentDidMount() {
 
+		AppStore.on(AppConstants.WINDOW_RESIZE, this.resize);
 		this.resize();
 
 	}
 
 	componentWillUnmount() {
 
-		// AppStore.off(AppConstants.WINDOW_RESIZE, this.resize);
+		AppStore.removeAllListeners(AppConstants.WINDOW_RESIZE);
 
 	}
 

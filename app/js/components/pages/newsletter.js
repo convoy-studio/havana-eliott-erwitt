@@ -31,7 +31,7 @@ export default class Newsletter extends ComponentTransition {
 
 	}
 
-    componentWillMount() {
+    componentWillUnmount() {
         NewsletterStore.removeChangeListener(this.onStoreChange);
     }
 

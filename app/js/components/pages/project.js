@@ -30,8 +30,6 @@ export default class Project extends Component {
 		this.showGallery = this.showGallery.bind(this);
         this.onOrientationChange = this.orientationChange.bind(this);
 
-		console.log('componentWillMount')
-
 	}
 
 	componentWillAppear(callback) {
@@ -48,7 +46,6 @@ export default class Project extends Component {
 
 	componentWillEnter(callback) {
 
-		console.log('componentWillEnter')
 		setTimeout(callback, 1);
 
 	}
