@@ -12,16 +12,6 @@ let config = require('../../config');
 export default class News extends ComponentTransition {
 
 	componentWillMount() {
-
-		super.componentWillMount();
-
-		this.vw = 0;
-		this.vh = 0;
-		if(typeof window !== 'undefined') {
-			this.vw = window.innerWidth;
-			this.vh = window.innerHeight;
-		}
-
 		// state
 		this.state = {
 			isMobile: false
@@ -30,6 +20,8 @@ export default class News extends ComponentTransition {
 		// binded
 		this.raf = this.raf.bind(this);
 
+        this.vw = 0;
+        this.vh = 0;
 		this.eShow = [];
 		this.sTop = 0;
 		this.cTop = 0;
@@ -42,9 +34,11 @@ export default class News extends ComponentTransition {
 
 	componentDidMount() {
 
-		super.componentDidMount();
-
 		if(typeof document !== 'undefined') {
+
+			this.vw = window.innerWidth;
+			this.vh = window.innerHeight;
+
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--news');
 

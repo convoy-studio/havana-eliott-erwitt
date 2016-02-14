@@ -22,16 +22,6 @@ let config = require('../../config');
 export default class Shop extends ComponentTransition {
 
 	componentWillMount() {
-
-		super.componentWillMount();
-
-		this.vw = 0;
-		this.vh = 0;
-		if(typeof window !== 'undefined') {
-			this.vw = window.innerWidth;
-			this.vh = window.innerHeight;
-		}
-
 		// state
 		this.state = {
 			prints: {},
@@ -48,6 +38,8 @@ export default class Shop extends ComponentTransition {
 		this.onImageLoaded 		= this.onImageLoaded.bind(this);
 
 		// vars
+        this.vw = 0;
+        this.vh = 0;
 		this.eShow = [];
 		this.nImageLoaded = 0;
 		this.loaded = false;
@@ -67,6 +59,8 @@ export default class Shop extends ComponentTransition {
 		CartStore.addChangeListener(this.onStoreChange);
 
 		if(typeof document !== 'undefined') {
+			this.vw = window.innerWidth;
+			this.vh = window.innerHeight;
 			this.body 		= document.querySelector('body');
 			this.page 		= document.querySelector('.page--shop');
 			this.shop 		= document.querySelector('.shop');

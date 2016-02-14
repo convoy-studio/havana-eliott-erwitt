@@ -110,8 +110,6 @@ export default class Print extends ComponentTransition {
 
 	componentWillUnmount() {
 
-		super.componentWillUnmount();
-
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
 

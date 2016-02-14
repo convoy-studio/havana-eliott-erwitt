@@ -15,8 +15,6 @@ export default class ContactSheet extends ComponentTransition {
 
 	componentWillMount(){
 
-		super.componentWillMount();
-
 		// state
 		this.state = {
 			prints: [],
