@@ -26,7 +26,7 @@ const deliveryNav = [
 	{
 		section: 'order',
 		url: '/admin/orders',
-		label: 'Orders'
+		label: 'Commandes'
 	}
 ];
 
@@ -91,7 +91,7 @@ export default class Admin extends Component {
                                 <li className='admin__item' key="0"><a className="button" onClick={() => {
                                     Auth.logout();
                                     this.context.router.transitionTo('/login');
-                                }}>LOGOUT</a></li>
+                                }}>DECONNEXION</a></li>
 								{Object.keys(deliveryNav).map((index) => {
 									let item = deliveryNav[index];
 									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';

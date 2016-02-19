@@ -143,8 +143,9 @@ module.exports = {
 		}).then(function(json) {
             const method = json.paymentMethod;
 			const options = {
-				order_id: json._id,
+				order_id: json.token,
 				user_id: json.user,
+				fullname: json.firstname + ' ' + json.lastname,
 				total: json.total * 100
 			};
 

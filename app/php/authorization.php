@@ -17,10 +17,10 @@ echo $be2bill->buildAuthorizationFormButton(
     ),
 	$options = array(
         'LANGUAGE' => 'en',
-	// 	'3DSECURE'         => 'yes',
-	// 	'CARDFULLNAME'     => $_POST['firstname'].' '.$_POST['lastname'],
-	// 	'CLIENTEMAIL'      => 'john.doe@email.com',
-	// 	'HIDECARDFULLNAME' => 'yes',
-	// 	'HIDECLIENTEMAIL'  => 'yes'
+        // '3DSECURE' => 'yes',
+		'CARDFULLNAME' => $_POST['fullname'],
+		'CLIENTEMAIL' => $_POST['user_id'],
+		// 'HIDECARDFULLNAME' => 'yes',
+		'HIDECLIENTEMAIL' => 'yes'
 	)
 );

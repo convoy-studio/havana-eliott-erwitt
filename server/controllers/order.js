@@ -107,14 +107,21 @@ var controller = {
 	create : {
 		handler : function(request, reply) {
             const prints = request.payload.prints;
+            const printsSerials = {};
             const printsToken = prints.reduce(function (result, print) {
                 result.push(print.token);
+                if (!printsSerials[print.token]) {
+                    printsSerials[print.token] = 1;
+                } else {
+                    ++printsSerials[print.token];
+                }
+
 				return result;
             }, []);
 
             Print.find({ token: { $in: printsToken } }, function(err, dbPrints) {
                 let total = dbPrints.reduce(function (total, print) {
-        			return total += print.price;
+        			return total += print.price * printsSerials[print.token];
         		}, 0);
 
                 const country = request.payload.country;

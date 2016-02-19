@@ -3,21 +3,39 @@
 require_once __DIR__.'/vendor/autoload.php';
 require_once __DIR__.'/config.php';
 
+function deleteOrderIfNecessary($execCode) {
+	$intExeccode = (int) $execCode;
+	if ($intExeccode > 6000) {
+		$collection = (new MongoDB\Client)->havana->orders;
+		try {
+			$order = $collection->findOneAndDelete(
+				array('token' => $orderToken),
+			);
+		} catch(MongoDB\Exception $e) {
+		    error_log('Order delete error '.$e->getCode().': '.$e->getMessage());
+
+			return false;
+		}
+	}
+
+	return true;
+}
+
 $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
 //$be2bill = Be2bill_Api_ClientBuilder::buildProductionDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
 
 $mandrill = new Mandrill(MANDRILL_API_KEY);
 
 $transactionId = $_GET['TRANSACTIONID'];
-$orderId = $_GET['ORDERID'];
+$orderToken = $_GET['ORDERID'];
 
-if ($be2bill->checkHash($_GET) != $_GET['HASH']) {
-	echo 'KO';
+if (!$be2bill->checkHash($_GET)) {
+	echo 'OK';
 	exit(1);
 }
 
 if ($_GET['EXECCODE'] != '0000') {
-	echo 'KO';
+	echo deleteOrderIfNecessary($_GET['EXECCODE']) ? 'OK' : 'KO';
 	exit(1);
 }
 
@@ -29,14 +47,14 @@ $result = $be2bill->capture(
 );
 
 if ($result['EXECCODE'] != '0000') {
-	echo 'KO';
+	echo deleteOrderIfNecessary($_GET['EXECCODE']) ? 'OK' : 'KO';
 	exit(1);
 }
 
 $collection = (new MongoDB\Client)->havana->orders;
 try {
 	$order = $collection->findOneAndUpdate(
-		array('_id' => new MongoDB\BSON\ObjectID($orderId)),
+		array('token' => $orderToken),
 		array('$set' => array('transactionId' => $transactionId)),
 		['new' => true]
 	);
@@ -48,7 +66,7 @@ try {
 
 if (!$order) {
 	var_dump($order);
-	echo 'KO';
+	echo 'OK';
 	exit(1);
 }
 

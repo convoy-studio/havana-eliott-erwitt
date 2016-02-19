@@ -6,9 +6,9 @@ require_once __DIR__.'/config.php';
 $be2bill = Be2bill_Api_ClientBuilder::buildSandboxDirectlinkClient(BE2BILL_IDENTIFIER, BE2BILL_PASSWORD);
 //$be2bill = Be2bill_Api_ClientBuilder::buildProductionDirectlinkClient('CONVOY', 'I>3Dod7KdP$DJKVT');
 
-if ($be2bill->checkHash($_GET) !== $_GET['HASH']) {
+if (!$be2bill->checkHash($_GET)) {
     // Suspicious redirection
-    header('Location: /payment-confirmation?result=error');
+    header('Location: /shop');
 } else if ($_GET['EXECCODE'] == '4001') {
     header('Location: /payment-confirmation?result=transaction-refused');
 } else if ($_GET['EXECCODE'] == '4002') {
@@ -27,14 +27,14 @@ if ($be2bill->checkHash($_GET) !== $_GET['HASH']) {
     header('Location: /payment-confirmation?result=expired-card');
 } else if ($_GET['EXECCODE'] != '0000') {
     header('Location: /payment-confirmation?result=error');
+} else {
+    $collection = (new MongoDB\Client)->havana->orders;
+    $order = $collection->findOne(['token' => $_GET['ORDERID']]);
+
+    if (!$order) {
+    	header('Location: /payment-confirmation?result=error');
+        return;
+    }
+
+    header('Location: /payment-confirmation?result=success');
 }
-
-$collection = (new MongoDB\Client)->havana->orders;
-$order = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['ORDERID'])]);
-
-if (!$order) {
-	header('Location: /payment-confirmation?result=error');
-    return;
-}
-
-header('Location: /payment-confirmation?result=success');

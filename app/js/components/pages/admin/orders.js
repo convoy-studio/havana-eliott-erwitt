@@ -41,6 +41,8 @@ export default class AdminOrders extends Component {
 					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.total.toFixed(2)} €</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.transactionId}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{(new Date(order.date)).toLocaleString()}</Link></td>
 				</tr>
 			)
 		}).value();
@@ -52,22 +54,26 @@ export default class AdminOrders extends Component {
 					<td><Link to={'/admin/order/'+order._id}>{order.token}</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.total.toFixed(2)} €</Link></td>
 					<td><Link to={'/admin/order/'+order._id}>{order.user}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{order.tracking}</Link></td>
+					<td><Link to={'/admin/order/'+order._id}>{(new Date(order.date)).toLocaleString()}</Link></td>
 				</tr>
 			)
 		}).value();
 
 		return (
 			<div className='admin__orders'>
-				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Orders</Link></span></h1>
-				<h2 className='subtitle title--center admin__stock'>Total Stock Value : <span className='admin__stock-value'>{this.state.unsold}€</span></h2>
+				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commandes</Link></span></h1>
+				<h2 className='subtitle title--center admin__stock'>Valeur total du stock : <span className='admin__stock-value'>{this.state.unsold} €</span></h2>
 				{(paidOrders.length > 0) && (
 					<section className='admin__section'>
-						<h2 className='subtitle title--center'>New orders</h2>
+						<h2 className='subtitle title--center'>Nouvelle commandes</h2>
 						<table>
 							<tr>
-								<th>Number</th>
-								<th>Amout</th>
+								<th>Numéro</th>
+								<th>Total</th>
 								<th>Client</th>
+								<th>N° de transaction</th>
+								<th>Date</th>
 							</tr>
 							{paidOrders}
 						</table>
@@ -75,12 +81,14 @@ export default class AdminOrders extends Component {
 				)}
 				{(deliveredOrders.length > 0) && (
 					<section className='admin__section'>
-						<h2 className='subtitle title--center'>Shipped order</h2>
+						<h2 className='subtitle title--center'>Commandes expédiées</h2>
 						<table>
 							<tr>
-								<th>Number</th>
-								<th>Amout</th>
+								<th>Numéro</th>
+								<th>Total</th>
 								<th>Client</th>
+								<th>N° de tracking</th>
+								<th>Date</th>
 							</tr>
 							{deliveredOrders}
 						</table>
