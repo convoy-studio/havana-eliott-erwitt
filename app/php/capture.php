@@ -9,7 +9,7 @@ function deleteOrderIfNecessary($execCode) {
 		$collection = (new MongoDB\Client)->havana->orders;
 		try {
 			$order = $collection->findOneAndDelete(
-				array('token' => $orderToken),
+				array('token' => $orderToken)
 			);
 		} catch(MongoDB\Exception $e) {
 		    error_log('Order delete error '.$e->getCode().': '.$e->getMessage());
@@ -42,7 +42,7 @@ if ($_GET['EXECCODE'] != '0000') {
 // $result = $be2bill->stopNTimes($_GET['schedule']);
 $result = $be2bill->capture(
 	$transactionId,
-	$orderId,
+	$orderToken,
 	'capture_transaction_'.$transactionId
 );
 

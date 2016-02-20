@@ -305,9 +305,13 @@ const controller = {
 					Order.find({ transactionId: { $exists: true } }, function (err, solded_items) {
 						if (!err) {
 							let sold = 0;
+                            const soldedPrints = {};
 							for (let i in solded_items) {
 								solded_items[i].prints.map((print) => {
-									sold += Number(print.price);
+                                    if (!soldedPrints[print.token]) {
+                                        soldedPrints[print.token] = [];
+                                    }
+									soldedPrints[print.token].push(print.serial);
 								});
 							}
 
@@ -316,9 +320,11 @@ const controller = {
 							for (let i=0; i<items.length; ++i) {
 								print = items[i];
 								for (let j=0; j<print.serials.length; ++j) {
-									serial = print.serials[j];
-									if (serial) {
-										unsold += print.price;
+									if (print.serials[j]) {
+										serial = j + 1;
+										if (!(soldedPrints[print.token] && soldedPrints[print.token].indexOf(serial) !== -1)) {
+											unsold += print.price;
+										}
 									}
 								}
 							}
