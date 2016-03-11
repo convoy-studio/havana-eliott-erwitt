@@ -387,7 +387,8 @@ export default class Payment extends ComponentTransition {
 		_(this.state.cartItems).forEach((item) => {
 			orderPrints.push({
 				token: item.token,
-				serial: item.serial
+				serial: item.serial,
+                logistic_id: item.logistic_id
 			});
 		}).value();
 

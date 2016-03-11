@@ -36,7 +36,7 @@ export default class AdminOrder extends Component {
 	render() {
 
 		let id, date, orderId, tracking, mail, prints = {}, total, transactionId, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
-		console.log(this.state.order);
+
 		if (this.state.order) {
 			id = this.state.order._id;
 			date = (new Date(this.state.order.date)).toLocaleString();
@@ -119,7 +119,7 @@ export default class AdminOrder extends Component {
 					{Object.keys(prints).map((index) => {
 						const product = prints[index];
 						const serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
-						const logisticId = product.token + '_' + serial;
+						const logisticId = product.logistic_id + '_' + serial;
 
 						return (
 							<p>{logisticId}</p>
@@ -295,7 +295,7 @@ export default class AdminOrder extends Component {
 		_(prints).forEach((print, index) => {
 			let product = prints[index];
 			let serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
-			let logisticId = product.token + '_' + serial;
+			let logisticId = product.logistic_id + '_' + serial;
 			refs.push({text:logisticId});
 		}).value();
 
