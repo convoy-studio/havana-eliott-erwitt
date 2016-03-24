@@ -1,12 +1,13 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 
 export default class purchaseConditions extends ComponentTransition {
 
 	componentWillMount(){
-		
+		this.content = AppStore.getContent()
 	}
 
 	_enterStyle() {
@@ -32,7 +33,7 @@ export default class purchaseConditions extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Terms and condition of sale | Elliott Erwitt Havana Club 7 Fellowship',
+			title: this.content.purchase_terms_title,
 			description: '',
 			url: config.siteurl + '/terms-and-condition-of-sale',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'

@@ -8,6 +8,10 @@ import Helmet from 'react-helmet';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import Location from 'react-router/lib/Location';
 import routes from '../app/js/routes';
+import url from 'url'
+import acceptLanguage from 'accept-language'
+import supportLanguages from '../app/data/languages'
+acceptLanguage.languages(supportLanguages);
 
 const env = process.NODE_ENV || 'development';
 // const env = 'production';
@@ -27,6 +31,7 @@ db.on('error', console.error.bind(console,'Connection with database failed.'));
 db.once('open', function(){
     console.log('Connection with database succeeded.');
 });
+
 
 server.register([
     { register : require('bell') },
@@ -121,6 +126,7 @@ server.register([
             method: 'GET',
             path: '/{p*}',
             handler: function(request, reply) {
+
                 if(request.url.path == '/css/build.css' || request.url.path == '/js/build.js' || request.url.path.includes('/assets')){
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else if (request.url.path.includes('/vendors')) {
@@ -133,19 +139,32 @@ server.register([
                     };
 
                     Router.run(routes, location, (error, initialState) => {
+
+                        // var url_parts = url.parse(request.url, true);
+                        // var query = url_parts.query;
+
+                        // language = acceptLanguage.get(request.headers['accept-language'])
+                        // if(query.lang != undefined) {
+                        //     var l = 'en'
+                        //     for (let lang of supportLanguages) {
+                        //         if(query.lang == lang) l = lang
+                        //     }
+                        //     language = l
+                        // }
+
+                        if(location.pathname == '/') {
+                            reply().redirect('/en')
+                            return
+                        }
+
                         const content = React.renderToString(<Router location={location} {...initialState}/>);
                         const head = Helmet.rewind();
                         let meta = (head && head.meta) ? head.meta.toString() : '';
                         
-                        // fetchComponentsdata(initialState.components)
-                        //     .then((response)=> {
-                        //     })
-
                         if(error){
                             return reply(Boom.badImplementation(err)); // HTTP 500
                         }
 
-                                    // ${head.meta.toString()}
                         const html = `
                             <!doctype html>
                             <html>

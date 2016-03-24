@@ -3,18 +3,19 @@ import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import ComponentTransition from '../componentTransition';
 import Utils from '../../utils/utils';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 
 export default class Result extends ComponentTransition {
 
 	componentWillMount(){
-		
+		this.content = AppStore.getContent()
 	}
 
 	render() {
 
 		let seo = {
-			title: 'Payment confirmation | Elliott Erwitt Havana Club 7 Fellowship',
+			title: this.content.payment_result_title,
 			description: '',
 			url: config.siteurl + '/payment-confirmation',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
@@ -24,70 +25,70 @@ export default class Result extends ComponentTransition {
 		switch(Utils.getURLParameter('result')) {
 			case 'success':
 				message = [
-					'Your order been validated.',
-					'An email has been sent to you.'
+					this.content.payment_result_success_1,
+					this.content.payment_result_success_2
 				];
 				break;
 			case 'transaction-refused':
 				message = [
-					'Transaction refused.',
-					'Transaction rejected by the banking network.',
+					this.content.payment_result_transaction_refused_1,
+					this.content.payment_result_transaction_refused_2,
 				];
 				break;
 			case 'insuffisiant-funds':
 				message = [
-					'Insufficient funds.',
-					'The wallet balance doesn’t allow to process transaction.',
+					this.content.payment_result_insuffisiant_funds_1,
+					this.content.payment_result_insuffisiant_funds_2,
 				];
 				break;
 			case 'suspected-fraud':
 				message = [
-					'The card is considered as fraudulent by the bank.',
-					'Please use a different card.',
+					this.content.payment_result_suspected_fraud_1,
+					this.content.payment_result_suspected_fraud_2,
 				];
 				break;
 			case 'lost-card':
 				message = [
-					'Card reported as lost.',
-					'Please use a different card or contact your card-issuing bank for more information.',
+					this.content.payment_result_lost_card_1,
+					this.content.payment_result_lost_card_2,
 				];
 				break;
 			case 'stolen-card':
 				message = [
-					'Card reported as stolen.',
-					'Please use a different card or contact your card-issuing bank for more information.',
+					this.content.payment_result_stolen_card_1,
+					this.content.payment_result_stolen_card_2,
 				];
 				break;
 			case 'echec-transaction':
 				message = [
-					'Transaction failed.',
-					'Please try again or ask your bank for more details.',
+					this.content.payment_result_echec_transaction_1,
+					this.content.payment_result_echec_transaction_2,
 				];
 				break;
 			case 'invalid-card-information':
 				message = [
-					'Invalid card information.',
-					'Please verify the name, card number, expiration date and CVV.',
+					this.content.payment_result_invalid_card_information_1,
+					this.content.payment_result_invalid_card_information_2,
 				];
 				break;
 			case 'expired-card':
 				message = [
-					'Card reported as expired.',
-					'Please contact your card-issuing bank for more information.',
+					this.content.payment_result_expired_card_1,
+					this.content.payment_result_expired_card_2,
 				];
 				break;
 			case 'error':
 				message = [
-					'An error occurred when ordering.',
-					'Please try again',
+					this.content.payment_result_error_1,
+					this.content.payment_result_error_2,
 				];
 				break;
 		}
 
 		if (Utils.getURLParameter('result') === 'success') {
 			message = [
-				'Votre commande à bien été validée.',
-				'Un email vient de vous être envoyé.'
+				this.content.payment_result_validated_1,
+				this.content.payment_result_validated_2,
 			];
 
 			// vider le panier
@@ -95,8 +96,8 @@ export default class Result extends ComponentTransition {
 		}
 		if (Utils.getURLParameter('result') === 'error') {
 			message = [
-				'Une erreur s\'est produite lors de la commande.',
-				'Veuillez réessayer ultérieurement.',
+				this.content.payment_result_validated_error_1,
+				this.content.payment_result_validated_error_2,
 			];
 		}
 
@@ -111,7 +112,7 @@ export default class Result extends ComponentTransition {
 							)
 						}.bind(this))}
 					</div>
-					<Link to='/' className='button'>Revenir au site</Link>
+					<Link to={AppStore.getLink('')} className='button'>{this.content.unsubscribe_go_back}</Link>
 				</div>
 			</div>
 		);

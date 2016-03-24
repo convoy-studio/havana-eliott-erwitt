@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
 import Utils from '../../utils/utils';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 let validator = require('validator');
 
@@ -18,6 +19,7 @@ export default class Unsubscribe extends ComponentTransition {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 
+		this.content = AppStore.getContent()
 	}
 
 	componentDidMount() {
@@ -46,7 +48,7 @@ export default class Unsubscribe extends ComponentTransition {
 					<div className='result__message'>
 						<p className='text'>{message}</p>
 					</div>
-					<Link to='/' className='button'>Revenir au site</Link>
+					<Link to={AppStore.getLink('')} className='button'>{this.content.unsubscribe_go_back}</Link>
 				</div>
 			</div>
 		);

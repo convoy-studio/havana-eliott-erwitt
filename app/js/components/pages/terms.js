@@ -1,12 +1,13 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 
 export default class Terms extends ComponentTransition {
 
 	componentWillMount(){
-		
+		this.content = AppStore.getContent()
 	}
 
 	_enterStyle() {
@@ -32,7 +33,7 @@ export default class Terms extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Terms and conditions of use | Elliott Erwitt Havana Club 7 Fellowship',
+			title: this.content.terms_title,
 			description: '',
 			url: config.siteurl + '/terms-and-condition-of-use',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
@@ -42,7 +43,7 @@ export default class Terms extends ComponentTransition {
 			<div className='page page--rerms page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content terms'>
-					<h1 className='title title--center title--absolute'><span>Terms and<br/>conditions of use</span></h1>
+					<h1 className='title title--center title--absolute' dangerouslySetInnerHTML={{__html: this.content.terms_main_title}}></h1>
 					<p className='paragraph paragraph--2 paragraph--margin text'>
 						<span className='paragraph__title'>1. Identification data</span>
 						The owner of this website is the Fundación Elliott Erwitt Havana Club 7 Fellowship (the “Foundation”), with address at Calle Manuel Marañón 8, 28043 Madrid, Spain. The Foundation is pending incorporation.

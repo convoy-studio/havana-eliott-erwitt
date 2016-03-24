@@ -44,6 +44,8 @@ export default class ContactSheet extends ComponentTransition {
 		this.scrollOk = false;
 		this.transform = Utils.getSupportedPropertyName('transform');
 
+		this.content = AppStore.getContent()
+
 	}
 
 	componentDidMount() {
@@ -73,8 +75,8 @@ export default class ContactSheet extends ComponentTransition {
 		let printIndex = -1;
 
 		let seo = {
-			title: 'Contact Sheet | Elliott Erwitt Havana Club 7 Fellowship',
-			description: "Discover Magnum photographer Elliott Erwitt's new body of work in Cuba as well as his 1965 photos including Fidel Castro and Che Guevara pictures.",
+			title: this.content.contact_sheet_title,
+			description: this.content.contact_sheet_description,
 			url: config.siteurl + '/photography/' + this.props.params.slug + '/contact-sheet',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -88,7 +90,7 @@ export default class ContactSheet extends ComponentTransition {
 		return (
 			<div className='subpage subpage--contact-sheet' ref='subview'>
 				<Seo seo={seo} />
-				<div className='submenu'><Link to={'/photography/'+this.props.params.slug+'?open=true'} className='button'><span className='button__content'>Back to gallery</span></Link></div>
+				<div className='submenu'><Link to={AppStore.getLink('/photography/'+this.props.params.slug+'?open=true')} className='button'><span className='button__content'>Back to gallery</span></Link></div>
 				<div className='contact-sheet js-smooth'>
 					{Object.keys(this.state.loadedPrints).map((index) => {
 						let group = this.state.loadedPrints[index];
@@ -103,7 +105,7 @@ export default class ContactSheet extends ComponentTransition {
 										let random = Math.floor(Math.random()*6);
 										printIndex++;
 										return (
-											<Link to={'/photography/'+this.props.params.slug+'/gallery/'+printIndex} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={index}><img className='contact-sheet__image' src={src} alt={print.alt}></img></Link>
+											<Link to={AppStore.getLink('/photography/'+this.props.params.slug+'/gallery/'+printIndex)} className={'js-reveal contact-sheet__item contact-sheet__item--'+print.size+' contact-sheet__item--'+random} data-random={random} key={index}><img className='contact-sheet__image' src={src} alt={print.alt}></img></Link>
 										)
 									}.bind(this))}
 								</div>

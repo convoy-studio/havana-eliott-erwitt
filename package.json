@@ -23,6 +23,7 @@
     "reload"
   ],
   "dependencies": {
+    "accept-language": "^2.0.16",
     "babel": "5.4.7",
     "bcrypt": "^0.8.5",
     "bell": "5.0.0",
@@ -37,6 +38,7 @@
     "hapi": "8.8.0",
     "hapi-auth-basic": "3.0.0",
     "hapi-auth-jwt": "2.1.2",
+    "hapi-i18n": "^1.0.2",
     "history": "1.12.4",
     "isomorphic-fetch": "2.1.1",
     "jsonwebtoken": "5.0.4",

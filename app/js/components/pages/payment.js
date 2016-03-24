@@ -12,6 +12,7 @@ import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
 import dhl from '../../utils/dhl';
 import zones from '../../utils/zones';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 let validator = require('validator');
 let _ = require('lodash');
@@ -55,6 +56,8 @@ export default class Payment extends ComponentTransition {
 		this.toggleBill = this.toggleBill.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.handleCountryChange = this.handleCountryChange.bind(this);
+
+		this.content = AppStore.getContent()
 
 	}
 
@@ -111,7 +114,7 @@ export default class Payment extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Payment | Elliott Erwitt Havana Club 7 Fellowship',
+			title: this.content.payment_title,
 			description: '',
 			url: config.siteurl + '/payment',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
@@ -144,52 +147,52 @@ export default class Payment extends ComponentTransition {
 		return (
 			<div className='page page--payment' ref='view'>
 				<Seo seo={seo} />
-				<h1 className='payment__title title'>Checkout</h1>
-				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
+				<h1 className='payment__title title'>{this.content.payment_checkout}</h1>
+				<div className='submenu'><Link to='/shop?open=true' className='button'>{this.content.payment_back_shop}</Link></div>
 				<div className='text payment__error payment__error--desktop'>
-					{(this.body && !this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>The form contains errors, please change information highlighted in red.</div>) : null}
-					{(this.body && !this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>You need to accept the terms & conditions.</div>) : null}
+					{(this.body && !this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>{this.content.payment_errors}</div>) : null}
+					{(this.body && !this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>{this.content.payment_accept_conditions}</div>) : null}
 				</div>
 				<div className='payment'>
 					<form className='payment__form form' ref='form' onSubmit={this.onSubmit}>
 						<div className='payment__column'>
-							<h3 className='form__title'>Checkout</h3>
+							<h3 className='form__title'>{this.content.payment_checkout}</h3>
 							<div className='form__row'>
-								<label className='form__label' htmlFor='mail'>Enter your email address *</label>
+								<label className='form__label' htmlFor='mail'>{this.content.shop_temp_email} *</label>
 								<input className={'form__input form__input--text '+error.mail} type='mail' id='mail'/>
 							</div>
-							<h3 className='form__title'>Shipping address</h3>
+							<h3 className='form__title'>{this.content.payment_shipping_address}</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<label className='form__label' htmlFor='firstname'>First name *</label>
+									<label className='form__label' htmlFor='firstname'>{this.content.payment_firstname} *</label>
 									<input className={'form__input form__input--text '+error.firstname} type='text' id='firstname'/>
 								</div>
 								<div className='form__column'>
-									<label className='form__label' htmlFor='lastname'>Last name *</label>
+									<label className='form__label' htmlFor='lastname'>{this.content.payment_lastname} *</label>
 									<input className={'form__input form__input--text '+error.lastname} type='text' id='lastname'/>
 								</div>
 							</div>
 							<div className='form__row'>
-								<label className='form__label' htmlFor='phone'>Telephone *</label>
+								<label className='form__label' htmlFor='phone'>{this.content.payment_telephone} *</label>
 								<input className={'form__input form__input--text '+error.phone} type='tel' id='phone'/>
 							</div>
 							<div className='form__row'>
-								<label className='form__label' htmlFor='address'>Address *</label>
+								<label className='form__label' htmlFor='address'>{this.content.payment_address} *</label>
 								<input className={'form__input form__input--text form__input--comp '+error.address} type='text' id='address'/>
 								<input className={'form__input form__input--text '+error.address} type='text' id='addressBis'/>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<label className='form__label' htmlFor='zip'>Zip/Postal code *</label>
+									<label className='form__label' htmlFor='zip'>{this.content.payment_postalcode} *</label>
 									<input className={'form__input form__input--text '+error.zip} type='text' id='zip'/>
 								</div>
 								<div className='form__column'>
-									<label className='form__label' htmlFor='city'>City</label>
+									<label className='form__label' htmlFor='city'>{this.content.payment_city}</label>
 									<input className='form__input form__input--text' type='text' id='city'/>
 								</div>
 							</div>
 							<div className='form__row'>
-								<label className='form__label' htmlFor='country'>Country *</label>
+								<label className='form__label' htmlFor='country'>{this.content.payment_country} *</label>
 								
 								<div className={'form__select'+error.country}><select id='country' name='country' onChange={this.handleCountryChange}>
 									{Object.keys(dhl).map((index) => {
@@ -209,43 +212,43 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='billCheckbox' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='billCheckbox'><p className='form__text'>Bill to the same address</p></label>
+								<label className='form__label form__label--pointer' htmlFor='billCheckbox'><p className='form__text'>{this.content.payment_bill_same_address}</p></label>
 							</div>
 							{(() => {
 								if (!this.state.sameAddress) { return (
 									<div className='payment__bill'>
-										<h3 className='form__title'>Billing address</h3>
+										<h3 className='form__title'>{this.content.payment_bill_address}</h3>
 										<div className='form__row form__row--half'>
 											<div className='form__column'>
-												<label className='form__label' htmlFor='billFirstname'>First name *</label>
+												<label className='form__label' htmlFor='billFirstname'>{this.content.payment_firstname} *</label>
 												<input className={'form__input form__input--text '+error.billFirstname} type='text' id='billFirstname'/>
 											</div>
 											<div className='form__column'>
-												<label className='form__label' htmlFor='billLastname'>Last name *</label>
+												<label className='form__label' htmlFor='billLastname'>{this.content.payment_lastname} *</label>
 												<input className={'form__input form__input--text '+error.billLastname} type='text' id='billLastname'/>
 											</div>
 										</div>
 										<div className='form__row'>
-											<label className='form__label' htmlFor='billPhone'>Telephone *</label>
+											<label className='form__label' htmlFor='billPhone'>{this.content.payment_telephone} *</label>
 											<input className={'form__input form__input--text '+error.billPhone} type='tel' id='billPhone'/>
 										</div>
 										<div className='form__row'>
-											<label className='form__label' htmlFor='billAddress'>Address *</label>
+											<label className='form__label' htmlFor='billAddress'>{this.content.payment_address} *</label>
 											<input className={'form__input form__input--text form__input--comp '+error.billAddress} type='text' id='billAddress'/>
 											<input className={'form__input form__input--text '+error.billAddress} type='text' id='billAddressBis'/>
 										</div>
 										<div className='form__row form__row--half'>
 											<div className='form__column'>
-												<label className='form__label' htmlFor='billZip'>Zip/Postal code *</label>
+												<label className='form__label' htmlFor='billZip'>{this.content.payment_postalcode} *</label>
 												<input className={'form__input form__input--text '+error.billZip} type='text' id='billZip'/>
 											</div>
 											<div className='form__column'>
-												<label className='form__label' htmlFor='billCity'>City</label>
+												<label className='form__label' htmlFor='billCity'>{this.content.payment_city}</label>
 												<input className='form__input form__input--text' type='text' id='billCity'/>
 											</div>
 										</div>
 										<div className='form__row'>
-											<label className='form__label' htmlFor='billCountry'>Country *</label>
+											<label className='form__label' htmlFor='billCountry'>{this.content.payment_country} *</label>
 											<input className={'form__input form__input--text '+error.billCountry} type='text' id='billCountry'/>
 										</div>
 									</div>
@@ -254,31 +257,31 @@ export default class Payment extends ComponentTransition {
 						</div>
 
 						<div className='payment__column'>
-							<h3 className='form__title'>Shipping method</h3>
+							<h3 className='form__title'>{this.content.payment_shipping_method}</h3>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' name='shippingMethod' type='radio' id='upsStandard' defaultChecked/>
-								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>DHL - Including full insurance - Delivery within 3-5 business days, {this.state.amountSupply} €</p></label>
+								<label className='form__label form__label--pointer' htmlFor='upsStandard'><p className='form__text'>{this.content.payment_delivery}, {this.state.amountSupply} €</p></label>
 							</div>
 
-							<h3 className='payment__method form__title'>Payment method</h3>
+							<h3 className='payment__method form__title'>{this.content.payment_payment_method}</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='maestro' id='maestro' defaultChecked/>
-									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src={config.siteurl + '/assets/images/maestro.png'}></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='visa' id='visa'/>
-									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src={config.siteurl + '/assets/images/visa.png'}></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='paypal' id='paypal'/>
-									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src={config.siteurl + '/assets/images/paypal.png'}></img></p></label>
 								</div>
 								<div className='form__column'>
 									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='americanExpress' id='americanExpress'/>
-									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
+									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src={config.siteurl + '/assets/images/americanExpress.png'}></img></p></label>
 								</div>
 							</div>
 						</div>
@@ -297,12 +300,12 @@ export default class Payment extends ComponentTransition {
 											<div className='cart__column'>
 												<div className='cart__artist'>{product.project.artist}</div>
 												<div className='cart__details'>{details}</div>
-												<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
+												<div className='cart__serial'>{this.content.payment_edition} <span className='cart__number'>{product.serial}</span></div>
 												<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 											</div>
 											<div className='cart__column'>
 												<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
-												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index)}><span className='button__content'>Remove item</span></div>
+												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index)}><span className='button__content'>{this.content.payment_remove_item}</span></div>
 											</div>
 										</li>
 									)
@@ -310,34 +313,34 @@ export default class Payment extends ComponentTransition {
 							</ul>
 							<div className='payment__total cart__total'>
 								<div className='payment__subtotal cart__subtotal'>
-									<div className='cart__column'>Subtotal:</div>
+									<div className='cart__column'>{this.content.payment_subtotal}:</div>
 									<div className='cart__column'>{(subtotal)}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__tva'>
-									<div className='cart__column'>DHL:</div>
+									<div className='cart__column'>{this.content.payment_dhl}:</div>
 									<div className='cart__column'>{dhltotal}<span className='cart__currency'>€</span></div>
 								</div>
 								<div className='cart__tva'>
-									<div className='cart__column'>Included TVA:</div>
+									<div className='cart__column'>{this.content.payment_include_tva}:</div>
 									<div className='cart__column'>{tva}<span className='cart__currency'>€</span></div>
 								</div>
 							</div>
 							<div className='cart__bigtotal'>
-								<div className='cart__column'>Grand total:</div>
+								<div className='cart__column'>{this.content.payment_grand_total}:</div>
 								<div className='cart__column'>{total}<span className='cart__currency'>€</span></div>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='newsletter'/>
-								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>I want to be informed of fellowship news</p></label>
+								<label className='form__label form__label--pointer' htmlFor='newsletter'><p className='form__text'>{this.content.payment_get_news}</p></label>
 							</div>
 							<div className='form__row'>
 								<input className='form__input form__input--checkbox' type='checkbox' id='conditions'/>
-								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>I accept the <a className='underline' href='/terms-and-condition-of-sale' target='_blank'>terms and conditions</a>*</p></label>
+								<label className='form__label form__label--pointer' htmlFor='conditions'><p className='form__text'>{this.content.payment_accept} <a className='underline' href={AppStore.getLink('/terms-and-condition-of-sale')} target='_blank'>{this.content.payment_terms_conditions}</a>*</p></label>
 							</div>
-							<button type='submit' className='payment__pay button'>Proceed to payment</button>
+							<button type='submit' className='payment__pay button'>{this.content.payment_proceed}</button>
 							<div className='text payment__error payment__error--mobile'>
-								{(this.body && this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>The form contains errors, please change information highlighted in red.</div>) : null}
-								{(this.body && this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>You need to accept the terms & conditions.</div>) : null}
+								{(this.body && this.body.classList.contains('js-mobile') && this.valid===false) ? (<div>{this.content.payment_errors}</div>) : null}
+								{(this.body && this.body.classList.contains('js-mobile') && this.state.status.conditions===false) ? (<div>{this.content.payment_accept_conditions}</div>) : null}
 							</div>
 						</div>
 					</form>

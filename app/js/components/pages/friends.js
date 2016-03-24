@@ -2,12 +2,13 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 
 export default class Friends extends ComponentTransition {
 
 	componentWillMount() {
-		
+		this.content = AppStore.getContent()
 	}
 
 	_enterStyle() {
@@ -33,8 +34,8 @@ export default class Friends extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Friends of fellowship | Elliott Erwitt Havana Club 7 Fellowship',
-			description: 'Friends of fellowship',
+			title: this.content.friends_title,
+			description: this.content.friends_description,
 			url: config.siteurl + '/friends-of-fellowship',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -42,18 +43,18 @@ export default class Friends extends ComponentTransition {
 		return (
 			<div className='page page--friends page--classic' ref='view'>
 				<Seo seo={seo} />
-				<div className='fellowship__submenu submenu'><Link to='/fellowship' className='button'>Back to fellowship</Link></div>
-				<h1 className='title title--center title--absolute'><span>Friends of fellowship</span></h1>
+				<div className='fellowship__submenu submenu'><Link to={AppStore.getLink('/fellowship')} className='button'>{this.content.fellowship_back}</Link></div>
+				<h1 className='title title--center title--absolute'><span>{this.content.fellowship_submenu}</span></h1>
 				<div className='page__content friends'>
-					<p className='text'>The Fellowship is always looking for friends sharing the passion for great documentary photography.</p>
+					<p className='text'>{this.content.friends_looking}</p>
 					<br/>
-					<p className='text text--center'>Below you can see some of our friends.</p>
+					<p className='text text--center'>{this.content.friends_below}</p>
 					<ul className='friends__sponsors'>
 						<li className='friends__sponsor friends__sponsor--fototeca'>
 							<a href='http://www.fototecadecuba.com/' target='_blank'><img src='/static/img/fototeca_de_cuba.jpg'/></a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--ee'>
-							<a href='http://www.elliotterwitt.com/' target='_blank'>ELLIOTT ERWITT OFFICIAL WEBSITE</a>
+							<a href='http://www.elliotterwitt.com/' target='_blank'>{this.content.fellowship_biography_2.toUpperCase()}</a>
 						</li>
 						<li className='friends__sponsor friends__sponsor--icop'>
 							<a href='http://www.icp.org/' target='_blank'><img src='/static/img/international-center-of-photography.jpg'/></a>

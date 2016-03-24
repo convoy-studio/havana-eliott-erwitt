@@ -23,6 +23,8 @@ export default class Home extends ComponentTransition {
 			isMobile: false
 		};
 
+		this.content = AppStore.getContent()
+
 	}
 
 	_enterStyle() {
@@ -99,8 +101,8 @@ export default class Home extends ComponentTransition {
 	render() {
 		
 		let seo = {
-			title: 'Elliott Erwitt documentary photography | Elliott Erwitt Havana Club 7 Fellowship',
-			description: "Legendary Magnum photographer Elliott Erwitt returns to Cuba to capture images in support of the inaugural 'Elliott Erwitt Havana Club 7 Fellowship'.",
+			title: this.content.home_title,
+			description: this.content.home_description,
 			url: config.siteurl,
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -127,9 +129,10 @@ export default class Home extends ComponentTransition {
 				<Seo seo={seo} />
 				<div className='home-wrapper'>
 					{background}
+					
 					<div className='home'>
-						<h2 className='home__title title'>Cuba has always fascinated and intrigued people from around the world and led to the foundation of the Elliott Erwitt Havana Club 7 Fellowship for Documentary Photography.</h2>
-						<Link className='home__discover button' to="/fellowship">Learn more about the fellowship</Link>
+						<h2 className='home__title title'>{this.content.home_main_title}</h2>
+						<Link className='home__discover button' to={AppStore.getLink("/fellowship")}>{this.content.home_discover}</Link>
 					</div>
 				</div>
 				{(() => {
@@ -137,11 +140,11 @@ export default class Home extends ComponentTransition {
 						return (
 							<footer className='footer-hack'>
 								<ul>
-									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
-									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
-									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
-									<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+									<li><Link to={AppStore.getLink("/newsletter")} className="footer__button button button--footer">{this.content.footer_news}</Link></li>
+									<li><Link to={AppStore.getLink("/contact")} className="footer__button button button--footer">{this.content.footer_contact}</Link></li>
+									<li><Link to={AppStore.getLink("/privacy-policy")} className="footer__button button button--footer">{this.content.footer_privacy}</Link></li>
+									<li><Link to={AppStore.getLink("/cookie-policy")} className="footer__button button button--footer">{this.content.footer_cookie}</Link></li>
+									<li><Link to={AppStore.getLink("/terms-and-condition-of-use")} className="footer__button button button--footer">{this.content.footer_terms_conditions}</Link></li>
 								</ul>
 							</footer>
 						)
@@ -212,9 +215,8 @@ export default class Home extends ComponentTransition {
 		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
-		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
-		ctx.fillText('A FELLOWSHIP IS A COMMUNION OF PEOPLE', this.vw/2, this.vh/2 - 7);
-		ctx.fillText('SHARING A COMMON PASSION.', this.vw/2, this.vh/2 + 32);
+		ctx.fillText(this.content.home_desc_1 + ' ' + this.content.home_desc_2, this.vw/2, this.vh/2 - 7);
+		ctx.fillText(this.content.home_desc_3 + ' ' + this.content.home_desc_4, this.vw/2, this.vh/2 + 32);
 
 	}
 
@@ -227,8 +229,8 @@ export default class Home extends ComponentTransition {
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
-		ctx.fillText('A FELLOWSHIP IS A COMMUNION OF PEOPLE', this.vw/2, this.vh/2 - 2);
-		ctx.fillText('SHARING A COMMON PASSION.', this.vw/2, this.vh/2 + 28);
+		ctx.fillText(this.content.home_desc_1 + ' ' + this.content.home_desc_2, this.vw/2, this.vh/2 - 2);
+		ctx.fillText(this.content.home_desc_3 + ' ' + this.content.home_desc_4, this.vw/2, this.vh/2 + 28);
 
 	}
 
@@ -241,10 +243,10 @@ export default class Home extends ComponentTransition {
 		ctx.textAlign = "left";
 		ctx.globalCompositeOperation = "destination-out";
 		// ctx.fillText('Elliott Erwitt Havana Club 7', vw/2, vh/2 - 16);
-		ctx.fillText('A FELLOWSHIP IS A', 20, this.vh/2 - 32);
-		ctx.fillText('COMMUNION OF PEOPLE', 20, this.vh/2 - 2);
-		ctx.fillText('SHARING A COMMON', 20, this.vh/2 + 28);
-		ctx.fillText('PASSION.', 20, this.vh/2 + 58);
+		ctx.fillText(this.content.home_desc_1, 20, this.vh/2 - 32);
+		ctx.fillText(this.content.home_desc_2, 20, this.vh/2 - 2);
+		ctx.fillText(this.content.home_desc_3, 20, this.vh/2 + 28);
+		ctx.fillText(this.content.home_desc_4, 20, this.vh/2 + 58);
 
 	}
 
@@ -257,9 +259,9 @@ export default class Home extends ComponentTransition {
 		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
-		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', this.vw/2, this.vh/2 - 7);
+		ctx.fillText(this.content.header_title.toUpperCase(), this.vw/2, this.vh/2 - 7);
 		ctx.font = "400 "+this.fontSize+"px 'HC7Craft'";
-		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 32);
+		ctx.fillText(this.content.header_subtitle.toUpperCase(), this.vw/2, this.vh/2 + 32);
 		
 		ctx.beginPath();
 		ctx.rect(this.vw/2 - 244, this.vh/2 + 19, 118, 2);
@@ -278,9 +280,9 @@ export default class Home extends ComponentTransition {
 		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
-		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', this.vw/2, this.vh/2 - 2);
+		ctx.fillText(this.content.header_title.toUpperCase(), this.vw/2, this.vh/2 - 2);
 		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'HC7Craft'";
-		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 20);
+		ctx.fillText(this.content.header_subtitle.toUpperCase(), this.vw/2, this.vh/2 + 20);
 		
 		ctx.beginPath();
 		ctx.rect(this.vw/2 - 137, this.vh/2 + 13, 68, 1);

@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import OpeningShopApi from '../../utils/openingShopApi';
 import OpeningShopStore from '../../stores/openingShopStore';
 import MailApi from '../../utils/mailApi';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 let validator = require('validator');
 
@@ -21,6 +22,8 @@ export default class ShopTemp extends ComponentTransition {
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.subscribe = this.subscribe.bind(this);
 
+		this.content = AppStore.getContent()
+
 	}
 
 	componentDidMount() {
@@ -32,8 +35,8 @@ export default class ShopTemp extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Temporary Shop | Elliott Erwitt Havana Club 7 Fellowship',
-			description: 'If you are interested in being contacted when the shop has re-open, please register your email here.',
+			title: this.content.shop_temp_title,
+			description: this.content.shop_temp_description,
 			url: config.siteurl + '/shop-temp',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -42,13 +45,13 @@ export default class ShopTemp extends ComponentTransition {
 			<div className='page page--shop-temp' ref='view'>
 				<Seo seo={seo} />
 				<div className='shopTemp'>
-					<h2 className='shopTemp__title title'>THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. OUR SHOP WILL OPEN IN A FEW WEEKS!</h2>
-					<p className='text'>Register below to be informed as soon as Elliott Erwitt’s limited editions are available for sale.Your email will be used only for this purpose.</p>
+					<h2 className='shopTemp__title title'>{this.content.shop_temp_thank}</h2>
+					<p className='text'>{this.content.shop_temp_register}</p>
 					<form className='form'>
 						<div className='form__row'>
-							<label className='form__label' htmlFor='mail'>Enter your email address*</label>
+							<label className='form__label' htmlFor='mail'>{this.content.shop_temp_email}*</label>
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
-							{(this.state.error) ? (<div className='text response--error'>Invalid mail.</div>) : null}
+							{(this.state.error) ? (<div className='text response--error'>{this.content.shop_temp_invalid_email}</div>) : null}
 							{(() => {
 								if (this.state.response) { 
 									if (this.state.response.success) { return (

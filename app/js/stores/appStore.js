@@ -1,6 +1,7 @@
 import AppDispatcher from '../dispatchers/appDispatcher';
 import AppConstants from '../constants/appConstants';
 import assign from 'object-assign';
+import locales from '../locales/index'
 let EventEmitter = require('events').EventEmitter;
 
 let splash = true;
@@ -14,6 +15,16 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	getSplash: () => {
 		return splash;
 	},
+
+	getContent: () => {
+		return locales[AppStore.Lang]
+	},
+
+	getLink: (url) => {
+		return '/' + AppStore.Lang + url
+	},
+
+	Lang: 'en',
 
 	Window: {
 		w: (typeof window !== 'undefined') ? window.innerWidth : 0,

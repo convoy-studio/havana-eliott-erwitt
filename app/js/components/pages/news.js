@@ -38,6 +38,8 @@ export default class News extends ComponentTransition {
 		this.transform = Utils.getSupportedPropertyName('transform');
 		this.onImageLoaded = this.onImageLoaded.bind(this)
 
+		this.content = AppStore.getContent()
+
 	}
 
 	componentDidMount() {
@@ -90,8 +92,8 @@ export default class News extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'News | Elliott Erwitt Havana Club 7 Fellowship',
-			description: 'Find out the latest news about the Fellowship documentary photography project',
+			title: this.content.news_title,
+			description: this.content.news_description,
 			url: config.siteurl + '/news',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -100,7 +102,7 @@ export default class News extends ComponentTransition {
 			// var imageDiv = (item.image != undefined) ? <img src={"assets/images/news/" + item.image}/> : ''
 			var images = item.images.map((image, imgIndex)=>{
 				return(
-					<img key={imgIndex} src={"assets/images/news/" + image}/>
+					<img key={imgIndex} src={config.siteurl + "/assets/images/news/" + image}/>
 				)
 			})
 
@@ -108,24 +110,24 @@ export default class News extends ComponentTransition {
 				<article key={index} className='news__item'>
 					<div className="top-container">
 
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
-						<div className='news__content text'>{item.content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang].content}</div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>
 			)} else if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
 					<div className="top-container">
-						<div className='news__content text'>{item.content}</div>
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang].content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>
 			)} else { return (
 				<article key={index} className='news__item news__item--left'>
 					<div className="top-container">
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item.date}}></p></div>
-						<div className='news__content text'>{item.content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang].content}</div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>

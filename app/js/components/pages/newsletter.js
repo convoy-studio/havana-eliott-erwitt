@@ -3,6 +3,7 @@ import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import NewsletterApi from '../../utils/newsletterApi';
+import AppStore from '../../stores/appStore';
 import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
 let config = require('../../config');
@@ -22,6 +23,8 @@ export default class Newsletter extends ComponentTransition {
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.subscribe = this.subscribe.bind(this);
 
+		this.content = AppStore.getContent()
+
 	}
 
 	componentDidMount() {
@@ -33,8 +36,8 @@ export default class Newsletter extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Elliott Erwitt Havana Club 7 Fellowship | Newsletter',
-			description: 'Subscribe to the newsletter',
+			title: this.content.newsletter_title,
+			description: this.content.newsletter_description,
 			url: config.siteurl + '/newsletter',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -43,15 +46,15 @@ export default class Newsletter extends ComponentTransition {
 			<div className='page page--newsletter' ref='view'>
 				<Seo seo={seo} />
 				<div className='newsletter'>
-					<h2 className='newsletter__title title'>Subscribe to our Fellowship news</h2>
-					<p className='text'>Subscribe to be informed of the latest fellowship news and be notified when new photos are available for sale</p>
+					<h2 className='newsletter__title title'>{this.content.newsletter_main_title}</h2>
+					<p className='text'>{this.content.newsletter_main_subscribe}</p>
 					<form className='form'>
 						<div className='form__row newsletter__consent'>
 							<input className='form__input form__input--checkbox' type='checkbox' id='consent'/>
-							<label className='form__label form__label--pointer' htmlFor='consent'><p className='form__text'>I consent to receive news and promotional information about the Elliot Erwitt Havana Club 7 Fellowship from the foundation Elliot Erwitt Havana Club 7 Fellowship</p></label>
+							<label className='form__label form__label--pointer' htmlFor='consent'><p className='form__text'>{this.content.newsletter_consent}</p></label>
 						</div>
 						<div className='form__row newsletter__mail'>
-							<label className='form__label' htmlFor='mail'>Enter your email address*</label>
+							<label className='form__label' htmlFor='mail'>{this.content.contact_email}*</label>
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
 							{(() => {
 								if (this.state.response) { 
@@ -62,10 +65,10 @@ export default class Newsletter extends ComponentTransition {
 									)}
 								} else {
 									if (this.state.error) { return (
-										<div className='text response--error'>Invalid mail.</div>
+										<div className='text response--error'>{this.content.shop_temp_invalid_email}.</div>
 									)} 
 									if (this.state.consent===false) { return (
-										<div className='text response--error'>Please tick the box to subscribe.</div>
+										<div className='text response--error'>{this.content.newsletter_response}</div>
 									)}
 								}
 							}.bind(this))()}

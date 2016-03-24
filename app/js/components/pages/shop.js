@@ -52,6 +52,8 @@ export default class Shop extends ComponentTransition {
 		this.sTop = 0;
 		this.cTop = 0;
 
+		this.content = AppStore.getContent()
+
 	}
 
 	componentDidMount() {
@@ -104,8 +106,8 @@ export default class Shop extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Buy Elliott Erwitt Print | Havana Club 7 Fellowship',
-			description: 'Buy limited edition prints signed originals by Elliot Erwitt and other documentary photographers member of the Fellowship project.',
+			title: this.content.shop_title,
+			description: this.content.shop_description,
 			url: config.siteurl + '/shop',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -138,7 +140,7 @@ export default class Shop extends ComponentTransition {
 								<p className='shop__paragraph paragraph text' key={index}>{intro.paragraphs[index]}</p>
 							)
 						})}
-						<div className='shop__discover button' onClick={this.discover}>Discover and buy photographs.</div>
+						<div className='shop__discover button' onClick={this.discover}>{this.content.shop_discover}</div>
 					</div>
 					<div className='shop__overlay'></div>
 					<div className='shop__list'>
@@ -163,7 +165,7 @@ export default class Shop extends ComponentTransition {
 																<div className='text'>{print.artist}</div>
 																<div className='text'>{details}</div>
 																<div className='shop__price text'>{print.price}€</div>
-																<div className='shop__button button'>More details</div>
+																<div className='shop__button button'>{this.content.shop_details}</div>
 															</div>
 														</div>
 													</div>

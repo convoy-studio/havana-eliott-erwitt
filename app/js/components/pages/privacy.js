@@ -1,12 +1,13 @@
 import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
+import AppStore from '../../stores/appStore';
 let config = require('../../config');
 
 export default class Privacy extends ComponentTransition {
 
 	componentWillMount(){
-		
+		this.content = AppStore.getContent()
 	}
 
 	_enterStyle() {
@@ -32,7 +33,7 @@ export default class Privacy extends ComponentTransition {
 	render() {
 
 		let seo = {
-			title: 'Privacy policy | Elliott Erwitt Havana Club 7 Fellowship',
+			title: this.content.privacy_title,
 			description: '',
 			url: config.siteurl + '/privacy-policy',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
@@ -42,7 +43,7 @@ export default class Privacy extends ComponentTransition {
 			<div className='page page--privacy page--classic' ref='view'>
 				<Seo seo={seo} />
 				<div className='page__content privacy'>
-					<h1 className='title title--center title--absolute'><span>Privacy Policy</span></h1>
+					<h1 className='title title--center title--absolute'><span>{this.content.footer_privacy}</span></h1>
 					<p className='paragraph paragraph--2 paragraph--margin text'>
 						The personal data you provide us when you subscribe to our newsletter will be incorporated into a file of which the Fundación Elliott Erwitt Havana Club 7 Fellowship (with address at Calle Manuel Marañón 8, 28043 Madrid) will be the data controller for the purpose of managing your request and, if so requested or authorized, to keep you informed of news about our activity. You can exercise your rights of access, rectification, cancellation and opposition by sending an email to contact@havana-fellowship.com.
 					</p>

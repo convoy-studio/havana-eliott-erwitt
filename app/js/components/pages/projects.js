@@ -4,6 +4,7 @@ import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import ProjectApi from '../../utils/projectApi';
 import ProjectStore from '../../stores/projectStore';
+import AppStore from '../../stores/appStore';
 let _ = require('lodash');
 let config = require('../../config');
 
@@ -32,6 +33,8 @@ export default class Projects extends ComponentTransition {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.hideMenu = this.hideMenu.bind(this);
+
+		this.content = AppStore.getContent()
 
 	}
 
@@ -91,8 +94,8 @@ export default class Projects extends ComponentTransition {
 		const { pathname } = this.props.location.pathname;
 
 		let seo = {
-			title: 'Photography | Elliott Erwitt Havana Club 7 Fellowship',
-			description: 'Discover more about the project, the current photographer and the next fellowship photographer.',
+			title: this.content.projects_title,
+			description: this.content.projects_description,
 			url: config.siteurl + '/photography',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -102,14 +105,14 @@ export default class Projects extends ComponentTransition {
 		if (_.size(this.state.projects) > 1) {
 			projectList = (
 				<div>
-					<h3 className='projects__title text text--title'>Fellows:</h3>
+					<h3 className='projects__title text text--title'>{this.content.projects_fellows}:</h3>
 					<ul>
 						{Object.keys(this.state.projects).map((index) => {
 							let project = this.state.projects[index];
 							let classes = (project.slug === this.props.params.slug) ? 'projects__item--enabled' : ''
 							return (
 								<li key={index} className={'projects__item ' + classes}>
-									<Link to={'/photography/'+project.slug} className='projects__button button' data-project={project.slug}>{project.artist}</Link>
+									<Link to={AppStore.getLink('/photography/'+project.slug)} className='projects__button button' data-project={project.slug}>{project.artist}</Link>
 									<div className='projects__image'>
 										<img src={'/static/prints/' + project.print.file + '_big.jpg'}/>
 									</div>

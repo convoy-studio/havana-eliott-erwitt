@@ -1,4 +1,5 @@
 import React from 'react';
+import AppStore from './stores/appStore';
 import { Route, Redirect } from 'react-router';
 import Wrapper from './components/wrapper';
 import Home from './components/pages/home';
@@ -36,33 +37,53 @@ import NotFound from './components/pages/not-found';
 
 import LoginStore from './stores/loginStore';
 
-export default (
-	<Route component={Wrapper}>
-		<Route path="/" component={Home}/>
-		<Route path="/fellowship" component={Fellowship}/>
-		<Route path="/photography" component={Projects}>
+import languages from '../data/languages'
+
+var getMultipleLangsComponent = (path, component)=> {
+	let routes = languages.map((lang, i)=> {
+		let p = '/' + lang + path
+		return <Route key={i} path={p} component={component}/>
+	})
+	return routes
+}
+
+var photographyRoutes = languages.map((lang, i)=> {
+	return (
+		<Route key={i} path={'/' + lang + "/photography"} component={Projects}>
 			<Route path="/:slug" component={Project}/>
 			<Route path="/:slug/gallery" component={Project}/>
 			<Route path="/:slug/gallery/:token" component={Project}/>
 			<Route path="/:slug/contact-sheet" component={ContactSheet}/>
 		</Route>
-		<Route path="/shop-temp" component={ShopTemp}/>
-		<Route path="/news" component={News}/>
-		<Route path="/newsletter" component={Newsletter}/>
-		<Route path="/friends-of-fellowship" component={Friends}/>
-		<Route path="/contact" component={Contact}/>
-		<Route path="/privacy-policy" component={Privacy}/>
-		<Route path="/cookie-policy" component={Legal}/>
-		<Route path="/terms-and-condition-of-use" component={Terms}/>
-		<Route path="/terms-and-condition-of-sale" component={PurchaseConditions}/>
-		<Route path="/unsubscribe" component={Unsubscribe}/>
-		
-		<Route path="/shop" component={Shop}/>
-		<Route path="/shop/:token" component={Print}/>
-		<Route path="/payment" component={Payment}/>
-		<Route path="/payment-confirmation" component={Result}/>
+	)
+})
 
+export default (
+	<Route component={Wrapper}>
+
+		{ getMultipleLangsComponent('', Home) }
+		{ getMultipleLangsComponent('/fellowship', Fellowship) }
+		
+		{ photographyRoutes }
+
+		{ getMultipleLangsComponent('/shop-temp', ShopTemp) }
+		{ getMultipleLangsComponent('/news', News) }
+		{ getMultipleLangsComponent('/newsletter', Newsletter) }
+		{ getMultipleLangsComponent('/friends-of-fellowship', Friends) }
+		{ getMultipleLangsComponent('/contact', Contact) }
+		{ getMultipleLangsComponent('/privacy-policy', Privacy) }
+		{ getMultipleLangsComponent('/cookie-policy', Legal) }
+		{ getMultipleLangsComponent('/terms-and-condition-of-use', Terms) }
+		{ getMultipleLangsComponent('/terms-and-condition-of-sale', PurchaseConditions) }
+		{ getMultipleLangsComponent('/unsubscribe', Unsubscribe) }
+
+		{ getMultipleLangsComponent('/shop', Shop) }
+		{ getMultipleLangsComponent('/shop/:token', Print) }
+		{ getMultipleLangsComponent('/payment', Payment) }
+		{ getMultipleLangsComponent('/payment-confirmation', Result) }
+		
 		<Route path="/login" component={Login}/>
+		
 		<Route path="/admin" component={Admin}>
 			<Route path="/projects" component={AdminProjects}/>
 			<Route path="/project/:slug" component={AdminProject}/>
@@ -75,4 +96,4 @@ export default (
 
 		<Route path="*" component={NotFound}/>
 	</Route>
-);
+)

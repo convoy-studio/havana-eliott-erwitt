@@ -4,26 +4,28 @@ import AppStore from '../stores/appStore';
 import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import CartActions from '../actions/cartActions';
+import languages from '../../data/languages'
 
 const Transition = React.addons.TransitionGroup;
+const content = AppStore.getContent()
 const nav = [
 	{
 		section: 'news',
 		url: '/news',
-		label: 'News'
+		label: content.nav_label_news
 	},
 	{
 		section: 'shop',
 		url: '/shop-temp',
-		label: 'Shop'
+		label: content.nav_label_shop
 	},{
 		section: 'photography',
 		url: '/photography/elliott_erwitt',
-		label: 'Photography'
+		label: content.nav_label_photography
 	},{
 		section: 'fellowship',
 		url: '/fellowship',
-		label: 'Fellowship'
+		label: content.nav_label_fellowship
 	}
 ];
 
@@ -34,7 +36,7 @@ export default class Wrapper extends React.Component {
 		this.state = {
 			popupVisibility: false
 		};
-		
+
 		this.splash = AppStore.getSplash();
 
 		const { pathname } = this.props.location;
@@ -61,12 +63,24 @@ export default class Wrapper extends React.Component {
 		}
 	}
 
+	getLanguage(url) {
+		let urlSplitter = url.split('/')
+		for (let urlPart of urlSplitter) {
+			for (let lang of languages) {
+				if(urlPart == lang) return lang
+			}
+		}
+	}
+
 	componentDidMount() {
 	
 		this.headerMenu = document.querySelector('.header__menu');
 
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.handleScroll;
+
+		AppStore.Lang = this.getLanguage(window.location.pathname)
+		if(AppStore.Lang == undefined) AppStore.Lang = 'en'
 
 	}
 
@@ -77,19 +91,23 @@ export default class Wrapper extends React.Component {
 		if(typeof localStorage !== 'undefined') {
 			this.cookies = window.localStorage.getItem('cookies');
 			if (!this.cookies) {
-				if (pathname === '/') {
+				if (pathname.length < 4) {
 					TweenMax.delayedCall(12.4, ()=>{
 						this.setState({
 							popupVisibility: true
 						});
 					}.bind(this));
 				} else {
-					this.setState({
-						popupVisibility: true
-					});
+					setTimeout(()=> {
+						this.setState({
+							popupVisibility: true
+						});
+					}, 0)
 				}
 			}
 		}
+
+		this.content = AppStore.getContent()
 
 		return (
 			<div>
@@ -104,7 +122,7 @@ export default class Wrapper extends React.Component {
 									<div className='hamburger__line'></div>
 								</div>
 								<h1 className='header__logo'>
-									<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
+									<Link to={AppStore.getLink("")}><div className='header__title'>{this.content.header_title}</div><div className='header__subtitle'>{this.content.header_subtitle}</div></Link>
 								</h1>
 								<nav className='header__menu'>
 									<div className='header__close'></div>
@@ -114,7 +132,7 @@ export default class Wrapper extends React.Component {
 											let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
 											return (
-												<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+												<li className='header__item' key={index}><Link className={"button "+enabled} to={AppStore.getLink(item.url)}>{item.label}</Link></li>
 											)
 										})}
 										
@@ -136,15 +154,16 @@ export default class Wrapper extends React.Component {
 						return (
 							<footer className='footer'>
 								<ul>
-									<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
-									<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-									<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
-									<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+									<li><Link to={AppStore.getLink("/newsletter")} className="footer__button button button--footer">{this.content.footer_news}</Link></li>
+									<li><Link to={AppStore.getLink("/contact")} className="footer__button button button--footer">{this.content.footer_contact}</Link></li>
+									<li><Link to={AppStore.getLink("/privacy-policy")} className="footer__button button button--footer">{this.content.footer_privacy}</Link></li>
+									<li><Link to={AppStore.getLink("/cookie-policy")} className="footer__button button button--footer">{this.content.footer_cookie}</Link></li>
+									
 									{(() => {
 										if (this.props.location.pathname.indexOf('/shop') === -1) { return (
-											<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+											<li><Link to={AppStore.getLink("/terms-and-condition-of-use")} className="footer__button button button--footer">{this.content.footer_terms_conditions}</Link></li>
 										)} else { return (
-											<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
+											<li><Link to={AppStore.getLink("/terms-and-condition-of-sale")} className="footer__button button button--footer">{this.content.footer_terms_conditions_sale}</Link></li>
 										)}
 									}.bind(this))()}
 								</ul>

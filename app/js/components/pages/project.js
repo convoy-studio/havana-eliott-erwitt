@@ -29,7 +29,7 @@ export default class Project extends Component {
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.showGallery = this.showGallery.bind(this);
 
-		console.log('componentWillMount')
+		this.content = AppStore.getContent()
 
 	}
 
@@ -129,8 +129,8 @@ export default class Project extends Component {
 			description += value;
 		}.bind(this)).value();
 		let seo = {
-			title: 'Gallery | Elliott Erwitt Havana Club 7 Fellowship',
-			description: "Discover Magnum photographer Elliott Erwitt's new body of work in Cuba as well as his 1965 photos including Fidel Castro and Che Guevara pictures.",
+			title: this.content.project_title,
+			description: this.content.project_description,
 			url: config.siteurl + '/photography/' + this.props.params.slug,
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
@@ -151,8 +151,8 @@ export default class Project extends Component {
 							}.bind(this))}
 						</div>
 					</div>
-					<div className='project__loader text'>Chargement...</div>
-					<div className='project__discover project__discover--disabled button' onClick={this.showGallery}>Discover the project</div>
+					<div className='project__loader text'>{this.content.loading_message}...</div>
+					<div className='project__discover project__discover--disabled button' onClick={this.showGallery}>{this.content.discover_project}</div>
 				</div>
 
 				{(() => {
