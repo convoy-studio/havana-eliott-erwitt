@@ -11,7 +11,12 @@ import routes from '../app/js/routes';
 import url from 'url'
 import acceptLanguage from 'accept-language'
 import supportLanguages from '../app/data/languages'
+import locales from '../app/js/locales/index'
 acceptLanguage.languages(supportLanguages);
+
+
+const localesJson = JSON.stringify(locales.en)
+console.log(localesJson)
 
 const env = process.NODE_ENV || 'development';
 // const env = 'production';
