@@ -1,12 +1,14 @@
 var mongoose = require('mongoose');
 
 var itemSchema = new mongoose.Schema({
+	date: { type: Date, default: Date.now },
 	token		: String,
 	tracking	: String,
 	time		: Number,
 	user 		: String,
 	state 		: String,
 	total		: Number,
+    paymentMethod: String,
 	prints		: [{
 		// printId: String,
 		token	: String,
@@ -34,7 +36,8 @@ var itemSchema = new mongoose.Schema({
 	billAddress	: String,
 	billZip		: String,
 	billCity	: String,
-	billCountry	: String
+	billCountry	: String,
+	transactionId: String
 });
 
 module.exports = mongoose.model('Order', itemSchema, 'orders');

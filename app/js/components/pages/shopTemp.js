@@ -10,8 +10,7 @@ let validator = require('validator');
 
 export default class ShopTemp extends ComponentTransition {
 
-	componentWillMount() {
-
+    componentWillMount() {
 		this.state = {
 			error: false,
 			response: undefined
@@ -20,14 +19,16 @@ export default class ShopTemp extends ComponentTransition {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.subscribe = this.subscribe.bind(this);
-
-	}
-
-	componentDidMount() {
-
 		OpeningShopStore.addChangeListener(this.onStoreChange);
-
 	}
+
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+	}
+
+    componentWillUnmount() {
+        OpeningShopStore.removeChangeListener(this.onStoreChange);
+    }
 
 	render() {
 
@@ -50,7 +51,7 @@ export default class ShopTemp extends ComponentTransition {
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
 							{(this.state.error) ? (<div className='text response--error'>Invalid mail.</div>) : null}
 							{(() => {
-								if (this.state.response) { 
+								if (this.state.response) {
 									if (this.state.response.success) { return (
 										<div className='text response--success'>{this.state.response.message}</div>
 									)} else { return (

@@ -1,7 +1,4 @@
 import Storage from '../utils/storage';
-import { Promise } from 'es6-promise';
-import fetch from 'isomorphic-fetch';
-
 
 const API_ROOT = '/api';
 

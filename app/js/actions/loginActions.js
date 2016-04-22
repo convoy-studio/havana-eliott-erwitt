@@ -4,7 +4,7 @@ import {LOGIN_USER, LOGOUT_USER} from '../constants/loginConstants';
 
 // export default {
 let LoginActions = {
-	
+
 	loginUser: (jwt) => {
 
 		var savedJwt = localStorage.getItem('jwt');
@@ -28,7 +28,7 @@ let LoginActions = {
 	},
 
 	logoutUser: () => {
-
+        localStorage.removeItem('jwt');
 		// RouterContainer.get().transitionTo('/login');
 		// localStorage.removeItem('jwt');
 		// AppDispatcher.dispatch({

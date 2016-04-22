@@ -28,22 +28,24 @@ export default class AdminOrder extends Component {
 	componentDidMount() {
 
 		OrderStore.addChangeListener(this.onStoreChange);
-		
+
 		OrderApi.getOne(this.props.params.token);
 
 	}
 
 	render() {
 
-		let id, orderId, tracking, mail, prints = {}, total, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
-		console.log(this.state.order);
+		let id, date, orderId, tracking, mail, prints = {}, total, transactionId, state, stateLabel, firstname, lastname, phone, address, zip, city, country, billFirstname, billLastname, billPhone, billAddress, billZip, billCity, billCountry, select;
+
 		if (this.state.order) {
 			id = this.state.order._id;
+			date = (new Date(this.state.order.date)).toLocaleString();
 			orderId = this.state.order.token;
 			tracking = this.state.order.tracking;
 			mail = this.state.order.mail;
 			prints = this.state.order.prints;
 			total = this.state.order.total;
+			transactionId = this.state.order.transactionId;
 			state = this.state.order.state;
 
 			firstname = this.state.order.firstname;
@@ -72,7 +74,6 @@ export default class AdminOrder extends Component {
 			} else {
 				select = (
 					<select id='orderState' name='orderState'>
-						<option value="Nouvelle commande">Nouvelle commande</option>
 						<option value="Commande expédiée" selected>Commande expédiée</option>
 					</select>
 				);
@@ -90,14 +91,19 @@ export default class AdminOrder extends Component {
 			<div className='admin__order'>
 				<div className='submenu'><Link to='/admin/orders' className='button'>Retour aux commandes</Link></div>
 				<h1 className='title title--center title--absolute'><span><Link to='/admin'>Commande — {orderId}</Link></span></h1>
-				
+
+				<section className='admin__section'>
+				<h2 className='subtitle'>Date</h2>
+				<p>{date}</p>
+				</section>
+
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse de livraison</h2>
 					<p><span className='admin--uppercase'>{lastname}</span> {firstname}</p>
 					<p>{address}</p>
 					<p>{zip} <span className='admin--uppercase'>{city}</span>, {country}</p>
 				</section>
-				
+
 				<section className='admin__section'>
 					<h2 className='subtitle'>Adresse email</h2>
 					<p>{mail}</p>
@@ -111,23 +117,28 @@ export default class AdminOrder extends Component {
 				<section className='admin__section'>
 					<h2 className='subtitle'>Référence(s) photo(s)</h2>
 					{Object.keys(prints).map((index) => {
-						let product = prints[index];
-						let serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
-						let logisticId = product.logistic_id + '_' + serial;
-						
+						const product = prints[index];
+						const serial = (parseInt(product.serial, 10) < 10) ? '0' + product.serial : product.serial;
+						const logisticId = product.logistic_id + '_' + serial;
+
 						return (
 							<p>{logisticId}</p>
 						)
-					}.bind(this))}
+					})}
 				</section>
 
 				<section className='admin__section'>
 					<h2 className='subtitle'>Total de la commande</h2>
-					<p>{(total / 100)}€</p>
+					<p>{total} €</p>
 				</section>
 
 				<section className='admin__section'>
-					<h2 className='subtitle'>Tracking</h2>
+					<h2 className='subtitle'>Numéro de transaction</h2>
+					<p>{transactionId}</p>
+				</section>
+
+				<section className='admin__section'>
+					<h2 className='subtitle'>Numéro de tracking</h2>
 					{inputTracking}
 				</section>
 
@@ -141,7 +152,7 @@ export default class AdminOrder extends Component {
 						{select}
 					</div>
 				</div>
-				
+
 				<section className='admin__section'>
 					<a href='' className='button' onClick={this.save}>Enregistrer</a>
 					{(this.state.error) ? (<div className='text'>{this.state.error}</div>) : null}
@@ -162,7 +173,7 @@ export default class AdminOrder extends Component {
 				// <section className='admin__section'>
 				// 	<h2 className='subtitle'>Checkout</h2>
 				// </section>
-				
+
 				// <section className='admin__section'>
 				// 	<h2 className='subtitle'>Shipping address</h2>
 				// 	<p>Firstname : {firstname}</p>
@@ -197,7 +208,7 @@ export default class AdminOrder extends Component {
 				// 			let details
 				// 			if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
 				// 			else details = product.city+'. '+product.country+'. '+product.year
-							
+
 				// 			return (
 				// 				<li key={index} className='payment__product cart__product'>
 				// 					<div className='cart__column'>
@@ -256,11 +267,13 @@ export default class AdminOrder extends Component {
 
 		let id = this.state.order._id;
 		let orderId = this.state.order.token;
+		let date = (new Date(this.state.order.date)).toLocaleString();
 		let mail = this.state.order.mail;
 		let prints = this.state.order.prints;
 		let total = this.state.order.total;
 		let state = this.state.order.state;
-		let tracking = this.state.order.tracking;
+		let transactionId = this.state.order.transactionId;
+		let tracking = this.state.order.tracking || '-';
 
 		let firstname = this.state.order.firstname;
 		let lastname = this.state.order.lastname;
@@ -293,7 +306,13 @@ export default class AdminOrder extends Component {
 					width: 250,
 					alignment: 'center',
 					margin: [ 0, 0, 0, 54 ]
-				},{ 
+				},{
+					text: 'DATE',
+					style: 'title'
+				},{
+					text: date,
+					style: 'lastLine'
+				},{
 					text: 'ADRESSE DE LIVRAISON',
 					style: 'title'
 				},
@@ -308,7 +327,7 @@ export default class AdminOrder extends Component {
 				},{
 					text: mail,
 					style: 'lastLine'
-				},{ 
+				},{
 					text: 'NUMÉRO DE TÉLÉPHONE',
 					style: 'title'
 				},{
@@ -317,20 +336,26 @@ export default class AdminOrder extends Component {
 				},{
 					text: 'RÉFÉRENCE(S) PHOTO(S)',
 					style: 'title'
-				},{ 
-					ul: refs 
 				},{
-					text: 'NUMÉRO DE TRACKING',
+					ul: refs
+				},{
+					text: 'TOTAL DE LA COMMANDE',
 					style: 'title',
 					margin: [ 0, 24, 0, 6 ]
 				},{
-					text: '' + tracking,
+					text: (total) + '€',
 					style: 'lastLine'
 				},{
-					text: 'TOTAL DE LA COMMANDE',
+					text: 'NUMÉRO DE TRANSACTION',
 					style: 'title'
 				},{
-					text: (total / 100) + '€',
+					text: transactionId,
+					style: 'lastLine'
+				},{
+					text: 'NUMÉRO DE TRACKING',
+					style: 'title'
+				},{
+					text: '' + tracking,
 					style: 'lastLine'
 				}
 			],

@@ -1,18 +1,12 @@
 import AppDispatcher from '../dispatchers/appDispatcher';
 import AppConstants from '../constants/appConstants';
 import assign from 'object-assign';
-let EventEmitter = require('events').EventEmitter;
+import { EventEmitter } from 'events';
 
-let splash = true;
-
-let AppStore = assign({}, EventEmitter.prototype, {
+const AppStore = assign({}, EventEmitter.prototype, {
 
 	emitChange: function(type, item) {
 		this.emit(type, item);
-	},
-
-	getSplash: () => {
-		return splash;
 	},
 
 	Window: {
@@ -24,7 +18,7 @@ let AppStore = assign({}, EventEmitter.prototype, {
 
 	dispatcherIndex: AppDispatcher.register(function(payload){
 		let action = payload.action;
-		
+
 		switch(action.actionType) {
 			case AppConstants.WINDOW_RESIZE:
 				AppStore.Window.w = action.item.windowW;
@@ -34,10 +28,6 @@ let AppStore = assign({}, EventEmitter.prototype, {
 				} else {
 					AppStore.isMobile = false;
 				}
-				AppStore.emitChange(action.actionType);
-				break;
-			case AppConstants.SPLASH_DISABLED:
-				splash = action.item,
 				AppStore.emitChange(action.actionType);
 				break;
 		}

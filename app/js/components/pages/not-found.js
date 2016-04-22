@@ -4,27 +4,30 @@ import Seo from '../modules/seo';
 let config = require('../../config');
 
 export default class NotFound extends ComponentTransition {
+    componentDidMount() {
+        TweenMax = require('gsap/src/uncompressed/TweenMax');
+    }
 
-		render() {
+	render() {
 
-			const { authentication, dispatch } = this.props;
-			const { router } = this.context;
+		const { authentication, dispatch } = this.props;
+		const { router } = this.context;
 
-			let seo = {
-				title: 'Elliott Erwitt Havana Club 7 Fellowship | 404',
-				description: 'Lorem ipsum dolor sit amet',
-				url: config.siteurl + '/not-found',
-				image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
-			};
+		let seo = {
+			title: 'Elliott Erwitt Havana Club 7 Fellowship | 404',
+			description: 'Lorem ipsum dolor sit amet',
+			url: config.siteurl + '/not-found',
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
+		};
 
-			return (
-				<div className='page page--notfound page--classic' ref='view'>
-					<Seo seo={seo} />
-					<div className='page__content notfound'>
-						<h1 className='title title--center'>Page not found</h1>
-						<p className='paragraph text text--center'>We're sorry but we couldn't find the page you're looking for.</p>
-					</div>
+		return (
+			<div className='page page--notfound page--classic' ref='view'>
+				<Seo seo={seo} />
+				<div className='page__content notfound'>
+					<h1 className='title title--center'>Page not found</h1>
+					<p className='paragraph text text--center'>We're sorry but we couldn't find the page you're looking for.</p>
 				</div>
-			);
-		}
+			</div>
+		);
+	}
 }

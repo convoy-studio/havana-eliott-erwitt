@@ -15,10 +15,8 @@ export default class ContactSheet extends ComponentTransition {
 
 	componentWillMount(){
 
-		super.componentWillMount();
-		
 		// state
-		this.state = { 
+		this.state = {
 			prints: [],
 			loadedPrints: []
 		};
@@ -26,11 +24,11 @@ export default class ContactSheet extends ComponentTransition {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.raf = this.raf.bind(this);
-		
+
 		// const
 		this.OPACITY_MARGE = 30;
 		this.OPACITY_DURATION = 300;
-		
+
 		// vars
 		this.speed = 2;
 		this.sTop = 0;
@@ -46,15 +44,16 @@ export default class ContactSheet extends ComponentTransition {
 
 	}
 
-	componentDidMount() {
-		
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+
 		PrintApi.getByArtist(this.props.params.slug);
 		PrintStore.addChangeListener(this.onStoreChange);
 
 		this.view = document.querySelector('.contact-sheet');
 
 		document.querySelector('.projects__list').style.display = 'none';
-		
+
 		this.raf();
 
 	}
@@ -131,6 +130,7 @@ export default class ContactSheet extends ComponentTransition {
 	}
 
 	handleScroll() {
+		const TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		let e;
 		this.sTop = Utils.getScrollTop();
@@ -151,7 +151,7 @@ export default class ContactSheet extends ComponentTransition {
 				this.eShow[index] = true;
 				TweenMax.to(el, 0.6, {y: 0, opacity: 1, ease: Power2.easeOut, delay: Math.random()*0.2});
 			}
-			
+
 			// off viewport
 			if (this.lTop - window.innerHeight > 0 && this.eShow[index]) {
 				this.eShow[index] = false;
@@ -204,14 +204,14 @@ export default class ContactSheet extends ComponentTransition {
 		let path = e.explicitOriginalTarget || e.target || e.path[0];
 		if (path.height >= path.width*1.2) print.size = 'small';
 		else print.size = 'large';
-		
+
 		if (this.nImageLoaded >= this.max) {
 			this.setState({
 				'loadedPrints': this.printsDate
 			}, () => {
 				// hack
 				setTimeout(()=>{
-					document.querySelector('.subpage--contact-sheet').style.height = (this.view.offsetHeight-100) + 'px';
+					document.querySelector('.subpage--contact-sheet').style.height = (this.view.offsetHeight) + 'px';
 				}, 300);
 			});
 		}
@@ -224,7 +224,7 @@ export default class ContactSheet extends ComponentTransition {
 		let windowH = AppStore.Window.h;
 		super.resize();
 
-		if (this.body && this.body.classList.contains('js-mobile')) { 
+		if (this.body && this.body.classList.contains('js-mobile')) {
 			if (this.scrollRaf) {
 				document.querySelector('.subpage--contact-sheet').style.height = 'auto'
 				this.setState({

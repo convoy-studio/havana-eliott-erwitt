@@ -2,7 +2,7 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
-import CartApi from '../../utils/cartApi';
+import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import OrderApi from '../../utils/orderApi';
@@ -10,20 +10,26 @@ import OrderStore from '../../stores/orderStore';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
-import dhl from '../../utils/dhl';
-import zones from '../../utils/zones';
+import getAmountSupply from '../../../../common/shiiping';
+import dhl from '../../../../common/shipping/dhl';
 let config = require('../../config');
 let validator = require('validator');
-let _ = require('lodash');
 
 function getCartState() {
-
 	return {
 		cartItems: CartStore.getCartItems(),
 		cartCount: CartStore.getCartCount(),
 		cartTotal: CartStore.getCartTotal(),
+	}
+}
 
-		status: {
+export default class Payment extends ComponentTransition {
+
+	componentWillMount() {
+
+		this.state = getCartState();
+
+		this.state.status = {
 			mail: undefined,
 			firstname: undefined,
 			lastname: undefined,
@@ -32,16 +38,7 @@ function getCartState() {
 			zip: undefined,
 			country: undefined,
 			conditions: undefined
-		}
-	}
-
-}
-
-export default class Payment extends ComponentTransition {
-
-	componentWillMount() {
-		
-		this.state = getCartState();
+		};
 		this.state.form = undefined;
 		this.state.sameAddress = true;
 		this.state.amountSupply = 0;
@@ -59,52 +56,48 @@ export default class Payment extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 
 		TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 0, ease:Power2.easeOut});
 		this.enterTl = new TimelineMax({delay:0.3});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: ()=>{
 			TweenMax.to(document.querySelector('.header'), 0.3, {autoAlpha: 1, ease:Power2.easeOut});
 			callback();
 		}});
-	
+
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		if(typeof document !== 'undefined') {
 			this.body = document.querySelector('body');
 			this.bill = document.querySelector('.payment__bill');
 		}
 
-		// update default amout supply
-		let country = document.getElementById('country').value;
-		let amountSupply = this.getAmoutSupply(country);
-		this.setState({
-			amountSupply: amountSupply,
-			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
-		});
-
 		CartStore.addChangeListener(this.onStoreChange);
 		OrderStore.addChangeListener(this.onOrderStoreChange);
 		NewsletterStore.addChangeListener(this.onNewsletterStoreChange);
 		document.getElementById('billCheckbox').addEventListener('change', this.toggleBill);
 
+		CartActions.initCart();
 	}
 
 	componentWillUnmount() {
 
 		CartActions.updateCartVisible(true);
+        CartStore.removeChangeListener(this.onStoreChange);
+		OrderStore.removeChangeListener(this.onOrderStoreChange);
+		NewsletterStore.removeChangeListener(this.onNewsletterStoreChange);
+		document.getElementById('billCheckbox').removeEventListener('change', this.toggleBill);
 
 	}
 
@@ -190,7 +183,7 @@ export default class Payment extends ComponentTransition {
 							</div>
 							<div className='form__row'>
 								<label className='form__label' htmlFor='country'>Country *</label>
-								
+
 								<div className={'form__select'+error.country}><select id='country' name='country' onChange={this.handleCountryChange}>
 									{Object.keys(dhl).map((index) => {
 										let country = dhl[index].country;
@@ -204,7 +197,7 @@ export default class Payment extends ComponentTransition {
 											{option}
 										)
 									}.bind(this))}
-									
+
 								</select></div>
 							</div>
 							<div className='form__row'>
@@ -263,21 +256,21 @@ export default class Payment extends ComponentTransition {
 							<h3 className='payment__method form__title'>Payment method</h3>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='maestro' id='maestro' defaultChecked/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' value='maestro' id='maestro' defaultChecked/>
 									<label className='form__label form__label--pointer' htmlFor='maestro'><p className='form__text'><img src='./assets/images/maestro.png'></img></p></label>
 								</div>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='visa' id='visa'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' value='visa' id='visa'/>
 									<label className='form__label form__label--pointer' htmlFor='visa'><p className='form__text'><img src='./assets/images/visa.png'></img></p></label>
 								</div>
 							</div>
 							<div className='form__row form__row--half'>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='paypal' id='paypal'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' value='paypal' id='paypal'/>
 									<label className='form__label form__label--pointer' htmlFor='paypal'><p className='form__text'><img src='./assets/images/paypal.png'></img></p></label>
 								</div>
 								<div className='form__column'>
-									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' data-method='americanExpress' id='americanExpress'/>
+									<input className='form__input form__input--checkbox' name='paymentMethod' type='radio' value='americanExpress' id='americanExpress'/>
 									<label className='form__label form__label--pointer' htmlFor='americanExpress'><p className='form__text'><img src='./assets/images/americanExpress.png'></img></p></label>
 								</div>
 							</div>
@@ -291,7 +284,7 @@ export default class Payment extends ComponentTransition {
 									let details
 									if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
 									else details = product.city+'. '+product.country+'. '+product.year
-									
+
 									return (
 										<li key={index} className='payment__product cart__product'>
 											<div className='cart__column'>
@@ -302,7 +295,7 @@ export default class Payment extends ComponentTransition {
 											</div>
 											<div className='cart__column'>
 												<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
-												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index)}><span className='button__content'>Remove item</span></div>
+												<div className='cart__remove button button--left' onClick={this.removeItem.bind(this, index, product)}><span className='button__content'>Remove item</span></div>
 											</div>
 										</li>
 									)
@@ -343,7 +336,7 @@ export default class Payment extends ComponentTransition {
 					</form>
 
 					<div dangerouslySetInnerHTML={{__html: this.state.form}} />
-					
+
 				</div>
 
 			</div>
@@ -354,7 +347,7 @@ export default class Payment extends ComponentTransition {
 	onSubmit(e) {
 
 		e.preventDefault();
-		
+
 		this.status = {};
 		this.status.mail = validator.isEmail(document.getElementById('mail').value);
 		this.status.firstname = document.getElementById('firstname').value.length > 0;
@@ -365,7 +358,7 @@ export default class Payment extends ComponentTransition {
 		this.status.country = document.getElementById('country').value.length > 0;
 		this.status.conditions = document.getElementById('conditions').checked;
 		this.status.billCheckbox = document.getElementById('billCheckbox').checked;
-		
+
 		this.valid = this.status.mail && this.status.firstname && this.status.lastname && this.status.phone && this.status.address && this.status.zip && this.status.country;
 
 		if (!this.status.billCheckbox) {
@@ -390,33 +383,35 @@ export default class Payment extends ComponentTransition {
 	}
 
 	pay() {
-
 		let orderPrints = [];
 		_(this.state.cartItems).forEach((item) => {
 			orderPrints.push({
 				token: item.token,
-				title: item.title,
-				city: item.city,
-				country: item.country,
-				year: item.year,
-				price: item.price,
 				serial: item.serial,
-				file: item.file,
-				artist: item.project.artist,
-				logistic_id: item.logistic_id
+                logistic_id: item.logistic_id
 			});
 		}).value();
+
+		const paymentMethodRadios = document.getElementsByName('paymentMethod');
+		let paymentMethod;
+		for (let i = 0; i < paymentMethodRadios.length; ++i) {
+			if (paymentMethodRadios[i].checked) {
+				paymentMethod = paymentMethodRadios[i].value;
+				break;
+			}
+		};
 
 		let order = {
 			user: document.getElementById('mail').value,
 			prints: orderPrints,
 			mail: document.getElementById('mail').value,
-			total: this.state.orderTotal * 100,
+			//total: this.state.orderTotal * 100,
+			paymentMethod: paymentMethod,
 
 			firstname: document.getElementById('firstname').value,
 			lastname: document.getElementById('lastname').value,
 			phone: document.getElementById('phone').value,
-			address: document.getElementById('address').value,
+			address: (document.getElementById('address').value + ' ' + document.getElementById('addressBis').value).trim(),
 			zip: document.getElementById('zip').value,
 			city: document.getElementById('city').value,
 			country: document.getElementById('country').value
@@ -431,23 +426,21 @@ export default class Payment extends ComponentTransition {
 			order.billCountry = document.getElementById('billCountry').value;
 		}
 
-		if (this.state.cartTotal > 0) {
-			if (document.getElementById('newsletter').checked) {
-				NewsletterApi.create({
-					mail: order.mail
-				});
-			}
-			OrderApi.create(order);
+		if (document.getElementById('newsletter').checked) {
+			NewsletterApi.create({
+				mail: order.mail
+			});
 		}
+		OrderApi.create(order);
 
+		orderPrints.map(function (print) {
+			PrintApi.unblockSerial(print.token, print.serial);
+		});
 	}
 
-	removeItem(id) {
-
+	removeItem(id, print) {
 		CartActions.removeFromCart(id);
-		this.setState(getCartState());
-		this.updateSupply();
-
+        PrintApi.unblockSerial(print.token, print.serial);
 	}
 
 	toggleBill() {
@@ -459,45 +452,31 @@ export default class Payment extends ComponentTransition {
 	}
 
 	onStoreChange() {
-	
-		this.setState({
-			form: CartStore.getForm()
-		}, () => {
-			if (document.querySelector('#paymentForm')) document.querySelector('#paymentForm').submit();
-		});
+		const cartState = getCartState();
+		if (cartState.cartItems.length === 0) {
+            this.context.router.transitionTo('/shop');
+        }
 
+		const supply = this.getSupply(cartState);
+		for (let key in supply) {
+			cartState[key] = supply[key];
+		}
+
+		this.setState(cartState);
 	}
 
 	onOrderStoreChange() {
-
-		let order = OrderStore.getCreated();
-		let method = document.querySelector('input[name=paymentMethod]:checked').getAttribute('data-method');
-
-		switch(method) {
-			case 'visa':
-			case 'maestro':
-			case 'americanExpress':
-				CartApi.generatePayButton({
-					order_id: order._id,
-					user_id: order.user,
-					total: this.state.orderTotal * 100
-				});
-				break;
-			case 'paypal':
-				CartApi.paypalPayment({
-					order_id: order._id,
-					user_id: order.user,
-					total: this.state.orderTotal * 100
-				});
-				break;
-		}
-
+		this.setState({
+			form: OrderStore.getPaymentForm()
+		}, () => {
+			if (document.querySelector('#paymentForm')) document.querySelector('#paymentForm').submit();
+		});
 	}
 
 	onNewsletterStoreChange() {
 
 		let response = NewsletterStore.getCreated();
-		
+
 		if (response.success) {
 			MailApi.sendDynamicTemplate({
 				template: 'havana-subscribe-newsletter',
@@ -509,29 +488,23 @@ export default class Payment extends ComponentTransition {
 	}
 
 	handleCountryChange(e) {
-		
-		this.updateSupply();
-	
+		this.setState(this.getSupply(this.state));
 	}
 
-	updateSupply() {
-	
-		let country = document.getElementById('country').value;
-		let amountSupply = this.getAmoutSupply(country);
+	getSupply(cartState) {
 
-		this.setState({
+		const country = document.getElementById('country').value;
+		const amountSupply = getAmountSupply(country, cartState.cartItems.length);
+
+		return {
 			amountSupply: amountSupply,
-			orderTotal: (parseFloat(this.state.cartTotal) + amountSupply).toFixed(2)
-		});
-	
-	}
-
-	getAmoutSupply(country) {
-
-		let index = _.findIndex(dhl, { 'country': country });
-		let zone = dhl[index].zone;
-		return zones[zone][this.state.cartItems.length-1];
+			orderTotal: (parseFloat(cartState.cartTotal) + amountSupply).toFixed(2)
+		};
 
 	}
 
 }
+
+Payment.contextTypes = {
+	router: React.PropTypes.object.isRequired
+};

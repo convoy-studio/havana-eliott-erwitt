@@ -24,11 +24,16 @@ export default class Newsletter extends ComponentTransition {
 
 	}
 
-	componentDidMount() {
+    componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		NewsletterStore.addChangeListener(this.onStoreChange);
 
 	}
+
+    componentWillUnmount() {
+        NewsletterStore.removeChangeListener(this.onStoreChange);
+    }
 
 	render() {
 
@@ -54,7 +59,7 @@ export default class Newsletter extends ComponentTransition {
 							<label className='form__label' htmlFor='mail'>Enter your email address*</label>
 							<input className='form__input form__input--text' type='mail' id='mail' required/>
 							{(() => {
-								if (this.state.response) { 
+								if (this.state.response) {
 									if (this.state.response.success) { return (
 										<div className='text response--success'>{this.state.response.message}</div>
 									)} else { return (
@@ -63,7 +68,7 @@ export default class Newsletter extends ComponentTransition {
 								} else {
 									if (this.state.error) { return (
 										<div className='text response--error'>Invalid mail.</div>
-									)} 
+									)}
 									if (this.state.consent===false) { return (
 										<div className='text response--error'>Please tick the box to subscribe.</div>
 									)}

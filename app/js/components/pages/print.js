@@ -17,7 +17,7 @@ export default class Print extends ComponentTransition {
 	componentWillMount(){
 
 		// state
-		this.state = { 
+		this.state = {
 			print: undefined,
 			selectedSerial: undefined,
 			loadedPrint: undefined,
@@ -45,7 +45,6 @@ export default class Print extends ComponentTransition {
 		// vars
 		this.loaded = false;
 		this.bigprintLoaded = false;
-		this.validSerials = [];
 		this.scrollIndex = 0;
 		this.scrollOk = false;
 		this.transform = Utils.getSupportedPropertyName('transform');
@@ -56,7 +55,7 @@ export default class Print extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 		// let hamburger = document.querySelector('.hamburger');
@@ -68,19 +67,18 @@ export default class Print extends ComponentTransition {
 		this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 		// if (body && body.classList.contains('js-mobile')) this.enterTl.set(logo, {width:window.innerWidth-116, backgroundColor:'#000000'}, 0);
 		// this.enterTl.set(hamburger, {backgroundColor:'#000000'}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.body = document.querySelector('body');
 
@@ -112,8 +110,6 @@ export default class Print extends ComponentTransition {
 
 	componentWillUnmount() {
 
-		super.componentWillUnmount();
-
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
 
@@ -128,10 +124,7 @@ export default class Print extends ComponentTransition {
 
 		let title, city, country, year, price, desc, serials, artist, file, bigfile, alt, details, prev, next;
 
-		if (this.state.print) {
-			this.validSerials = this.getValidSerials();
-			this.selectedSerial = this.state.selectedSerial || this.getFirstSerial();
-
+		if (this.state.print && this.state.validSerials.length) {
 			title = this.state.print.title;
 			city = this.state.print.city;
 			country = this.state.print.country;
@@ -152,7 +145,7 @@ export default class Print extends ComponentTransition {
 		} else {
 			details = city+'. '+country+'. '+year;
 		}
-		
+
 		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
 
 		let seoTitle;
@@ -194,18 +187,16 @@ export default class Print extends ComponentTransition {
 							<p className='print__desc text text--small'>{this.state.techDesc}</p>
 							<div className='print__serials'>
 								{(() => {
-									if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
+									if (serials && serials.length > 0 && this.state.selectedSerial) { return (
 										<div>
 											<div className='print__serial-wrapper'>
 												<div className='print__serial-opt text'>Choose edition</div>
 												<div className='print__select text'>
-													<div className='print__serial--selected' onClick={this.toggleList}>{this.selectedSerial}</div>
+													<div className='print__serial--selected' onClick={this.toggleList}>{this.state.selectedSerial}</div>
 													<ul className='print__serial-list'>
-														{Object.keys(this.validSerials).map((index) => {
-															let enabled = this.validSerials[index]
-															let serial = parseInt(index)+1
-															// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
-															// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+														{Object.keys(this.state.validSerials).map((index) => {
+															let enabled = this.state.validSerials[index]
+															const serial = +index + 1;
 															if (enabled) {
 																return (<li className='print__serial' onClick={this.selectSerial.bind(this, serial)} key={index}>{serial}</li>)
 															} else {
@@ -233,18 +224,16 @@ export default class Print extends ComponentTransition {
 				</div>
 				<div className='print__mobile'>
 					{(() => {
-						if (serials && serials.length > 0 && this.selectedSerial !== 0) { return (
+						if (serials && serials.length > 0 && this.state.selectedSerial) { return (
 							<div>
 								<div className='print__serial-wrapper' onClick={this.toggleListMobile}>
 									<div className='print__serial-opt text'>Choose edition</div>
 									<div className='print__select text'>
-										<div className='print__serial--selected'>{this.selectedSerial}</div>
+										<div className='print__serial--selected'>{this.state.selectedSerial}</div>
 										<ul className='print__serial-list'>
-											{Object.keys(this.validSerials).map((index) => {
-												let enabled = this.validSerials[index]
-												let serial = parseInt(index)+1
-												// let classSelected = (serial === this.state.serial) ? 'print__serial--selected' : ''
-												// let classEnabled = (enabled) ? 'print__serial--enabled' : ''
+											{Object.keys(this.state.validSerials).map((index) => {
+												const enabled = this.state.validSerials[index]
+												const serial = +index + 1;
 												if (enabled) {
 													return (<li className='print__serial' onClick={this.selectSerial.bind(this, serial)} key={index}>{serial}</li>)
 												} else {
@@ -296,30 +285,23 @@ export default class Print extends ComponentTransition {
 
 	}
 
-	getValidSerials() {
-
-		this.validSerials = [];
-		this.cartSerials = _.pluck(_.filter(this.state.cartItems, { 'token': this.state.print.token }), 'serial');
-		_(this.state.print.serials).forEach((value, index) => {
-			if (_.indexOf(this.cartSerials, index+1) > -1) this.validSerials[index] = false;
-			else this.validSerials[index] = value;
+	getValidSerials(print, cartItems) {
+		let validSerials = [];
+		const cartSerials = _.pluck(_.filter(cartItems, { 'token': print.token }), 'serial');
+		_(print.serials).forEach((value, index) => {
+			if (_.indexOf(cartSerials, index+1) > -1) validSerials[index] = false;
+			else if (_.indexOf(print.serials_blocked, index+1) > -1) validSerials[index] = false;
+			else if (_.indexOf(print.serials_solded, index+1) > -1) validSerials[index] = false;
+			else validSerials[index] = value;
 		}).value();
 
-		return this.validSerials;
-
-	}
-
-	getFirstSerial() {
-
-		return _.indexOf(this.validSerials, true) + 1;
+		return validSerials;
 
 	}
 
 	selectSerial(serial, e) {
 
 		this.toggleList();
-		// document.querySelector('.serial--enabled').removeClass('serial--enabled');
-		// document.querySelector(e.target).addClass('serial--enabled');
 		this.setState({
 			selectedSerial: serial
 		});
@@ -347,10 +329,7 @@ export default class Print extends ComponentTransition {
 			};
 			CartActions.addToCart(update);
 			CartActions.updateCartEnabled(true, true);
-
-			this.setState({
-				selectedSerial: this.getFirstSerial()
-			});
+			PrintApi.blockSerial(update.token, update.serial);
 		} else {
 			this.setState({
 				error: 'Your cart is full (max 3)'
@@ -360,8 +339,6 @@ export default class Print extends ComponentTransition {
 	}
 
 	toggleList() {
-
-		console.log('toggleList');
 		if (!document.querySelector('body').classList.contains('js-mobile')) {
 			// document.querySelectorAll('.print__serial-list')[0].classList.toggle('enabled');
 			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
@@ -443,7 +420,7 @@ export default class Print extends ComponentTransition {
 		document.querySelector('body').classList.add('body--hidden');
 		document.querySelector('.print__mobile').classList.add('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
-		
+
 		if (!this.bigprintLoaded) {
 			this.bigprintLoaded = true;
 			let file = new Image();
@@ -474,7 +451,7 @@ export default class Print extends ComponentTransition {
 	// 	super.resize()
 
 	// 	// if (document.querySelector('body').classList.contains('js-mobile')) {
-			
+
 	// 	// }
 
 	// }
@@ -504,20 +481,19 @@ export default class Print extends ComponentTransition {
 		}
 
 		this.deltaX = 0;
-		
+
 	}
 
 	onStoreChange() {
-
+		const print = PrintStore.getOne();
+		const cartItems = CartStore.getCartItems();
+		const validSerials = this.getValidSerials(print, cartItems);
 		this.setState({
-			print: PrintStore.getOne(),
-			cartItems: CartStore.getCartItems(),
+			print: print,
+			cartItems: cartItems,
 			cartCount: CartStore.getCartCount(),
-			// selectedSerial: this.getFirstSerial()
-		}, () => {
-			this.setState({
-				selectedSerial: this.getFirstSerial()
-			});
+			validSerials: this.getValidSerials(print, cartItems),
+			selectedSerial: _.indexOf(validSerials, true) + 1
 		});
 
 	}

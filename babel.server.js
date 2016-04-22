@@ -2,6 +2,9 @@ require('babel/register')({
   	stage: 1
 });
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 /**
  * Define isomorphic constants.
  */

@@ -1,4 +1,5 @@
 import React from 'react';
+import TweenMax from 'gsap/src/uncompressed/TweenMax';
 
 export default class PopupShop extends React.Component {
 
@@ -15,7 +16,7 @@ export default class PopupShop extends React.Component {
 	}
 
 	componentDidMount() {
-	
+
 		this.popup = this.refs.popup.getDOMNode();
 
 	}
@@ -38,7 +39,7 @@ export default class PopupShop extends React.Component {
 		if(typeof localStorage !== 'undefined') {
 			localStorage.setItem('shop_opening', true);
 		}
-		
+
 		TweenMax.to(this.popup, 0.3, {opacity:0, ease:Power2.easeOut, onComplete:()=>{
 			this.popup.style.display = 'none';
 		}});

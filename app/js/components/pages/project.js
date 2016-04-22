@@ -28,15 +28,14 @@ export default class Project extends Component {
 		// binded
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.showGallery = this.showGallery.bind(this);
-
-		console.log('componentWillMount')
+        this.onOrientationChange = this.orientationChange.bind(this);
 
 	}
 
 	componentWillAppear(callback) {
 
 		setTimeout(callback, 1); // need at least one tick to fire transition
-	
+
 	}
 
 	componentDidAppear() {
@@ -47,7 +46,6 @@ export default class Project extends Component {
 
 	componentWillEnter(callback) {
 
-		console.log('componentWillEnter')
 		setTimeout(callback, 1);
 
 	}
@@ -61,16 +59,16 @@ export default class Project extends Component {
 	componentWillLeave(callback) {
 		this._leaveStyle(callback);
 		// setTimeout(callback, 300); // matches transition duration
-	
+
 	}
-	
+
 	componentDidLeave() {
-		
-	
+
+
 	}
-	
+
 	_enterStyle() {
-	
+
 		let el = this.refs.item.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 
@@ -82,18 +80,19 @@ export default class Project extends Component {
 			ProjectApi.getBySlug(this.props.params.slug);
 			PrintApi.getByArtist(this.props.params.slug);
 		}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.item.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
-	
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+
 		ProjectStore.addChangeListener(this.onStoreChange);
 		PrintStore.addChangeListener(this.onStoreChange);
 
@@ -110,7 +109,10 @@ export default class Project extends Component {
 
 		ProjectStore.removeChangeListener(this.onStoreChange);
 		PrintStore.removeChangeListener(this.onStoreChange);
-		window.removeEventListener('orientationchange', this.orientationChange.bind(this), false);
+        if (this.eventAdded) {
+            window.removeEventListener('orientationchange', this.onOrientationChange)
+            this.eventAdded = false;
+        }
 	}
 
 	render() {
@@ -167,7 +169,7 @@ export default class Project extends Component {
 									current={this.props.params.token}
 									updateCurrent={this._updateCurrentBinded}
 									isMobile={this.state.isMobile}
-								/>								
+								/>
 							</div>
 						)
 					}
@@ -203,7 +205,7 @@ export default class Project extends Component {
 			// 						current={this.props.params.token}
 			// 						updateCurrent={this._updateCurrentBinded}
 			// 						isMobile={this.state.isMobile}
-			// 					/>								
+			// 					/>
 			// 				</div>
 			// 			)
 			// 		}
@@ -211,7 +213,7 @@ export default class Project extends Component {
 			// </div>
 
 	showGallery() {
-		
+
 		this.props.hideMenu();
 		this.setState({
 			open: true
@@ -244,13 +246,14 @@ export default class Project extends Component {
 			project: ProjectStore.getOne(),
 			prints: PrintStore.getArtistPrints()
 		}, ()=>{
-			if(typeof window !== 'undefined' && _.size(this.state.prints) > 0 && !this.eventAdded) {
-				this.eventAdded = true;
-				if (window.innerWidth < 768) {
-					this.orientationChange();
-					window.addEventListener('orientationchange', this.orientationChange.bind(this), false);
-				}
-			}
+			if(window.innerWidth < 768 && _.size(this.state.prints) > 0 && !this.eventAdded) {
+				this.orientationChange();
+				window.addEventListener('orientationchange', this.onOrientationChange, false);
+                this.eventAdded = true;
+			} else if (window.innerWidth >= 768 && this.eventAdded) {
+                window.removeEventListener('orientationchange', this.onOrientationChange)
+                this.eventAdded = false;
+            }
 		});
 
 	}

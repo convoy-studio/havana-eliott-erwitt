@@ -14,8 +14,8 @@ const env = process.NODE_ENV || 'development';
 const config = configs[env];
 const server = new Hapi.Server();
 
-server.connection({ 
-    host: config.server.host, 
+server.connection({
+    host: config.server.host,
     port: config.server.port
 });
 
@@ -136,7 +136,7 @@ server.register([
                         const content = React.renderToString(<Router location={location} {...initialState}/>);
                         const head = Helmet.rewind();
                         let meta = (head && head.meta) ? head.meta.toString() : '';
-                        
+
                         // fetchComponentsdata(initialState.components)
                         //     .then((response)=> {
                         //     })
@@ -160,17 +160,14 @@ server.register([
                                 + `</head>
                                 <body>
                                     <div id="fb-root"></div>
-                                    
+
                                     <div id="landscape">
                                         <div><p>Please rotate your device</p></div>
                                     </div>
 
                                     <div id="root" dangerouslySetInnerHTML={{__html: content}}/>
 
-                                    <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.9.0/fetch.js" type="text/javascript"></script>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" type="text/javascript"></script>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
+                                    <script async src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="/vendors/pdfmake.js" type="text/javascript"></script>
                                     <script src="/vendors/vfs_fonts.js" type="text/javascript"></script>
                                     <script src="`+scripts[env]+`" type="text/javascript"></script>

@@ -12,16 +12,6 @@ let config = require('../../config');
 export default class News extends ComponentTransition {
 
 	componentWillMount() {
-
-		super.componentWillMount();
-
-		this.vw = 0;
-		this.vh = 0;
-		if(typeof window !== 'undefined') {
-			this.vw = window.innerWidth;
-			this.vh = window.innerHeight;
-		}
-
 		// state
 		this.state = {
 			isMobile: false
@@ -30,6 +20,8 @@ export default class News extends ComponentTransition {
 		// binded
 		this.raf = this.raf.bind(this);
 
+        this.vw = 0;
+        this.vh = 0;
 		this.eShow = [];
 		this.sTop = 0;
 		this.cTop = 0;
@@ -42,19 +34,21 @@ export default class News extends ComponentTransition {
 
 	componentDidMount() {
 
-		super.componentDidMount();
-
 		if(typeof document !== 'undefined') {
+
+			this.vw = window.innerWidth;
+			this.vh = window.innerHeight;
+
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--news');
-			
+
 			this.news = document.querySelector('.news');
 
 			this.newsDates = document.getElementsByClassName('news__date')
 			this.newsContents = document.getElementsByClassName('news__content')
-			
+
 			// this.page.style.height = this.news.offsetHeight + 'px';
-			
+
 		}
 
 		var imgs = document.getElementsByTagName("img");
@@ -169,10 +163,12 @@ export default class News extends ComponentTransition {
 		this.sTop = Utils.getScrollTop();
 		this.cTop += .1 * (this.sTop - this.cTop);
 		e = -this.cTop;
-		
+
 		if (this.news) {
 			this.news.style[this.transform] = 'translate3d(0, ' + e + 'px, 0)';
-		}	
+		}
+
+        const TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		_(document.querySelectorAll('.news__item')).forEach((el, index) => {
 			this.lTop = offset(el).top;
@@ -185,7 +181,7 @@ export default class News extends ComponentTransition {
 				this.eShow[index] = true;
 				TweenMax.to(el, 0.6, {y: 0, opacity: 1, ease: Power2.easeOut, delay: Math.random()*0.2});
 			}
-			
+
 			// off viewport
 			if (this.lTop - this.vh > 0 && this.eShow[index]) {
 				this.eShow[index] = false;

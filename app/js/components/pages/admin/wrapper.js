@@ -3,6 +3,7 @@ import Home from './home';
 import { Link } from 'react-router';
 import LoginStore from '../../../stores/loginStore';
 import Orders from './orders';
+import Auth from '../../../utils/authService';
 let config = require('../../../config');
 
 const adminNav = [
@@ -22,17 +23,17 @@ const adminNav = [
 ];
 
 const deliveryNav = [
-	// {
-	// 	section: 'order',
-	// 	url: '/admin/orders',
-	// 	label: 'Orders'
-	// }
+	{
+		section: 'order',
+		url: '/admin/orders',
+		label: 'Commandes'
+	}
 ];
 
 export default class Admin extends Component {
 
 	componentDidMount(){
-		
+
 		if (!LoginStore.isLoggedIn()) {
 			this.context.router.transitionTo('/login');
 		}
@@ -61,12 +62,16 @@ export default class Admin extends Component {
 					<header className='header'>
 						<nav className='admin__menu'>
 							<ul className='admin__list'>
+								<li className='admin__item' key="0"><a className="button" onClick={() => {
+									Auth.logout();
+									this.context.router.transitionTo('/login');
+								}}>LOGOUT</a></li>
 								{Object.keys(adminNav).map((index) => {
 									let item = adminNav[index];
 									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
 									return (
-										<li className='admin__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+										<li className='admin__item' key={index+1}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
 									)
 								})}
 							</ul>
@@ -83,6 +88,10 @@ export default class Admin extends Component {
 					<header className='header'>
 						<nav className='admin__menu'>
 							<ul className='admin__list'>
+                                <li className='admin__item' key="0"><a className="button" onClick={() => {
+                                    Auth.logout();
+                                    this.context.router.transitionTo('/login');
+                                }}>DECONNEXION</a></li>
 								{Object.keys(deliveryNav).map((index) => {
 									let item = deliveryNav[index];
 									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
@@ -111,5 +120,5 @@ export default class Admin extends Component {
 }
 
 Admin.contextTypes = {
-	router: React.PropTypes.func.isRequired
+	router: React.PropTypes.object.isRequired
 };

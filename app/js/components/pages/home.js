@@ -7,10 +7,12 @@ import AppActions from '../../actions/appActions';
 import homeData from '../../../data/home';
 let config = require('../../config');
 
+let TweenMax;
+
 export default class Home extends ComponentTransition {
 
 	componentWillMount() {
-		
+
 		this.vw = 0;
 		this.vh = 0;
 		if(typeof window !== 'undefined') {
@@ -26,7 +28,7 @@ export default class Home extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		// let logo = document.querySelector('.header__logo');
 		// let hamburger = document.querySelector('.hamburger');
@@ -42,23 +44,22 @@ export default class Home extends ComponentTransition {
 		if (body && body.classList.contains('js-mobile')) {
 			footer.style.display = 'none';
 		}
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		// let logo = document.querySelector('.header__logo');
 		let footer = document.querySelector('.footer');
 
 		footer.style.display = 'block';
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		this.body = document.querySelector('body');
 		this.canvas = document.querySelector('.canvas');
@@ -69,35 +70,31 @@ export default class Home extends ComponentTransition {
 		this.fontSizeMobile = 24;
 		this.fontSizeLogoMobile = 20;
 
-		if (AppStore.getSplash()) {
-			AppActions.disableSplash();
+		this.overlay.classList.add('bg-video__overlay--hidden');
 
-			this.overlay.classList.add('bg-video__overlay--hidden');
+		// TweenMax.set(document.querySelector('.header'), {opacity: 0});
+		// TweenMax.set(document.querySelector('.footer'), {opacity: 0});
+		TweenMax.set(document.querySelector('.home'), {opacity: 0});
+		TweenMax.to(this.canvas, 0.8, {backgroundColor: 'transparent', delay: 0.2});
 
-			// TweenMax.set(document.querySelector('.header'), {opacity: 0});
-			// TweenMax.set(document.querySelector('.footer'), {opacity: 0});
-			TweenMax.set(document.querySelector('.home'), {opacity: 0});
-			TweenMax.to(this.canvas, 0.8, {backgroundColor: 'transparent', delay: 0.2});
-			
-			this.initSplash();
-			window.onload = ()=>{
-				this.initAnimation();
+		this.initSplash();
+		window.onload = ()=>{
+			this.initAnimation();
 
-				// if (this.body && this.body.classList.contains('js-mobile')) {
-				if (window.innerWidth < 768) {
-					this.cropDescMobile();
-				} else if (window.innerWidth < 1024) {
-					this.cropDescTablet();
-				} else {
-					this.cropDesc();
-				}
+			// if (this.body && this.body.classList.contains('js-mobile')) {
+			if (window.innerWidth < 768) {
+				this.cropDescMobile();
+			} else if (window.innerWidth < 1024) {
+				this.cropDescTablet();
+			} else {
+				this.cropDesc();
 			}
 		}
 
 	}
 
 	render() {
-		
+
 		let seo = {
 			title: 'Elliott Erwitt documentary photography | Elliott Erwitt Havana Club 7 Fellowship',
 			description: "Legendary Magnum photographer Elliott Erwitt returns to Cuba to capture images in support of the inaugural 'Elliott Erwitt Havana Club 7 Fellowship'.",
@@ -120,7 +117,6 @@ export default class Home extends ComponentTransition {
 				<div className='home__overlay bg-video__overlay'></div>
 			</div>);
 		}
-				// <canvas className='canvas'></canvas>
 
 		return (
 			<div className='page page--home' ref='view'>
@@ -208,7 +204,7 @@ export default class Home extends ComponentTransition {
 
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
-		
+
 		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
@@ -222,7 +218,7 @@ export default class Home extends ComponentTransition {
 
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
-		
+
 		ctx.font = "400 24px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
@@ -252,7 +248,7 @@ export default class Home extends ComponentTransition {
 
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
-		
+
 		// crop logo
 		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
 		ctx.textAlign = "center";
@@ -260,7 +256,7 @@ export default class Home extends ComponentTransition {
 		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', this.vw/2, this.vh/2 - 7);
 		ctx.font = "400 "+this.fontSize+"px 'HC7Craft'";
 		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 32);
-		
+
 		ctx.beginPath();
 		ctx.rect(this.vw/2 - 244, this.vh/2 + 19, 118, 2);
 		ctx.rect(this.vw/2 + 130, this.vh/2 + 19, 114, 2);
@@ -273,7 +269,7 @@ export default class Home extends ComponentTransition {
 
 		let ctx = this.canvas.getContext('2d');
 		this.resetCanvas();
-		
+
 		// crop logo
 		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'hc7modern'";
 		ctx.textAlign = "center";
@@ -281,7 +277,7 @@ export default class Home extends ComponentTransition {
 		ctx.fillText('ELLIOTT ERWITT HAVANA CLUB 7', this.vw/2, this.vh/2 - 2);
 		ctx.font = "400 "+this.fontSizeLogoMobile+"px 'HC7Craft'";
 		ctx.fillText('FELLOWSHIP', this.vw/2, this.vh/2 + 20);
-		
+
 		ctx.beginPath();
 		ctx.rect(this.vw/2 - 137, this.vh/2 + 13, 68, 1);
 		ctx.rect(this.vw/2 + 70, this.vh/2 + 13, 68, 1);

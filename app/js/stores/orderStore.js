@@ -12,6 +12,7 @@ let _deliveredOrders = {};
 let _order = {};
 let _orderCreated = {};
 let _stateUpdated = undefined;
+let _paymentForm;
 
 let OrderStore = assign({}, EventEmitter.prototype, {
 	getAll: function() {
@@ -29,8 +30,8 @@ let OrderStore = assign({}, EventEmitter.prototype, {
 	getUpdated: function() {
 		return _stateUpdated;
 	},
-	getCreated: function() {
-		return _orderCreated
+	getPaymentForm: function() {
+		return _paymentForm;
 	},
 	// Emit Change event
 	emitChange: function() {
@@ -71,10 +72,13 @@ let OrderStore = assign({}, EventEmitter.prototype, {
 				_orderCreated = action.item;
 				OrderStore.emitChange();
 				break;
+			case OrderConstants.SET_PAYMENT_FORM:
+				_paymentForm = action.item;
+				OrderStore.emitChange();
+				break;
 		}
 		return true
 	})
 })
 
 export default OrderStore
-

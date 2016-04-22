@@ -2,28 +2,42 @@ import React, { Component } from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
-import Auth from '../../utils/authService'
+import Auth from '../../utils/authService';
 let config = require('../../config');
 
 export default class Login extends ComponentTransition {
+    constructor() {
+
+		super();
+
+		this.state = {
+            error: false
+		};
+	}
+
+	componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let header = document.querySelector('.header');
 		let footer = document.querySelector('.footer');
 
-		header.style.display = 'none';
-		footer.style.display = 'none';
-		el.style.opacity = 1;
-	
+        if (el && header && footer) {
+    		header.style.display = 'none';
+    		footer.style.display = 'none';
+    		el.style.opacity = 1;
+        }
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	componentWillMount() {
@@ -31,7 +45,7 @@ export default class Login extends ComponentTransition {
 		// binded
 		this.login = this.login.bind(this);
 		// this.signup = this.signup.bind(this);
-		
+
 	}
 
 	render() {
@@ -48,6 +62,7 @@ export default class Login extends ComponentTransition {
 				<Seo seo={seo} />
 				<h1 className='title title--center title--absolute'><span>Admin</span></h1>
 				<form className='admin__form form'>
+					{this.state.error && (<div className="form__error">Invalid username or password</div>) }
 					<div className='form__row'>
 						<label className='form__label' htmlFor='id'>Identifiant</label>
 						<input type='text' ref='id'></input>
@@ -71,7 +86,7 @@ export default class Login extends ComponentTransition {
 	login(e) {
 
 		e.preventDefault();
-		
+
 		let id = this.refs.id.getDOMNode().value;
 		let pwd = this.refs.pwd.getDOMNode().value;
 
@@ -83,7 +98,11 @@ export default class Login extends ComponentTransition {
 			Auth.login(user)
 				.then((response)=>{
 					this.context.router.transitionTo('/admin');
-				});
+				}).catch(function(err) {
+            		this.setState({
+                        error: true,
+                    });
+            	}.bind(this));
 		}
 	}
 

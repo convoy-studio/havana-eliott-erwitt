@@ -4,12 +4,13 @@ import { Link } from 'react-router';
 import ComponentTransition from '../componentTransition';
 import Utils from '../../utils/utils';
 let config = require('../../config');
+import CartActions from '../../actions/cartActions';
 
 export default class Result extends ComponentTransition {
 
-	componentWillMount(){
-		
-	}
+    componentDidMount() {
+        TweenMax = require('gsap/src/uncompressed/TweenMax');
+    }
 
 	render() {
 
@@ -19,65 +20,65 @@ export default class Result extends ComponentTransition {
 			url: config.siteurl + '/payment-confirmation',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
-		let message = [];
+		let messages = [];
 
 		switch(Utils.getURLParameter('result')) {
 			case 'success':
-				message = [
+				messages = [
 					'Your order been validated.',
 					'An email has been sent to you.'
 				];
 				break;
 			case 'transaction-refused':
-				message = [
+				messages = [
 					'Transaction refused.',
 					'Transaction rejected by the banking network.',
 				];
 				break;
 			case 'insuffisiant-funds':
-				message = [
+				messages = [
 					'Insufficient funds.',
 					'The wallet balance doesn’t allow to process transaction.',
 				];
 				break;
 			case 'suspected-fraud':
-				message = [
+				messages = [
 					'The card is considered as fraudulent by the bank.',
 					'Please use a different card.',
 				];
 				break;
 			case 'lost-card':
-				message = [
+				messages = [
 					'Card reported as lost.',
 					'Please use a different card or contact your card-issuing bank for more information.',
 				];
 				break;
 			case 'stolen-card':
-				message = [
+				messages = [
 					'Card reported as stolen.',
 					'Please use a different card or contact your card-issuing bank for more information.',
 				];
 				break;
 			case 'echec-transaction':
-				message = [
+				messages = [
 					'Transaction failed.',
 					'Please try again or ask your bank for more details.',
 				];
 				break;
 			case 'invalid-card-information':
-				message = [
+				messages = [
 					'Invalid card information.',
 					'Please verify the name, card number, expiration date and CVV.',
 				];
 				break;
 			case 'expired-card':
-				message = [
+				messages = [
 					'Card reported as expired.',
 					'Please contact your card-issuing bank for more information.',
 				];
 				break;
 			case 'error':
-				message = [
+				messages = [
 					'An error occurred when ordering.',
 					'Please try again',
 				];
@@ -85,19 +86,7 @@ export default class Result extends ComponentTransition {
 		}
 
 		if (Utils.getURLParameter('result') === 'success') {
-			message = [
-				'Votre commande à bien été validée.',
-				'Un email vient de vous être envoyé.'
-			];
-
-			// vider le panier
-			localStorage.setItem('cart', undefined);
-		}
-		if (Utils.getURLParameter('result') === 'error') {
-			message = [
-				'Une erreur s\'est produite lors de la commande.',
-				'Veuillez réessayer ultérieurement.',
-			];
+			CartActions.clearCart();
 		}
 
 		return (
@@ -105,13 +94,13 @@ export default class Result extends ComponentTransition {
 				<Seo seo={seo} />
 				<div className='result'>
 					<div className='result__message'>
-						{Object.keys(message).map((index) => {
+						{messages.map((message, index) => {
 							return (
-								<p key={index} className='text'>{message[index]}</p>
+								<p key={index} className='text'>{message}</p>
 							)
 						}.bind(this))}
 					</div>
-					<Link to='/' className='button'>Revenir au site</Link>
+					<Link to='/shop' className='button'>Back to shop</Link>
 				</div>
 			</div>
 		);
