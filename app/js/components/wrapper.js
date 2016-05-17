@@ -166,6 +166,8 @@ export default class Wrapper extends React.Component {
 											<li><Link to={AppStore.getLink("/terms-and-condition-of-sale")} className="footer__button button button--footer">{this.content.footer_terms_conditions_sale}</Link></li>
 										)}
 									}.bind(this))()}
+									<br />
+									<li><Link to={'/en'} className="footer__button button button--footer">EN</Link> / <Link to={'/es'} className="footer__button button button--footer">ES</Link></li>
 								</ul>
 							</footer>
 						)
