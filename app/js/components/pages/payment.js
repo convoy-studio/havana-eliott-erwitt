@@ -10,7 +10,6 @@ import OrderStore from '../../stores/orderStore';
 import NewsletterApi from '../../utils/newsletterApi';
 import NewsletterStore from '../../stores/newsletterStore';
 import MailApi from '../../utils/mailApi';
-import zones from '../../utils/zones';
 import AppStore from '../../stores/appStore';
 import getAmountSupply from '../../../../common/shiiping';
 import dhl from '../../../../common/shipping/dhl';

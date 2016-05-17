@@ -74,6 +74,8 @@ export default class Home extends ComponentTransition {
 
 		this.overlay.classList.add('bg-video__overlay--hidden');
 
+		console.log(this.canvas)
+
 		// TweenMax.set(document.querySelector('.header'), {opacity: 0});
 		// TweenMax.set(document.querySelector('.footer'), {opacity: 0});
 		TweenMax.set(document.querySelector('.home'), {opacity: 0});

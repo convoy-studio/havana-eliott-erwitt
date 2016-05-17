@@ -37,17 +37,6 @@ export default class Wrapper extends React.Component {
 			popupVisibility: false,
             splash: pathname === '/'
 		};
-<<<<<<< HEAD
-
-		this.splash = AppStore.getSplash();
-
-		const { pathname } = this.props.location;
-		if (this.splash && pathname !== '/') {
-			this.splash = false;
-			AppActions.disableSplash();
-		}
-=======
->>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 
 		// binded
 		this.toggleMenu = this.toggleMenu.bind(this);
@@ -74,11 +63,8 @@ export default class Wrapper extends React.Component {
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.handleScroll;
 
-<<<<<<< HEAD
 		AppStore.Lang = this.getLanguage(window.location.pathname)
 		if(AppStore.Lang == undefined) AppStore.Lang = 'en'
-
-=======
         if (pathname != '/login' && pathname.indexOf('admin') < 0) {
 			const cookies = window.localStorage.getItem('cookies');
 			if (!cookies) {
@@ -87,73 +73,16 @@ export default class Wrapper extends React.Component {
 				});
 			}
 		}
->>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 	}
 
 	render() {
 		const { pathname } = this.props.location;
-<<<<<<< HEAD
-
-		if(typeof localStorage !== 'undefined') {
-			this.cookies = window.localStorage.getItem('cookies');
-			if (!this.cookies) {
-				if (pathname.length < 4) {
-					TweenMax.delayedCall(12.4, ()=>{
-						this.setState({
-							popupVisibility: true
-						});
-					}.bind(this));
-				} else {
-					setTimeout(()=> {
-						this.setState({
-							popupVisibility: true
-						});
-					}, 0)
-				}
-			}
-		}
-=======
 		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
->>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 
 		this.content = AppStore.getContent()
 
 		return (
 			<div>
-<<<<<<< HEAD
-				{(!this.cookies) ? (<PopupCookie visible={this.state.popupVisibility} />) : null}
-				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
-
-				{(() => {
-					if (this.props.location.pathname.indexOf('/admin') === -1) {
-						return (
-							<header className='header'>
-								<div className='hamburger' onClick={this.openMenu}>
-									<div className='hamburger__line'></div>
-								</div>
-								<h1 className='header__logo'>
-									<Link to={AppStore.getLink("")}><div className='header__title'>{this.content.header_title}</div><div className='header__subtitle'>{this.content.header_subtitle}</div></Link>
-								</h1>
-								<nav className='header__menu'>
-									<div className='header__close'></div>
-									<ul className='header__list'>
-										{Object.keys(nav).map((index) => {
-											let item = nav[index];
-											let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
-
-											return (
-												<li className='header__item' key={index}><Link className={"button "+enabled} to={AppStore.getLink(item.url)}>{item.label}</Link></li>
-											)
-										})}
-										
-									</ul>
-								</nav>
-							</header>
-						)
-					}
-				}.bind(this))()}
-				
-=======
 				{this.state.popupVisibility && (<PopupCookie />)}
 				{this.state.splash && (<canvas className='canvas'></canvas>)}
 
@@ -163,76 +92,52 @@ export default class Wrapper extends React.Component {
 							<div className='hamburger__line'></div>
 						</div>
 						<h1 className='header__logo'>
-							<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
+							<Link to={AppStore.getLink("")}><div className='header__title'>{this.content.header_title}</div><div className='header__subtitle'>{this.content.header_subtitle}</div></Link>
 						</h1>
 						<nav className='header__menu'>
 							<div className='header__close'></div>
 							<ul className='header__list'>
-											{Object.keys(nav).map((index) => {
-											let item = nav[index];
-												let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
+								{Object.keys(nav).map((index) => {
+									let item = nav[index];
+									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
-												return (
-								<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
-								)
+									return (
+										<li className='header__item' key={index}><Link className={"button "+enabled} to={AppStore.getLink(item.url)}>{item.label}</Link></li>
+									)
 								})}
-
+								
 							</ul>
 						</nav>
 					</header>
 				)}
 
->>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 				<div id='pageContainer' className='page-container' ref='page-container'>
 					<Transition component="div">
 						{React.cloneElement(this.props.children || <div />, { key: pathname })}
 					</Transition>
 				</div>
 
-<<<<<<< HEAD
-				{(() => {
-					if (this.props.location.pathname.indexOf('/admin') === -1) {
-						return (
-							<footer className='footer'>
-								<ul>
-									<li><Link to={AppStore.getLink("/newsletter")} className="footer__button button button--footer">{this.content.footer_news}</Link></li>
-									<li><Link to={AppStore.getLink("/contact")} className="footer__button button button--footer">{this.content.footer_contact}</Link></li>
-									<li><Link to={AppStore.getLink("/privacy-policy")} className="footer__button button button--footer">{this.content.footer_privacy}</Link></li>
-									<li><Link to={AppStore.getLink("/cookie-policy")} className="footer__button button button--footer">{this.content.footer_cookie}</Link></li>
-									
-									{(() => {
-										if (this.props.location.pathname.indexOf('/shop') === -1) { return (
-											<li><Link to={AppStore.getLink("/terms-and-condition-of-use")} className="footer__button button button--footer">{this.content.footer_terms_conditions}</Link></li>
-										)} else { return (
-											<li><Link to={AppStore.getLink("/terms-and-condition-of-sale")} className="footer__button button button--footer">{this.content.footer_terms_conditions_sale}</Link></li>
-										)}
-									}.bind(this))()}
-									<br />
-									<li><Link to={'/en'} className="footer__button button button--footer">EN</Link> / <Link to={'/es'} className="footer__button button button--footer">ES</Link></li>
-								</ul>
-							</footer>
-						)
-					}
-				}.bind(this))()}
-=======
+
 				{!isAdmin && (
 					<footer className='footer'>
 						<ul>
-							<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
-							<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
-							<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
-							<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
-								{(() => {
+							<li><Link to={AppStore.getLink("/newsletter")} className="footer__button button button--footer">{this.content.footer_news}</Link></li>
+							<li><Link to={AppStore.getLink("/contact")} className="footer__button button button--footer">{this.content.footer_contact}</Link></li>
+							<li><Link to={AppStore.getLink("/privacy-policy")} className="footer__button button button--footer">{this.content.footer_privacy}</Link></li>
+							<li><Link to={AppStore.getLink("/cookie-policy")} className="footer__button button button--footer">{this.content.footer_cookie}</Link></li>
+							
+							{(() => {
 								if (this.props.location.pathname.indexOf('/shop') === -1) { return (
-							<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
-							)} else { return (
-							<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
-							)}
+									<li><Link to={AppStore.getLink("/terms-and-condition-of-use")} className="footer__button button button--footer">{this.content.footer_terms_conditions}</Link></li>
+								)} else { return (
+									<li><Link to={AppStore.getLink("/terms-and-condition-of-sale")} className="footer__button button button--footer">{this.content.footer_terms_conditions_sale}</Link></li>
+								)}
 							}.bind(this))()}
+							<br />
+							<li><Link to={'/en'} className="footer__button button button--footer">EN</Link> / <Link to={'/es'} className="footer__button button button--footer">ES</Link></li>
 						</ul>
 					</footer>
 				)}
->>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 			</div>
 		);
 	}
