@@ -3,7 +3,6 @@ let config = require('../config');
 
 
 module.exports = {
-
 	getAll : function() {
 		fetch(config.siteurl + '/api/prints')
 			.then(function(response) {
@@ -64,7 +63,6 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				console.log(json);
 				PrintActions.receive(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
@@ -76,15 +74,39 @@ module.exports = {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
-				console.log(json);
 				PrintActions.receive(json)
 			}).catch(function(ex) {
 				console.log('parsing failed', ex)
 			});
 	},
 
+	blockSerial: function (token, serial) {
+		fetch(config.siteurl + '/api/printBlocked/' + token, {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'serial' : serial
+			})
+		});
+	},
+
+	unblockSerial: function (token, serial) {
+		fetch(config.siteurl + '/api/printBlocked/' + token, {
+			method: 'delete',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'serial' : serial
+			})
+		});
+	},
+
 	order : function(id, serial) {
-		console.log(serial)
 		fetch(config.siteurl + '/api/print/' + id, {
 			method: 'post',
 			headers: {

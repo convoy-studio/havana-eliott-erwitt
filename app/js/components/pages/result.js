@@ -5,12 +5,16 @@ import ComponentTransition from '../componentTransition';
 import Utils from '../../utils/utils';
 import AppStore from '../../stores/appStore';
 let config = require('../../config');
+import CartActions from '../../actions/cartActions';
 
 export default class Result extends ComponentTransition {
 
 	componentWillMount(){
 		this.content = AppStore.getContent()
 	}
+    componentDidMount() {
+        TweenMax = require('gsap/src/uncompressed/TweenMax');
+    }
 
 	render() {
 
@@ -20,7 +24,7 @@ export default class Result extends ComponentTransition {
 			url: config.siteurl + '/payment-confirmation',
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
-		let message = [];
+		let messages = [];
 
 		switch(Utils.getURLParameter('result')) {
 			case 'success':
@@ -99,6 +103,7 @@ export default class Result extends ComponentTransition {
 				this.content.payment_result_validated_error_1,
 				this.content.payment_result_validated_error_2,
 			];
+			CartActions.clearCart();
 		}
 
 		return (
@@ -106,9 +111,9 @@ export default class Result extends ComponentTransition {
 				<Seo seo={seo} />
 				<div className='result'>
 					<div className='result__message'>
-						{Object.keys(message).map((index) => {
+						{messages.map((message, index) => {
 							return (
-								<p key={index} className='text'>{message[index]}</p>
+								<p key={index} className='text'>{message}</p>
 							)
 						}.bind(this))}
 					</div>

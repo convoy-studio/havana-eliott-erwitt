@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
+import PrintApi from '../../utils/printApi';
 // import AppStore from 'AppStore'
 // import AppConstants from 'AppConstants'
 
@@ -31,7 +32,7 @@ export default class Cart extends Component {
 		this.handleEnter 		= this.handleEnter.bind(this);
 		this.handleLeave 		= this.handleLeave.bind(this);
 		this.handleCountEnter 	= this.handleCountEnter.bind(this);
-		
+
 		// const
 		this.CART_DELAY = 2000;
 
@@ -48,6 +49,7 @@ export default class Cart extends Component {
 
 		this.body.addEventListener('click', this.handleClickOutside);
 		CartStore.addChangeListener(this.onStoreChange);
+		CartActions.initCart();
 		this.content.addEventListener('click', this.handleClickInside);
 		this.count.addEventListener('mouseenter', this.handleCountEnter);
 		this.view.addEventListener('mouseenter', this.handleEnter);
@@ -56,7 +58,7 @@ export default class Cart extends Component {
 	}
 
 	componentWillUnmount() {
-		
+
 		this.body.removeEventListener('click', this.handleClickOutside);
 		CartStore.removeChangeListener(this.onStoreChange);
 		this.content.removeEventListener('click', this.handleClickInside);
@@ -69,12 +71,12 @@ export default class Cart extends Component {
 	render() {
 
 		let itemLabel = (this.state.count > 1) ? 'items' : 'item';
-		let visibility = (this.state.enabled.cartEnabled ? 'cart--enabled ' : ' ') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
+		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
 
 		return (
 			<div>
-				<div className={'cart ' + visibility + isEmpty} ref='cart'>
+				<div className={'cart' + visibility + isEmpty} ref='cart'>
 					<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
@@ -88,8 +90,8 @@ export default class Cart extends Component {
 								let details
 								if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
 								else details = product.city+'. '+product.country+'. '+product.year
-								
-								return ( 
+
+								return (
 									<li key={index} className='cart__product'>
 										<div className='cart__column'>
 											<div className='cart__artist'>{product.project.artist}</div>
@@ -160,8 +162,9 @@ export default class Cart extends Component {
 
 	removeItem(index) {
 
+		const print = this.state.items[index];
+        PrintApi.unblockSerial(print.token, print.serial);
 		CartActions.removeFromCart(index);
-
 	}
 
 	handleClickOutside(e) {
@@ -209,18 +212,12 @@ export default class Cart extends Component {
 			this.close();
 			clearTimeout(this.closeCountdown);
 			this.closeCountdown = undefined;
-		}, this.CART_DELAY);	
+		}, this.CART_DELAY);
 
 	}
 
 	onStoreChange() {
-
-		this.setState(getState(), ()=>{
-			if(typeof localStorage !== 'undefined') {
-				localStorage.setItem('cart', JSON.stringify(this.state.items));
-			}
-		});
-
+		this.setState(getState());
 	}
 
 }

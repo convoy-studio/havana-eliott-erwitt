@@ -35,16 +35,22 @@ let OrderActions = {
 		AppDispatcher.handleServerAction({
 			actionType: OrderConstants.STATE_UPDATED,
 			item: data
-		});	
+		});
 	},
 
 	created : function(data){
 		AppDispatcher.handleServerAction({
 			actionType: OrderConstants.CREATED,
 			item: data
-		});	
-	}
+		});
+	},
 
+    setPaymentForm: function(data){
+		AppDispatcher.handleServerAction({
+			actionType: OrderConstants.SET_PAYMENT_FORM,
+			item: data
+		});
+	}
 }
 
 export default OrderActions;

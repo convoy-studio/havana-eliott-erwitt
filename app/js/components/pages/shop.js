@@ -7,6 +7,9 @@ import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
 import { intro } from '../../../data/shop';
+import Cart from '../modules/cart';
+import CartActions from '../../actions/cartActions';
+import CartStore from '../../stores/cartStore';
 let raf = Utils.raf();
 let _ = require('lodash');
 let offset = require('../../utils/offset');
@@ -19,21 +22,13 @@ let config = require('../../config');
 export default class Shop extends ComponentTransition {
 
 	componentWillMount() {
-
-		super.componentWillMount();
-		
-		this.vw = 0;
-		this.vh = 0;
-		if(typeof window !== 'undefined') {
-			this.vw = window.innerWidth;
-			this.vh = window.innerHeight;
-		}
-
 		// state
-		this.state = { 
+		this.state = {
 			prints: {},
 			loaded: false,
-			open: false
+			open: false,
+			cartItems: CartStore.getCartItems(),
+			cartCount: 0
 		};
 
 		// binded
@@ -41,8 +36,10 @@ export default class Shop extends ComponentTransition {
 		this.raf 				= this.raf.bind(this);
 		this.discover 			= this.discover.bind(this);
 		this.onImageLoaded 		= this.onImageLoaded.bind(this);
-		
+
 		// vars
+        this.vw = 0;
+        this.vh = 0;
 		this.eShow = [];
 		this.nImageLoaded = 0;
 		this.loaded = false;
@@ -57,11 +54,15 @@ export default class Shop extends ComponentTransition {
 	}
 
 	componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
+		CartStore.addChangeListener(this.onStoreChange);
 
 		if(typeof document !== 'undefined') {
+			this.vw = window.innerWidth;
+			this.vh = window.innerHeight;
 			this.body 		= document.querySelector('body');
 			this.page 		= document.querySelector('.page--shop');
 			this.shop 		= document.querySelector('.shop');
@@ -98,8 +99,9 @@ export default class Shop extends ComponentTransition {
 
 		if(typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
-		}	
+		}
 		PrintStore.removeChangeListener(this.onStoreChange);
+		CartStore.removeChangeListener(this.onStoreChange);
 
 	}
 
@@ -122,7 +124,7 @@ export default class Shop extends ComponentTransition {
 			} else if (index % 2 === 0) {
 				if (!this.prints[1]) this.prints[1] = []
 				this.prints[1].push(print);
-			} else {	
+			} else {
 				if (!this.prints[2]) this.prints[2] = []
 				this.prints[2].push(print);
 			}
@@ -178,6 +180,7 @@ export default class Shop extends ComponentTransition {
 						}.bind(this))}
 					</div>
 				</div>
+				<Cart />
 			</div>
 		);
 									// {Object.keys(prints).map((index) => {
@@ -262,7 +265,7 @@ export default class Shop extends ComponentTransition {
 	}
 
 	handleScroll() {
-		
+
 		let e;
 		this.sTop = Utils.getScrollTop();
 		this.cTop += 0.1 * (this.sTop - this.cTop);
@@ -282,7 +285,7 @@ export default class Shop extends ComponentTransition {
 				this.eShow[index] = true
 				TweenMax.to(el, 0.6, {y: 0, opacity: 1, ease: Power2.easeOut, delay: Math.random()*0.2})
 			}
-			
+
 			// off viewport
 			if (this.lTop - this.vh > 0 && this.eShow[index]) {
 				this.eShow[index] = false
@@ -325,9 +328,11 @@ export default class Shop extends ComponentTransition {
 	}
 
 	onStoreChange() {
-		
+
 		this.setState({
-			prints: PrintStore.getForSale()
+			prints: PrintStore.getForSale(),
+			cartItems: CartStore.getCartItems(),
+			cartCount: CartStore.getCartCount()
 		});
 
 	}

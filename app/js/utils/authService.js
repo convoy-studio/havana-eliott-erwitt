@@ -24,10 +24,11 @@ login(user) {
 	}).then(function(response) {
 		return response.json();
 	}).then(function(json) {
+        if (!json.success) {
+			throw new Error(json.message);
+		}
 		let jwt = json.data.token;
 		LoginActions.loginUser(jwt);
-	}).catch(function(err) {
-		console.log('parsing failed', err);
 	});
 
 }

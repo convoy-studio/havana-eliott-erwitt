@@ -15,13 +15,6 @@ var AppActions = {
             actionType: AppConstants.WINDOW_RESIZE,
             item: { windowW:windowW, windowH:windowH }
         });
-    },
-
-    disableSplash: () => {
-        AppDispatcher.handleViewAction({
-            actionType: AppConstants.SPLASH_DISABLED,
-            item: false
-        });
     }
 
 }

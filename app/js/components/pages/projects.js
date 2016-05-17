@@ -13,9 +13,9 @@ const Transition = React.addons.TransitionGroup;
 export default class Projects extends ComponentTransition {
 
 	componentWillMount() {
-		
+
 		// state
-		this.state = { 
+		this.state = {
 			projects: {},
 			prints: {},
 
@@ -39,7 +39,7 @@ export default class Projects extends ComponentTransition {
 	}
 
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let subel = this.refs.subview.getDOMNode();
 		let logo = document.querySelector('.header__logo');
@@ -55,11 +55,11 @@ export default class Projects extends ComponentTransition {
 			this.enterTl.to(logo, 0.3, {opacity:1, ease:Power2.easeIn}, 0);
 			this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn});
 		}
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		let subel = this.refs.subview.getDOMNode();
 
@@ -71,12 +71,11 @@ export default class Projects extends ComponentTransition {
 		} else {
 			TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
 		}
-		
+
 	}
 
 	componentDidMount() {
-
-		super.componentDidMount();
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 		ProjectApi.getFirsts();
 		ProjectStore.addChangeListener(this.onStoreChange);

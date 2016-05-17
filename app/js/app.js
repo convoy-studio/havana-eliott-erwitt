@@ -9,6 +9,9 @@ let FastClick = require('fastclick');
 let config = require('./config');
 // import history from './history';
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 if(typeof document !== 'undefined') {
 	FastClick.attach(document.body);
 	

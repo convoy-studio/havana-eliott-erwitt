@@ -55,10 +55,10 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Bahamas",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Bahrein",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Bangladesh",
 		zone:  6
@@ -67,7 +67,7 @@ const dhl = [
 		zone:  8
 	},{
 		country: "Belgique",
-		zone: 1 
+		zone: 1
 	},{
 		country: "Belize",
 		zone:  8
@@ -82,7 +82,7 @@ const dhl = [
 		zone:  8
 	},{
 		country: "Bielorussie",
-		zone: 7 
+		zone: 7
 	},{
 		country: "Birmanie (Myanmar)",
 		zone:  8
@@ -94,19 +94,19 @@ const dhl = [
 		zone:  8
 	},{
 		country: "Bosnie Herzegovine",
-		zone: 4 
+		zone: 4
 	},{
 		country: "Botswana",
 		zone:  8
 	},{
 		country: "Brésil",
-		zone: 7 
+		zone: 7
 	},{
 		country: "Brunei",
 		zone:  8
 	},{
 		country: "Bulgarie",
-		zone: 3 
+		zone: 3
 	},{
 		country: "Burkina Faso",
 		zone:  8
@@ -121,7 +121,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Canada",
-		zone:5 
+		zone:5
 	},{
 		country: "Canaries",
 		zone: 8
@@ -142,7 +142,7 @@ const dhl = [
 		zone: 6
 	},{
 		country: "Chypre (1)",
-		zone:3 
+		zone:3
 	},{
 		country: "Colombie",
 		zone: 8
@@ -172,10 +172,10 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Crète",
-		zone:2 
+		zone:2
 	},{
 		country: "Croatie",
-		zone:3 
+		zone:3
 	},{
 		country: "Cuba",
 		zone: 8
@@ -184,55 +184,55 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Danemark",
-		zone: 2 
+		zone: 2
 	},{
 		country: "Djibouti",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Dominicaine (Rép)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Dominique (île)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Egypte",
-		zone: 6 
+		zone: 6
 	},{
 		country: "El Salvador",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Emirats Arabes Unis",
-		zone: 7 
+		zone: 7
 	},{
 		country: "Equateur",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Erythrée",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Espagne",
-		zone: 1 
+		zone: 1
 	},{
 		country: "Estonie",
-		zone: 3 
+		zone: 3
 	},{
 		country: "Etats-Unis **",
-		zone: 5 
+		zone: 5
 	},{
 		country: "Ethiopie",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Falklands (îles)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Feroé (îles)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Fidji (îles)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Finlande",
-		zone: 2 
+		zone: 2
 	},{
 		country: "France",
 		zone: 0
@@ -301,7 +301,7 @@ const dhl = [
 		zone: 6
 	},{
 		country: "Hongrie",
-		zone:3 
+		zone:3
 	},{
 		country: "Inde",
 		zone: 6
@@ -316,7 +316,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Irlande (Rép)",
-		zone:2 
+		zone:2
 	},{
 		country: "Islande",
 		zone: 8
@@ -328,7 +328,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Italie",
-		zone:1 
+		zone:1
 	},{
 		country: "Jamaïque",
 		zone: 8
@@ -337,7 +337,7 @@ const dhl = [
 		zone: 6
 	},{
 		country: "Jersey",
-		zone:4 
+		zone:4
 	},{
 		country: "Jordanie",
 		zone: 8
@@ -358,7 +358,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Kosovo",
-		zone:4 
+		zone:4
 	},{
 		country: "Koweit",
 		zone: 8
@@ -370,70 +370,70 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Lettonie",
-		zone:3 
+		zone:3
 	},{
 		country: "Liban",
-		zone:8 
+		zone:8
 	},{
 		country: "Libéria",
-		zone:8 
+		zone:8
 	},{
 		country: "Libye",
-		zone:8 
+		zone:8
 	},{
 		country: "Liechtenstein",
-		zone:4 
+		zone:4
 	},{
 		country: "Lithuanie",
-		zone:3 
+		zone:3
 	},{
 		country: "Luxembourg",
-		zone:1 
+		zone:1
 	},{
 		country: "Macao",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Macédoine",
-		zone: 4 
+		zone: 4
 	},{
 		country: "Madagascar",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Madère",
-		zone: 2 
+		zone: 2
 	},{
 		country: "Malaisie",
-		zone: 6 
+		zone: 6
 	},{
 		country: "Malawi",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Maldives",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Mali",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Malte",
-		zone: 3 
+		zone: 3
 	},{
 		country: "Man (île)",
-		zone: 1 
+		zone: 1
 	},{
 		country: "Maroc",
-		zone: 6 
+		zone: 6
 	},{
 		country: "Marshall (île)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Martinique",
-		zone: 6 
+		zone: 6
 	},{
 		country: "Martin",
 		zone:  8
 	},{
 		country: "Maurice (île)",
-		zone: 8 
+		zone: 8
 	},{
 		country: "Mauritanie",
 		zone:  8
@@ -442,13 +442,13 @@ const dhl = [
 		zone:  6
 	},{
 		country: "Mexique",
-		zone: 5 
+		zone: 5
 	},{
 		country: "Micronésie",
 		zone:  8
 	},{
 		country: "Moldavie",
-		zone: 4 
+		zone: 4
 	},{
 		country: "Mongolie",
 		zone:  8
@@ -457,7 +457,7 @@ const dhl = [
 		zone:  8
 	},{
 		country: "Monténégro",
-		zone: 4 
+		zone: 4
 	},{
 		country: "Mozambique",
 		zone:  8
@@ -496,7 +496,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Norvège",
-		zone:4 
+		zone:4
 	},{
 		country: "Oman",
 		zone: 8
@@ -520,7 +520,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Pays-Bas",
-		zone:1 
+		zone:1
 	},{
 		country: "Pérou",
 		zone: 8
@@ -529,7 +529,7 @@ const dhl = [
 		zone: 6
 	},{
 		country: "Pologne",
-		zone:3 
+		zone:3
 	},{
 		country: "Polynésie",
 		zone: 8
@@ -538,7 +538,7 @@ const dhl = [
 		zone: 8
 	},{
 		country: "Portugal",
-		zone:2 
+		zone:2
 	},{
 		country: "Qatar",
 		zone: 8

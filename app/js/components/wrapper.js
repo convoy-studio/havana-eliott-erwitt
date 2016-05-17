@@ -30,12 +30,14 @@ const nav = [
 ];
 
 export default class Wrapper extends React.Component {
-
 	componentWillMount() {
+		const { pathname } = this.props.location;
 
 		this.state = {
-			popupVisibility: false
+			popupVisibility: false,
+            splash: pathname === '/'
 		};
+<<<<<<< HEAD
 
 		this.splash = AppStore.getSplash();
 
@@ -44,6 +46,8 @@ export default class Wrapper extends React.Component {
 			this.splash = false;
 			AppActions.disableSplash();
 		}
+=======
+>>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 
 		// binded
 		this.toggleMenu = this.toggleMenu.bind(this);
@@ -51,16 +55,6 @@ export default class Wrapper extends React.Component {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleScroll = this.handleScroll.bind(this);
-
-		this.visible = false;
-
-		let cartStorage;
-		if (typeof localStorage !== 'undefined' && typeof localStorage['cart'] !== 'undefined' && localStorage['cart'] !== 'undefined') {
-			cartStorage = JSON.parse(localStorage['cart']);
-			_(cartStorage).forEach((item)=>{
-				CartActions.addToCart(item);
-			}).value();
-		}
 	}
 
 	getLanguage(url) {
@@ -73,20 +67,32 @@ export default class Wrapper extends React.Component {
 	}
 
 	componentDidMount() {
-	
+		const { pathname } = this.props.location;
+
 		this.headerMenu = document.querySelector('.header__menu');
 
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.handleScroll;
 
+<<<<<<< HEAD
 		AppStore.Lang = this.getLanguage(window.location.pathname)
 		if(AppStore.Lang == undefined) AppStore.Lang = 'en'
 
+=======
+        if (pathname != '/login' && pathname.indexOf('admin') < 0) {
+			const cookies = window.localStorage.getItem('cookies');
+			if (!cookies) {
+				this.setState({
+					popupVisibility: true
+				});
+			}
+		}
+>>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 	}
 
 	render() {
-
 		const { pathname } = this.props.location;
+<<<<<<< HEAD
 
 		if(typeof localStorage !== 'undefined') {
 			this.cookies = window.localStorage.getItem('cookies');
@@ -106,11 +112,15 @@ export default class Wrapper extends React.Component {
 				}
 			}
 		}
+=======
+		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
+>>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 
 		this.content = AppStore.getContent()
 
 		return (
 			<div>
+<<<<<<< HEAD
 				{(!this.cookies) ? (<PopupCookie visible={this.state.popupVisibility} />) : null}
 				{(this.splash) ? (<canvas	className='canvas'></canvas>) : null}
 
@@ -143,12 +153,43 @@ export default class Wrapper extends React.Component {
 					}
 				}.bind(this))()}
 				
+=======
+				{this.state.popupVisibility && (<PopupCookie />)}
+				{this.state.splash && (<canvas className='canvas'></canvas>)}
+
+				{!isAdmin && (
+					<header className='header'>
+						<div className='hamburger' onClick={this.openMenu}>
+							<div className='hamburger__line'></div>
+						</div>
+						<h1 className='header__logo'>
+							<Link to="/"><div className='header__title'>Elliott Erwitt Havana Club 7</div><div className='header__subtitle'>Fellowship</div></Link>
+						</h1>
+						<nav className='header__menu'>
+							<div className='header__close'></div>
+							<ul className='header__list'>
+											{Object.keys(nav).map((index) => {
+											let item = nav[index];
+												let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
+
+												return (
+								<li className='header__item' key={index}><Link className={"button "+enabled} to={item.url}>{item.label}</Link></li>
+								)
+								})}
+
+							</ul>
+						</nav>
+					</header>
+				)}
+
+>>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 				<div id='pageContainer' className='page-container' ref='page-container'>
 					<Transition component="div">
 						{React.cloneElement(this.props.children || <div />, { key: pathname })}
 					</Transition>
 				</div>
 
+<<<<<<< HEAD
 				{(() => {
 					if (this.props.location.pathname.indexOf('/admin') === -1) {
 						return (
@@ -173,47 +214,57 @@ export default class Wrapper extends React.Component {
 						)
 					}
 				}.bind(this))()}
+=======
+				{!isAdmin && (
+					<footer className='footer'>
+						<ul>
+							<li><Link to="/newsletter" className="footer__button button button--footer">Fellowship News</Link></li>
+							<li><Link to="/contact" className="footer__button button button--footer">Contact</Link></li>
+							<li><Link to="/privacy-policy" className="footer__button button button--footer">Privacy Policy</Link></li>
+							<li><Link to="/cookie-policy" className="footer__button button button--footer">Cookie Policy</Link></li>
+								{(() => {
+								if (this.props.location.pathname.indexOf('/shop') === -1) { return (
+							<li><Link to="/terms-and-condition-of-use" className="footer__button button button--footer">Terms and conditions of use</Link></li>
+							)} else { return (
+							<li><Link to="/terms-and-condition-of-sale" className="footer__button button button--footer">Terms and conditions of sale</Link></li>
+							)}
+							}.bind(this))()}
+						</ul>
+					</footer>
+				)}
+>>>>>>> 1f6ed6b04d6c340d0a7f5ce92386dc61f3c872c3
 			</div>
-
 		);
-
 	}
 
 	toggleMenu(e) {
-
 		this.headerMenu.classList.toggle('header__menu--open');
-
 	}
 
 	openMenu() {
-	
 		this.headerMenu.classList.add('header__menu--open');
-	
 	}
 
 	closeMenu() {
-	
-		if (this.props.location.pathname.indexOf('/admin') === -1) {
+		const { pathname } = this.props.location;
+		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
+
+		if (!isAdmin) {
 			this.headerMenu.classList.remove('header__menu--open');
 		}
-	
 	}
 
 	handleClickOutside(e) {
-		
 		// if (!e.target.classList.contains('hamburger') && !e.target.classList.contains('header__list')) {
 		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
-
 	}
 
 	handleScroll() {
-
 		if (document.querySelector('body').classList.contains('js-mobile') && this.headerMenu.classList.contains('header__menu--open')) {
 			this.closeMenu();
 		}
-
 	}
 
 }

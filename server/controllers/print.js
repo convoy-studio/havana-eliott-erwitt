@@ -1,6 +1,8 @@
 import Boom from 'boom';
 import Print from '../models/print';
 import Project from '../models/project';
+import Order from '../models/order';
+import PrintBlocked from '../models/printBlocked';
 let rand = require('rand-token').uid;
 let _ = require('lodash');
 
@@ -131,7 +133,40 @@ const controller = {
 								logistic_id: print_items[index].logistic_id,
 								project: project
 							};
-							return reply(print);
+
+							PrintBlocked.find({
+								print_token: print.token,
+							}, function (err, blocked_items) {
+								if (!err) {
+									var serials = [];
+									for (var i in blocked_items) {
+										serials.push(blocked_items[i].serial);
+									}
+									print.serials_blocked = serials;
+
+									Order.find({ 'prints.token': print.token }, function (err, solded_items) {
+										if (!err) {
+                                            console.log(solded_items)
+						                    serials = [];
+						                    for (var i in solded_items) {
+						                        for (var j in solded_items[i].prints) {
+						                            if (solded_items[i].prints[j].token !== print.token) {
+						                                continue;
+						                            }
+						                            serials.push(solded_items[i].prints[j].serial);
+						                        }
+						                    }
+											print.serials_solded = serials;
+
+											return reply(print);
+										} else {
+											return reply(Boom.badImplementation(err)); // HTTP 500
+										}
+									});
+								} else {
+									return reply(Boom.badImplementation(err)); // HTTP 500
+								}
+							});
 						} else {
 							return reply(Boom.badImplementation(err)); // HTTP 500
 						}
@@ -267,20 +302,41 @@ const controller = {
 		handler : function(request, reply) {
 			Print.find({ forsale: true }, function(err, items) {
 				if (!err) {
-					let unsold = 0;
-					let print, serial;
-					for (let i=0; i<items.length; ++i) {
-						print = items[i];
-						for (let j=0; j<print.serials.length; ++j) {
-							serial = print.serials[j];
-							if (serial) {
-								unsold += print.price;
+					Order.find({ transactionId: { $exists: true } }, function (err, solded_items) {
+						if (!err) {
+							let sold = 0;
+                            const soldedPrints = {};
+							for (let i in solded_items) {
+								solded_items[i].prints.map((print) => {
+                                    if (!soldedPrints[print.token]) {
+                                        soldedPrints[print.token] = [];
+                                    }
+									soldedPrints[print.token].push(print.serial);
+								});
 							}
+
+							let unsold = 0;
+							let print, serial;
+							for (let i=0; i<items.length; ++i) {
+								print = items[i];
+								for (let j=0; j<print.serials.length; ++j) {
+									if (print.serials[j]) {
+										serial = j + 1;
+										if (!(soldedPrints[print.token] && soldedPrints[print.token].indexOf(serial) !== -1)) {
+											unsold += print.price;
+										}
+									}
+								}
+							}
+
+							return reply(unsold - sold);
+						} else {
+							return reply(Boom.badImplementation(err)); // HTTP 500
 						}
-					}
-					return reply(unsold);
+					});
+				} else {
+					return reply(Boom.badImplementation(err)); // HTTP 500
 				}
-				return reply(Boom.badImplementation(err)); // HTTP 500
 			});
 		}
 	},
@@ -363,7 +419,7 @@ const controller = {
 			}
 		}
 	},
-	
+
 	// ADMIN
 	update : {
 		auth: 'token',

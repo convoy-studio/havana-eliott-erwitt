@@ -11,8 +11,12 @@ export default class Friends extends ComponentTransition {
 		this.content = AppStore.getContent()
 	}
 
+	componentDidMount() {
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
+	}
+
 	_enterStyle() {
-	
+
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 
@@ -21,14 +25,14 @@ export default class Friends extends ComponentTransition {
 			logo.style.display = 'none';
 		}});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
-	
+
 	}
-	
+
 	_leaveStyle(callback) {
-		
+
 		let el = this.refs.view.getDOMNode();
 		TweenMax.to(el, 0.3, {opacity: 0, ease:Power2.easeOut, onComplete: callback});
-	
+
 	}
 
 	render() {

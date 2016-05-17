@@ -1,8 +1,8 @@
 .contact-sheet {
 	position: fixed;
 	top: 0;
-	left: calc(50% - 479px);
-	width: 958px;
+	left: 0;
+	width: 100%;
 	margin: 0 auto;
 	padding-top: 160px;
 }
@@ -13,10 +13,10 @@
 
 .contact-sheet__grid {
 	display: inline-block;
-	width: 100%;
+	width: 85%;
 	text-align: left;
 
-	padding-bottom: 50px;
+	height: calc(100% - 50px);
 }
 
 .contact-sheet__item {
@@ -38,7 +38,7 @@
 	// line-height: 146px;
 
 	cursor: pointer;
-	
+
 	opacity: 0;
 	transform: translate(0, 100px);
 
@@ -51,11 +51,11 @@
 		height: calc(100% + 10px);
 		box-sizing: border-box;
 		opacity: 0;
-		
+
 		background-size: cover;
 
 		// border: red 0px solid;
-		
+
 		// transition: opacity 0.3s ease-out;
 	}
 
@@ -113,7 +113,7 @@
 		height: calc(100% + 2px);
 		background-image: url('../assets/images/handwritings/handwriting_4.png');
 	}
-	&.contact-sheet__item--5:after { 
+	&.contact-sheet__item--5:after {
 		height: calc(100% + 6px);
 		background-image: url('../assets/images/handwritings/handwriting_5.png');
 	}
@@ -136,7 +136,7 @@
 @include max-screen(958px) {
 	.subpage--contact-sheet {
 		padding-top: 100px;
-		padding-bottom: 60px;
+		height: 100%;
 	}
 	.contact-sheet {
 		position: relative;
@@ -149,19 +149,21 @@
 	}
 	.contact-sheet__title {
 		font-size: 24px;
+		text-align:center;
+		margin-bottom: 30px;
 	}
 	.contact-sheet__width {
 		width: calc(20% - 12px);
 	}
 	.contact-sheet__grid {
-		padding-bottom: 60px;
+        height: calc(100% - 60px);
 	}
 	.contact-sheet__item {
 		position: relative;
 		width: calc(20% - 12px);
 		// height: 120px;
 		margin: 0 12px 12px 0;
-		
+
 	}
 	.contact-sheet__item--large {
 		width: calc(40% - 12px);
@@ -172,9 +174,9 @@
 	}
 }
 
-@media only screen 
-  // and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
+@media only screen
+  // and (min-device-width: 768px)
+  and (max-device-width: 1024px)
   and (-webkit-min-device-pixel-ratio: 1) {
 	.contact-sheet__item--small {
 		max-width: 110px;

@@ -34,14 +34,15 @@ $cartColor: $white;
 .cart--enabled {
 	background-color: $black;
 	border: 1px solid $cartColor;
-	
+
 	.cart__content {
 		visibility: visible;
 		opacity: 1;
 		transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+        height: auto;
 	}
 
-	.cart__count { 
+	.cart__count {
 		border-bottom: 1px solid $cartColor;
 		transition: border 0.4s ease-out;
 	}
@@ -65,13 +66,15 @@ $cartColor: $white;
 	visibility: hidden;
 	opacity: 0;
 	transition: border 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+    height: 0;
+
 }
 
 .cart__count {
 	padding: 12px 20px;
 
 	border-bottom: 1px solid transparent;
-	
+
 	text-align: right;
 
 	cursor: pointer;
@@ -89,7 +92,7 @@ $cartColor: $white;
 	// overflow: auto;
 	overflow-x: hidden;
 	margin-bottom: 20px;
-	
+
 	max-height: inherit;
 }
 
@@ -98,7 +101,7 @@ $cartColor: $white;
 	border-bottom: 1px solid $cartColor;
 	font-size: 14px;
 	line-height: 16px;
-	
+
 	&:last-child {
 		border-bottom: 0;
 	}
@@ -107,7 +110,7 @@ $cartColor: $white;
 .payment__product {
 	height: inherit;
 	padding: 16px 0;
-	
+
 	&:first-child {
 		padding: 0 0 16px 0;
 		height: inherit;
@@ -147,10 +150,10 @@ $cartColor: $white;
 	display: inline-block;
     min-width: 16px;
 	padding: 3px 2px 0;
-    
+
     border: 1px solid $white;
     line-height: 12px;
-    
+
     text-align: center;
 }
 
@@ -185,7 +188,7 @@ $cartColor: $white;
 
 .cart__subtotal {
 	padding: 20px;
-	
+
 	border-top: 1px solid transparent;
 
 	transition: border 0.4s ease-out;
@@ -208,7 +211,7 @@ $cartColor: $white;
 
 .cart__checkout {
 	padding: 20px;
-	
+
 	border-top: 1px solid transparent;
 
 	text-align: center;
@@ -220,7 +223,7 @@ $cartColor: $white;
 	padding: 20px;
 
 	text-align: center;
-} 
+}
 
 .cart__toggle {
 	display: none;
@@ -243,7 +246,7 @@ $cartColor: $white;
 	.cart--enabled {
 		border: none;
 		background-color: transparent;
-		.cart__count { 
+		.cart__count {
 			border-bottom: none;
 		}
 
@@ -264,7 +267,7 @@ $cartColor: $white;
 	.cart__empty {
 		border-top: 1px solid $black;
 		border-bottom: 1px solid $black;
-	} 
+	}
 
 	.cart__products {
 		border-top: 1px solid $black;
