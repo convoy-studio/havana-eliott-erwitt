@@ -7,6 +7,7 @@ import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
 import Gallery from '../modules/gallery';
 import Utils from '../../utils/utils';
+import AppStore from '../../stores/appStore';
 let _ = require('lodash');
 let config = require('../../config');
 

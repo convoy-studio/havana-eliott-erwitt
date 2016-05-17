@@ -103,8 +103,8 @@ export default class Fellowship extends ComponentTransition {
 
 	componentDidMount() {
 
+		TweenMax = require('gsap/src/uncompressed/TweenMax');
 		if(typeof document !== 'undefined') {
-			TweenMax = require('gsap/src/uncompressed/TweenMax');
 
 			this.body = document.querySelector('body');
 			this.page = document.querySelector('.page--fellowship');
