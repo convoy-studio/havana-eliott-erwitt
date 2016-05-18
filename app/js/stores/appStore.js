@@ -4,6 +4,8 @@ import assign from 'object-assign';
 import locales from '../locales/index'
 import { EventEmitter } from 'events';
 
+let splash = true;
+
 const AppStore = assign({}, EventEmitter.prototype, {
 
 	emitChange: function(type, item) {
@@ -43,6 +45,10 @@ const AppStore = assign({}, EventEmitter.prototype, {
 				} else {
 					AppStore.isMobile = false;
 				}
+				AppStore.emitChange(action.actionType);
+				break;
+			case AppConstants.SPLASH_DISABLED:
+				splash = action.item,
 				AppStore.emitChange(action.actionType);
 				break;
 		}
