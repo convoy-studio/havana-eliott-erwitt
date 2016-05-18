@@ -40,6 +40,7 @@ export default class ComponentTransition extends ComponentResize {
 
 	_enterStyle() {
 
+
 		let el = this.refs.view.getDOMNode();
 		let logo = document.querySelector('.header__logo');
 		// let hamburger = document.querySelector('.hamburger');

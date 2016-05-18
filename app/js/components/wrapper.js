@@ -34,9 +34,10 @@ export default class Wrapper extends React.Component {
 
 		const { pathname } = this.props.location;
 		this.state = {
-			popupVisibility: false,
-            splash: pathname === '/' + languages[0] || pathname === '/' + languages[1]
+			popupVisibility: false
 		};
+
+		this.isSplash = pathname === '/' + languages[0] || pathname === '/' + languages[1]
 
 		// binded
 		this.toggleMenu = this.toggleMenu.bind(this);
@@ -65,6 +66,7 @@ export default class Wrapper extends React.Component {
 
 		AppStore.Lang = this.getLanguage(window.location.pathname)
 		if(AppStore.Lang == undefined) AppStore.Lang = 'en'
+
         if (pathname != '/login' && pathname.indexOf('admin') < 0) {
 			const cookies = window.localStorage.getItem('cookies');
 			if (!cookies) {
@@ -75,16 +77,26 @@ export default class Wrapper extends React.Component {
 		}
 	}
 
+	componentWillUpdate() {
+		const { pathname } = this.props.location;
+		this.isSplash = pathname === '/' + languages[0] || pathname === '/' + languages[1]
+	}
+
 	render() {
+
 		const { pathname } = this.props.location;
 		const isAdmin = pathname.indexOf('/admin') !== -1 || pathname.indexOf('/login') !== -1;
 
 		this.content = AppStore.getContent()
 
+		console.log('go splash')
+
+		console.log(isAdmin)
+
 		return (
 			<div>
 				{this.state.popupVisibility && (<PopupCookie />)}
-				{this.state.splash && (<canvas className='canvas'></canvas>)}
+				{this.isSplash && (<canvas className='canvas'></canvas>)}
 
 				{!isAdmin && (
 					<header className='header'>
