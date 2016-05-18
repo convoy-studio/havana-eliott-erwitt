@@ -72,6 +72,8 @@ export default class Home extends ComponentTransition {
 		this.fontSizeMobile = 24;
 		this.fontSizeLogoMobile = 20;
 
+		console.log(AppStore.getSplash(), this.canvas)
+
 		if (AppStore.getSplash()) {
 			AppActions.disableSplash();
 
