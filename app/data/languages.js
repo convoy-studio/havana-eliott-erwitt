@@ -1,3 +1,3 @@
-const languages = ['en', 'fr']
+const languages = ['en', 'es']
 
 export default languages;

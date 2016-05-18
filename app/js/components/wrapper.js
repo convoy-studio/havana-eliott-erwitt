@@ -31,11 +31,11 @@ const nav = [
 
 export default class Wrapper extends React.Component {
 	componentWillMount() {
-		const { pathname } = this.props.location;
 
+		const { pathname } = this.props.location;
 		this.state = {
 			popupVisibility: false,
-            splash: pathname === '/'
+            splash: pathname === '/' + languages[0] || pathname === '/' + languages[1]
 		};
 
 		// binded
