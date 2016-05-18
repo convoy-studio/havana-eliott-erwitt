@@ -12,6 +12,7 @@ let config = require('./config');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
+
 if(typeof document !== 'undefined') {
 	FastClick.attach(document.body);
 	

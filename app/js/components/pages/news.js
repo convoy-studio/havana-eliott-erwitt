@@ -104,24 +104,24 @@ export default class News extends ComponentTransition {
 				<article key={index} className='news__item'>
 					<div className="top-container">
 
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
-						<div className='news__content text'>{item[AppStore.Lang].content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang()].date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang()].content}</div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>
 			)} else if (index % 2 === 0) { return (
 				<article key={index} className='news__item news__item--right'>
 					<div className="top-container">
-						<div className='news__content text'>{item[AppStore.Lang].content}</div>
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang()].content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang()].date}}></p></div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>
 			)} else { return (
 				<article key={index} className='news__item news__item--left'>
 					<div className="top-container">
-						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang].date}}></p></div>
-						<div className='news__content text'>{item[AppStore.Lang].content}</div>
+						<div className='news__date title'><p dangerouslySetInnerHTML={{__html: item[AppStore.Lang()].date}}></p></div>
+						<div className='news__content text'>{item[AppStore.Lang()].content}</div>
 					</div>
 					<div className="news_images_container">{images}</div>
 				</article>

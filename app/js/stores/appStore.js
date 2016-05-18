@@ -3,6 +3,16 @@ import AppConstants from '../constants/appConstants';
 import assign from 'object-assign';
 import locales from '../locales/index'
 import { EventEmitter } from 'events';
+import languages from '../../data/languages'
+
+let getLanguage = (url) => {
+	let urlSplitter = url.split('/')
+	for (let urlPart of urlSplitter) {
+		for (let lang of languages) {
+			if(urlPart == lang) return lang
+		}
+	}
+}
 
 const AppStore = assign({}, EventEmitter.prototype, {
 
@@ -11,14 +21,18 @@ const AppStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getContent: () => {
-		return locales[AppStore.Lang]
+		return locales[AppStore.Lang()]
 	},
 
 	getLink: (url) => {
-		return '/' + AppStore.Lang + url
+		return '/' + AppStore.Lang() + url
 	},
 
-	Lang: 'en',
+	Lang: () => {
+		const lang = getLanguage((typeof window !== 'undefined') ? location.pathname : 'en')
+		if(typeof document !== 'undefined') document.getElementsByTagName('html')[0].setAttribute('lang', lang);
+		return lang
+	},
 
 	Window: {
 		w: (typeof window !== 'undefined') ? window.innerWidth : 0,

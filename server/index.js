@@ -14,9 +14,7 @@ import supportLanguages from '../app/data/languages'
 import locales from '../app/js/locales/index'
 acceptLanguage.languages(supportLanguages);
 
-
 const localesJson = JSON.stringify(locales.en)
-console.log(localesJson)
 
 const env = process.NODE_ENV || 'development';
 // const env = 'production';
@@ -174,7 +172,7 @@ server.register([
 
                         const html = `
                             <!doctype html>
-                            <html>
+                            <html lang="en">
                                 <head>
                                     <meta charSet="UTF-8" />
                                     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0" />

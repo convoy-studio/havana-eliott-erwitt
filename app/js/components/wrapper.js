@@ -64,8 +64,9 @@ export default class Wrapper extends React.Component {
 		document.querySelector('body').addEventListener('click', this.handleClickOutside);
 		window.onscroll = this.handleScroll;
 
-		AppStore.Lang = this.getLanguage(window.location.pathname)
-		if(AppStore.Lang == undefined) AppStore.Lang = 'en'
+		// AppStore.Lang() = this.getLanguage(window.location.pathname)
+		// console.log(window.location.pathname, AppStore.Lang())
+		// if(AppStore.Lang() == undefined) AppStore.Lang() = 'en'
 
         if (pathname != '/login' && pathname.indexOf('admin') < 0) {
 			const cookies = window.localStorage.getItem('cookies');
@@ -89,10 +90,6 @@ export default class Wrapper extends React.Component {
 
 		this.content = AppStore.getContent()
 
-		console.log('go splash')
-
-		console.log(isAdmin)
-
 		return (
 			<div>
 				{this.state.popupVisibility && (<PopupCookie />)}
@@ -114,7 +111,9 @@ export default class Wrapper extends React.Component {
 									let enabled = (pathname.indexOf(item.section) > -1) ? 'button--enabled' : '';
 
 									return (
-										<li className='header__item' key={index}><Link className={"button "+enabled} to={AppStore.getLink(item.url)}>{item.label}</Link></li>
+										<li className='header__item' key={index}>
+											<Link className={"button "+enabled} to={AppStore.getLink(item.url)}>{item.label}</Link>
+										</li>
 									)
 								})}
 								

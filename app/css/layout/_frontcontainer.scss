@@ -81,6 +81,13 @@
 	}
 }
 
+.header__item:lang(es) { 
+    margin-right: calc(100% / 3 - 563px / 3);
+    &:last-child {
+		margin-right: 0;
+	}
+}
+
 .submenu {
 	position: fixed;
 	right: 23px;
