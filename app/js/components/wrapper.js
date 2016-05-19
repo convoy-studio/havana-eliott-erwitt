@@ -95,6 +95,9 @@ export default class Wrapper extends React.Component {
 				{this.state.popupVisibility && (<PopupCookie />)}
 				{this.isSplash && (<canvas className='canvas'></canvas>)}
 
+				{/* leave that div please */}
+				<div></div>
+
 				{!isAdmin && (
 					<header className='header'>
 						<div className='hamburger' onClick={this.openMenu}>
@@ -145,7 +148,10 @@ export default class Wrapper extends React.Component {
 								)}
 							}.bind(this))()}
 							<br />
-							<li><Link to={'/en'} className="footer__button button button--footer">EN</Link> / <Link to={'/es'} className="footer__button button button--footer">ES</Link></li>
+							<li>
+								<a href="/en" className="footer__button button button--footer">EN</a> / 
+								<a href="/es" className="footer__button button button--footer">ES</a>
+							</li>
 						</ul>
 					</footer>
 				)}
