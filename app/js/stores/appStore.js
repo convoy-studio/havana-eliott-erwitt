@@ -14,8 +14,9 @@ let getLanguage = (url) => {
 	}
 }
 
-const AppStore = assign({}, EventEmitter.prototype, {
+let splash = true;
 
+const AppStore = assign({}, EventEmitter.prototype, {
 	emitChange: function(type, item) {
 		this.emit(type, item);
 	},
@@ -32,6 +33,10 @@ const AppStore = assign({}, EventEmitter.prototype, {
 		const lang = getLanguage((typeof window !== 'undefined') ? location.pathname : 'en')
 		if(typeof document !== 'undefined') document.getElementsByTagName('html')[0].setAttribute('lang', lang);
 		return lang
+	},
+
+	getSplash: () => {
+		return splash;
 	},
 
 	Window: {
@@ -53,6 +58,10 @@ const AppStore = assign({}, EventEmitter.prototype, {
 				} else {
 					AppStore.isMobile = false;
 				}
+				AppStore.emitChange(action.actionType);
+				break;
+			case AppConstants.SPLASH_DISABLED:
+				splash = action.item,
 				AppStore.emitChange(action.actionType);
 				break;
 		}
