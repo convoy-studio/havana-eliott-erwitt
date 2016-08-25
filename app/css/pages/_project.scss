@@ -408,24 +408,24 @@
 		@extend .mobile-button;
 	}
 	.project__loader {
-		@extend .visible;
+		@include visible;
 		margin-bottom: 0;
 		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
 	}
 
 	.project__loader--disabled {
-		@extend .hidden;
+		@include hidden;
 		transform: none;
 		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
 	}
 
 	.project__discover {
-		@extend .visible;
+		@include visible;
 		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start), transform 0.4s ease-out;
 	}
 
 	.project__discover--disabled {
-		@extend .hidden;
+		@include hidden;
 		transform: none;
 		transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end), transform 0.4s ease-out;
 	}
@@ -493,10 +493,10 @@
 	.project__sharer {
 		&:hover {
 			.project__share {
-				@extend .visible;
+				@include visible;
 			}
 			.project__socials {
-				@extend .hidden;
+				@include hidden;
 			}
 		}
 	}

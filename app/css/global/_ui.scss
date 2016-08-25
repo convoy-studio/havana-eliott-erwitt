@@ -16,21 +16,43 @@
 	transform: translate(-50%, -50%);
 }
 
-.visible {
+@mixin visible {
 	visibility: visible;
 	opacity: 1;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
 }
 
-.hidden {
+.visible {
+	@include visible;
+}
+
+// .visible {
+// 	visibility: visible;
+// 	opacity: 1;
+// 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, start);
+// }
+
+@mixin hidden {
 	visibility: hidden;
 	opacity: 0;
 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
 }
 
+.hidden {
+	@include hidden;
+}
+
+// .hidden {
+// 	visibility: hidden;
+// 	opacity: 0;
+// 	transition: opacity 0.4s ease-out, visibility 0.4s steps(1, end);
+// }
+
 .full-block {
 	position: absolute;
-	@extend .top-left;
+	top: 0;
+	left: 0;
+	// @extend .top-left;
 }
 
 .underline {
