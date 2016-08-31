@@ -3,12 +3,12 @@
   "main": "server.js",
   "version": "1.0.0",
   "scripts": {
-    "prestart": "mongod --fork --logpath /dev/null",
+    "prestart": "$(which mongod && mongod --fork --logpath /dev/null) || true",
     "start": "gulp start",
     "dev": "gulp build --watch",
     "lint": "eslint src",
     "prod": "NODE_ENV=production gulp build --production",
-    "stop": "mongo admin --eval 'db.shutdownServer()' > /dev/null",
+    "stop": "$(which mongo && mongo admin --eval 'db.shutdownServer()' > /dev/null) || true",
     "restart": "npm stop && npm start"
   },
   "keywords": [
