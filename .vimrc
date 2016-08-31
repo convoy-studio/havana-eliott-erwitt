@@ -19,5 +19,5 @@ hi CursorLine term=bold cterm=bold guibg=Grey40
 au FileType javascript setlocal ts=2 sw=2 sts=2 noet
 au FileType css setlocal ts=2 sw=2 sts=2 noet
 au FileType html setlocal ts=2 sw=2 sts=2 noet
-au FileType yaml setlocal ts=2 sw=2 sts=2 noet
+au FileType yaml setlocal ts=2 sw=2 sts=2 et
 au FileType sql setlocal ts=2 sw=2 sts=2 noet
