@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 require_once __DIR__.'/config.php';
@@ -56,8 +57,9 @@ function proxy($request, $api)
         exit;
     }
 
-    return $api->request($method, $request->getUri(), [
+    return $api->request($method, $request->getPathInfo(), [
         'body' => $request->getBody(),
+        'query' => $request->getQueryString(),
     ]);
 }
 
@@ -97,4 +99,6 @@ $output = fopen('php://stdout', 'w');
 send($response, $output);
 fclose($output);
 
-// done.
+exit;
+
+# vim: set syntax=php
