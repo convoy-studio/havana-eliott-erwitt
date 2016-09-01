@@ -4,4 +4,4 @@ node_modules
 npm-debug*.log*
 app/php/vendor/*
 static
-.env
+/.env
