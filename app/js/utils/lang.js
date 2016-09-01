@@ -32,6 +32,11 @@ export const empty = (value) => {
     return !value.length;
   }
 
+  // zero-size anything is empty
+  if (typeof value.size === 'number') {
+    return !value.size;
+  }
+
   // an object that does not own any properties is empty
   if (typeof value === 'object') {
     return Object.getOwnPropertyNames(value).length === 0;
