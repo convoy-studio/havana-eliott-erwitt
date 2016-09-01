@@ -1,44 +1,31 @@
 import _ from 'lodash';
 import path from 'path';
-import xmllib from 'xml2js';
+import lang from './lang';
 
-const stringify_query = (query) => {
-  let tokens = []; 
+/**
+ * Return a query string
+ * @param {Object} query
+ * @return {String}
+ */
+const stringify = (query) => {
   let encode = encodeURIComponent;
+  let pairs = _.map(query, (v, k) => `${encode(k)}=${encode(v)}`);
 
-  _.each(query, (v, k) => tokens.push(`${encode(k)}=${encode(v)}`));
-
-  return tokens.join('&');
+  return pairs.join('&');
 };
+
 
 class Client {
 
   /**
-   * Return configuration defaults
+   * Return instance configuration defaults
    * @param void
    * @return {Object}
    */
   defaults () {
     return {
-      // PrestaShop API client key
-      key: '-secure-',
-
-      // these are for deriving fully qualified API urls 
-      scheme: 'https',
-      host: 'your-prestashop-api-host',
-      root: '/api',
-
-      // fetch dependency (for unit testing)
-      fetch: fetch,
-
-      // Headers factory function (for unit testing)
-      createHeaders: (dict={}) => {
-        let headers = new Headers();
-
-        _.each(dict, (value, key) => headers.append(key, value));
-
-        return headers;
-      }
+      basePath: '/shop.php',
+      fetch: fetch, //--> for testing
     };
   }
 
@@ -50,82 +37,64 @@ class Client {
   }
 
   /**
-   * @param {String} key
-   * @param {mixed} fallback
+   * Send a GET request
+   * @param 
    */
-  option (key, fallback=undefined) {
-    let opts = this.options;
-
-    if (!opts.hasOwnProperty(key)) {
-      if (fallback === undefined) {
-        throw new Error(`option not found ${key}`);
-      }
-    }
-
-    return opts[key];
-  }
-
-  /**
-   * Send a GET requet to the API
-   * @param {String} key
-   * @param {mixed} fallback
-   */
-  get (path, query={}) {
-    let url = this.url(path, query);
-    let fetch = this.option('fetch');
+  get (uri, query={}) {
+    let url = this.url(uri, query);
     let fopts = this.createFetchOptions({method: 'GET'});
+		let fetch = this.options.fetch;
 
-    return fetch(url, fopts).then((response) => this.parseResponse(response));
-  }
-
-  /**
-   * Given a relative path, return a fully qualified API url
-   * @param {String} path - the request path
-   * @return {String}
-   */
-  url (path, query={}) {
-    let { key, scheme, host, root } = this.options;
-    return path.join(`${scheme}://${key}@${host}`, root);
-  }
-
-  /**
-   * 
-   * @param {String} path - the request path
-   * @return {String}
-   */
-  createFetchOptions (augments={}) {
-    let headers = this.option('createHeaders')({Accept: 'text/xml'});
-
-    return {
-      headers: headers,
-      mode: 'cors',
-      cache: 'default',
-      ...augments,
+    return fetch(url, fopts).then((response) => {
+      this.validateResponse(response);
+      return response;
     });
   }
 
   /**
-   * Convert the XML body contained in the response into a plain object.
-   * Throw an exception if the response is not kosher.
-   * @param {Response} response - fetch response
-   * @return {Object}
+   * @param {String} uri - the request path
+   * @param {Object} query - query parameters
+   * @return {String}
    */
-  parseResponse (response) {
-    if (!response.ok) {
-      throw new Error('got non-2XX HTTP response');
-    }
-    if (response.headers.get('Content-Type').indexOf('xml') === -1) {
-      throw new Error('got non-XML response body');
+  url (uri, query) {
+    let opts = this.options;
+    let url = path.join(opts.basePath, uri);
+
+    if (!lang.empty(query)) {
+      url += '?' + stringify(query);
     }
 
-    try {
-      return xmllib.parseString(response.text());
-    }
-    catch (e) {
-      throw new Error('got malformed XML response body');
+    return url;
+  }
+
+  /**
+   * @param {Object} augments
+   * @return {Object}
+   */
+  createFetchOptions (augments={}) {
+    let opts = this.options;
+
+    return {
+      mode: 'cors',
+      cache: 'default',
+      ...augments,
+    };
+  }
+
+  /**
+   * @param {Response} response
+   * @return void
+   * @throws Error
+   */
+  validateResponse (response) {
+    if (!response.ok) {
+      throw new Error('got non-2XX HTTP response status');
     }
   }
 
 }
 
-export { Client };
+const api = {};
+
+export default { api };
+
