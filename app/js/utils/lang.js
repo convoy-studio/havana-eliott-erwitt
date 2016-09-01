@@ -1,7 +1,3 @@
-const lang = {};
-
-export default lang;
-
 /**
  * This works like PHP's empty() function. Behaviors:
  *  - return true if value is falsy
@@ -12,7 +8,14 @@ export default lang;
  * @param mixed value
  * @return {Boolean}
  */
-lang.empty = (value) => {
+export const empty = (value) => {
+  if (value === undefined) {
+    return true;
+  }
+
+  if (typeof value !== 'object' && isNaN(value)) {
+    return false;
+  }
 
   // falsy value is always empty
   if (!value) {
@@ -24,22 +27,17 @@ lang.empty = (value) => {
     return value === 0;
   }
 
-  // zero-length is empty
+  // zero-length anything is empty
   if (typeof value.length === 'number') {
-    return !!value.length;
+    return !value.length;
   }
 
-  // iterate over object's own properties; return false on first iteration
+  // an object that does not own any properties is empty
   if (typeof value === 'object') {
-    for (let p in value) {
-      if (value.hasOwnProperty(p)) {
-        return false;
-      }
-    }
-
-    return true;
+    return Object.getOwnPropertyNames(value).length === 0;
   }
 
   // default to false
   return false;
 };
+
