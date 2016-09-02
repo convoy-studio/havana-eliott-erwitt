@@ -17,6 +17,7 @@ acceptLanguage.languages(supportLanguages);
 const localesJson = JSON.stringify(locales.en)
 
 const env = process.NODE_ENV || 'development';
+
 // const env = 'production';
 const config = configs[env];
 const server = new Hapi.Server();

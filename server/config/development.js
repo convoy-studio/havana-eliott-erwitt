@@ -1,10 +1,12 @@
+const env = process.env;
+
 const config = {
 	server : {
-		host : 'localhost',
+		host : '0.0.0.0',
 		port : 3000
 	},
 	database: {
-		host : '127.0.0.1',
+		host : env.MONGO_HOST || '127.0.0.1',
 		port : 27017,
 		name : 'havana',
 		username : '',

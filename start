@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -aeuo pipefail
+
+# create the dotenv file if it doesn't exist
+if [ ! -f .env ]; then
+    cp .env.default .env
+
+    DOCKER_HOST_UID=$(id -u)
+    DOCKER_HOST_GID=$(id -g)
+
+	echo "" >> .env
+    echo "DOCKER_HOST_UID=${DOCKER_HOST_UID}" >> .env
+    echo "DOCKER_HOST_GID=${DOCKER_HOST_GID}" >> .env
+
+    echo "Created boilerplate .env file at:"
+    echo ""
+    echo "    $(pwd)/.env"
+    echo ""
+fi
+
+source .env
+
+# generate nginx vhost
+envsubst < .docker/templates/nginx-vhost \
+    > ".docker/environments/${ENVIRONMENT}/etc/nginx/sites-enabled/default"
+
+NODE_CONTAINER=${PROJECT}_${ENVIRONMENT}_node
+
+./generate-docker-compose
+docker-compose up -d
+
+gulp="./node_modules/.bin/gulp"
+nodemon="./node_modules/nodemon/bin/nodemon.js"
+
+docker exec -u node $NODE_CONTAINER printenv | sort
+docker exec -u node $NODE_CONTAINER npm config set registry $NPM_REGISTRY
+
+mkdir -p node_modules
+
+if [ -z "$(ls node_modules)" ]; then
+    docker exec -u node $NODE_CONTAINER npm install 
+fi
+
+docker exec -u node $NODE_CONTAINER bash -c "$nodemon babel.server.js & $gulp webpack --watch"
+
+# vim: sts=4 ts=4 sw=4 et
+

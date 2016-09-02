@@ -1,0 +1,52 @@
+upstream node-http {
+  server ${PROJECT}_${ENVIRONMENT}_node:3000;
+  keepalive 15;
+}
+
+upstream php-fpm {
+  server unix:/run/php-fpm/www.sock;
+}
+
+server {
+  server_name _;
+  listen 80 default_server;
+
+  root /var/www/html;
+  index index.html;
+
+  client_max_body_size 2m;
+
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  location / {
+    proxy_pass http://node-http/;
+    include /etc/nginx/snippets/proxy;
+  }
+
+  location ~ \.php$ {
+    access_log /var/log/nginx/fcgi.access.log simple;
+    error_log /var/log/nginx/fcgi.error.log;
+
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    include fastcgi_params;
+    fastcgi_intercept_errors on;
+    fastcgi_pass php-fpm;
+
+    fastcgi_buffers 8 8k;
+    fastcgi_connect_timeout 120s;
+    fastcgi_send_timeout 120s;
+    fastcgi_read_timeout 120s;
+    reset_timedout_connection on;
+  }
+}
+
+# vim: ts=2 sts=2 sw=2 et
