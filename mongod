@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-docker run -p "27017:27017" -p "27018:27018" --name mongo mongo
