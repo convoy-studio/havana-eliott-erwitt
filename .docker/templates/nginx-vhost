@@ -33,10 +33,12 @@ server {
   }
 
   location ${PRESTASHOP_API_PROXY_PATH} {
+    include /etc/nginx/snippets/proxy;
+    include /etc/nginx/snippets/proxy-cache;
     rewrite ^${PRESTASHOP_API_PROXY_PATH/(.*) ${PRESTASHOP_API_ROOT}/$1 break;
     proxy_pass ${PRESTASHOP_API_SCHEME}://${PRESTASHOP_API_HOST}/;
     proxy_set_header Authorization "${PRESTASHOP_API_AUTHORIZATION_HEADER}";
-    include /etc/nginx/snippets/proxy;
+    proxy_cache_valid ${PRESTASHOP_API_PROXY_CACHE_TTL}s;
   }
 
   location ~ \.php$ {

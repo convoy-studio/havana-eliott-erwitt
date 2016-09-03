@@ -1,21 +1,28 @@
 import _ from 'lodash';
 import path from 'path';
 import lang from './lang';
+import React from 'react';
+const P = Promise;
+
+////////////////////////////////////////////////////////////////////////////////
+export const util = {};
 
 /**
- * Return a query string
+ * Browser-safe query serializer
  * @param {Object} query
  * @return {String}
  */
-const stringify = (query) => {
+const stringify_query = util.stringify_query = (query) => {
 	let encode = encodeURIComponent;
 	let pairs = _.map(query, (v, k) => `${encode(k)}=${encode(v)}`);
 
 	return pairs.join('&');
 };
 
+////////////////////////////////////////////////////////////////////////////////
+export const rest = {};
 
-class Client {
+rest.Client = class Client {
 
 	/**
 	 * Return instance configuration defaults
@@ -38,7 +45,9 @@ class Client {
 
 	/**
 	 * Send a GET request
-	 * @param 
+	 * @param {String} url
+	 * @param {Object} query
+	 * @return {Response}
 	 */
 	get (uri, query={}) {
 		let url = this.url(uri, query);
@@ -52,33 +61,11 @@ class Client {
 	}
 
 	/**
-	 * @param {String} uri - the request path
-	 * @param {Object} query - query parameters
-	 * @return {String}
-	 */
-	url (uri, query) {
-		let opts = this.options;
-		let url = path.join(opts.basePath, uri);
-
-		if (!lang.empty(query)) {
-			url += '?' + stringify(query);
-		}
-
-		return url;
-	}
-
-	/**
 	 * @param {Object} augments
 	 * @return {Object}
 	 */
 	createFetchOptions (augments={}) {
-		let opts = this.options;
-
-		return {
-			mode: 'cors',
-			cache: 'default',
-			...augments,
-		};
+		return {cache: 'default', ...augments};
 	}
 
 	/**
@@ -94,7 +81,82 @@ class Client {
 
 }
 
-const api = {};
+/**
+ * @param void
+ * @return {prestashop.rest.Client}
+ */
+rest.Client.instance = () => {
+	if (!this.singleton) {
+		this.singleton = new this();
+	}
+	return this.singleton;
+};
 
-export default { api };
 
+const Resource = rest.Resource = class Resource {
+
+	/**
+	 * Return instance configuration defaults
+	 * @param void
+	 * @return {Object}
+	 */
+	defaults () {
+		return {
+			rest: rest.Client.instance(),
+			root: '/path/to/resource',
+		};
+	}
+
+	/**
+	 * @param {Object} options
+	 */
+	constructor (options={}) {
+		this.options = {...this.defaults(), ...options};
+	}
+
+	/**
+	 * Return an Array containing loaded* Model instances. Calling contexts
+	 * may supply a dictionary of implementation-specific options.
+	 * @async Promise
+	 * @param {Object} options
+	 * @return {Array}
+	 */
+	list (options={}) {
+		throw new Error('not implemented');
+	}
+
+	/**
+	 * Return a single Model instance identified by id
+	 * @async Promise
+	 * @param {mixed} id
+	 * @return {Model|null}
+	 */
+	find (id) {
+		throw new Error('not implemented');
+	}
+
+}
+
+/**
+ * Model is a naive attribute container
+ */
+const Model = rest.Model = class Model {
+
+	/**
+	 * Return default model attributes
+	 * @param void
+	 * @return {Object}
+	 */ 
+	defaults () {
+		return {}; 
+	}
+
+	/**
+	 * @param {Object} attrs
+	 */
+	constructor (attrs={}) {
+		this.attrs = {...this.defaults(), ...attrs};
+	}
+}
+
+// vim: ts=2 sts=2 sw=2 noet
