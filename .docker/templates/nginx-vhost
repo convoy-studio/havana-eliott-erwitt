@@ -32,20 +32,21 @@ server {
     include /etc/nginx/snippets/proxy;
   }
 
+  location ${PRESTASHOP_API_PROXY_PATH} {
+    rewrite ^${PRESTASHOP_API_PROXY_PATH/(.*) ${PRESTASHOP_API_ROOT}/$1 break;
+    proxy_pass ${PRESTASHOP_API_SCHEME}://${PRESTASHOP_API_HOST}/;
+    proxy_set_header Authorization "${PRESTASHOP_API_AUTHORIZATION_HEADER}";
+    include /etc/nginx/snippets/proxy;
+  }
+
   location ~ \.php$ {
+    root /var/www/html/php;
+
     access_log /var/log/nginx/fcgi.access.log simple;
     error_log /var/log/nginx/fcgi.error.log;
 
-    fastcgi_split_path_info ^(.+\.php)(/.+)$;
-    include fastcgi_params;
-    fastcgi_intercept_errors on;
     fastcgi_pass php-fpm;
-
-    fastcgi_buffers 8 8k;
-    fastcgi_connect_timeout 120s;
-    fastcgi_send_timeout 120s;
-    fastcgi_read_timeout 120s;
-    reset_timedout_connection on;
+    include /etc/nginx/snippets/php-fpm;
   }
 }
 

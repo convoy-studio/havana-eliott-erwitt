@@ -21,6 +21,7 @@ fi
 source .env
 
 # generate nginx vhost
+PRESTASHOP_API_AUTHORIZATION_HEADER="Basic $(openssl enc -base64 <<< $PRESTASHOP_API_KEY)"
 envsubst < .docker/templates/nginx-vhost \
     > ".docker/environments/${ENVIRONMENT}/etc/nginx/sites-enabled/default"
 
@@ -32,7 +33,6 @@ docker-compose up -d
 gulp="./node_modules/.bin/gulp"
 nodemon="./node_modules/nodemon/bin/nodemon.js"
 
-docker exec -u node $NODE_CONTAINER printenv | sort
 docker exec -u node $NODE_CONTAINER npm config set registry $NPM_REGISTRY
 
 mkdir -p node_modules
