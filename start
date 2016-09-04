@@ -21,7 +21,6 @@ fi
 source .env
 
 # generate nginx vhost
-PRESTASHOP_API_AUTHORIZATION_HEADER="Basic $(openssl enc -base64 <<< $PRESTASHOP_API_KEY)"
 envsubst < .docker/templates/nginx-vhost \
     > ".docker/environments/${ENVIRONMENT}/etc/nginx/sites-enabled/default"
 
