@@ -1,7 +1,10 @@
 let env = process.env;
 
 let config = {
-	'siteurl': 'http://www.havana-fellowship.com'
+	'siteurl': 'http://www.havana-fellowship.com',
+	prestashop: {
+		proxy: env.PRESTASHOP_API_PROXY_PATH || '/shop/api',
+	},
 };
 
 if(typeof window !== 'undefined') {
