@@ -50,6 +50,7 @@
     "mongoose-url-slugs": "~0.1.4",
     "node-metainspector": "1.1.0",
     "object-assign": "^4.0.1",
+    "prestashop-api-client": "^0.1.2",
     "rand-token": "^0.2.1",
     "react": "0.13.3",
     "react-droppie": "1.0.0",
@@ -58,6 +59,7 @@
     "react-router": "v1.0.0-beta2",
     "react-translate": "1.0.4",
     "react-youtube": "4.1.2",
+    "redux": "^3.6.0",
     "request-promise": "0.4.2",
     "validator": "^4.1.0",
     "whatwg-fetch": "0.9.0"
@@ -93,6 +95,7 @@
     "minimist": "1.1.1",
     "node-libs-browser": "0.5.2",
     "path": "0.11.14",
+    "prestashop-api-client": "0.1.*",
     "react-hot-loader": "1.2.8",
     "require-dir": "0.3.0",
     "rimraf": "2.4.1",
