@@ -17,7 +17,7 @@ hi CursorLine term=bold cterm=bold guibg=Grey40
 
 " tweak tabstop and shiftwidth values by language
 au FileType javascript setlocal ts=2 sw=2 sts=2 noet
-au FileType jsx setlocal ts=2 sw=2 sts=2 noet
 au FileType css setlocal ts=2 sw=2 sts=2 noet
 au FileType html setlocal ts=2 sw=2 sts=2 noet
 au FileType yaml setlocal ts=2 sw=2 sts=2 et
+
