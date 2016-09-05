@@ -1,10 +1,7 @@
-let env = process.env;
+const env = process.env;
 
 let config = {
 	'siteurl': 'http://www.havana-fellowship.com',
-	prestashop: {
-		proxy: env.PRESTASHOP_API_PROXY_PATH || '/shop/api',
-	},
 };
 
 if(typeof window !== 'undefined') {
@@ -15,8 +12,16 @@ if(typeof window !== 'undefined') {
 		// 'siteurl': 'http://localhost:3000'
 		// 'siteurl': 'http://havana.hi9.fr'
 		// 'siteurl': 'http://www.havana-fellowship.com',
-
+		prestashop: {
+			proxy: {
+				scheme: window.location.protocol.slice(0, -1),
+				host: window.location.host,
+				root: '/shop/api',
+			},
+		},
 	};
 }
 
 export default config;
+
+// vim: ts=2 sts=2 sw=2 noet
