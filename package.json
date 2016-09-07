@@ -50,7 +50,7 @@
     "mongoose-url-slugs": "~0.1.4",
     "node-metainspector": "1.1.0",
     "object-assign": "^4.0.1",
-    "prestashop-api-client": "^0.1.2",
+    "prestashop-api-client": "^0.1.8",
     "rand-token": "^0.2.1",
     "react": "0.13.3",
     "react-droppie": "1.0.0",
