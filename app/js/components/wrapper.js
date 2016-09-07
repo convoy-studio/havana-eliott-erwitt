@@ -30,6 +30,19 @@ const nav = [
 ];
 
 export default class Wrapper extends React.Component {
+
+	static get contextTypes() {
+		return {
+			language: React.propTypes.string,
+		};
+	}
+
+	getChildContext() {
+		return {
+			language: AppStore.Lang(),
+		};
+	}
+
 	componentWillMount() {
 
 		const { pathname } = this.props.location;
@@ -190,3 +203,5 @@ export default class Wrapper extends React.Component {
 	}
 
 }
+
+// vim: ts=2 sts=2 sw=2 noet
