@@ -1,6 +1,4 @@
-import rest from '../../src/rest';
-import sort from '../../src/sort';
-import fetch from 'node-fetch';
+import { rest, sort } from 'prestashop-api-client';
 import PrintActions from '../actions/printActions';
 const P = Promise;
 
