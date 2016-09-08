@@ -94,7 +94,6 @@ export default class {
 	 */
 	defaults () {
 		return {
-			language: 'en',
 			client: null,
 		};
 	}
