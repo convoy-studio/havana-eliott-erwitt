@@ -4,12 +4,14 @@ import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import Utils from '../../utils/utils';
 import AppStore from '../../stores/appStore';
-import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
 import { intro } from '../../../data/shop';
 import Cart from '../modules/cart';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
+import Wrapper from '../wrapper';
+import PrestaShopPrintApi from '../../utils/prestaShopPrintApi';
+
 let raf = Utils.raf();
 let _ = require('lodash');
 let offset = require('../../utils/offset');
@@ -20,6 +22,10 @@ let config = require('../../config');
 // }
 
 export default class Shop extends ComponentTransition {
+
+	static get contextTypes () {
+		return Wrapper.childContextTypes;		
+	}
 
 	componentWillMount() {
 		// state
@@ -56,7 +62,12 @@ export default class Shop extends ComponentTransition {
 	componentDidMount() {
 		TweenMax = require('gsap/src/uncompressed/TweenMax');
 
-		PrintApi.getForSale();
+		this.printApi = new PrestaShopPrintApi({
+			client: this.context.prestaShopClient,
+		});
+console.log(this.printApi);
+		this.printApi.getForSale();
+
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
 
@@ -338,3 +349,5 @@ export default class Shop extends ComponentTransition {
 	}
 
 }
+
+// vim: ts=2 sts=2 sw=2 noet
