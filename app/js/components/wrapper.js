@@ -5,6 +5,8 @@ import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import CartActions from '../actions/cartActions';
 import languages from '../../data/languages'
+import prestashop from 'prestashop-api-client';
+import config from '../config';
 
 const Transition = React.addons.TransitionGroup;
 const content = AppStore.getContent()
@@ -34,12 +36,14 @@ export default class Wrapper extends React.Component {
 	static get contextTypes() {
 		return {
 			language: React.propTypes.string,
+			prestashop: React.propTypes.instanceOf(prestashop.rest.Client),
 		};
 	}
 
 	getChildContext() {
 		return {
 			language: AppStore.Lang(),
+			prestashop: new prestashop.rest.Client(config.prestashop),
 		};
 	}
 
