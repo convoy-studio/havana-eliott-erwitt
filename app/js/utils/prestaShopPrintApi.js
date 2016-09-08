@@ -58,15 +58,10 @@ const transformProduct = (product) => {
 	.then(() => {
 		let {product, manufacturer, combos, image} = data;
 
-		// sort value resolver
-		let by_name = (combo) => combo.name;
+		combos = combos.sort(sort.ascending((combo) => combo.name));
 
-		// map functions
-		let in_stock = (combo) => combo.quantity > 0;
+		let serials = combos.map((combo) => combo.quantity > 0);
 
-		combos = combos.sort(sort.ascending(by_name));
-
-		let serials = combos.map(in_stock);
 		let deprecated = 'DEPRECATED';
 
 		return {
@@ -79,7 +74,7 @@ const transformProduct = (product) => {
 			'image': image.src,
 			'alt': product.description_short,
 			'copies': serials.length,
-			'serials': combos.map(in_stock),
+			'serials': serials,
 			'desc': product.description,
 			'price': product.price,
 			'forsale': product.available_for_order,
