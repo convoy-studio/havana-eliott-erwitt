@@ -65,7 +65,7 @@ export default class Shop extends ComponentTransition {
 		this.printApi = new PrestaShopPrintApi({
 			client: this.context.prestaShopClient,
 		});
-console.log(this.printApi);
+
 		this.printApi.getForSale();
 
 		PrintStore.addChangeListener(this.onStoreChange);
