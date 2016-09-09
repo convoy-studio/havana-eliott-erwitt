@@ -35,7 +35,7 @@ const transformProduct = (product) => {
 		])
 	})
 
-	// assign the "name" property to each combination
+	// assign name and quantity properties to each combination
 	.then((result) => {
 		let {product, manufacturer, combos, image} = data;
 		let [povs, stocks] = result;
@@ -53,22 +53,23 @@ const transformProduct = (product) => {
 		data.combos = combos.map(assign_props);
 	})
 
+	// return the print payload
 	.then(() => {
 		let {product, manufacturer, combos, image} = data;
 
 		combos = combos.sort(sort.ascending((combo) => combo.name));
 
 		let serials = combos.map((combo) => combo.quantity > 0);
-
-		let deprecated = 'DEPRECATED';
+		let DEPRECATED = 'DEPRECATED';
 
 		return {
 			'token': product.id,
 			'title': product.name,
-			'city': deprecated,
-			'country': deprecated,
-			'year': deprecated,
-			'file': deprecated,
+			'artist': manufacturer.name,
+			'city': DEPRECATED,
+			'country': DEPRECATED,
+			'year': DEPRECATED,
+			'file': DEPRECATED,
 			'image': image.src,
 			'alt': product.description_short,
 			'copies': serials.length,
