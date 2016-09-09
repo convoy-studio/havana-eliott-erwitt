@@ -1,0 +1,42 @@
+{
+    "token": "CqqEyH",
+    "title": "Cooperage",
+    "city": "San José",
+    "country": "Cuba",
+    "year": 2015,
+    "file": "elliot-erwitt-cooperage-cuba-2015",
+    "alt": "Elliot Erwitt Print - Cooperage - San José - Cuba - 2015",
+    "copies": 10,
+    "serials": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+    ],
+    "desc": "Lorem ipsum dolor sit amet.",
+    "price": 900,
+    "forsale": true,
+    "prev": "8SeFLb",
+    "next": "DA7EFd",
+    "logistic_id": "EE15_04",
+    "project": {
+        "artist": "Elliott Erwitt",
+        "desc": [
+            "Elliott Erwitt first encountered Cuba in 1964 on a reportage trip commisioned by Newsweek to follow Che Guevara and Fidel Castro and here shot his original iconic images and candid close-ups.",
+            "In 2015 Elliott Erwitt now 87 years of age approached Havana Club 7 looking to go back to Cuba to revisit Cuba feeling that there was so much more to discover. The result is another inspiring view of Cuba through the lens of a true master still focusing on the people and telling their story.",
+            "7 of Elliott Erwitts photographs can be purchased to support future fellows."
+        ],
+        "slug": "elliott_erwitt"
+    },
+    "serials_blocked": [],
+    "serials_solded": [
+        1,
+        3
+    ]
+}
