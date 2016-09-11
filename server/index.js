@@ -32,7 +32,7 @@ server.app = {
 	prestashop: {
 		client: new prestashop.rest.Client({
 			...config.prestashop.client,
-			cache: prestashop.lru.instance({maxAge: 60 * 1000}),
+			cache: prestashop.lru.instance({maxAge: 60 * 5 * 1000}), // 5 minutes
 		}),
 	},
 };
