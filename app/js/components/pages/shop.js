@@ -89,7 +89,7 @@ export default class Shop extends ComponentTransition {
 			_(this.state.prints).forEach((print, index) => {
 				file = new Image();
 				file.onload = this.onImageLoaded;
-				file.src = '/static/prints/'+print.file+'_medium.jpg';
+				file.src = print.image;
 			}).value();
 		}
 
@@ -152,20 +152,15 @@ export default class Shop extends ComponentTransition {
 								<div className='shop__column' key={index}>
 									{Object.keys(prints).map((index) => {
 										let print = prints[index];
-										let file = print.file + '_medium.jpg';
-										let details;
-										if (print.title) details = print.title+'. '+print.city+'. '+print.country+'. '+print.year;
-										else details = print.city+'. '+print.country+'. '+print.year;
-
 										return (
 											<div className='shop__print' key={index}>
-												<Link to={'/shop/'+print.token}>
-													<img src={'/static/prints/'+file} alt={print.alt}></img>
+												<Link to={'/shop/'+print.id}>
+													<img src={print.image} alt={print.alt}></img>
 													<div className='shop__hover'>
 														<div className='shop__detail-wrapper'>
 															<div className='shop__detail'>
-																<div className='text'>{print.artist}</div>
-																<div className='text'>{details}</div>
+																<div className='text'>{print.manufacturer}</div>
+																<div className='text'>{print.name}</div>
 																<div className='shop__price text'>{print.price}€</div>
 																<div className='shop__button button'>{this.content.shop_details}</div>
 															</div>

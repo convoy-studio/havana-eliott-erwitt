@@ -1,6 +1,22 @@
 import Boom from 'boom';
 import { sort } from 'prestashop-api-client';
+import html2text from 'html-to-text';
 const P = Promise;
+
+
+/**
+ * @param {prestashop-api-client:models.Product} product
+ * @return {prestashop-api-client:models.Product}
+ */
+const stripHtml = (product) => {
+	let attrs = product.attrs;
+
+	['description', 'description_short'].forEach((attr) => {
+		attrs[attr] = html2text.fromString(attrs[attr]);
+	});
+
+	return product;
+};
 
 /**
  * Given a Product model, return a plain object that represents a print.
@@ -15,7 +31,7 @@ const P = Promise;
  * @return {Object}
  */
 const transformProduct = (product) => {
-  let data = {product};
+  let data = {product: stripHtml(product)};
 
   return P.all([
     product.manufacturer().first(),
@@ -58,7 +74,7 @@ const transformProduct = (product) => {
       'id': product.attrs.id,
       'name': product.attrs.name,
       'manufacturer': manufacturer ? manufacturer.attrs.name : '',
-      'image': image.src,
+      'image': image ? image.attrs.src : '',
       'description': product.attrs.description,
       'price': product.attrs.price,
       'alt': product.attrs.description_short,
