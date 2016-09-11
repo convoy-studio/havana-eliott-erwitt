@@ -21,11 +21,18 @@ const config = {
 		frontend: {
 			url: env.PRESTASHOP_FRONTEND_URL || 'https://your-prestashop-domain',
 		},
-		webservice: { 
-			key: env.PRESTASHOP_WEBSERVICE_KEY || 'your-prestashop-webservice-key',
-			scheme: env.PRESTASHOP_WEBSERVICE_SCHEME || 'https',
-			host: env.PRESTASHOP_WEBSERVICE_HOST || 'localhost',
-			root: env.PRESTASHOP_WEBSERVICE_ROOT || '/api',
+
+		client: {
+			languages: {
+				'en': 1,
+				'es': 2,
+			},
+			webservice: {
+				key: env.PRESTASHOP_WEBSERVICE_KEY || 'your-prestashop-webservice-key',
+				scheme: env.PRESTASHOP_WEBSERVICE_SCHEME || 'https',
+				host: env.PRESTASHOP_WEBSERVICE_HOST || 'localhost',
+				root: env.PRESTASHOP_WEBSERVICE_ROOT || '/api',
+			},
 		},
 	},
 };

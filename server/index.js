@@ -24,15 +24,18 @@ const WEBPACK_SERVER_PROXY = env.WEBPACK_SERVER_PROXY || 'localhost:4242';
 // const env = 'production';
 const config = configs[NODE_ENV];
 
-const server = new Hapi.Server({
-	app: {
-		// add prestashop client and frontend url to server.settings.app.prestashop
-		prestashop: {
-			client: new prestashop.rest.Client(config.prestashop.webservice),
-			frontend: config.prestashop.frontend,
-		},
+const server = new Hapi.Server();
+
+// add prestashop.client to server.app
+server.app = {
+  ...server.app,
+	prestashop: {
+		client: new prestashop.rest.Client({
+			...config.prestashop.client,
+			cache: prestashop.lru.instance({maxAge: 60 * 1000}),
+		}),
 	},
-});
+};
 
 server.connection({
     host: config.server.host,
