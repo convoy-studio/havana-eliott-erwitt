@@ -12,15 +12,27 @@ import url from 'url'
 import acceptLanguage from 'accept-language'
 import supportLanguages from '../app/data/languages'
 import locales from '../app/js/locales/index'
+import prestashop from 'prestashop-api-client';
 acceptLanguage.languages(supportLanguages);
 
 const localesJson = JSON.stringify(locales.en)
 
-const env = process.NODE_ENV || 'development';
+const env = process.env;
+const NODE_ENV = env.NODE_ENV || 'development';
+const WEBPACK_SERVER_PROXY = env.WEBPACK_SERVER_PROXY || 'localhost:4242';
 
 // const env = 'production';
-const config = configs[env];
-const server = new Hapi.Server();
+const config = configs[NODE_ENV];
+
+const server = new Hapi.Server({
+	app: {
+		// add prestashop client and frontend url to server.settings.app.prestashop
+		prestashop: {
+			client: new prestashop.rest.Client(config.prestashop.webservice),
+			frontend: config.prestashop.frontend,
+		},
+	},
+});
 
 server.connection({
     host: config.server.host,
@@ -137,10 +149,10 @@ server.register([
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});
-                    const scripts = {
-                        development : 'http://localhost:4242/js/build.js',
-                        production : '/js/build.js'
-                    };
+										const scripts = {
+												development: `http://${WEBPACK_SERVER_PROXY}/js/build.js`,
+												production : '/js/build.js'
+										};
 
                     Router.run(routes, location, (error, initialState) => {
 
@@ -195,7 +207,7 @@ server.register([
                                     <script async src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="/vendors/pdfmake.js" type="text/javascript"></script>
                                     <script src="/vendors/vfs_fonts.js" type="text/javascript"></script>
-                                    <script src="`+scripts[env]+`" type="text/javascript"></script>
+                                    <script src="`+scripts[NODE_ENV]+`" type="text/javascript"></script>
                                 </body>
                             </html>
                         `;
@@ -212,3 +224,6 @@ server.register([
         });
     }
 });
+
+
+// vim: ts=2 sts=2 sw=2 noet
