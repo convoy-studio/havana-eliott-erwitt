@@ -5,8 +5,6 @@ import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import CartActions from '../actions/cartActions';
 import languages from '../../data/languages'
-import { rest } from 'prestashop-api-client';
-import config from '../config';
 
 const Transition = React.addons.TransitionGroup;
 const content = AppStore.getContent()
@@ -32,21 +30,6 @@ const nav = [
 ];
 
 export default class Wrapper extends React.Component {
-
-	static get childContextTypes() {
-		return {
-			language: React.PropTypes.string,
-			prestaShopClient: React.PropTypes.instanceOf(rest.Client),
-		};
-	}
-
-	getChildContext() {
-		return {
-			language: AppStore.Lang(),
-			prestaShopClient: new rest.Client(config.prestashop),
-		};
-	}
-
 	componentWillMount() {
 
 		const { pathname } = this.props.location;
@@ -207,5 +190,3 @@ export default class Wrapper extends React.Component {
 	}
 
 }
-
-// vim: ts=2 sts=2 sw=2 noet
