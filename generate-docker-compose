@@ -31,6 +31,8 @@ read -d '' DOCKER_COMPOSE_FILE <<-EOF
 "${PROJECT}_${ENVIRONMENT}_node":
   image: docker.it-consultis.com.cn/itc/buildbox-php:0.5.0
   container_name: ${PROJECT}_${ENVIRONMENT}_node
+  extra_hosts:
+    - "vm.local:127.0.0.1"
   expose:
     - "3000"
   ports:
