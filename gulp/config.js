@@ -14,7 +14,7 @@ const config = {
 		styles : appFolder + '/css/main.scss'
 	},
 	webpack : {
-		host : "0.0.0.0",
+		host : env.WEBPACK_SERVER_HOST || "0.0.0.0",
 		port : 4242,
 		proxy : env.WEBPACK_SERVER_PROXY || serverConfig['development'].server.host + ':' + serverConfig['development'].server.port
 	},
