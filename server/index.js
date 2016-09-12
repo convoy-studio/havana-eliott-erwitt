@@ -194,7 +194,7 @@ server.register([
                                     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0" />
                                     <meta name="google-site-verification" content="OjJk1s2tUx3x9j55kdCnUq2SY1MDEZ9lNa9adNQqnzY" />
                                     <link rel="stylesheet" href="/css/build.css" />
-                                    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+                                    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
                                     <title>{head.title}</title>` +
                                     meta
                                 + `</head>
