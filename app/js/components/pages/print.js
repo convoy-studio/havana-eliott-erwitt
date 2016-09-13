@@ -3,6 +3,7 @@ import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import Router, { Link } from 'react-router';
 import Cart from '../modules/cart';
+import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
@@ -24,14 +25,12 @@ export default class Print extends ComponentTransition {
 			loadedPrint: undefined,
 			cartItems: CartStore.getCartItems(),
 			cartCount: 0,
-			validCombinations: [],
 			bigImageShowed: false,
 			error: undefined
 		};
 
 		// binded
 		this.toggleList = this.toggleList.bind(this);
-		this.toggleListMobile = this.toggleListMobile.bind(this);
 		this.addToCart = this.addToCart.bind(this);
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.zoomIn = this.zoomIn.bind(this);
@@ -83,6 +82,7 @@ export default class Print extends ComponentTransition {
 		this.body = document.querySelector('body');
 
 		PrintApi.getOneForsale(this.props.params.token);
+		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
 
@@ -94,8 +94,6 @@ export default class Print extends ComponentTransition {
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-
-		let file;
 		if (!this.loaded) {
 			this.loadImage();
 		}
@@ -105,7 +103,6 @@ export default class Print extends ComponentTransition {
 				error: undefined
 			});
 		}
-
 	}
 
 	componentWillUnmount() {
@@ -123,7 +120,7 @@ export default class Print extends ComponentTransition {
 	render() {
 
 		let {print, prints, next, prev} = this.state;
-		let links = this.createPrintLinks(print, prints);
+		let links = this.createNextPreviousLinks(next, prev);
 
 		return (
 			<div className='page page--print' ref='view'>
@@ -177,7 +174,7 @@ export default class Print extends ComponentTransition {
 
 		const cartCombinations = _.pluck(_.filter(cartItems, { 'token': print.token }), 'serial');
 
-		_(print.serials).forEach((value, index) => {
+		_(print.combinations).forEach((value, index) => {
 			if (_.indexOf(cartCombinations, index+1) > -1) validCombinations[index] = false;
 			else if (_.indexOf(print.serials_blocked, index+1) > -1) validCombinations[index] = false;
 			else if (_.indexOf(print.serials_solded, index+1) > -1) validCombinations[index] = false;
@@ -188,95 +185,107 @@ export default class Print extends ComponentTransition {
 
 	}
 
-	selectCombination(combo, e) {
+	selectCombination(combo) {
+		if (!combo) {
+			return;
+		}
 
 		this.toggleList();
 		this.setState({
 			selectedCombination: combo
 		});
+	}
 
+	getDefaultCombination(print) {
+		let combos = print ? print.combinations : [];
+
+		if (combos.length) {
+			let combo = print.combinations.reduce((result, combo) => {
+				if (result) {
+					return result;
+				}
+				return combo.stock > 0 ? combo : null;
+			});
+
+			return combo || combos[0];
+		}
+
+		return 
 	}
 
 	addToCart(e) {
-
-		e.stopPropagation();
-		e.preventDefault();
-
-		let {print, selectedCombination: combo} = this.state;
+		if (e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
 
 		if (this.state.cartCount < 3) {
-			let update = {
-				token: print.id,
-				title: print.name,
-				city: 'DEPRECATED',
-				country: 'DEPRECATED',
-				year: 'DEPRECATED',
-				price: print.price,
-				serial: combo.id,
-				file: 'DEPRECATED',
-				copies: print.combinations.length,
-				project: 'DEPRECATEd',
-				logistic_id: combo.logistic_id,
-			};
-			CartActions.addToCart(update);
+
+			let {print, combo: selectedCombination} = this.state;
+
+			CartActions.addToCart({
+				product: print,
+				combination: combo,
+			});
+
 			CartActions.updateCartEnabled(true, true);
-			//PrintApi.blockCombination(update.token, update.serial);
+
 		} else {
 			this.setState({
 				error: 'Your cart is full (max 3)'
 			});
 		}
-
 	}
 
-	toggleList() {
+	toggleList(e) {
+		e && e.preventDefault();
+
 		if (!document.querySelector('body').classList.contains('js-mobile')) {
 			// document.querySelectorAll('.print__serial-list')[0].classList.toggle('enabled');
 			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
 				el.classList.toggle('enabled');
 			}).value();
 		}
-
-	}
-
-	toggleListMobile() {
-
-		if (document.querySelector('body').classList.contains('js-mobile')) {
-			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
-				el.classList.toggle('enabled');
-			}).value();
-		}
-
 	}
 
 	loadImage() {
 		let {print} = this.state;
 
-		if (_.size(print) > 0) {
-			let file = new Image();
-			file.onload = () => this.onImageLoaded();
-			file.src = print.image;
+		if (!print) {
+			return Promise.resolve();
 		}
 
-	}
+		return new Promise((resolve) => {
+			let timeout = setTimeout(resolve, 15000);
+			let image = new Image();
 
-	onImageLoaded(e) {
+			image.onload = () => {
+				clearTimeout(timeout);
+				resolve(image);
+			};
 
-		let {print} = this.state;
-		let path = e.explicitOriginalTarget || e.target || e.path[0];
-		let orientation = path.height >= path.width * 1.2 ? 'portrait' : 'landscape';
+			image.src = print.image;
+		})
 
-		this.setState({
-			'loadedPrint': (
-				<div className='print__left'>
-					<div className={'print__image print__image--'+orientation}>
-						<img className='print__file' src={print.image} alt={this.state.print.alt} onClick={this.zoomIn}></img>
+		.then((image) => {
+			if (!image) {
+				return;
+			}
+
+			let orientation = image.height >= image.width * 1.2 ? 'portrait' : 'landscape';
+
+			this.loaded = true;
+
+			this.setState({
+				loadedPrint: (
+					<div className='print__left'>
+						<div className={'print__image print__image--'+orientation}>
+							<img className='print__file' src={print.image} alt={print.alt} onClick={this.zoomIn}></img>
+						</div>
 					</div>
-				</div>
-			),
-		});
-
-		this.loaded = true;
+				),
+			});
+		})
 	}
 
 	onBigImageLoaded(e) {
@@ -340,7 +349,12 @@ export default class Print extends ComponentTransition {
 		const print = PrintStore.getOne();
 		const prints = PrintStore.getForSale(); 
 		const cartItems = CartStore.getCartItems();
-		const validCombinations = this.getValidCombinations(print, cartItems);
+
+		let {selectedCombination} = this.state;
+
+		if (print && !selectedCombination) {
+			selectedCombination = this.getDefaultCombination(print);
+		}
 
 		this.setState({
 			print: print,
@@ -349,14 +363,13 @@ export default class Print extends ComponentTransition {
 			prev: this.getPreviousPrint(print, prints),
 			cartItems: cartItems,
 			cartCount: CartStore.getCartCount(),
-			validCombinations: this.getValidCombinations(print, cartItems),
-			selectedCombination: _.indexOf(validCombinations, true) + 1
+			selectedCombination: selectedCombination,
 		});
 	}
 
 	/**
 	 * Return the print in the prints series at the given relative offset
-	 * (in relation to the current print). Return null if not found.
+	 * (in relation to current). Return null if not found.
 	 * @see #getNextPrint()
 	 * @see #getPreviousPrint()
 	 * @param {Object} current - a print payload
@@ -379,6 +392,7 @@ export default class Print extends ComponentTransition {
 	/**
 	 * Given a print payload, figure out the "next" print in the series.
 	 * @param {Object} current - a print payload
+	 * @param {Array} prints - all prints
 	 * @return {Object|null}
 	 */
 	getNextPrint(current, prints) {
@@ -388,6 +402,7 @@ export default class Print extends ComponentTransition {
 	/**
 	 * Given a print payload, figure out the "previous" print in the series.
 	 * @param {Object} current - a print payload
+	 * @param {Array} prints - all prints
 	 * @return {Object|null}
 	 */
 	getPreviousPrint(current, prints) {
@@ -401,16 +416,17 @@ export default class Print extends ComponentTransition {
 	 * @return {react-router:Link}
 	 */
 	createPrintLink(print, className, arrowClass) {
-		if (print) {
-			let url = `/shop/${print.id}`;
-
-			return (
-				<Link to={url} className={className}>
-					<div className={`arrow ${arrowClass}`}></div>
-				</Link>
-			);
+		if (!print) {
+			return null;
 		}
-		return null;
+
+		let language = AppStore.Lang();
+
+		return (
+			<Link to={`/${language}/shop/${print.id}`} className={className}>
+				<div className={`arrow ${arrowClass}`}></div>
+			</Link>
+		);
 	}
 
 	/**
@@ -418,10 +434,10 @@ export default class Print extends ComponentTransition {
 	 * @param {Object} prev - print payload
 	 * @return {Object} - a dictionary that contains React.Elements
 	 */
-	createPrintLinks(next, prev) {
+	createNextPreviousLinks(next, prev) {
 		return {
-			next: this.createPrintLink(next, 'print__next', 'arrow--left'),
-			prev: this.createPrintLink(prev, 'print__prev', 'arrow--right'),
+			next: this.createPrintLink(next, 'print__next', 'arrow--right'),
+			prev: this.createPrintLink(prev, 'print__prev', 'arrow--left'),
 		};
 	}
 
@@ -452,25 +468,30 @@ export default class Print extends ComponentTransition {
 	/**
 	 * @param {Object} print - print payload
 	 * @param {Object} combo - combination payload
+	 * @param mixed key
 	 * @return {react:Element}
 	 */
-	createCombinationElement(print, combo) {
+	createCombinationElement(print, combo, key=null) {
 		let enabled = combo.stock > 0;
 
 		if (enabled) {
 			return (
-				<li className='print__serial' onClick={() => this.selectCombination(combo)} key={combo.id}>{combo.name}</li>
+				<li className='print__serial' onClick={() => this.selectCombination(combo)} key={key||combo.id}>{combo.name}</li>
 			);
 		}
 
 		return (<li className='print__serial print__serial--disabled' key={combo.id}>{combo.name}</li>)
 	}
 
-	createCombinationList(print) {
+	/**
+	 * @param {Object} print - print payload
+	 * @return {react:Element}
+	 */
+	createCombinationListElement(print) {
 		return (
 			<ul className='print__serial-list'>
-				{print.combinations.map((combo) => {
-					return this.createCombinationElement(print, combo);
+				{print.combinations.map((combo, i) => {
+					return this.createCombinationElement(print, combo, i);
 				})}
 			</ul>
 		);
@@ -485,9 +506,11 @@ export default class Print extends ComponentTransition {
 			return null;
 		}
 
+		let {loadedPrint, selectedCombination: combo} = this.state;
+
 		return (
 			<div className='print'>
-				{this.state.loadedPrint}
+				{loadedPrint}
 				<div className='print__infos'>
 					<h3 className='print__artist text'>{print.manufacturer}</h3>
 					<h3 className='print__location text'>{print.name}</h3>
@@ -505,8 +528,8 @@ export default class Print extends ComponentTransition {
 									<div className='print__serial-wrapper'>
 										<div className='print__serial-opt text'>Choose edition</div>
 										<div className='print__select text'>
-											<div className='print__serial--selected' onClick={this.toggleList}>{this.state.selectedCombination.name}</div>
-											{this.createCombinationList(print)}
+											<div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+											{this.createCombinationListElement(print)}
 										</div>
 									</div>
 									<div className='print__buy-wrapper'>
@@ -541,11 +564,11 @@ export default class Print extends ComponentTransition {
 					if (combos && combos.length > 0 && this.state.selectedCombination) {
 						return (
 							<div>
-								<div className='print__serial-wrapper' onClick={this.toggleListMobile}>
+								<div className='print__serial-wrapper' onClick={this.toggleList}>
 									<div className='print__serial-opt text'>Choose edition</div>
 									<div className='print__select text'>
 										<div className='print__serial--selected'>{this.state.selectedCombination.name}</div>
-										{this.createCombinationList(print)}
+										{this.createCombinationListElement(print)}
 									</div>
 								</div>
 								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart ({this.state.cartCount})</a>
