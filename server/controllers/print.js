@@ -113,6 +113,7 @@ const createAttributeQueryHandler = (attribute, resolver) => {
 		let id = req.params.token;
 
 		return client.resource('products').get(id)
+		.then(transformProduct)
 		.then(reply)
 		.catch((e) => reply(Boom.badImplementation(e)));
 	};
