@@ -161,7 +161,7 @@ export default class Shop extends ComponentTransition {
 									})}
 								</div>
 							)
-						}.bind(this))}
+						})}
 					</div>
 				</div>
 				<Cart />
@@ -284,7 +284,7 @@ export default class Shop extends ComponentTransition {
 	/**
 	 * Return an Array contains n nested Arrays, each representing a column.
 	 * Distribute items evenly across the columns.
-	 * @param {Array} prints
+	 * @param {Array} items
 	 * @param {Number} n - the number of columns
 	 * @return {Array}
 	 */
