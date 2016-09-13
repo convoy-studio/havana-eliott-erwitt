@@ -35,6 +35,13 @@ server {
     include /etc/nginx/snippets/proxy;
   }
 
+  location /js/* {
+    proxy_pass http://node-http/;
+    include /etc/nginx/snippets/proxy;
+    add_header Cache-Control "no-cache";
+    add_header Access-Control-Allow-Origin "*";
+  }
+
   location ~ \.php$ {
     root /var/www/html/php;
 

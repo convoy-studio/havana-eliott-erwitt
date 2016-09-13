@@ -5,6 +5,7 @@ let config = require('../../config');
 export default class Seo extends Component {
 
 	render() {
+		console.log(this.props.seo);
 
 		return (
 			<Helmet

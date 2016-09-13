@@ -110,6 +110,7 @@ const createListHandler = () => {
 const createAttributeQueryHandler = (attribute, resolver) => {
 	return (req, reply) => {
 		let client = req.server.app.prestashop.client;
+		let id = req.params.token;
 
 		return client.resource('products').get(id)
 		.then(reply)

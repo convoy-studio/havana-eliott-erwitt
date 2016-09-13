@@ -107,33 +107,14 @@ export default class Shop extends ComponentTransition {
 
 	render() {
 
-		let seo = {
-			title: this.content.shop_title,
-			description: this.content.shop_description,
-			url: config.siteurl + '/shop',
-			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
-		};
-
+		let language = AppStore.Lang();
 		let pageClass = this.state.open ? '' : 'page--hidden';
-
-		this.prints = []
-		_(this.state.prints).forEach((print, index) => {
-			if (index % 3 === 0) {
-				if (!this.prints[0]) this.prints[0] = []
-				this.prints[0].push(print);
-			} else if (index % 2 === 0) {
-				if (!this.prints[1]) this.prints[1] = []
-				this.prints[1].push(print);
-			} else {
-				if (!this.prints[2]) this.prints[2] = []
-				this.prints[2].push(print);
-			}
-		}).value();
+		let columns = this.createPrintColumns(3, prints);
 
 				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
-				<Seo seo={seo} />
+				{this.createSeoComponent(language)}
 				<div className='shop js-smooth'>
 					<div className='shop__intro'>
 						<h2 className='title'>{intro.title}</h2>
@@ -146,15 +127,13 @@ export default class Shop extends ComponentTransition {
 					</div>
 					<div className='shop__overlay'></div>
 					<div className='shop__list'>
-						{Object.keys(this.prints).map((index) => {
-							let prints = this.prints[index];
+						{columns.map((column, index) => {
 							return (
 								<div className='shop__column' key={index}>
-									{Object.keys(prints).map((index) => {
-										let print = prints[index];
+									{column.map((print, index) => {
 										return (
 											<div className='shop__print' key={index}>
-												<Link to={'/shop/'+print.id}>
+												<Link to={`/${language}/shop/${print.id}`}>
 													<img src={print.image} alt={print.alt}></img>
 													<div className='shop__hover'>
 														<div className='shop__detail-wrapper'>
@@ -169,7 +148,7 @@ export default class Shop extends ComponentTransition {
 												</Link>
 											</div>
 										)
-									}.bind(this))}
+									})}
 								</div>
 							)
 						}.bind(this))}
@@ -178,54 +157,6 @@ export default class Shop extends ComponentTransition {
 				<Cart />
 			</div>
 		);
-									// {Object.keys(prints).map((index) => {
-									// 	let print = prints[index];
-									// 	console.log(print);
-									// 	let file = print.file + '_medium.jpg';
-									// 	let details;
-									// 	if (print.title) details = print.title+'. '+print.city+'. '+print.country+'. '+print.year;
-									// 	else details = print.city+'. '+print.country+'. '+print.year;
-
-									// 	return (
-									// 		<div className='shop__print' key={id}>
-									// 			<Link to={'/shop/'+print.token}>
-									// 				<img src={'/static/prints/'+file}></img>
-									// 				<div className='shop__hover'>
-									// 					<div className='shop__detail'>
-									// 						<div className='text'>{print.artist}</div>
-									// 						<div className='text'>{details}</div>
-									// 						<div className='shop__price text'>{print.price}€</div>
-									// 						<div className='shop__button button'>More details</div>
-									// 					</div>
-									// 				</div>
-									// 			</Link>
-									// 		</div>
-									// 	)
-									// }.bind(this))}
-
-		// {Object.keys(this.state.prints).map((id, index) => {
-		// 					let print = this.state.prints[id]
-		// 					let file = print.file + '_medium.jpg'
-		// 					let details
-		// 					if (print.title) details = print.title+'. '+print.city+'. '+print.country+'. '+print.year
-		// 					else details = print.city+'. '+print.country+'. '+print.year
-
-		// 					return (
-		// 						<div className='shop__print' key={id}>
-		// 							<Link to={'/shop/'+print.token}>
-		// 								<img src={'/static/prints/'+file}></img>
-		// 								<div className='shop__hover'>
-		// 									<div className='shop__detail'>
-		// 										<div className='text'>{print.artist}</div>
-		// 										<div className='text'>{details}</div>
-		// 										<div className='shop__price text'>{print.price}€</div>
-		// 										<div className='shop__button button'>More details</div>
-		// 									</div>
-		// 								</div>
-		// 							</Link>
-		// 						</div>
-		// 					)
-		// 				}.bind(this))}
 	}
 
 	onImageLoaded(e) {
@@ -233,13 +164,6 @@ export default class Shop extends ComponentTransition {
 		this.nImageLoaded++;
 
 		if (this.nImageLoaded >= this.max) {
-			// if(typeof window !== 'undefined') {
-			// 	let msnry = new Masonry( '.shop__list', {
-			// 		itemSelector: '.shop__print',
-			// 		columnWidth: '.shop__print',
-			// 		gutter: 10
-			// 	});
-			// }
 			document.querySelector('.page--shop').style.height = this.shop.offsetHeight + 'px';
 		}
 
@@ -332,4 +256,29 @@ export default class Shop extends ComponentTransition {
 
 	}
 
+	createSeoComponent(language) {
+		let seo = {
+			title: this.content.shop_title,
+			description: this.content.shop_description,
+			url: `${config.siteurl}/${language}/shop`,
+			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
+		};
+
+		return <Seo seo={seo} />;
+	}
+
+
+	createPrintColumns(n=3, prints=[]) {
+		let columns = _.range(n).map(() => []);
+
+		prints && _.each(prints, (print, index) => {
+			columns[index % n].push(print);
+		});
+
+		console.log(columns);
+
+		return columns;
+	}
 }
+
+// vim: ts=2 sts=2 sw=2 noet

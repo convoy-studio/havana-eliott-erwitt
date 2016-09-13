@@ -8,6 +8,7 @@ import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
+
 let _ = require('lodash');
 let raf = Utils.raf();
 let config = require('../../config');
@@ -25,7 +26,6 @@ export default class Print extends ComponentTransition {
 			cartCount: 0,
 			validCombinations: [],
 			bigImageShowed: false,
-			techDesc: '',
 			error: undefined
 		};
 
@@ -124,11 +124,10 @@ export default class Print extends ComponentTransition {
 
 		let {print, prints, next, prev} = this.state;
 		let links = this.createPrintLinks(print, prints);
-		let seoComponent  = this.createSeoComponent(print);
 
 		return (
 			<div className='page page--print' ref='view'>
-				{seo}
+				{this.createSeoComponent(print)}
 				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
 				<div>
 					<div className='print__nav'>
@@ -136,9 +135,7 @@ export default class Print extends ComponentTransition {
 						{links.next}
 					</div>
 					{this.createPrintElement(print)}
-					<div className={'bigprint ' + bigPrintClass}>
-						<img className='bigprint__image' src={print.image} alt={print.alt} onClick={this.zoomOut}></img>
-					</div>
+					{this.createBigPrintElement(print)}
 				</div>
 				{this.createMobilePrintElement(print)}
 				<Cart />
@@ -177,7 +174,9 @@ export default class Print extends ComponentTransition {
 
 	getValidCombinations(print, cartItems) {
 		let validCombinations = [];
+
 		const cartCombinations = _.pluck(_.filter(cartItems, { 'token': print.token }), 'serial');
+
 		_(print.serials).forEach((value, index) => {
 			if (_.indexOf(cartCombinations, index+1) > -1) validCombinations[index] = false;
 			else if (_.indexOf(print.serials_blocked, index+1) > -1) validCombinations[index] = false;
@@ -203,23 +202,25 @@ export default class Print extends ComponentTransition {
 		e.stopPropagation();
 		e.preventDefault();
 
+		let {print, selectedCombination: combo} = this.state;
+
 		if (this.state.cartCount < 3) {
 			let update = {
-				token: this.state.print.token,
-				title: this.state.print.title,
-				city: this.state.print.city,
-				country: this.state.print.country,
-				year: this.state.print.year,
-				price: this.state.print.price,
-				serial: this.state.selectedCombination,
-				file: this.state.print.file,
-				copies: this.state.print.copies,
-				project: this.state.print.project,
-				logistic_id: this.state.print.logistic_id
+				token: print.id,
+				title: print.name,
+				city: 'DEPRECATED',
+				country: 'DEPRECATED',
+				year: 'DEPRECATED',
+				price: print.price,
+				serial: combo.id,
+				file: 'DEPRECATED',
+				copies: print.combinations.length,
+				project: 'DEPRECATEd',
+				logistic_id: combo.logistic_id,
 			};
 			CartActions.addToCart(update);
 			CartActions.updateCartEnabled(true, true);
-			PrintApi.blockCombination(update.token, update.serial);
+			//PrintApi.blockCombination(update.token, update.serial);
 		} else {
 			this.setState({
 				error: 'Your cart is full (max 3)'
@@ -249,50 +250,33 @@ export default class Print extends ComponentTransition {
 	}
 
 	loadImage() {
+		let {print} = this.state;
 
-		if (_.size(this.state.print) > 0) {
+		if (_.size(print) > 0) {
 			let file = new Image();
-			file.onload = this.onImageLoaded.bind(this);
-			file.src = '/static/prints/'+this.state.print.file+'_medium.jpg';
+			file.onload = () => this.onImageLoaded();
+			file.src = print.image;
 		}
 
 	}
 
 	onImageLoaded(e) {
 
-		let size, path = e.explicitOriginalTarget || e.target || e.path[0];
-		if (path.height >= path.width*1.2) size = 'portrait';
-		else size = 'landscape';
-		let dim = '27.9 × 35.6 cm'; // gérer la conversion (11 × 14 inches)
-		this.print = (
-			<div className='print__left'>
-				<div className={'print__image print__image--'+size}>
-					<img className='print__file' src={'/static/prints/'+this.state.print.file+'_medium.jpg'} alt={this.state.print.alt} onClick={this.zoomIn}></img>
-				</div>
-			</div>
-		);
+		let {print} = this.state;
+		let path = e.explicitOriginalTarget || e.target || e.path[0];
+		let orientation = path.height >= path.width * 1.2 ? 'portrait' : 'landscape';
 
-		this.techDesc = (
-			<div className='print__tech'>
-				<p>Silver gelatin print measuring</p>
-				<p>{dim}, unframed.</p>
-				<p>Printed under the direct supervision of the artist.</p>
-				<p>One of a signed, limited edition of {this.state.print.copies}.</p>
-			</div>
-		);
-
-		// if (params.path[0].height >= params.path[0].width*1.2) {
-		// 	this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'/static/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		// } else {
-		// 	this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'/static/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		// }
 		this.setState({
-			'loadedPrint': this.print,
-			'techDesc': this.techDesc
+			'loadedPrint': (
+				<div className='print__left'>
+					<div className={'print__image print__image--'+orientation}>
+						<img className='print__file' src={print.image} alt={this.state.print.alt} onClick={this.zoomIn}></img>
+					</div>
+				</div>
+			),
 		});
 
 		this.loaded = true;
-
 	}
 
 	onBigImageLoaded(e) {
@@ -308,11 +292,13 @@ export default class Print extends ComponentTransition {
 		document.querySelector('.print__mobile').classList.add('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
 
+		let {print} = this.state;
+
 		if (!this.bigprintLoaded) {
 			this.bigprintLoaded = true;
 			let file = new Image();
-			file.onload = this.onBigImageLoaded.bind(this);
-			file.src = '/static/prints/'+this.state.print.file+'.jpg';
+			file.onload = () => this.onBigImageLoaded();
+			file.src = print.image;
 		}
 	}
 
@@ -352,7 +338,7 @@ export default class Print extends ComponentTransition {
 
 	onStoreChange() {
 		const print = PrintStore.getOne();
-		const prints = PrintStore.getForSal(); 
+		const prints = PrintStore.getForSale(); 
 		const cartItems = CartStore.getCartItems();
 		const validCombinations = this.getValidCombinations(print, cartItems);
 
@@ -416,8 +402,10 @@ export default class Print extends ComponentTransition {
 	 */
 	createPrintLink(print, className, arrowClass) {
 		if (print) {
+			let url = `/shop/${print.id}`;
+
 			return (
-				<Link to={'/shop/'+print.id} className=className>
+				<Link to={url} className={className}>
 					<div className={`arrow ${arrowClass}`}></div>
 				</Link>
 			);
@@ -442,19 +430,23 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createSeoComponent(print) {
+		if (!print) {
+			return null;
+		}
+
 		let description = [
 			`Buy the limited edition "${print.name}"`,
 			`origin print by ${print.manufacturer}`,
 		];
 
-		let props = {
+		let seo = {
 			title: print.name,
 			description: description.join(' '),
 			url: `${config.siteurl}/shop/${print.id}`,
 			image: print.image,
 		};
 
-		return <Seo ...props/>
+		return <Seo seo={seo} />
 	}
 
 	/**
@@ -489,6 +481,10 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createPrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
 		return (
 			<div className='print'>
 				{this.state.loadedPrint}
@@ -532,11 +528,16 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createMobilePrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
 		let combos = print.combinations;
 
 		return (
 			<div className='print__mobile'>
 				{(() => {
+
 					if (combos && combos.length > 0 && this.state.selectedCombination) {
 						return (
 							<div>
@@ -554,8 +555,26 @@ export default class Print extends ComponentTransition {
 
 					return (
 						<div className='text'>Out of stock</div>
-					}
+					);
 				}.bind(this))()}
+			</div>
+		);
+	}
+
+	/**
+	 * @param {Object} print
+	 * @return {react:Element}
+	 */
+	createBigPrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
+		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
+
+		return (
+			<div className={'bigprint ' + bigPrintClass}>
+				<img className='bigprint__image' src={print.image} alt={print.alt} onClick={this.zoomOut}></img>
 			</div>
 		);
 	}
