@@ -8,7 +8,7 @@ import PrintApi from '../../utils/printApi';
 
 function getState() {
 
-	return {
+	let state = {
 		items: CartStore.getCartItems(),
 		count: CartStore.getCartCount(),
 		total: CartStore.getCartTotal(),
@@ -16,6 +16,9 @@ function getState() {
 		enabled: CartStore.getCartEnabled()
 	};
 
+  console.log(state);
+
+  return state;
 }
 
 export default class Cart extends Component {
@@ -74,6 +77,7 @@ export default class Cart extends Component {
 		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
 
+
 		return (
 			<div>
 				<div className={'cart' + visibility + isEmpty} ref='cart'>
@@ -86,21 +90,18 @@ export default class Cart extends Component {
 					<div className='cart__content cart__products-wrapper'>
 						<ul className='cart__products'>
 							{Object.keys(this.state.items).map((index) => {
-								let product = this.state.items[index]
-								let details
-								if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
-								else details = product.city+'. '+product.country+'. '+product.year
+								let {product, combination: combo, quantity} = this.state.items[index];
 
 								return (
 									<li key={index} className='cart__product'>
 										<div className='cart__column'>
-											<div className='cart__artist'>{product.project.artist}</div>
-											<div className='cart__details'>{details}</div>
-											<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
+											<div className='cart__artist'>{product.manufacturer}</div>
+											<div className='cart__details'>{product.name}</div>
+											<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
 											<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 										</div>
 										<div className='cart__column'>
-											<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
+											<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
 											<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
 										</div>
 									</li>

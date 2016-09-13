@@ -221,11 +221,12 @@ export default class Print extends ComponentTransition {
 
 		if (this.state.cartCount < 3) {
 
-			let {print, combo: selectedCombination} = this.state;
+			let {print, selectedCombination} = this.state;
 
 			CartActions.addToCart({
 				product: print,
-				combination: combo,
+				combination: selectedCombination,
+				quantity: 1,
 			});
 
 			CartActions.updateCartEnabled(true, true);
@@ -480,7 +481,7 @@ export default class Print extends ComponentTransition {
 			);
 		}
 
-		return (<li className='print__serial print__serial--disabled' key={combo.id}>{combo.name}</li>)
+		return (<li className='print__serial print__serial--disabled' key={key||combo.id}>{combo.name}</li>)
 	}
 
 	/**
