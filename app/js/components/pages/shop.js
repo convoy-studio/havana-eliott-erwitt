@@ -19,6 +19,31 @@ let config = require('../../config');
 // 	Masonry = require('masonry-layout');
 // }
 
+class PrintPreview extends React.Component {
+
+	render() {
+		let {print, content, language} = this.props;
+
+		return (
+			<div className='shop__print'>
+				<Link to={`/${language}/shop/${print.id}`}>
+					<img src={print.image} alt={print.alt}></img>
+					<div className='shop__hover'>
+						<div className='shop__detail-wrapper'>
+							<div className='shop__detail'>
+								<div className='text'>{print.manufacturer}</div>
+								<div className='text'>{print.name}</div>
+								<div className='shop__price text'>{print.price}€</div>
+								<div className='shop__button button'>{content.shop_details}</div>
+							</div>
+						</div>
+					</div>
+				</Link>
+			</div>
+		);
+	}
+}
+
 export default class Shop extends ComponentTransition {
 
 	componentWillMount() {
@@ -106,10 +131,11 @@ export default class Shop extends ComponentTransition {
 	}
 
 	render() {
-
 		let language = AppStore.Lang();
+		let {prints} = this.state;
+		let columns = this.columnize(prints, 3);
+
 		let pageClass = this.state.open ? '' : 'page--hidden';
-		let columns = this.createPrintColumns(3, prints);
 
 				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 		return (
@@ -131,23 +157,7 @@ export default class Shop extends ComponentTransition {
 							return (
 								<div className='shop__column' key={index}>
 									{column.map((print, index) => {
-										return (
-											<div className='shop__print' key={index}>
-												<Link to={`/${language}/shop/${print.id}`}>
-													<img src={print.image} alt={print.alt}></img>
-													<div className='shop__hover'>
-														<div className='shop__detail-wrapper'>
-															<div className='shop__detail'>
-																<div className='text'>{print.manufacturer}</div>
-																<div className='text'>{print.name}</div>
-																<div className='shop__price text'>{print.price}€</div>
-																<div className='shop__button button'>{this.content.shop_details}</div>
-															</div>
-														</div>
-													</div>
-												</Link>
-											</div>
-										)
+										return <PrintPreview key={index} language={language} print={print} content={this.content}/>
 									})}
 								</div>
 							)
@@ -256,6 +266,10 @@ export default class Shop extends ComponentTransition {
 
 	}
 
+	/**
+	 * @param {String} language
+	 * @return {Seo}
+	 */
 	createSeoComponent(language) {
 		let seo = {
 			title: this.content.shop_title,
@@ -267,15 +281,18 @@ export default class Shop extends ComponentTransition {
 		return <Seo seo={seo} />;
 	}
 
-
-	createPrintColumns(n=3, prints=[]) {
+	/**
+	 * Return an Array contains n nested Arrays, each representing a column.
+	 * Distribute items evenly across the columns.
+	 * @param {Array} prints
+	 * @param {Number} n - the number of columns
+	 * @return {Array}
+	 */
+	columnize(items=[], n=3) {
 		let columns = _.range(n).map(() => []);
+		let distribute = (item, index) => columns[index % n].push(item);
 
-		prints && _.each(prints, (print, index) => {
-			columns[index % n].push(print);
-		});
-
-		console.log(columns);
+		items && items.length && _.each(items, distribute);
 
 		return columns;
 	}
