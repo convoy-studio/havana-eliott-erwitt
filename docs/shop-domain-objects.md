@@ -1,6 +1,6 @@
 # Shop Domain Objects
 
-## Product
+### Product
 
 - Product is a thing that can be offered for sale.
 - Product always has `n` child Combinations, where `n > 0`.
@@ -15,7 +15,7 @@
       price: 900,
       alt: 'Silver gelatin print measuring\n\n27.9 × 35.6 cm, unframed.\n\nPrinted under the direct supervision of the artist.\n\nOne of a signed, limited edition of 10.',
       forsale: true,
-      combinations: [...]
+      combinations: [{Combination}, ...]
     }
     ```
 
@@ -32,7 +32,7 @@
         combinations    a list of child Combination payloads; this list may not be empty
         
 
-## Combination
+### Combination
 
 - Combination is a discrete variation of a single Product.
 - Combination always belongs to exactly one Product.
@@ -56,3 +56,21 @@
         stock         available quantity
         logistic_id   logistics-related identifier
 
+### CartItem
+
+- CartItem is a single line item in the cart store
+
+    ```javascript
+    {
+        product: {Product}
+        combination: {Combination},
+        quantity: 1
+    }
+    ```
+
+    **Attributes**
+
+        product        a Product payload
+        combination    a Combination payload
+        quantity       unsigned integer
+        
