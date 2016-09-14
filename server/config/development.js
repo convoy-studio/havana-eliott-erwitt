@@ -18,15 +18,16 @@ const config = {
 	secret : 'elliotterwitt_convoy',
 
 	prestashop: {
+		languages: {
+			'en': 1,
+			'es': 2,
+		},
+
 		frontend: {
 			url: env.PRESTASHOP_FRONTEND_URL || 'https://your-prestashop-domain',
 		},
 
 		client: {
-			languages: {
-				'en': 1,
-				'es': 2,
-			},
 			webservice: {
 				key: env.PRESTASHOP_WEBSERVICE_KEY || 'your-prestashop-webservice-key',
 				scheme: env.PRESTASHOP_WEBSERVICE_SCHEME || 'https',
