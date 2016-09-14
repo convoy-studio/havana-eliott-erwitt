@@ -53,12 +53,14 @@ export class CheckoutForm extends React.Component {
 				 cart_id, language_id, token} = (this.state || this.props);
 
 		return (
-			<form ref='form' method={method} action={next_rpc_url}>
-				<input type="hidden" name="cart_id" value={cart_id}/>
-				<input type="hidden" name="language_id" value={language_id}/>
-				<input type="hidden" name="token" value={token}/>
-				<button ref='button' className="button">{button_text}</button>
-			</form>
+			<div>
+				<a ref='button' className="button">{button_text}</a>
+				<form ref='form' method={method} action={next_rpc_url}>
+					<input type="hidden" name="cart_id" value={cart_id}/>
+					<input type="hidden" name="language_id" value={language_id}/>
+					<input type="hidden" name="token" value={token}/>
+				</form>
+			</div>
 		);
 	}
 
