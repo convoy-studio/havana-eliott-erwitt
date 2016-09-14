@@ -83,8 +83,6 @@ const transformProduct = (product) => {
 			'forsale': combos.reduce((forsale, combo) => combo.stock > 0 || forsale, false),
 		};
 
-		console.log(payload);
-
 		return payload;
 	})
 };

@@ -1,0 +1,6 @@
+export default {
+	RECEIVE_REMOTE_STATE: 'RECEIVE_REMOTE_STATE',
+	CLEAR_REMOTE_STATE: 'CLEAR_REMOTE_STATE',
+};
+
+// vim: ts=2 sts=2 sw=2 noet

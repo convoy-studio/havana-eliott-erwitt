@@ -197,20 +197,24 @@ export default class Print extends ComponentTransition {
 	}
 
 	getDefaultCombination(print) {
-		let combos = print ? print.combinations : [];
+		if (!print || !print.combinations) {
+			return null;
+		}
+
+		let combos = print.combinations;
 
 		if (combos.length) {
-			let combo = print.combinations.reduce((result, combo) => {
+			let result = combos.reduce((result, combo) => {
 				if (result) {
 					return result;
 				}
 				return combo.stock > 0 ? combo : null;
 			});
 
-			return combo || combos[0];
+			return result || combos[0];
 		}
 
-		return 
+		return null;
 	}
 
 	addToCart(e) {
@@ -349,7 +353,6 @@ export default class Print extends ComponentTransition {
 	onStoreChange() {
 		const print = PrintStore.getOne();
 		const prints = PrintStore.getForSale(); 
-		const cartItems = CartStore.getCartItems();
 
 		let {selectedCombination} = this.state;
 
@@ -362,7 +365,7 @@ export default class Print extends ComponentTransition {
 			prints: prints,
 			next: this.getNextPrint(print, prints),
 			prev: this.getPreviousPrint(print, prints),
-			cartItems: cartItems,
+			cartItems: CartStore.getCartItems(),
 			cartCount: CartStore.getCartCount(),
 			selectedCombination: selectedCombination,
 		});
