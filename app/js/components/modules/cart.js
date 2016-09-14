@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import PrintApi from '../../utils/printApi';
+import { CheckoutForm } from './checkout';
 // import AppStore from 'AppStore'
 // import AppConstants from 'AppConstants'
 
@@ -16,9 +17,7 @@ function getState() {
 		enabled: CartStore.getCartEnabled()
 	};
 
-  console.log(state);
-
-  return state;
+	return state;
 }
 
 export default class Cart extends Component {
@@ -113,7 +112,7 @@ export default class Cart extends Component {
 							<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
 						</div>
 						<div className='cart__checkout'>
-							<Link to='/payment' className='button'>Proceed to checkout</Link>
+							<CheckoutForm />
 						</div>
 						{(() => {
 							if (this.body && this.body.classList.contains('js-mobile')) return (
@@ -164,7 +163,7 @@ export default class Cart extends Component {
 	removeItem(index) {
 
 		const print = this.state.items[index];
-        PrintApi.unblockSerial(print.token, print.serial);
+		PrintApi.unblockSerial(print.token, print.serial);
 		CartActions.removeFromCart(index);
 	}
 
@@ -222,3 +221,5 @@ export default class Cart extends Component {
 	}
 
 }
+
+// vim: ts=2 sts=2 sw=2 noet
