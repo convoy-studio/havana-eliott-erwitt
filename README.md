@@ -21,7 +21,7 @@ This will start differents gulp commands watching for changes in /src folder.
 
 #### Docker
 
-If you have docker, you can run:
+If you have docker, you can instead run:
 ```
 ./start
 ```
