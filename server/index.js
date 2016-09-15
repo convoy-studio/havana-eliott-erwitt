@@ -28,7 +28,7 @@ const server = new Hapi.Server();
 
 // add prestashop.client to server.app
 server.app = {
-  ...server.app,
+	...server.app,
 	prestashop: {
 		client: new prestashop.rest.Client({
 			...config.prestashop.client,
