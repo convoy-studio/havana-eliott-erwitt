@@ -7,12 +7,12 @@ const NODE_ENV = process.env.NODE_ENV;
 
 export default {
 
-  prepare: {
-    handler: (req, reply) => {
-      let {prestashop: shop} = config[NODE_ENV];
+	prepare: {
+		handler: (req, reply) => {
+			let {prestashop: shop} = config[NODE_ENV];
 
 			let {language} = req.params;
-      let {items} = req.payload;
+			let {items} = req.payload;
 
 			let language_id = shop.languages[language];
 			let url = `${shop.frontend.url}/rpc/prepare-cart.php`;
@@ -27,12 +27,12 @@ export default {
 				body: JSON.stringify({
 					language_id: language_id,
 					items: items.map((item) => {
-            return {
-              product_id: item.product.id,
-              combination_id: item.combination.id,
-              quantity: item.quantity,  
-            };
-          }),
+						return {
+							product_id: item.product.id,
+							combination_id: item.combination.id,
+							quantity: item.quantity,	
+						};
+					}),
 				})
 			})
 
@@ -43,12 +43,12 @@ export default {
 
 			.then((state) => {
 				let {response} = data;
-        let ready = response.status === 200;
+				let ready = response.status === 200;
 
 				reply({...state, ready}).code(response.status);
 			})
 
 			.catch((e) => reply(Boom.badImplementation(e)))
-    },
-  },
+		},
+	},
 }
