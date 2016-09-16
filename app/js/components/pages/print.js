@@ -3,11 +3,13 @@ import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import Router, { Link } from 'react-router';
 import Cart from '../modules/cart';
+import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
+
 let _ = require('lodash');
 let raf = Utils.raf();
 let config = require('../../config');
@@ -19,19 +21,16 @@ export default class Print extends ComponentTransition {
 		// state
 		this.state = {
 			print: undefined,
-			selectedSerial: undefined,
+			selectedCombination: undefined,
 			loadedPrint: undefined,
 			cartItems: CartStore.getCartItems(),
 			cartCount: 0,
-			validSerials: [],
 			bigImageShowed: false,
-			techDesc: '',
 			error: undefined
 		};
 
 		// binded
 		this.toggleList = this.toggleList.bind(this);
-		this.toggleListMobile = this.toggleListMobile.bind(this);
 		this.addToCart = this.addToCart.bind(this);
 		this.onStoreChange = this.onStoreChange.bind(this);
 		this.zoomIn = this.zoomIn.bind(this);
@@ -83,6 +82,7 @@ export default class Print extends ComponentTransition {
 		this.body = document.querySelector('body');
 
 		PrintApi.getOneForsale(this.props.params.token);
+		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
 
@@ -94,8 +94,6 @@ export default class Print extends ComponentTransition {
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-
-		let file;
 		if (!this.loaded) {
 			this.loadImage();
 		}
@@ -105,7 +103,6 @@ export default class Print extends ComponentTransition {
 				error: undefined
 			});
 		}
-
 	}
 
 	componentWillUnmount() {
@@ -122,138 +119,25 @@ export default class Print extends ComponentTransition {
 
 	render() {
 
-		let title, city, country, year, price, desc, serials, artist, file, bigfile, alt, details, prev, next;
-
-		if (this.state.print && this.state.validSerials.length) {
-			title = this.state.print.title;
-			city = this.state.print.city;
-			country = this.state.print.country;
-			year = this.state.print.year;
-			price = this.state.print.price;
-			desc = this.state.print.desc;
-			serials = this.state.print.serials;
-			artist = this.state.print.project.artist;
-			file = '/static/prints/'+this.state.print.file+'_medium.jpg';
-			bigfile = '/static/prints/'+this.state.print.file+'.jpg';
-			alt = this.state.print.alt;
-			prev = this.state.print.prev;
-			next = this.state.print.next;
-		}
-
-		if (title) {
-			details = title+'. '+city+'. '+country+'. '+year;
-		} else {
-			details = city+'. '+country+'. '+year;
-		}
-
-		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
-
-		let seoTitle;
-		if (title) {
-			seoTitle = 'Elliott Erwitt Print | ' + title + ' | ' + country + ' ' + year;
-		} else {
-			seoTitle = 'Elliott Erwitt Print | ' + city + ' | ' + country + ' ' + year;
-		}
-
-		let seoDesc;
-		if (title) {
-			seoDesc = 'Buy the limited edition "' + title + '" original print by ' + artist;
-		} else {
-			seoDesc = 'Buy the limited edition "' + city + '" original print by ' + artist;
-		}
-
-		let seo = {
-			title: seoTitle,
-			description: 'Buy the limited edition "' + title + '" original print by ' + artist,
-			url: config.siteurl + '/shop/' + this.props.params.token,
-			image: config.siteurl + file
-		};
+		let {print, prints, next, prev} = this.state;
+		let links = this.createNextPreviousLinks(next, prev);
 
 		return (
 			<div className='page page--print' ref='view'>
-				<Seo seo={seo} />
+				{this.createSeoComponent(print)}
 				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
 				<div>
 					<div className='print__nav'>
-						<Link to={'/shop/'+prev} className='print__prev'><div className='arrow'></div></Link>
-						<Link to={'/shop/'+next} className='print__next'><div className='arrow arrow--right'></div></Link>
+						{links.prev}
+						{links.next}
 					</div>
-					<div className='print'>
-						{this.state.loadedPrint}
-						<div className='print__infos'>
-							<h3 className='print__artist text'>{artist}</h3>
-							<h3 className='print__location text'>{details}</h3>
-							<div className='print__price text text--small'>{price}€</div>
-							<p className='print__desc text text--small'>{this.state.techDesc}</p>
-							<div className='print__serials'>
-								{(() => {
-									if (serials && serials.length > 0 && this.state.selectedSerial) { return (
-										<div>
-											<div className='print__serial-wrapper'>
-												<div className='print__serial-opt text'>Choose edition</div>
-												<div className='print__select text'>
-													<div className='print__serial--selected' onClick={this.toggleList}>{this.state.selectedSerial}</div>
-													<ul className='print__serial-list'>
-														{Object.keys(this.state.validSerials).map((index) => {
-															let enabled = this.state.validSerials[index]
-															const serial = +index + 1;
-															if (enabled) {
-																return (<li className='print__serial' onClick={this.selectSerial.bind(this, serial)} key={index}>{serial}</li>)
-															} else {
-																return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
-															}
-														})}
-													</ul>
-												</div>
-											</div>
-											<div className='print__buy-wrapper'>
-												<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
-												{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
-											</div>
-										</div>
-									)} else { return (
-										<div className='text'>Out of stock</div>
-									)}
-								}.bind(this))()}
-							</div>
-						</div>
-					</div>
-					<div className={'bigprint ' + bigPrintClass}>
-						<img className='bigprint__image' src={bigfile} alt={alt} onClick={this.zoomOut}></img>
-					</div>
+					{this.createPrintElement(print)}
+					{this.createBigPrintElement(print)}
 				</div>
-				<div className='print__mobile'>
-					{(() => {
-						if (serials && serials.length > 0 && this.state.selectedSerial) { return (
-							<div>
-								<div className='print__serial-wrapper' onClick={this.toggleListMobile}>
-									<div className='print__serial-opt text'>Choose edition</div>
-									<div className='print__select text'>
-										<div className='print__serial--selected'>{this.state.selectedSerial}</div>
-										<ul className='print__serial-list'>
-											{Object.keys(this.state.validSerials).map((index) => {
-												const enabled = this.state.validSerials[index]
-												const serial = +index + 1;
-												if (enabled) {
-													return (<li className='print__serial' onClick={this.selectSerial.bind(this, serial)} key={index}>{serial}</li>)
-												} else {
-													return (<li className='print__serial print__serial--disabled' key={index}>{serial}</li>)
-												}
-											})}
-										</ul>
-									</div>
-								</div>
-								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart ({this.state.cartCount})</a>
-							</div>
-						)} else { return (
-							<div className='text'>Out of stock</div>
-						)}
-					}.bind(this))()}
-				</div>
+				{this.createMobilePrintElement(print)}
 				<Cart />
 			</div>
 		);
-
 	}
 
 	raf() {
@@ -285,187 +169,169 @@ export default class Print extends ComponentTransition {
 
 	}
 
-	getValidSerials(print, cartItems) {
-		let validSerials = [];
-		const cartSerials = _.pluck(_.filter(cartItems, { 'token': print.token }), 'serial');
-		_(print.serials).forEach((value, index) => {
-			if (_.indexOf(cartSerials, index+1) > -1) validSerials[index] = false;
-			else if (_.indexOf(print.serials_blocked, index+1) > -1) validSerials[index] = false;
-			else if (_.indexOf(print.serials_solded, index+1) > -1) validSerials[index] = false;
-			else validSerials[index] = value;
+	getValidCombinations(print, cartItems) {
+		let validCombinations = [];
+
+		const cartCombinations = _.pluck(_.filter(cartItems, { 'token': print.token }), 'serial');
+
+		_(print.combinations).forEach((value, index) => {
+			if (_.indexOf(cartCombinations, index+1) > -1) validCombinations[index] = false;
+			else if (_.indexOf(print.serials_blocked, index+1) > -1) validCombinations[index] = false;
+			else if (_.indexOf(print.serials_solded, index+1) > -1) validCombinations[index] = false;
+			else validCombinations[index] = value;
 		}).value();
 
-		return validSerials;
+		return validCombinations;
 
 	}
 
-	selectSerial(serial, e) {
+	selectCombination(combo) {
+		if (!combo) {
+			return;
+		}
 
 		this.toggleList();
 		this.setState({
-			selectedSerial: serial
+			selectedCombination: combo
 		});
+	}
 
+	getDefaultCombination(print) {
+		if (!print || !print.combinations) {
+			return null;
+		}
+
+		let combos = print.combinations;
+
+		if (combos.length) {
+			let result = combos.reduce((result, combo) => {
+				if (result) {
+					return result;
+				}
+				return combo.stock > 0 ? combo : null;
+			});
+
+			return result || combos[0];
+		}
+
+		return null;
 	}
 
 	addToCart(e) {
-
-		e.stopPropagation();
-		e.preventDefault();
+		if (e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
 
 		if (this.state.cartCount < 3) {
-			let update = {
-				token: this.state.print.token,
-				title: this.state.print.title,
-				city: this.state.print.city,
-				country: this.state.print.country,
-				year: this.state.print.year,
-				price: this.state.print.price,
-				serial: this.state.selectedSerial,
-				file: this.state.print.file,
-				copies: this.state.print.copies,
-				project: this.state.print.project,
-				logistic_id: this.state.print.logistic_id
-			};
-			CartActions.addToCart(update);
+
+			let {print, selectedCombination} = this.state;
+
+			CartActions.addToCart({
+				product: print,
+				combination: selectedCombination,
+				quantity: 1,
+			});
+
 			CartActions.updateCartEnabled(true, true);
-			PrintApi.blockSerial(update.token, update.serial);
+
 		} else {
 			this.setState({
 				error: 'Your cart is full (max 3)'
 			});
 		}
-
 	}
 
-	toggleList() {
+	toggleList(e) {
+		e && e.preventDefault();
+
 		if (!document.querySelector('body').classList.contains('js-mobile')) {
 			// document.querySelectorAll('.print__serial-list')[0].classList.toggle('enabled');
 			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
 				el.classList.toggle('enabled');
 			}).value();
 		}
-
-	}
-
-	toggleListMobile() {
-
-		if (document.querySelector('body').classList.contains('js-mobile')) {
-			_(document.querySelectorAll('.print__serial-list')).forEach((el) => {
-				el.classList.toggle('enabled');
-			}).value();
-		}
-
 	}
 
 	loadImage() {
+		let {print} = this.state;
 
-		if (_.size(this.state.print) > 0) {
-			let file = new Image();
-			file.onload = this.onImageLoaded.bind(this);
-			file.src = '/static/prints/'+this.state.print.file+'_medium.jpg';
+		if (!print) {
+			return Promise.resolve();
 		}
 
-	}
+		return new Promise((resolve) => {
+			let timeout = setTimeout(resolve, 15000);
+			let image = new Image();
 
-	onImageLoaded(e) {
+			image.onload = () => {
+				clearTimeout(timeout);
+				resolve(image);
+			};
 
-		let size, path = e.explicitOriginalTarget || e.target || e.path[0];
-		if (path.height >= path.width*1.2) size = 'portrait';
-		else size = 'landscape';
-		let dim = '27.9 × 35.6 cm'; // gérer la conversion (11 × 14 inches)
-		this.print = (
-			<div className='print__left'>
-				<div className={'print__image print__image--'+size}>
-					<img className='print__file' src={'/static/prints/'+this.state.print.file+'_medium.jpg'} alt={this.state.print.alt} onClick={this.zoomIn}></img>
-				</div>
-			</div>
-		);
+			image.src = print.image;
+		})
 
-		this.techDesc = (
-			<div className='print__tech'>
-				<p>Silver gelatin print measuring</p>
-				<p>{dim}, unframed.</p>
-				<p>Printed under the direct supervision of the artist.</p>
-				<p>One of a signed, limited edition of {this.state.print.copies}.</p>
-			</div>
-		);
+		.then((image) => {
+			if (!image) {
+				return;
+			}
 
-		// if (params.path[0].height >= params.path[0].width*1.2) {
-		// 	this.print = <div className='print__left'><div className='print__image print__image--portrait'><img src={'/static/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		// } else {
-		// 	this.print = <div className='print__left'><div className='print__image print__image--landscape'><img src={'/static/prints/'+this.state.print.file+'_medium.jpg'}></img><div className='print__tech'><p>Silver gelatin print measuring</p><p>27.9 × 35.6 cm (11 × 14 inches), unframed.</p><p>Printed under the direct supervision of the artist.</p><p>One of a signed, limited edition of {this.state.print.copies}.</p></div></div></div>
-		// }
-		this.setState({
-			'loadedPrint': this.print,
-			'techDesc': this.techDesc
-		});
+			let orientation = image.height >= image.width * 1.2 ? 'portrait' : 'landscape';
 
-		this.loaded = true;
+			this.loaded = true;
 
+			this.setState({
+				loadedPrint: (
+					<div className='print__left'>
+						<div className={'print__image print__image--'+orientation}>
+							<img className='print__file' src={print.image} alt={print.alt} onClick={this.zoomIn}></img>
+						</div>
+					</div>
+				),
+			});
+		})
 	}
 
 	onBigImageLoaded(e) {
-
 		this.setState({
 			bigImageShowed: true
 		}, () => {
 			this.raf()
 		});
-
 	}
 
 	zoomIn() {
-
 		document.querySelector('body').classList.add('body--hidden');
 		document.querySelector('.print__mobile').classList.add('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.remove('bigprint--hidden');
 
+		let {print} = this.state;
+
 		if (!this.bigprintLoaded) {
 			this.bigprintLoaded = true;
 			let file = new Image();
-			file.onload = this.onBigImageLoaded.bind(this);
-			file.src = '/static/prints/'+this.state.print.file+'.jpg';
+			file.onload = () => this.onBigImageLoaded();
+			file.src = print.image;
 		}
-
 	}
 
 	zoomOut() {
-
 		document.querySelector('body').classList.remove('body--hidden');
 		document.querySelector('.print__mobile').classList.remove('print__mobile--hidden');
 		document.querySelector('.bigprint').classList.add('bigprint--hidden');
-
 	}
 
 	onMousemove(e) {
-
 		this.cursorY = e.clientY;
-
 	}
 
-	// resize() {
-
-	// 	let windowW = AppStore.Window.w
-	// 	let windowH = AppStore.Window.h
-	// 	super.resize()
-
-	// 	// if (document.querySelector('body').classList.contains('js-mobile')) {
-
-	// 	// }
-
-	// }
-
 	onTouchstart(e) {
-
 		this.startX = e.changedTouches[0].clientX;
-
 	}
 
 	onTouchmove(e) {
-
 		this.deltaX = e.changedTouches[0].clientX - this.startX;
-
 	}
 
 	onTouchend(e) {
@@ -486,16 +352,259 @@ export default class Print extends ComponentTransition {
 
 	onStoreChange() {
 		const print = PrintStore.getOne();
-		const cartItems = CartStore.getCartItems();
-		const validSerials = this.getValidSerials(print, cartItems);
+		const prints = PrintStore.getForSale(); 
+
+		let {selectedCombination} = this.state;
+
+		if (print && !selectedCombination) {
+			selectedCombination = this.getDefaultCombination(print);
+		}
+
 		this.setState({
 			print: print,
-			cartItems: cartItems,
+			prints: prints,
+			next: this.getNextPrint(print, prints),
+			prev: this.getPreviousPrint(print, prints),
+			cartItems: CartStore.getCartItems(),
 			cartCount: CartStore.getCartCount(),
-			validSerials: this.getValidSerials(print, cartItems),
-			selectedSerial: _.indexOf(validSerials, true) + 1
+			selectedCombination: selectedCombination,
 		});
-
 	}
 
+	/**
+	 * Return the print in the prints series at the given relative offset
+	 * (in relation to current). Return null if not found.
+	 * @see #getNextPrint()
+	 * @see #getPreviousPrint()
+	 * @param {Object} current - a print payload
+	 * @param {Number} reloffset - relative offset
+	 * @return {Object|null}
+	 */
+	getPrintAtRelativeOffset(current, prints, reloffset) {
+		if (current && prints && prints.length) {
+			let finder = p => p.id === current.id;
+			let index = _.findIndex(prints, finder) + reloffset;
+
+			if (prints[index]) {
+				return prints[index];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Given a print payload, figure out the "next" print in the series.
+	 * @param {Object} current - a print payload
+	 * @param {Array} prints - all prints
+	 * @return {Object|null}
+	 */
+	getNextPrint(current, prints) {
+		return this.getPrintAtRelativeOffset(current, prints, 1);
+	}
+
+	/**
+	 * Given a print payload, figure out the "previous" print in the series.
+	 * @param {Object} current - a print payload
+	 * @param {Array} prints - all prints
+	 * @return {Object|null}
+	 */
+	getPreviousPrint(current, prints) {
+		return this.getPrintAtRelativeOffset(current, prints, -1);
+	}
+
+	/**
+	 * @param {Object} print - print payload
+	 * @param {String} className
+	 * @param {String} arrowClass
+	 * @return {react-router:Link}
+	 */
+	createPrintLink(print, className, arrowClass) {
+		if (!print) {
+			return null;
+		}
+
+		let language = AppStore.Lang();
+
+		return (
+			<Link to={`/${language}/shop/${print.id}`} className={className}>
+				<div className={`arrow ${arrowClass}`}></div>
+			</Link>
+		);
+	}
+
+	/**
+	 * @param {Object} next - print payload
+	 * @param {Object} prev - print payload
+	 * @return {Object} - a dictionary that contains React.Elements
+	 */
+	createNextPreviousLinks(next, prev) {
+		return {
+			next: this.createPrintLink(next, 'print__next', 'arrow--right'),
+			prev: this.createPrintLink(prev, 'print__prev', 'arrow--left'),
+		};
+	}
+
+	/**
+	 * @param {Object} print - print payload
+	 * @return {react:Element}
+	 */
+	createSeoComponent(print) {
+		if (!print) {
+			return null;
+		}
+
+		let description = [
+			`Buy the limited edition "${print.name}"`,
+			`origin print by ${print.manufacturer}`,
+		];
+
+		let seo = {
+			title: print.name,
+			description: description.join(' '),
+			url: `${config.siteurl}/shop/${print.id}`,
+			image: print.image,
+		};
+
+		return <Seo seo={seo} />
+	}
+
+	/**
+	 * @param {Object} print - print payload
+	 * @param {Object} combo - combination payload
+	 * @param mixed key
+	 * @return {react:Element}
+	 */
+	createCombinationElement(print, combo, key=null) {
+		let enabled = combo.stock > 0;
+
+		if (enabled) {
+			return (
+				<li className='print__serial' onClick={() => this.selectCombination(combo)} key={key||combo.id}>{combo.name}</li>
+			);
+		}
+
+		return (<li className='print__serial print__serial--disabled' key={key||combo.id}>{combo.name}</li>)
+	}
+
+	/**
+	 * @param {Object} print - print payload
+	 * @return {react:Element}
+	 */
+	createCombinationListElement(print) {
+		return (
+			<ul className='print__serial-list'>
+				{print.combinations.map((combo, i) => {
+					return this.createCombinationElement(print, combo, i);
+				})}
+			</ul>
+		);
+	}
+
+	/**
+	 * @param {Object} print - a print payload
+	 * @return {react:Element}
+	 */
+	createPrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
+		let {loadedPrint, selectedCombination: combo} = this.state;
+
+		return (
+			<div className='print'>
+				{loadedPrint}
+				<div className='print__infos'>
+					<h3 className='print__artist text'>{print.manufacturer}</h3>
+					<h3 className='print__location text'>{print.name}</h3>
+					<div className='print__price text text--small'>{print.price}€</div>
+					<p className='print__desc text text--small'>{print.description}</p>
+					<div className='print__serials'>
+						{(() => {
+
+							if (!print.forsale) {
+								return (<div className='text'>Out of stock</div>);
+							}
+
+							return (
+								<div>
+									<div className='print__serial-wrapper'>
+										<div className='print__serial-opt text'>Choose edition</div>
+										<div className='print__select text'>
+											<div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+											{this.createCombinationListElement(print)}
+										</div>
+									</div>
+									<div className='print__buy-wrapper'>
+										<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
+										{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
+									</div>
+								</div>
+							);
+
+						})()}
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	/**
+	 * @param {Object} print
+	 * @return {react:Element}
+	 */
+	createMobilePrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
+		let combos = print.combinations;
+
+		return (
+			<div className='print__mobile'>
+				{(() => {
+
+					if (combos && combos.length > 0 && this.state.selectedCombination) {
+						return (
+							<div>
+								<div className='print__serial-wrapper' onClick={this.toggleList}>
+									<div className='print__serial-opt text'>Choose edition</div>
+									<div className='print__select text'>
+										<div className='print__serial--selected'>{this.state.selectedCombination.name}</div>
+										{this.createCombinationListElement(print)}
+									</div>
+								</div>
+								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart ({this.state.cartCount})</a>
+							</div>
+						);
+					} 
+
+					return (
+						<div className='text'>Out of stock</div>
+					);
+				}.bind(this))()}
+			</div>
+		);
+	}
+
+	/**
+	 * @param {Object} print
+	 * @return {react:Element}
+	 */
+	createBigPrintElement(print) {
+		if (!print) {
+			return null;
+		}
+
+		let bigPrintClass = (this.state.bigImageShowed) ? '' : 'bigprint--hidden';
+
+		return (
+			<div className={'bigprint ' + bigPrintClass}>
+				<img className='bigprint__image' src={print.image} alt={print.alt} onClick={this.zoomOut}></img>
+			</div>
+		);
+	}
 }
+
+// vim: ts=2 sts=2 sw=2 noet

@@ -18,6 +18,17 @@ npm run dev
 ```
 This will start differents gulp commands watching for changes in /src folder.
 
+
+#### Docker
+
+If you have docker, you can instead run:
+```
+./start
+```
+
+Add `127.0.0.1     vm.local` to your hosts file.
+
+
 ### Production
 
 Just run 

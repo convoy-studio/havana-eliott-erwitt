@@ -3,12 +3,13 @@ import { Link } from 'react-router';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import PrintApi from '../../utils/printApi';
+import { CheckoutForm } from './checkout';
 // import AppStore from 'AppStore'
 // import AppConstants from 'AppConstants'
 
 function getState() {
 
-	return {
+	let state = {
 		items: CartStore.getCartItems(),
 		count: CartStore.getCartCount(),
 		total: CartStore.getCartTotal(),
@@ -16,6 +17,7 @@ function getState() {
 		enabled: CartStore.getCartEnabled()
 	};
 
+	return state;
 }
 
 export default class Cart extends Component {
@@ -74,6 +76,7 @@ export default class Cart extends Component {
 		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
 
+
 		return (
 			<div>
 				<div className={'cart' + visibility + isEmpty} ref='cart'>
@@ -86,21 +89,18 @@ export default class Cart extends Component {
 					<div className='cart__content cart__products-wrapper'>
 						<ul className='cart__products'>
 							{Object.keys(this.state.items).map((index) => {
-								let product = this.state.items[index]
-								let details
-								if (product.title) details = product.title+'. '+product.city+'. '+product.country+'. '+product.year
-								else details = product.city+'. '+product.country+'. '+product.year
+								let {product, combination: combo, quantity} = this.state.items[index];
 
 								return (
 									<li key={index} className='cart__product'>
 										<div className='cart__column'>
-											<div className='cart__artist'>{product.project.artist}</div>
-											<div className='cart__details'>{details}</div>
-											<div className='cart__serial'>Edition <span className='cart__number'>{product.serial}</span></div>
+											<div className='cart__artist'>{product.manufacturer}</div>
+											<div className='cart__details'>{product.name}</div>
+											<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
 											<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
 										</div>
 										<div className='cart__column'>
-											<div className='cart__print'><img className='cart__image' src={'/static/prints/'+product.file+'_min.jpg'}></img></div>
+											<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
 											<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
 										</div>
 									</li>
@@ -112,7 +112,7 @@ export default class Cart extends Component {
 							<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
 						</div>
 						<div className='cart__checkout'>
-							<Link to='/payment' className='button'>Proceed to checkout</Link>
+							<CheckoutForm />
 						</div>
 						{(() => {
 							if (this.body && this.body.classList.contains('js-mobile')) return (
@@ -163,7 +163,7 @@ export default class Cart extends Component {
 	removeItem(index) {
 
 		const print = this.state.items[index];
-        PrintApi.unblockSerial(print.token, print.serial);
+		PrintApi.unblockSerial(print.token, print.serial);
 		CartActions.removeFromCart(index);
 	}
 
@@ -221,3 +221,5 @@ export default class Cart extends Component {
 	}
 
 }
+
+// vim: ts=2 sts=2 sw=2 noet

@@ -7,22 +7,22 @@ let _ = require('lodash');
 const CHANGE_EVENT = 'change';
 
 // Define initial data points
-let _products = [];
+let _items = [];
 let _cartVisible = true, _cartEnabled = false;
 
 // Init products
 function _init() {
 	const cart = window.localStorage.getItem('cart');
 	if (cart) {
-		_products = JSON.parse(cart);
+		_items = JSON.parse(cart);
 	}
 }
 
 // Add product to cart
 function _add(update) {
-	_products.push(update);
+	_items.push(update);
     if (typeof window.localStorage !== 'undefined') {
-        window.localStorage.setItem('cart', JSON.stringify(_products));
+        window.localStorage.setItem('cart', JSON.stringify(_items));
     }
 }
 
@@ -38,14 +38,14 @@ function _setCartEnabled(data) {
 
 // Remove item from cart
 function _removeItem(index) {
-	_products.splice(index, 1);
+	_items.splice(index, 1);
     if (typeof window.localStorage !== 'undefined') {
-        window.localStorage.setItem('cart', JSON.stringify(_products));
+        window.localStorage.setItem('cart', JSON.stringify(_items));
     }
 }
 
 function _clearItem() {
-	_products = [];
+	_items = [];
 	if (typeof window.localStorage !== 'undefined') {
         window.localStorage.removeItem('cart');
     }
@@ -53,14 +53,15 @@ function _clearItem() {
 
 let CartStore = assign({}, EventEmitter.prototype, {
 	getCartItems: function() {
-		return _products;
+		return _items;
 	},
 	getCartCount: function() {
-		return _products.length;
+		return _items.length;
 	},
 	getCartTotal: function() {
-		return _products.reduce(function (total, product) {
-			return total += product.price;
+		return _items.reduce(function (total, item) {
+      let {product} = item;
+			return total + product.price;
 		}, 0).toFixed(2);
 	},
 	getCartVisible: function() {
