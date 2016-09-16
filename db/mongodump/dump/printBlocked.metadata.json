@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"havana.printBlocked"},{"v":1,"key":{"print_token":1},"name":"print_token_1","ns":"havana.printBlocked","background":true},{"v":1,"key":{"created_at":1},"name":"created_at_1","ns":"havana.printBlocked","expireAfterSeconds":900,"background":true}]}

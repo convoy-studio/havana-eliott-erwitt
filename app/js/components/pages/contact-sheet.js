@@ -86,6 +86,7 @@ export default class ContactSheet extends ComponentTransition {
 		// console.log(this.state.prints);
 		_.map(_.sortByOrder(this.state.loadedPrints, ['year'], ['desc']), _.values);
 
+		const title = this.props.params.slug.replace('_', ' ').toUpperCase()
 		return (
 			<div className='subpage subpage--contact-sheet' ref='subview'>
 				<Seo seo={seo} />
@@ -95,7 +96,7 @@ export default class ContactSheet extends ComponentTransition {
 						let group = this.state.loadedPrints[index];
 						return (
 							<div key={index}>
-								<div className='contact-sheet__title title js-reveal'>Elliott Erwitt {group.year}</div>
+								<div className='contact-sheet__title title js-reveal'>{title} {group.year}</div>
 								<div className='contact-sheet__grid'>
 									<div className='contact-sheet__width'></div>
 									{Object.keys(group.prints).map((index, j) => {
@@ -206,6 +207,8 @@ export default class ContactSheet extends ComponentTransition {
 		let path = e.explicitOriginalTarget || e.target || e.path[0];
 		if (path.height >= path.width*1.2) print.size = 'small';
 		else print.size = 'large';
+
+		if (path.width === path.height) print.size = 'rect'
 
 		if (this.nImageLoaded >= this.max) {
 			this.setState({
