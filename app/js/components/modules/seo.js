@@ -5,7 +5,6 @@ let config = require('../../config');
 export default class Seo extends Component {
 
 	render() {
-
 		return (
 			<Helmet
 				title={this.props.seo.title}

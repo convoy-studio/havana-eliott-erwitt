@@ -19,12 +19,15 @@ gulp.task('webpack', () => {
 	}else {
 		var webpackConfig = require('../utils/webpack.prod.config');
 
-		webpack(webpackConfig, function(error){
-			if(error){
-				console.log('error');
-			}else {
-				console.log('webpack build has succeed');
-			}
+		return new Promise((resolve, reject) => {
+			webpack(webpackConfig, function(error) {
+				if (error) {
+					console.log('webpack build failed');
+					return reject(error);
+				}
+				console.log('webpack build complete');
+				resolve();
+			});
 		});
 	}
 });

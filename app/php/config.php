@@ -1,4 +1,12 @@
 <?php
+
+require_once __DIR__.'/vendor/autoload.php';
+
+use SSD\DotEnv\DotEnv;
+
+$dotenv = new DotEnv(__DIR__.'/../../.env');
+$dotenv->load();
+
 header("Access-Control-Allow-Origin: *");
 
 error_reporting(E_ALL);

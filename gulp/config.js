@@ -3,6 +3,8 @@ const serverFolder = './server';
 const staticFolder = './static';
 import serverConfig from '../server/config';
 
+const env = process.env;
+
 const config = {
 	browserSupport : ['last 2 versions', '> 5%'],
 	entry : {
@@ -12,9 +14,9 @@ const config = {
 		styles : appFolder + '/css/main.scss'
 	},
 	webpack : {
-		host : 'localhost',
+		host : env.WEBPACK_SERVER_HOST || "localhost",
 		port : 4242,
-		proxy : serverConfig['development'].server.host + ':' + serverConfig['development'].server.port
+		proxy : env.WEBPACK_SERVER_PROXY || serverConfig['development'].server.host + ':' + serverConfig['development'].server.port
 	},
 	watch : {
 		server : [serverFolder + '/**/**.js', serverFolder + '/*.js'],

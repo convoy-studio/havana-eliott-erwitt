@@ -12,14 +12,30 @@ import url from 'url'
 import acceptLanguage from 'accept-language'
 import supportLanguages from '../app/data/languages'
 import locales from '../app/js/locales/index'
+import prestashop from 'prestashop-api-client';
 acceptLanguage.languages(supportLanguages);
 
 const localesJson = JSON.stringify(locales.en)
 
-const env = process.NODE_ENV || 'development';
+const env = process.env;
+const NODE_ENV = env.NODE_ENV || 'development';
+const WEBPACK_SERVER_PROXY = env.WEBPACK_SERVER_PROXY || 'localhost:4242';
+
 // const env = 'production';
-const config = configs[env];
+const config = configs[NODE_ENV];
+
 const server = new Hapi.Server();
+
+// add prestashop.client to server.app
+server.app = {
+	...server.app,
+	prestashop: {
+		client: new prestashop.rest.Client({
+			...config.prestashop.client,
+			languages: config.prestashop.languages,
+		}),
+	},
+};
 
 server.connection({
     host: config.server.host,
@@ -136,10 +152,10 @@ server.register([
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});
-                    const scripts = {
-                        development : 'http://localhost:4242/js/build.js',
-                        production : '/js/build.js'
-                    };
+										const scripts = {
+												development: `http://${WEBPACK_SERVER_PROXY}/js/build.js`,
+												production : '/js/build.js'
+										};
 
                     Router.run(routes, location, (error, initialState) => {
 
@@ -178,7 +194,7 @@ server.register([
                                     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0" />
                                     <meta name="google-site-verification" content="OjJk1s2tUx3x9j55kdCnUq2SY1MDEZ9lNa9adNQqnzY" />
                                     <link rel="stylesheet" href="/css/build.css" />
-                                    <link rel="icon" type="image/png" href="assets/images/favicon.ico" />
+                                    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
                                     <title>{head.title}</title>` +
                                     meta
                                 + `</head>
@@ -194,7 +210,7 @@ server.register([
                                     <script async src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="/vendors/pdfmake.js" type="text/javascript"></script>
                                     <script src="/vendors/vfs_fonts.js" type="text/javascript"></script>
-                                    <script src="`+scripts[env]+`" type="text/javascript"></script>
+                                    <script src="`+scripts[NODE_ENV]+`" type="text/javascript"></script>
                                 </body>
                             </html>
                         `;
@@ -211,3 +227,6 @@ server.register([
         });
     }
 });
+
+
+// vim: ts=2 sts=2 sw=2 noet
