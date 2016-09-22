@@ -3,11 +3,11 @@
   "main": "server.js",
   "version": "1.0.0",
   "scripts": {
-    "prestart": "$(which mongod && mongod --fork --logpath /dev/null) || true",
-    "start": "gulp start",
-    "dev": "gulp build --watch",
+    "prestart": "which mongod && mongod --fork --logpath /dev/null || true",
+    "start": "node_modules/.bin/gulp start",
+    "dev": "node_modules/.bin/gulp build --watch",
     "lint": "eslint src",
-    "prod": "NODE_ENV=production gulp build --production",
+    "prod": "NODE_ENV=production node_modules/.bin/gulp build --production",
     "stop": "$(which mongo && mongo admin --eval 'db.shutdownServer()' > /dev/null) || true",
     "restart": "npm stop && npm start"
   },
