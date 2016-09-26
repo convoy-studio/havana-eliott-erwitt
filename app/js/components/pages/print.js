@@ -204,14 +204,18 @@ export default class Print extends ComponentTransition {
 		let combos = print.combinations;
 
 		if (combos.length) {
-			let result = combos.reduce((result, combo) => {
+
+			let defaultCombo = combos.reduce((result, combo) => {
 				if (result) {
+					console.log(result);
 					return result;
 				}
 				return combo.stock > 0 ? combo : null;
-			});
+			}, null);
 
-			return result || combos[0];
+			console.log('default combination is '+JSON.stringify(defaultCombo));
+
+			return defaultCombo || combos[0];
 		}
 
 		return null;
