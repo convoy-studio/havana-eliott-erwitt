@@ -68,16 +68,19 @@ var items = [
 	{ token: 'eLLsCG', "project_id" : _id, "year" : 2015, "file" : "C027-Taptik_EEHC7-PF006", "alt" : "Elliott Erwitt Havana Club 7 Fellowship - Cuba 2015 Photography", "forsale" : false, "__v" : 0 },
 ];
 
-
+Ali Taptik Havana Club 7 Fellowship - Untitled Photography
 
 // var mongoClient = new MongoClient(new Server('localhost', 27017));
 MongoClient.connect("mongodb://localhost:27017/havana", function(err, db) {
 
-	for (var i = 0; i < items.length; i++) {
-		var item = items[i];
-		console.log(item);
-		db.collection("prints").insert(item);
-	}
+	// for (var i = 0; i < items.length; i++) {
+	// 	var item = items[i];
+	// 	console.log(item);
+	// 	// db.collection("prints").insert(item);
+	// }
+	
+	// console.log(db.collection('prints').find({}))
+	// console.log(taptik)
 })
 // mongoClient.open(function(err, mongoClient) {
 //   var db1 = mongoClient.db("havana");

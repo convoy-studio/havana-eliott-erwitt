@@ -130,7 +130,7 @@ export default class Project extends Component {
 
 		let description = '';
 		_(desc).forEach((value, index) => {
-			description += value;
+			description += ' ' + value;
 		}.bind(this)).value();
 		let seo = {
 			title: this.content.project_title,
@@ -138,7 +138,6 @@ export default class Project extends Component {
 			url: config.siteurl + '/photography/' + this.props.params.slug,
 			image: config.siteurl + '/static/prints/elliot-erwitt-museum-of-the-revolution-cuba-2015_big.jpg'
 		};
-
 
 					// <Link to={'/photography/'+this.props.params.slug+'?open=true'} className='projects__discover projects__discover--disabled button'>Discover the project</Link>
 		return (
@@ -148,11 +147,7 @@ export default class Project extends Component {
 					<div className='project__infos'>
 						<h2 className='title'>{artist}</h2>
 						<div className='paragraph paragraph--2'>
-							{Object.keys(desc).map((index) => {
-								return (
-									<p key={index} className='text'>{desc[index]}</p>
-								)
-							}.bind(this))}
+							{description}
 						</div>
 					</div>
 					<div className='project__loader text'>{this.content.loading_message}...</div>
