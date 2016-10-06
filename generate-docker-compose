@@ -30,7 +30,7 @@ read -d '' DOCKER_COMPOSE_FILE <<-EOF
     - /var/cache/nginx/microcache
 
 "${PROJECT}_${ENVIRONMENT}_node":
-  image: docker.it-consultis.com.cn/itc/buildbox-php:0.5.0
+  image: docker.it-consultis.com.cn/itc/buildbox-php:0.7.0
   container_name: ${PROJECT}_${ENVIRONMENT}_node
   expose:
     - "3000"
@@ -50,7 +50,7 @@ read -d '' DOCKER_COMPOSE_FILE <<-EOF
     MONGO_HOST: ${PROJECT}_${ENVIRONMENT}_db
 
 "${PROJECT}_${ENVIRONMENT}_db":
-  image: mongo:latest
+  image: docker.it-consultis.com.cn/library/mongo:3.3.15
   container_name: ${PROJECT}_${ENVIRONMENT}_db
   env_file: .env
   expose:
