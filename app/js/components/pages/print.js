@@ -9,6 +9,7 @@ import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
+import {translate} from '../../utils/translation';
 
 let _ = require('lodash');
 let raf = Utils.raf();
@@ -354,7 +355,7 @@ export default class Print extends ComponentTransition {
 	onStoreChange() {
 		const print = PrintStore.getOne();
 		const prints = PrintStore.getForSale(); 
-
+console.log(prints.map(p => console.log(p.image)));
 		let {selectedCombination} = this.state;
 
 		if (print && !selectedCombination) {
@@ -531,14 +532,14 @@ export default class Print extends ComponentTransition {
 							return (
 								<div>
 									<div className='print__serial-wrapper'>
-										<div className='print__serial-opt text'>Choose edition</div>
+										<div className='print__serial-opt text'>{translate('choose_edition')}</div>
 										<div className='print__select text'>
 											<div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
 											{this.createCombinationListElement(print)}
 										</div>
 									</div>
 									<div className='print__buy-wrapper'>
-										<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
+										<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
 										{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 									</div>
 								</div>
@@ -606,6 +607,7 @@ export default class Print extends ComponentTransition {
 			</div>
 		);
 	}
+
 }
 
 // vim: ts=2 sts=2 sw=2 noet

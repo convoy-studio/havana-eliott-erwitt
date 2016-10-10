@@ -94,7 +94,10 @@ const transformProduct = (product) => {
  */
 const createListHandler = () => {
 	return (req, reply) => {
-		let client = req.server.app.prestashop.client;
+		let {client} = req.server.app.prestashop;
+		let {language} = req.params;
+
+		client.setLanguageIso(language);
 
 		return client.resource('products').list()
 		.then((products) => P.all(products.map(transformProduct)))
@@ -111,8 +114,10 @@ const createListHandler = () => {
  */
 const createAttributeQueryHandler = (attribute, resolver) => {
 	return (req, reply) => {
-		let client = req.server.app.prestashop.client;
-		let id = req.params.token;
+		let {client} = req.server.app.prestashop;
+		let {token: id, language} = req.params;
+
+		client.setLanguageIso(language);
 
 		return client.resource('products').get(id)
 		.then(transformProduct)
