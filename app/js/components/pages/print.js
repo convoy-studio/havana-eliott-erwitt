@@ -541,7 +541,7 @@ export default class Print extends ComponentTransition {
 											    return <div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
 												}
 												return null;
-											}()};
+											}()}
 											{this.createCombinationListElement(print)}
 										</div>
 									</div>
