@@ -4,6 +4,7 @@ import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import PrintApi from '../../utils/printApi';
 import { CheckoutForm } from './checkout';
+import { translate } from '../../utils/translation';
 // import AppStore from 'AppStore'
 // import AppConstants from 'AppConstants'
 
@@ -80,7 +81,7 @@ export default class Cart extends Component {
 		return (
 			<div>
 				<div className={'cart' + visibility + isEmpty} ref='cart'>
-					<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
+					<div className='cart__count'>{translate('cart')} — <span>{this.state.count}</span> {itemLabel}</div>
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
 							<div className='cart__toggle'>cart</div>

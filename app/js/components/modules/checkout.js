@@ -3,6 +3,7 @@ import _ from 'lodash';
 import AppStore from '../../stores/appStore';
 import CheckoutStore from '../../stores/checkoutStore';
 import CheckoutApi from '../../utils/checkoutApi';
+import { translate } from '../../utils/translation';
 
 /**
  * This form sends the browser to the PrestaShop checkout RPC URL via
@@ -28,7 +29,7 @@ export class CheckoutForm extends React.Component {
 			next_rpc_url: null,
 
 			// submit button text
-			button_text: 'Proceed to checkout',
+			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
 
 			...this.props,
 		};
