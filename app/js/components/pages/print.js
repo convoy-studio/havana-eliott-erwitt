@@ -286,7 +286,7 @@ export default class Print extends ComponentTransition {
 				loadedPrint: (
 					<div className='print__left'>
 						<div className={'print__image print__image--'+orientation}>
-							<img className='print__file' src={print.image} alt={print.alt} onClick={this.zoomIn}></img>
+							<img className='print__file' src={print.image} alt={print.title} onClick={this.zoomIn}></img>
 						</div>
 					</div>
 				),
@@ -602,7 +602,7 @@ export default class Print extends ComponentTransition {
 
 		return (
 			<div className={'bigprint ' + bigPrintClass}>
-				<img className='bigprint__image' src={print.image} alt={print.alt} onClick={this.zoomOut}></img>
+				<img className='bigprint__image' src={print.image} alt={print.title} onClick={this.zoomOut}></img>
 			</div>
 		);
 	}
