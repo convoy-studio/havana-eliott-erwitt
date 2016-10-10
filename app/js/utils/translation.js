@@ -7,11 +7,13 @@ import AppStore from '../stores/appStore';
  * @return {String}
  */
 const translate = (message, language=null) => {
-	let translations = locales[language || AppStore.Lang()] || {};
-	let translation = translations[message];
+	let iso = language || AppStore.Lang();
+	let translations = locales[iso] || {};
+	let translation = translations[message] || null;
 
 	if (!translation) {
 		console.log(`missing translation: ${language}.${message}`);
+		return '';
 	}
 
 	return translation;
