@@ -162,7 +162,11 @@ export default {
 		nav_label_fellowship: 'Fellowship',
 
 		discover_project: "Discover his project",
-		
+
+		add_to_cart: "Book for me",
+		proceed_to_checkout: "See my waitlist",
+		choose_edition: "Choose edition",
+
 		countries: {
 
 			"albania": "Albania",
@@ -462,7 +466,11 @@ export default {
 		nav_label_fellowship: 'Comunidad',
 
 		discover_project: "Descubra su proyecto",
-		
+
+		add_to_cart: "Book for me (TRANSLATE ME)",
+		proceed_to_checkout: "See my waitlist (TRANSLATE ME)",
+		choose_edition: "Choose edition (TRANSLATE ME)",
+
 		countries: {
 
 			"albania": "Albania",
