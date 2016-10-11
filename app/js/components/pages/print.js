@@ -229,7 +229,7 @@ export default class Print extends ComponentTransition {
 		}
 
 		if (!LoginStore.isLoggedIn()) {
-			this.context.router.transitionTo('/login');
+			this.context.router.transitionTo('/my-account');
 			return;
 		}
 
