@@ -356,7 +356,7 @@ export default class Print extends ComponentTransition {
 	onStoreChange() {
 		const print = PrintStore.getOne();
 		const prints = PrintStore.getForSale(); 
-console.log(prints.map(p => console.log(p.image)));
+
 		let {selectedCombination} = this.state;
 
 		if (print && !selectedCombination) {

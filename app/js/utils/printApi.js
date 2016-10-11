@@ -5,8 +5,8 @@ const config = require('../config');
 module.exports = {
 
 	getForSale : function() {
-    let language = AppStore.Lang();
-    let url = `${config.siteurl}/api/${language}/prints/forsale`;
+		let language = AppStore.Lang();
+		let url = `${config.siteurl}/api/${language}/prints/forsale`;
 
 		fetch(url)
 			.then(function(response) {
@@ -19,8 +19,8 @@ module.exports = {
 	},
 
 	getOneForsale : function(id) {
-    let language = AppStore.Lang();
-    let url = `${config.siteurl}/api/${language}/prints/forsale/${id}`;
+		let language = AppStore.Lang();
+		let url = `${config.siteurl}/api/${language}/prints/forsale/${id}`;
 
 		fetch(url)
 			.then(function(response) {
@@ -33,3 +33,5 @@ module.exports = {
 	},
 
 };
+
+// vim: ts=2 sts=2 sw=2 noet
