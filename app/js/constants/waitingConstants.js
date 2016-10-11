@@ -1,0 +1,4 @@
+export default {
+    WAITING_ADD: 'WAITING_ADD',
+    WAITING_REMOVE: 'WAITING_REMOVE'
+}

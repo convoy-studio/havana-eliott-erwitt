@@ -230,7 +230,7 @@ export default class Print extends ComponentTransition {
 
 		/* if (this.state.cartCount < 3) { */
             if (!LoginStore.isLoggedIn()) {
-                this.context.router.transitionTo('/login');
+                this.context.router.transitionTo('/my-account');
                 return;
             }
 
