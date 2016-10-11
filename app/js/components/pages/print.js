@@ -206,14 +206,15 @@ export default class Print extends ComponentTransition {
 
 		if (combos.length) {
 
-			let defaultCombo = combos.reduce((result, combo) => {
-				if (result) {
-					return result;
-				}
-				return combo.stock > 0 ? combo : null;
-			}, null);
+			//let defaultCombo = combos.reduce((result, combo) => {
+			//	if (result) {
+			//		return result;
+			//	}
+			//	return combo.stock > 0 ? combo : null;
+			//}, null);
 
-			return defaultCombo || combos[0];
+			//return defaultCombo || combos[0];
+			return combos[0];
 		}
 
 		return null;
@@ -478,7 +479,8 @@ console.log(prints.map(p => console.log(p.image)));
 	 * @return {react:Element}
 	 */
 	createCombinationElement(print, combo, key=null) {
-		let enabled = combo.stock > 0;
+		//let enabled = combo.stock > 0;
+		let enabled = true;
 
 		if (enabled) {
 			return (
@@ -525,16 +527,21 @@ console.log(prints.map(p => console.log(p.image)));
 					<div className='print__serials'>
 						{(() => {
 
-							if (!print.forsale) {
-								return (<div className='text'>Out of stock</div>);
-							}
+							//if (!print.forsale) {
+							//	return (<div className='text'>Out of stock</div>);
+							//}
 
 							return (
 								<div>
 									<div className='print__serial-wrapper'>
 										<div className='print__serial-opt text'>{translate('choose_edition')}</div>
 										<div className='print__select text'>
-											<div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+											{() => {
+												if (combo) {
+											    return <div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+												}
+												return null;
+											}()}
 											{this.createCombinationListElement(print)}
 										</div>
 									</div>
@@ -571,13 +578,13 @@ console.log(prints.map(p => console.log(p.image)));
 						return (
 							<div>
 								<div className='print__serial-wrapper' onClick={this.toggleList}>
-									<div className='print__serial-opt text'>Choose edition</div>
+									<div className='print__serial-opt text'>{translate('choose_edition')}</div>
 									<div className='print__select text'>
 										<div className='print__serial--selected'>{this.state.selectedCombination.name}</div>
 										{this.createCombinationListElement(print)}
 									</div>
 								</div>
-								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart ({this.state.cartCount})</a>
+								<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')} ({this.state.cartCount})</a>
 							</div>
 						);
 					} 
