@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+source .env
+read -p "Do you want to backup your database before to Shutdown this docker ? [y/n] " -n 1 -r
+echo ""
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Dump of the database launched..."
+    CURRENT_FOLDER_DOCKER=$(echo "${PWD##*/}" | tr '[:upper:]' '[:lower:]' | tr -d '-' )
+    DB_CONTAINER_ID=$(docker ps -q -f name=$CURRENT_FOLDER_DOCKER"_db")
+    docker exec -ti $DB_CONTAINER_ID bash -c "mysqldump -u root -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} > /transfer/dump.sql"
+    docker exec -ti $DB_CONTAINER_ID bash -c "chown 1000:1000 /transfer/dump_stop.sql"
+    echo "Dump of the database finished."
+fi
+echo "Shutdown the docker..."
+docker-compose stop
+#docker rm $(docker ps -a -q)
+docker stop $(docker ps -qa -f name=${PROJECT}_${ENVIRONMENT})
+echo "Thank you for your collaboration ;D"
+echo $" "
