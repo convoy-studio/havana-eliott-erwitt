@@ -46,9 +46,11 @@ const transformProduct = (product) => {
 		data = {...data, manufacturer, combos, image};
 
 		return P.all(combos.map((combo) => {
+			combo.stock = 0;
+
 			return P.all([
 				combo.product_option_values().first().then((povs) => combo.povs = povs),
-				combo.stock_availables().first().then((stock) => combo.stock = stock),
+				//combo.stock_availables().first().then((stock) => combo.stock = stock),
 			]);
 		}));
 	})
