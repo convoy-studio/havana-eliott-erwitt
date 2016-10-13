@@ -7,9 +7,7 @@ import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
 import CartActions from '../../actions/cartActions';
-import PreorderActions from '../../actions/preorderActions';
 import CartStore from '../../stores/cartStore';
-import LoginStore from '../../stores/loginStore';
 import Utils from '../../utils/utils';
 import {translate} from '../../utils/translation';
 
@@ -228,22 +226,9 @@ export default class Print extends ComponentTransition {
 			e.preventDefault();
 		}
 
-		if (!LoginStore.isLoggedIn()) {
-			/* this.context.router.transitionTo('/my-account');
-			return; */
-			console.log('not logged in');
-		}
-
 		let {print, selectedCombination} = this.state;
 
 		CartActions.addToCart({
-			product: print,
-			combination: selectedCombination,
-			quantity: 1
-		});
-
-		/* add product to waiting list */
-		PreorderActions.addToWaiting({
 			product: print,
 			combination: selectedCombination,
 			quantity: 1

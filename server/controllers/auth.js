@@ -75,13 +75,8 @@ const controller = {
 				return reply(user);
 			});
 		}
-	},
+	}
 
-	authorized : {
-	    handler : function (request, reply) {
-            const payload = request.payload;
-        }
-    }
 };
 
 export default controller;

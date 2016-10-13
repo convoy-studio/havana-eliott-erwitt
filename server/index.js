@@ -153,10 +153,10 @@ server.register([
                     return reply.file(__dirname + '/../static' + request.url.path);
                 } else {
                     const location = new Location(request.path, {});
-										const scripts = {
-												development: `http://${WEBPACK_SERVER_PROXY}/js/build.js`,
-												production : '/js/build.js'
-										};
+                    const scripts = {
+                        development: `http://${WEBPACK_SERVER_PROXY}/js/build.js`,
+                        production : '/js/build.js'
+                    };
 
                     Router.run(routes, location, (error, initialState) => {
 
@@ -228,6 +228,3 @@ server.register([
         });
     }
 });
-
-
-// vim: ts=2 sts=2 sw=2 noet
