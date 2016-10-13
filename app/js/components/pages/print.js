@@ -229,8 +229,9 @@ export default class Print extends ComponentTransition {
 		}
 
 		if (!LoginStore.isLoggedIn()) {
-			this.context.router.transitionTo('/my-account');
-			return;
+			/* this.context.router.transitionTo('/my-account');
+			return; */
+			console.log('not logged in');
 		}
 
 		let {print, selectedCombination} = this.state;
