@@ -23,7 +23,7 @@ acceptLanguage.languages(supportLanguages);
 
 const config = configs[NODE_ENV];
 const localesJson = JSON.stringify(locales.en)
-const cache = new LRU({max: 1000, maxAge: 60 * 60 * 1000}); // one-hour default TTL
+const cache = new LRU({max: 1000, maxAge: 15 * 60 * 1000}); // 15-minute default TTL
 const server = new Hapi.Server();
 
 // add prestashop.client to server.app
