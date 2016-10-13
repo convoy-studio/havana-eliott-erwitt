@@ -33,8 +33,5 @@ export default {
 			console.log(e.message);
 			console.log(e.stack);
 		});
-	},
-
+	}
 };
-
-// vim: ts=2 sts=2 sw=2 noet

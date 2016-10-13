@@ -30,7 +30,7 @@ export default {
 						return {
 							product_id: item.product.id,
 							combination_id: item.combination.id,
-							quantity: item.quantity,	
+							quantity: item.quantity,
 						};
 					}),
 				})
