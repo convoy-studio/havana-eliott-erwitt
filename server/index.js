@@ -13,22 +13,23 @@ import acceptLanguage from 'accept-language'
 import supportLanguages from '../app/data/languages'
 import locales from '../app/js/locales/index'
 import prestashop from 'prestashop-api-client';
-acceptLanguage.languages(supportLanguages);
-
-const localesJson = JSON.stringify(locales.en)
+import LRU from 'lru-cache';
 
 const env = process.env;
 const NODE_ENV = env.NODE_ENV || 'development';
 const WEBPACK_SERVER_PROXY = env.WEBPACK_SERVER_PROXY || 'localhost:4242';
 
-// const env = 'production';
-const config = configs[NODE_ENV];
+acceptLanguage.languages(supportLanguages);
 
+const config = configs[NODE_ENV];
+const localesJson = JSON.stringify(locales.en)
+const cache = new LRU({max: 1000, maxAge: 15 * 60 * 1000}); // 15-minute default TTL
 const server = new Hapi.Server();
 
 // add prestashop.client to server.app
 server.app = {
 	...server.app,
+	cache,
 	prestashop: {
 		client: new prestashop.rest.Client({
 			...config.prestashop.client,
