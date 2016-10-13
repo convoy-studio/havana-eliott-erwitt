@@ -34,7 +34,6 @@ const transformProduct = (product) => {
 	let data = {product: stripHtml(product)};
 
 	return P.all([
-		product.manufacturer().first(),
 		product.combinations().list(),
 		product.images().first(),
 	])
@@ -42,29 +41,26 @@ const transformProduct = (product) => {
 	// fetch the names and quantities of each product combination
 	.then((result) => {
 
-		let [manufacturer, combos, image] = result;
-		data = {...data, manufacturer, combos, image};
+		let [combos, image] = result;
+		data = {...data, combos, image};
 
 		return P.all(combos.map((combo) => {
 			combo.stock = 0;
-
-			return P.all([
-				combo.product_option_values().first().then((povs) => combo.povs = povs),
-				//combo.stock_availables().first().then((stock) => combo.stock = stock),
-			]);
+			return combo.product_option_values().first().then((povs) => combo.povs = povs);
 		}));
 	})
 
 	// assign name and quantity properties to each combination
 	.then(() => {
-		let {product, manufacturer, image, combos} = data;
+		let {product, image, combos} = data;
 
 		let map_combo = (combo, i) => {
 			return {
 				id: combo.attrs.id,
 				product_id: product.attrs.id,
 				name: combo.povs ? combo.povs.attrs.name : '',
-				stock: combo.stock ? combo.stock.attrs.quantity : 0,
+				//stock: combo.stock ? combo.stock.attrs.quantity : 0,
+				stock: 0,
 				logistic_id: combo.attrs.reference,
 			};
 		};
@@ -76,13 +72,14 @@ const transformProduct = (product) => {
 		let payload = {
 			'id': product.attrs.id,
 			'name': product.attrs.name,
-			'manufacturer': manufacturer ? manufacturer.attrs.name : '',
+			'manufacturer': product.attrs.manufacturer_name,
 			'image': image ? image.attrs.src : '',
 			'description': product.attrs.description,
 			'price': product.attrs.price,
 			'alt': product.attrs.description_short,
 			'combinations': combos,
-			'forsale': combos.reduce((forsale, combo) => combo.stock > 0 || forsale, false),
+			//'forsale': combos.reduce((forsale, combo) => combo.stock > 0 || forsale, false),
+			'forsale': true,
 		};
 
 		return payload;
