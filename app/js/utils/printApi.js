@@ -1,6 +1,19 @@
 import PrintActions from '../actions/printActions';
 import AppStore from '../stores/appStore';
 const config = require('../config');
+const cache = new Map();
+
+const retrieve = (url, done) => {
+	if (!cache.has(url)) {
+		let promise = fetch(url)
+			.then((response) => response.clone().json())
+			.catch((ex) => console.log('parsing failed', ex))
+
+		cache.set(url, promise);
+	}
+
+	return cache.get(url);
+};
 
 module.exports = {
 
@@ -8,28 +21,14 @@ module.exports = {
 		let language = AppStore.Lang();
 		let url = `${config.siteurl}/api/${language}/prints/forsale`;
 
-		fetch(url)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveForSale(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
+		return retrieve(url).then(PrintActions.receiveForSale);
 	},
 
 	getOneForsale : function(id) {
 		let language = AppStore.Lang();
 		let url = `${config.siteurl}/api/${language}/prints/forsale/${id}`;
 
-		fetch(url)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receive(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
+		return retrieve(url).then(PrintActions.receive);
 	},
 
 };
