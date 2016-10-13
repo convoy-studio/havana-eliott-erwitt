@@ -46,6 +46,7 @@
     "jsonwebtoken": "5.0.4",
     "jwt-decode": "^1.4.0",
     "lodash": "^3.10.1",
+    "lru-cache": "^4.0.1",
     "masonry-layout": "3.3.2",
     "mongoose": "~4.3.6",
     "mongoose-url-slugs": "~0.1.4",

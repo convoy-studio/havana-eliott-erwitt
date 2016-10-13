@@ -92,17 +92,7 @@ const transformProduct = (product) => {
  * @return {Function}
  */
 const createListHandler = () => {
-	return (req, reply) => {
-		let {client} = req.server.app.prestashop;
-		let {language} = req.params;
-
-		client.setLanguageIso(language);
-
-		return client.resource('products').list()
-		.then((products) => P.all(products.map(transformProduct)))
-		.then(reply)
-		.catch((e) => reply(Boom.badImplementation(e)));
-	};
+	return ;
 };
 
 /**
@@ -112,44 +102,59 @@ const createListHandler = () => {
  * @return {Function}
  */
 const createAttributeQueryHandler = (attribute, resolver) => {
-	return (req, reply) => {
-		let {client} = req.server.app.prestashop;
-		let {token: id, language} = req.params;
-
-		client.setLanguageIso(language);
-
-		return client.resource('products').get(id)
-		.then(transformProduct)
-		.then(reply)
-		.catch((e) => reply(Boom.badImplementation(e)));
-	};
+	return ;
 };
 
 
 export default {
 
-	getAll: {
-		handler: createListHandler(),
-	},
-
-	getByArtist : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
-	},
-
 	getForSale : {
-		handler: createListHandler(),
-	},
 
-	getUnsold : {
-		handler: createListHandler(),
-	},
+		handler: (req, reply) => {
+			let {client} = req.server.app.prestashop;
+			let {language} = req.params;
+			let {cache} = req.server.app;
+			let key = `${language}:prints:forsale`
+			let payload = cache.get(key);
 
-	getByToken : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
+			if (payload) {
+				return reply(payload);
+			}
+
+			client.setLanguageIso(language);
+
+			return client.resource('products').list()
+				.then((products) => P.all(products.map(transformProduct)))
+				.then((payload) => {
+					cache.set(key, payload);
+					return reply(payload);
+				})
+				.catch((e) => reply(Boom.badImplementation(e)));
+		}
 	},
 
 	getOneForsale : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
+		handler : (req, reply) => {
+			let {client} = req.server.app.prestashop;
+			let {token: id, language} = req.params;
+			let {cache} = req.server.app;
+			let key = `${language}:print:${id}`;
+			let payload = cache.get(key);
+
+			if (payload) {
+				return reply(payload);
+			}
+
+			client.setLanguageIso(language);
+
+			return client.resource('products').get(id)
+				.then(transformProduct)
+				.then((payload) => {
+					cache.set(key, payload);
+					return reply(payload);
+				})
+				.catch((e) => reply(Boom.badImplementation(e)));
+		},
 	},
 
 };
