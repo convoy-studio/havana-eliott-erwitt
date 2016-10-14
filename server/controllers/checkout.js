@@ -15,7 +15,7 @@ export default {
 			let {items} = req.payload;
 
 			let language_id = shop.languages[language];
-			let url = `${shop.frontend.url}/rpc/prepare-cart.php`;
+			let url = `${shop.frontend.url}/rpc/prepare-waitlist.php`;
 			let data = {};
 
 			fetch(url, {
