@@ -15,7 +15,7 @@ export default {
 			let {items} = req.payload;
 
 			let language_id = shop.languages[language];
-			let url = `${shop.frontend.url}/rpc/prepare-cart.php`;
+			let url = `${shop.frontend.url}/rpc/prepare-waitlist.php`;
 			let data = {};
 
 			fetch(url, {
@@ -30,7 +30,7 @@ export default {
 						return {
 							product_id: item.product.id,
 							combination_id: item.combination.id,
-							quantity: item.quantity,	
+							quantity: item.quantity,
 						};
 					}),
 				})
@@ -49,8 +49,6 @@ export default {
 			})
 
 			.catch((e) => reply(Boom.badImplementation(e)))
-		},
-	},
-}
-
-// vim: ts=2 sts=2 sw=2 noet
+		}
+	}
+};

@@ -9,10 +9,7 @@ export default {
 
 			cache && cache.reset();
 
-			return reply().code(204); 
+			return reply().code(204);
 		}
-	},
-	
+	}
 };
-
-// vim: ts=2 sts=2 sw=2 noet

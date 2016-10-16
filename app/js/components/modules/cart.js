@@ -164,7 +164,7 @@ export default class Cart extends Component {
 	removeItem(index) {
 
 		const print = this.state.items[index];
-		PrintApi.unblockSerial(print.token, print.serial);
+		//PrintApi.unblockSerial(print.token, print.serial);
 		CartActions.removeFromCart(index);
 	}
 
