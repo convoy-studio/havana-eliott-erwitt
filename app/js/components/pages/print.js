@@ -6,6 +6,7 @@ import Cart from '../modules/cart';
 import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
+import PrintActions from '../../actions/printActions';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
@@ -18,7 +19,6 @@ let config = require('../../config');
 export default class Print extends ComponentTransition {
 
 	componentWillMount(){
-
 		// state
 		this.state = {
 			print: undefined,
@@ -82,7 +82,7 @@ export default class Print extends ComponentTransition {
 
 		this.body = document.querySelector('body');
 
-		PrintApi.getOneForsale(this.props.params.token);
+		PrintApi.getOneForSale(this.props.params.token)
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
@@ -91,13 +91,9 @@ export default class Print extends ComponentTransition {
 		document.addEventListener('touchstart', this.onTouchstart);
 		document.addEventListener('touchmove', this.onTouchmove);
 		document.addEventListener('touchend', this.onTouchend);
-
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-		if (!this.loaded) {
-			this.loadImage();
-		}
 
 		if (nextState.cartCount !== this.state.cartCount && nextState.cartCount < 3) {
 			this.setState({
@@ -110,12 +106,12 @@ export default class Print extends ComponentTransition {
 
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
+		PrintActions.receive(null);
 
 		document.removeEventListener('mousemove', this.onMousemove);
 		document.removeEventListener('touchstart', this.onTouchstart);
 		document.removeEventListener('touchmove', this.onTouchmove);
 		document.removeEventListener('touchend', this.onTouchend);
-
 	}
 
 	render() {
@@ -248,33 +244,23 @@ export default class Print extends ComponentTransition {
 		}
 	}
 
-	loadImage() {
-		let {print} = this.state;
+	loadPrint() {
+
+		let print = this.state.print;
 
 		if (!print) {
-			return Promise.resolve();
+			return;
 		}
 
 		return new Promise((resolve) => {
-			let timeout = setTimeout(resolve, 15000);
 			let image = new Image();
 
-			image.onload = () => {
-				clearTimeout(timeout);
-				resolve(image);
-			};
-
+			image.onload = () => resolve(image);
 			image.src = print.image;
 		})
 
 		.then((image) => {
-			if (!image) {
-				return;
-			}
-
 			let orientation = image.height >= image.width * 1.2 ? 'portrait' : 'landscape';
-
-			this.loaded = true;
 
 			this.setState({
 				loadedPrint: (
@@ -364,6 +350,8 @@ export default class Print extends ComponentTransition {
 			cartCount: CartStore.getCartCount(),
 			selectedCombination: selectedCombination,
 		});
+
+		this.loadPrint();
 	}
 
 	/**
@@ -488,9 +476,11 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createCombinationListElement(print) {
+		let combos = print.combinations || [];
+
 		return (
 			<ul className='print__serial-list'>
-				{print.combinations.map((combo, i) => {
+				{combos.map((combo, i) => {
 					return this.createCombinationElement(print, combo, i);
 				})}
 			</ul>

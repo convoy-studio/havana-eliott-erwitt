@@ -45,7 +45,6 @@ const transformProduct = (product) => {
 		data = {...data, combos, image};
 
 		return P.all(combos.map((combo) => {
-			combo.stock = 0;
 			return combo.product_option_values().first().then((povs) => combo.povs = povs);
 		}));
 	})
@@ -59,15 +58,12 @@ const transformProduct = (product) => {
 				id: combo.attrs.id,
 				product_id: product.attrs.id,
 				name: combo.povs ? combo.povs.attrs.name : '',
-				//stock: combo.stock ? combo.stock.attrs.quantity : 0,
-				stock: 0,
+				stock: combo.stock ? combo.stock.attrs.quantity : 0,
 				logistic_id: combo.attrs.reference,
 			};
 		};
 
 		combos = combos.map(map_combo).sort(sort.ascending((combo) => combo.name || combo.id));
-
-		let DEPRECATED = 'DEPRECATED';
 
 		let payload = {
 			'id': product.attrs.id,
@@ -85,26 +81,6 @@ const transformProduct = (product) => {
 		return payload;
 	})
 };
-
-/**
- * Return a route handler function that replies with a list of print payloads
- * @param void
- * @return {Function}
- */
-const createListHandler = () => {
-	return ;
-};
-
-/**
- * Return a route handler function that replies with a single 
- * @param {String} attribute - the PrestaShop product attribute
- * @param {Function} resolver - a function that resolves the value of the attribute given a request
- * @return {Function}
- */
-const createAttributeQueryHandler = (attribute, resolver) => {
-	return ;
-};
-
 
 export default {
 
