@@ -1,23 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
 import AppStore from '../../stores/appStore';
-import CheckoutStore from '../../stores/checkoutStore';
-import CheckoutApi from '../../utils/checkoutApi';
+import CartStore from '../../stores/cartStore';
+import CartActions from '../../actions/cartActions';
 import { translate } from '../../utils/translation';
+
+import config from '../../config';
 
 /**
  * This form sends the browser to the PrestaShop checkout RPC URL via
  * HTTP POST.
  */
 export class CheckoutForm extends React.Component {
-
-	/**
-	 * @inheritdoc
-	 */
-	constructor (...args) {
-		super(...args);
-		this.onStoreChange = () => this.handleStoreChange();
-	}
 
 	/**
 	 * @inheritdoc
@@ -34,7 +28,7 @@ export class CheckoutForm extends React.Component {
 			method: 'POST',
 
 			// the form action
-			next_rpc_url: null,
+			action: 'http://havana.it-consultis.net/rpc/prepare-waitlist.php',
 
 			// submit button text
 			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
@@ -50,44 +44,24 @@ export class CheckoutForm extends React.Component {
 		this.form = this.refs.form.getDOMNode();
 		this.button = this.refs.button.getDOMNode();
 		this.button.addEventListener('click', (e) => this.onClickSubmitButton(e));
-
-		CheckoutStore.on('change', this.onStoreChange);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	componentWillUnmount() {
-		CheckoutStore.removeListener('change', this.onStoreChange);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	render() {
-		let {method, next_rpc_url, button_text,
-				 cart_id, language_id, token} = (this.state || this.props);
+		let {method, action, button_text} = (this.state || this.props);
+		let json = JSON.stringify(CartStore.getCartItems());
+console.log(CartStore.getCartItems());
 
 		return (
 			<div>
 				<a ref='button' className="button">{button_text}</a>
-				<form ref='form' method={method} action={next_rpc_url} style={{'display': 'none'}}>
-					<input type="hidden" name="cart_id" value={cart_id}/>
-					<input type="hidden" name="language_id" value={language_id}/>
-					<input type="hidden" name="token" value={token}/>
+				<form ref='form' method={method} action={action} style={{'display': 'none'}}>
+					<input type="hidden" name="json" value={json} />
 				</form>
 			</div>
 		);
-	}
-
-	/**
-	 * Populate form values, then submit the form
-	 * @param void
-	 * @return void
-	 */
-	handleStoreChange () {
-		this.setState(CheckoutStore.getRemoteState());
-		this.state.ready && this.form.submit();
 	}
 
 	/**
@@ -96,7 +70,7 @@ export class CheckoutForm extends React.Component {
 	 */
 	onClickSubmitButton (e) {
 		e && e.preventDefault();
-		CheckoutApi.acquireRemoteState();
+		this.form && this.form.submit();
 	}
 }
 
