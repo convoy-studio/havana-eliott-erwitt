@@ -469,7 +469,7 @@ export default {
 		discover_project: "Descubra su proyecto",
 
 		cart: "Lista de espera",
-		add_to_cart: "Libro para mi",
+		add_to_cart: "Reservar para mi",
 		proceed_to_checkout: "Ver mi lista de espera",
 		choose_edition: "Elija la edición",
 
