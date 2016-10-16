@@ -25,7 +25,7 @@ module.exports = {
 		return retrieve(url).then(PrintActions.receiveForSale);
 	},
 
-	getOneForsale : function(id) {
+	getOneForSale : function(id) {
 		let language = AppStore.Lang();
 		let url = `${config.siteurl}/api/${language}/prints/forsale/${id}`;
 
