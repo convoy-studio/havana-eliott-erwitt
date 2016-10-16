@@ -95,9 +95,7 @@ export default class Print extends ComponentTransition {
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-		if (!this.loaded) {
-			this.loadImage();
-		}
+		this.loadImage();
 
 		if (nextState.cartCount !== this.state.cartCount && nextState.cartCount < 3) {
 			this.setState({
@@ -116,6 +114,8 @@ export default class Print extends ComponentTransition {
 		document.removeEventListener('touchmove', this.onTouchmove);
 		document.removeEventListener('touchend', this.onTouchend);
 
+		this.loaded = null;
+		this.state.loadedPrint = null;
 	}
 
 	render() {
@@ -255,7 +255,11 @@ export default class Print extends ComponentTransition {
 			return Promise.resolve();
 		}
 
-		return new Promise((resolve) => {
+		if (this.loaded) {
+			return this.loaded;
+		}
+
+		this.loaded = new Promise((resolve) => {
 			let timeout = setTimeout(resolve, 15000);
 			let image = new Image();
 
@@ -274,7 +278,7 @@ export default class Print extends ComponentTransition {
 
 			let orientation = image.height >= image.width * 1.2 ? 'portrait' : 'landscape';
 
-			this.loaded = true;
+console.log('loaded image ' + print.image);
 
 			this.setState({
 				loadedPrint: (
@@ -286,6 +290,8 @@ export default class Print extends ComponentTransition {
 				),
 			});
 		})
+
+		return this.loaded;
 	}
 
 	onBigImageLoaded(e) {

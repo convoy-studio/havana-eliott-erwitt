@@ -1,7 +1,8 @@
 import PrintActions from '../actions/printActions';
 import AppStore from '../stores/appStore';
+import LRU from 'lru-cache';
 const config = require('../config');
-const cache = new Map();
+const cache = new LRU({max: 50, maxAge: 15 * 60 * 1000});
 
 const retrieve = (url, done) => {
 	if (!cache.has(url)) {
