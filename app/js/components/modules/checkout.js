@@ -14,6 +14,14 @@ export class CheckoutForm extends React.Component {
 	/**
 	 * @inheritdoc
 	 */
+	constructor (...args) {
+		super(...args);
+		this.onStoreChange = () => this.handleStoreChange();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	componentWillMount() {
 		let language = AppStore.Lang();
 
@@ -43,7 +51,14 @@ export class CheckoutForm extends React.Component {
 		this.button = this.refs.button.getDOMNode();
 		this.button.addEventListener('click', (e) => this.onClickSubmitButton(e));
 
-		CheckoutStore.on('change', () => this.onStoreChange());
+		CheckoutStore.on('change', this.onStoreChange);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	componentWillUnmount() {
+		CheckoutStore.removeListener('change', this.onStoreChange);
 	}
 
 	/**
@@ -70,7 +85,7 @@ export class CheckoutForm extends React.Component {
 	 * @param void
 	 * @return void
 	 */
-	onStoreChange() {
+	handleStoreChange () {
 		this.setState(CheckoutStore.getRemoteState());
 		this.state.ready && this.form.submit();
 	}
