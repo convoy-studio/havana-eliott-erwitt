@@ -28,7 +28,7 @@ export class CheckoutForm extends React.Component {
 
 			// the form action
 			// FIXME: look up the base prestashop url from configuration
-			action: 'http://192.168.10.131/rpc/prepare-waitlist.php',
+			action: 'http://havana.it-consultis.net/rpc/prepare-waitlist.php',
 
 			// submit button text
 			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
