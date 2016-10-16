@@ -2,7 +2,6 @@ import React from 'react';
 import _ from 'lodash';
 import AppStore from '../../stores/appStore';
 import CartStore from '../../stores/cartStore';
-import CartActions from '../../actions/cartActions';
 import { translate } from '../../utils/translation';
 
 import config from '../../config';
@@ -28,7 +27,8 @@ export class CheckoutForm extends React.Component {
 			method: 'POST',
 
 			// the form action
-			action: 'http://havana.it-consultis.net/rpc/prepare-waitlist.php',
+			// FIXME: look up the base prestashop url from configuration
+			action: 'http://192.168.10.131/rpc/prepare-waitlist.php',
 
 			// submit button text
 			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
@@ -50,15 +50,13 @@ export class CheckoutForm extends React.Component {
 	 * @inheritdoc
 	 */
 	render() {
-		let {method, action, button_text} = (this.state || this.props);
-		let json = JSON.stringify(CartStore.getCartItems());
-console.log(CartStore.getCartItems());
+		let {method, action, button_text, items} = (this.state || this.props);
 
 		return (
 			<div>
 				<a ref='button' className="button">{button_text}</a>
 				<form ref='form' method={method} action={action} style={{'display': 'none'}}>
-					<input type="hidden" name="json" value={json} />
+					<input type="hidden" name="json" value="" />
 				</form>
 			</div>
 		);
@@ -68,9 +66,33 @@ console.log(CartStore.getCartItems());
 	 * @param {Event} e
 	 * @return void
 	 */
-	onClickSubmitButton (e) {
+	onClickSubmitButton(e) {
 		e && e.preventDefault();
-		this.form && this.form.submit();
+
+		let {form} = this;
+
+		if (form) {
+			form.elements.json.value = JSON.stringify(this.createJsonPayload());
+			console.log(this.createJsonPayload());
+			form.submit();
+		}
+	}
+
+	/**
+	 * @param void
+	 * @return {Object}
+	 */
+	createJsonPayload() {
+		return {
+			language: this.state.language,
+			items: CartStore.getCartItems().map((item) => {
+				return {
+					product_id: item.product.id,
+					combination_id: item.combination.id,
+					quantity: item.quantity,
+				};
+			}),
+		};
 	}
 }
 
