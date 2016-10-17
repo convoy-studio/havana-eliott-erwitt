@@ -19,6 +19,11 @@ const webpackConfig = {
 		extentions: ['js', 'jsx']
 	},
 	plugins : [
+		new webpack.DefinePlugin({
+			'process.env': {
+				PRESTASHOP_FRONTEND_URL: env.PRESTASHOP_FRONTEND_URL,
+			},
+		}),
 		new webpack.optimize.UglifyJsPlugin({ output: {comments: false} })
 	],
 	module: {

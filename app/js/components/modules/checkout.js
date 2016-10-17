@@ -28,7 +28,7 @@ export class CheckoutForm extends React.Component {
 
 			// the form action
 			// FIXME: look up the base prestashop url from configuration
-			action: 'http://havana.it-consultis.net/rpc/prepare-waitlist.php',
+			action: `${config.prestashop.url}/rpc/prepare-waitlist.php`,
 
 			// submit button text
 			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
@@ -83,9 +83,11 @@ export class CheckoutForm extends React.Component {
 	 * @return {Object}
 	 */
 	createJsonPayload() {
+		let items = CartStore.getCartItems() || [];
+
 		return {
 			language: this.state.language,
-			items: CartStore.getCartItems().map((item) => {
+			items: items.map((item) => {
 				return {
 					product_id: item.product.id,
 					combination_id: item.combination.id,
