@@ -51,7 +51,6 @@ export class CheckoutForm extends React.Component {
 	 */
 	render() {
 		let {method, action, button_text, items} = (this.state || this.props);
-console.log(action);
 
 		return (
 			<div>
@@ -84,9 +83,11 @@ console.log(action);
 	 * @return {Object}
 	 */
 	createJsonPayload() {
+		let items = CartStore.getCartItems() || [];
+
 		return {
 			language: this.state.language,
-			items: CartStore.getCartItems().map((item) => {
+			items: items.map((item) => {
 				return {
 					product_id: item.product.id,
 					combination_id: item.combination.id,
