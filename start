@@ -40,6 +40,16 @@ if [ -z "$(ls node_modules)" ]; then
     docker exec -u node $NODE_CONTAINER npm install 
 fi
 
+if [ "$ENVIRONMENT" == "development" ]; then
+    if [ "$(docker ps -q -f name=havana-shop_local_app)" != "" ]; then
+        SHOP_ID=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' havana-shop_local_app)
+        cmd="echo \"$SHOP_ID docker.local\" >> /etc/hosts"
+        docker exec -u root "${NODE_CONTAINER}" bash -c "${cmd}"
+    else
+        echo "Could not find the \"${NODE_CONTAINER}\" container"
+    fi
+fi
+
 docker exec -u node $NODE_CONTAINER bash -c "$gulp build"
 docker exec -u node $NODE_CONTAINER bash -c "$nodemon babel.server.js & $gulp webpack --watch"
 
