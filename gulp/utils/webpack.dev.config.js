@@ -2,6 +2,8 @@ import path from 'path';
 import webpack from 'webpack';
 import config from '../config';
 
+const env = process.env;
+
 const webpackConfig = {
 	target: 'web',
 	devtool: 'eval-source-map',
@@ -17,7 +19,12 @@ const webpackConfig = {
 	    publicPath: 'http://' + config.webpack.host + ':' + config.webpack.port + '/js/'
   	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.DefinePlugin({
+			'process.env': {
+				PRESTASHOP_FRONTEND_URL: JSON.stringify(env.PRESTASHOP_FRONTEND_URL),
+			},
+		}),
+		new webpack.HotModuleReplacementPlugin(),
 	],
 	resolve: {
 		modulesDirectories: [

@@ -1,18 +1,24 @@
+import { merge } from 'lodash';
+
 const env = process.env;
 
 let config = {
 	'siteurl': 'http://www.havana-fellowship.com',
+		'prestashop': {
+			'url': env.PRESTASHOP_FRONTEND_URL,
+		},
 };
 
 if(typeof window !== 'undefined') {
 	let getUrl = window.location;
 	let baseUrl = getUrl.protocol + "//" + getUrl.host;
-	config = {
+
+	merge(config, {
 		'siteurl': baseUrl,
 		// 'siteurl': 'http://localhost:3000'
 		// 'siteurl': 'http://havana.hi9.fr'
 		// 'siteurl': 'http://www.havana-fellowship.com',
-	};
+	});
 }
 
 export default config;
