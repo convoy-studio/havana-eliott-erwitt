@@ -20,10 +20,16 @@ function _init() {
 
 // Add product to cart
 function _add(update) {
-	_items.push(update);
-    if (typeof window.localStorage !== 'undefined') {
-        window.localStorage.setItem('cart', JSON.stringify(_items));
-    }
+	//Enforce only one combination in cart at a time
+	let existing = _items.some((e) => {
+		return e.combination.id === update.combination.id;
+	});	
+	if(!existing) {
+		_items.push(update);
+        if (typeof window.localStorage !== 'undefined') {
+            window.localStorage.setItem('cart', JSON.stringify(_items));
+        }
+	}
 }
 
 // Set cart visibility

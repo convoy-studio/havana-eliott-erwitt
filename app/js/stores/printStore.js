@@ -2,6 +2,7 @@ import AppDispatcher from '../dispatchers/appDispatcher'
 import PrintConstants from '../constants/printConstants'
 // import {EventEmitter2} from 'eventemitter2'
 import assign from 'object-assign'
+import CartStore from '../stores/cartStore';
 // import data from 'GlobalData'
 // import Router from 'Router'
 let EventEmitter = require('events').EventEmitter;
@@ -62,7 +63,28 @@ let PrintStore = assign({}, EventEmitter.prototype, {
 	getArtistPrints: function() {
 		return _artistPrints
 	},
+    /**
+     * Returns the combinations of a print updating the stock 
+     * according to the cart status
+     *
+     * @param {Object} print
+     * @return {Array}
+     */
+    getCombinations: function(print) {
+        let cart_items = CartStore.getCartItems();
+        return print.combinations.map((combo) => {
+            if(cart_items.some((item) => {
+                return (item.combination.id === combo.id);
+            })) {
+                combo.stock = 0;
+            } else {
+                combo.stock = combo.realstock;
+            }
+            return combo;
+        });
+    },
 	getOne: function() {
+        _print.combinations = this.getCombinations(_print);
 		return _print
 	},
 	getZoom: function() {
