@@ -45,7 +45,10 @@ const transformProduct = (product) => {
 		data = {...data, combos, image};
 
 		return P.all(combos.map((combo) => {
-			return combo.product_option_values().first().then((povs) => combo.povs = povs);
+			return P.all([
+                combo.product_option_values().first().then((povs) => combo.povs = povs),
+                combo.stock_availables().first().then((stock) => combo.stock = stock),
+            ]);
 		}));
 	})
 
@@ -74,8 +77,7 @@ const transformProduct = (product) => {
 			'price': product.attrs.price,
 			'alt': product.attrs.description_short,
 			'combinations': combos,
-			//'forsale': combos.reduce((forsale, combo) => combo.stock > 0 || forsale, false),
-			'forsale': true,
+			'forsale': combos.reduce((forsale, combo) => combo.stock > 0 || forsale, false),
 		};
 
 		return payload;

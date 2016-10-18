@@ -202,15 +202,14 @@ export default class Print extends ComponentTransition {
 
 		if (combos.length) {
 
-			//let defaultCombo = combos.reduce((result, combo) => {
-			//	if (result) {
-			//		return result;
-			//	}
-			//	return combo.stock > 0 ? combo : null;
-			//}, null);
+			let defaultCombo = combos.reduce((result, combo) => {
+				if (result) {
+					return result;
+				}
+				return combo.stock > 0 ? combo : null;
+			}, null);
 
-			//return defaultCombo || combos[0];
-			return combos[0];
+			return defaultCombo || combos[0];
 		}
 
 		return null;
@@ -459,8 +458,7 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createCombinationElement(print, combo, key=null) {
-		//let enabled = combo.stock > 0;
-		let enabled = true;
+		let enabled = combo.stock > 0;
 
 		if (enabled) {
 			return (
@@ -509,9 +507,9 @@ export default class Print extends ComponentTransition {
 					<div className='print__serials'>
 						{(() => {
 
-							//if (!print.forsale) {
-							//	return (<div className='text'>Out of stock</div>);
-							//}
+							if (!print.forsale) {
+								return (<div className='text'>{translate('out_of_stock')}</div>);
+							}
 
 							return (
 								<div>

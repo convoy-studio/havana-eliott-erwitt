@@ -166,6 +166,7 @@ export default {
 		cart: "Waitlist",
 		add_to_cart: "Book for me",
 		proceed_to_checkout: "See my waitlist",
+        out_of_stock: "Out of Stock",
 		choose_edition: "Choose edition",
 
 		countries: {
@@ -471,6 +472,7 @@ export default {
 		cart: "Lista de espera",
 		add_to_cart: "Reservar para mi",
 		proceed_to_checkout: "Ver mi lista de espera",
+        out_of_stock: "Agotado",
 		choose_edition: "Elija la edición",
 
 		countries: {
