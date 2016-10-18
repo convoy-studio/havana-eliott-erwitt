@@ -10,8 +10,16 @@ const CHANGE_EVENT = 'change';
 let _items = [];
 let _cartVisible = true, _cartEnabled = false;
 
+// Clears the cart, called on logout
+function _clearCart() {
+    window.localStorage.removeItem('cart');
+}
+
 // Init products
 function _init() {
+    if(window.location.search.match(/logout/)) {
+        _clearCart();
+    }
 	const cart = window.localStorage.getItem('cart');
 	if (cart) {
 		_items = JSON.parse(cart);
