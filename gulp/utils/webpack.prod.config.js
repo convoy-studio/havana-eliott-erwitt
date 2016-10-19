@@ -23,7 +23,7 @@ const webpackConfig = {
 	plugins : [
 		new webpack.DefinePlugin({
 			'process.env': {
-				PRESTASHOP_FRONTEND_URL: env.PRESTASHOP_FRONTEND_URL,
+				PRESTASHOP_FRONTEND_URL: JSON.stringify(env.PRESTASHOP_FRONTEND_URL),
 			},
 		}),
 		new webpack.optimize.UglifyJsPlugin({ output: {comments: false} })

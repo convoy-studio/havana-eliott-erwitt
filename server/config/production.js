@@ -2,8 +2,8 @@ const env = process.env;
 
 const config = {
 	server : {
-		host : 'localhost',
-		port : 4242
+		host : '0.0.0.0',
+		port : 3000
 	},
 	database: {
 		host : env.MONGO_HOST || '127.0.0.1',
