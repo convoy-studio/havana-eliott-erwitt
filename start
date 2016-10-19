@@ -20,10 +20,19 @@ fi
 
 source .env
 
+nginx_template=nginx-vhost-webpack
+
+if [ "$ENVIRONMENT" != "development" ]; then
+    nginx_template=nginx-vhost
+fi
+
 # generate nginx vhost
-envsubst < .docker/templates/nginx-vhost \
+envsubst \
+    '${PROJECT} ${ENVIRONMENT}' \
+    < ".docker/templates/$nginx_template" \
     > ".docker/environments/${ENVIRONMENT}/etc/nginx/sites-enabled/default"
 
+NGINX_CONTAINER=${PROJECT}_${ENVIRONMENT}_nnginx
 NODE_CONTAINER=${PROJECT}_${ENVIRONMENT}_node
 
 ./generate-docker-compose
@@ -41,27 +50,29 @@ if [ -z "$(ls node_modules)" ]; then
 fi
 
 if [ "$ENVIRONMENT" == "development" ]; then
-    if [ "$(docker ps -q -f name=havana-shop_local_app)" != "" ]; then
+    PRESTASHOP_APP_CONTAINER=havana-shop_local_app
+
+    if [ "$(docker ps -q -f name=$PRESTASHOP_APP_CONTAINER)" != "" ]; then
         SHOP_ID=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' havana-shop_local_app)
         cmd="echo \"$SHOP_ID docker.local\" >> /etc/hosts"
         docker exec -u root "${NODE_CONTAINER}" bash -c "${cmd}"
-    else
-        echo "Could not find the \"${NODE_CONTAINER}\" container"
+        echo "Added ${PRESTASHOP_APP_CONTAINER} IP to ${NODE_CONTAINER} hosts file"
     fi
-    PRESTASHOP_APP_CONTAINER=havana-shop_local_app
-    if [ "$(docker ps -q -f name=havana-elliot-erwitt_development_nginx)" != "" ]; then
+
+    if [ "$(docker ps -q -f name={$PRESTASHOP_APP_CONTAINER})" != "" ]; then
         SHOP_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' havana-elliot-erwitt_development_nginx)
         cmd="echo \"$SHOP_IP vm.local\" >> /etc/hosts"
         docker exec -u root "${PRESTASHOP_APP_CONTAINER}" bash -c "${cmd}"
-    else
-        echo "Could not find the \"${NODE_CONTAINER}\" container"
+        echo "Added $NGINX_CONTAINER IP to ${PRESTASHOP_APP_CONTAINER} hosts file"
     fi
+
     docker exec -u node $NODE_CONTAINER bash -c "$nodemon babel.server.js" &
     docker exec -u node $NODE_CONTAINER bash -c "$gulp webpack --watch" &
     docker exec -u node $NODE_CONTAINER bash -c "$gulp build --watch"
 else
-    docker exec -u node $NODE_CONTAINER bash -c "cd /project && npm run prod"
-    docker exec -u node $NODE_CONTAINER bash -c "NODE_ENV=production $nodemon babel.server.js"
+    docker exec -u node $NODE_CONTAINER bash -c "$gulp build --production"
+    docker exec -u node $NODE_CONTAINER bash -c "$gulp webpack"
+    ./pm2 start babel.server.js
 fi
 
 # vim: sts=4 ts=4 sw=4 et

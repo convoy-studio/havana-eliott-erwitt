@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -aeu -o pipefail
+
+source .env
+
+NODE_CONTAINER="${PROJECT}_${ENVIRONMENT}_node"
+
+docker exec -u node -ti $NODE_CONTAINER bash -c "node_modules/.bin/pm2 $*" 
+
