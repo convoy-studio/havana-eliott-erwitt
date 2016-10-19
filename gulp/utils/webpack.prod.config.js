@@ -2,6 +2,8 @@ import path from 'path';
 import webpack from 'webpack';
 import config from '../config';
 
+const env = process.env;
+
 const webpackConfig = {
 	target: 'web',
 	entry: config.entry.scripts,
