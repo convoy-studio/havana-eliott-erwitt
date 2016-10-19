@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -xaeuo pipefail
+set -aeuo pipefail
 
 # create the dotenv file if it doesn't exist
 if [ ! -f .env ]; then
