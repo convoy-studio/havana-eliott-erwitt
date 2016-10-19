@@ -138,6 +138,7 @@ export default class Shop extends ComponentTransition {
 		let pageClass = this.state.open ? '' : 'page--hidden';
 
 				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
+		// console.log(this.content.shop_intro_title)
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
 				{this.createSeoComponent(language)}

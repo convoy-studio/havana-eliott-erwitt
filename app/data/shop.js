@@ -7,4 +7,4 @@ const shop = {
 	}
 };
 
-export default shop;
+export default shop
