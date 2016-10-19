@@ -79,64 +79,62 @@ export default class Cart extends Component {
 
 
 		return (
-			<div>
-				<div className={'cart' + visibility + isEmpty} ref='cart'>
-					<div className='cart__count'>{translate('cart')} — <span>{this.state.count}</span> {itemLabel}</div>
+			<li className={'cart' + visibility + isEmpty} ref='cart'>
+				<div className='cart__count'>{translate('cart')} — <span>{this.state.count}</span> {itemLabel}</div>
+				{(() => {
+					if (this.body && this.body.classList.contains('js-mobile')) return (
+						<div className='cart__toggle'>cart</div>
+					)
+				})()}
+				<div className='cart__content cart__products-wrapper'>
+					<ul className='cart__products'>
+						{Object.keys(this.state.items).map((index) => {
+							let {product, combination: combo, quantity} = this.state.items[index];
+
+							return (
+								<li key={index} className='cart__product'>
+									<div className='cart__column'>
+										<div className='cart__artist'>{product.manufacturer}</div>
+										<div className='cart__details'>{product.name}</div>
+										<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
+										<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
+									</div>
+									<div className='cart__column'>
+										<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
+										<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
+									</div>
+								</li>
+							)
+						}.bind(this))}
+					</ul>
+					<div className='cart__subtotal'>
+						<div className='cart__column'>Subtotal:</div>
+						<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
+					</div>
+					<div className='cart__checkout'>
+						<CheckoutForm />
+					</div>
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
-							<div className='cart__toggle'>cart</div>
+							<div className='cart__checkout cart__checkout--back'>
+								<Link to='/shop?open=true' className='button'>Back to shop</Link>
+							</div>
 						)
 					})()}
-					<div className='cart__content cart__products-wrapper'>
-						<ul className='cart__products'>
-							{Object.keys(this.state.items).map((index) => {
-								let {product, combination: combo, quantity} = this.state.items[index];
-
-								return (
-									<li key={index} className='cart__product'>
-										<div className='cart__column'>
-											<div className='cart__artist'>{product.manufacturer}</div>
-											<div className='cart__details'>{product.name}</div>
-											<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
-											<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
-										</div>
-										<div className='cart__column'>
-											<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
-											<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
-										</div>
-									</li>
-								)
-							}.bind(this))}
-						</ul>
-						<div className='cart__subtotal'>
-							<div className='cart__column'>Subtotal:</div>
-							<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
-						</div>
-						<div className='cart__checkout'>
-							<CheckoutForm />
-						</div>
-						{(() => {
-							if (this.body && this.body.classList.contains('js-mobile')) return (
-								<div className='cart__checkout cart__checkout--back'>
-									<Link to='/shop?open=true' className='button'>Back to shop</Link>
-								</div>
-							)
-						})()}
-					</div>
-					<div className='cart__content cart__empty-wrapper'>
-						<div className='cart__empty'>
-							You have no items in your cart.
-						</div>
-						{(() => {
-							if (this.body && this.body.classList.contains('js-mobile')) return (
-								<div className='cart__checkout'>
-									<Link to='/shop?open=true' className='button'>Back to shop</Link>
-								</div>
-							)
-						})()}
-					</div>
 				</div>
-			</div>
+				<div className='cart__content cart__empty-wrapper'>
+					<div className='cart__empty'>
+						You have no items in your cart.
+					</div>
+					{(() => {
+						if (this.body && this.body.classList.contains('js-mobile')) return (
+							<div className='cart__checkout'>
+								<Link to='/shop?open=true' className='button'>Back to shop</Link>
+							</div>
+						)
+					})()}
+				</div>
+			</li>
 		);
 
 	}

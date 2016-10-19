@@ -163,6 +163,7 @@ export default {
 
 		discover_project: "Discover his project",
 
+        my_account: "My Account",
 		cart: "Waitlist",
 		add_to_cart: "Book for me",
 		proceed_to_checkout: "See my waitlist",
@@ -469,6 +470,7 @@ export default {
 
 		discover_project: "Descubra su proyecto",
 
+        my_account: "Mi Cuenta",
 		cart: "Lista de espera",
 		add_to_cart: "Reservar para mi",
 		proceed_to_checkout: "Ver mi lista de espera",

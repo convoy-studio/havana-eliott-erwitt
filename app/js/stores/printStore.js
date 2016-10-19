@@ -71,6 +71,7 @@ let PrintStore = assign({}, EventEmitter.prototype, {
      * @return {Array}
      */
     getCombinations: function(print) {
+        if(!print.combinations) return;
         let cart_items = CartStore.getCartItems();
         return print.combinations.map((combo) => {
             if(cart_items.some((item) => {

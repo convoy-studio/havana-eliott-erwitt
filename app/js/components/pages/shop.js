@@ -7,7 +7,6 @@ import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
 import { intro } from '../../../data/shop';
-import Cart from '../modules/cart';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 let raf = Utils.raf();
@@ -164,7 +163,6 @@ export default class Shop extends ComponentTransition {
 						})}
 					</div>
 				</div>
-				<Cart />
 			</div>
 		);
 	}
