@@ -9,15 +9,15 @@ const webpackConfig = {
 	devtool: 'eval-source-map',
 	entry: [
 		'webpack/hot/only-dev-server',
-  		'webpack-dev-server/client?http://'+ config.webpack.host + ':' + config.webpack.port,
-  		config.entry.scripts
+		'webpack-dev-server/client?http://'+ config.webpack.host + ':' + config.webpack.port,
+		config.entry.scripts,
 	],
 	output: {
 		path: path.join(process.cwd(), '/static'),
-	    pathInfo: true,
-	    filename: config.output.filename + '.js',
-	    publicPath: 'http://' + config.webpack.host + ':' + config.webpack.port + '/js/'
-  	},
+		pathInfo: true,
+		filename: config.output.filename + '.js',
+		publicPath: 'http://' + config.webpack.host + ':' + config.webpack.port + '/js/',
+	},
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
@@ -40,7 +40,7 @@ const webpackConfig = {
 				loaders: ['react-hot', 'babel?stage=1'],
 				exclude : /node_modules/
 			}
-        ]
+		]
 	}
 };
 

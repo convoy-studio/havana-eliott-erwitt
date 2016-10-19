@@ -61,6 +61,7 @@ const transformProduct = (product) => {
 				id: combo.attrs.id,
 				product_id: product.attrs.id,
 				name: combo.povs ? combo.povs.attrs.name : '',
+				realstock: combo.stock ? combo.stock.attrs.quantity : 0,
 				stock: combo.stock ? combo.stock.attrs.quantity : 0,
 				logistic_id: combo.attrs.reference,
 			};

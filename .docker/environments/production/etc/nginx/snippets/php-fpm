@@ -1,0 +1,10 @@
+include fastcgi_params;
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+fastcgi_intercept_errors on;
+
+fastcgi_buffers 8 8k;
+fastcgi_connect_timeout 15s;
+fastcgi_send_timeout 120s;
+fastcgi_read_timeout 120s;
+reset_timedout_connection on;
+

@@ -10,8 +10,16 @@ const CHANGE_EVENT = 'change';
 let _items = [];
 let _cartVisible = true, _cartEnabled = false;
 
+// Clears the cart, called on logout
+function _clearCart() {
+    window.localStorage.removeItem('cart');
+}
+
 // Init products
 function _init() {
+    if(window.location.search.match(/logout/)) {
+        _clearCart();
+    }
 	const cart = window.localStorage.getItem('cart');
 	if (cart) {
 		_items = JSON.parse(cart);
@@ -20,10 +28,16 @@ function _init() {
 
 // Add product to cart
 function _add(update) {
-	_items.push(update);
-    if (typeof window.localStorage !== 'undefined') {
-        window.localStorage.setItem('cart', JSON.stringify(_items));
-    }
+	//Enforce only one combination in cart at a time
+	let existing = _items.some((e) => {
+		return e.combination.id === update.combination.id;
+	});	
+	if(!existing) {
+		_items.push(update);
+        if (typeof window.localStorage !== 'undefined') {
+            window.localStorage.setItem('cart', JSON.stringify(_items));
+        }
+	}
 }
 
 // Set cart visibility
