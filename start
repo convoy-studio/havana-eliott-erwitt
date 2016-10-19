@@ -48,10 +48,20 @@ if [ "$ENVIRONMENT" == "development" ]; then
     else
         echo "Could not find the \"${NODE_CONTAINER}\" container"
     fi
+    PRESTASHOP_APP_CONTAINER=havana-shop_local_app
+    if [ "$(docker ps -q -f name=havana-elliot-erwitt_development_nginx)" != "" ]; then
+        SHOP_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' havana-elliot-erwitt_development_nginx)
+        cmd="echo \"$SHOP_IP vm.local\" >> /etc/hosts"
+        docker exec -u root "${PRESTASHOP_APP_CONTAINER}" bash -c "${cmd}"
+    else
+        echo "Could not find the \"${NODE_CONTAINER}\" container"
+    fi
+    docker exec -u node $NODE_CONTAINER bash -c "$nodemon babel.server.js" &
+    docker exec -u node $NODE_CONTAINER bash -c "$gulp webpack --watch" &
+    docker exec -u node $NODE_CONTAINER bash -c "$gulp build --watch"
+else
+    docker exec -u node $NODE_CONTAINER bash -c "cd /project && npm run prod"
+    docker exec -u node $NODE_CONTAINER bash -c "NODE_ENV=production $nodemon babel.server.js"
 fi
 
-docker exec -u node $NODE_CONTAINER bash -c "$gulp build"
-docker exec -u node $NODE_CONTAINER bash -c "$nodemon babel.server.js & $gulp webpack --watch"
-
 # vim: sts=4 ts=4 sw=4 et
-
