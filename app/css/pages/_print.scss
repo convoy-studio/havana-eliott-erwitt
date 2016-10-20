@@ -5,6 +5,9 @@
 	top: 50%;
 	transform: translate(-50%, -50%);
 	width: 958px;
+	@media screen and (max-height: 700px) {
+	    width: 700px;
+	}
 }
 
 .print__nav {
@@ -252,6 +255,7 @@
 		position: relative;
 		width: 100%;
 		display: block;
+
 	}
 
 	.print__infos {

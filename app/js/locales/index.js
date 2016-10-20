@@ -112,6 +112,9 @@ export default {
 		shop_discover: "Discover and buy photographs.",
 		shop_details: "More details",
 
+		shop_intro_title: "The Fellowship shop is key to the fellowship. Here you can purchase limited edition signed originals by the photographer.",
+		shop_intro_paragraph: "50% of the proceeds will go to support the next fellowship photographer and 50% will go to the photographer. In addition to the proceeds from print sales Havana Club 7 will also fund additional photographers to go to Cuba.",
+
 		shop_temp_title: "Temporary Shop | Elliott Erwitt Havana Club 7 Fellowship",
 		shop_temp_description: "If you are interested in being contacted when the shop has re-open, please register your email here.",
 		shop_temp_thank: "THANK YOU FOR YOUR INTEREST TO SUPPORT DOCUMENTARY PHOTOGRAPHY. OUR SHOP WILL OPEN IN A FEW WEEKS!",
@@ -418,6 +421,9 @@ export default {
 		shop_description: "Compre imágenes originales de ediciones limitadas firmadas por Elliott Erwitt y otras fotografías de fotógrafos miembros de la Comunidad.",
 		shop_discover: "Descubra y compre las fotografías.",
 		shop_details: "Mas detalles",
+
+		shop_intro_title: "The Fellowship shop is key to the fellowship. Here you can purchase limited edition signed originals by the photographer.",
+		shop_intro_paragraph: "50% of the proceeds will go to support the next fellowship photographer and 50% will go to the photographer. In addition to the proceeds from print sales Havana Club 7 will also fund additional photographers to go to Cuba.",
 
 		shop_temp_title: "Tienda temporal |Elliott Erwitt Havana Club 7 Fellowship",
 		shop_temp_description: "Si Ud. está interesado en ser contactado cuando la tienda abra de nuevo por favor registre su correo electrónico aquí.",
