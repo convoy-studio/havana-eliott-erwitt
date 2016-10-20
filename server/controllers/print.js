@@ -46,9 +46,9 @@ const transformProduct = (product) => {
 
 		return P.all(combos.map((combo) => {
 			return P.all([
-                combo.product_option_values().first().then((povs) => combo.povs = povs),
-                combo.stock_availables().first().then((stock) => combo.stock = stock),
-            ]);
+				combo.product_option_values().first().then((povs) => combo.povs = povs),
+				combo.stock_availables().first().then((stock) => combo.stock = stock),
+			]);
 		}));
 	})
 
@@ -88,7 +88,6 @@ const transformProduct = (product) => {
 export default {
 
 	getForSale : {
-
 		handler: (req, reply) => {
 			let {client} = req.server.app.prestashop;
 			let {language} = req.params;
@@ -103,12 +102,12 @@ export default {
 			client.setLanguageIso(language);
 
 			return client.resource('products').list()
-				.then((products) => P.all(products.map(transformProduct)))
-				.then((payload) => {
-					cache.set(key, payload);
-					return reply(payload);
-				})
-				.catch((e) => reply(Boom.badImplementation(e)));
+			.then((products) => P.all(products.map(transformProduct)))
+			.then((payload) => {
+				cache.set(key, payload);
+				return reply(payload);
+			})
+			.catch((e) => reply(Boom.badImplementation(e)));
 		}
 	},
 
@@ -127,13 +126,15 @@ export default {
 			client.setLanguageIso(language);
 
 			return client.resource('products').get(id)
-				.then(transformProduct)
-				.then((payload) => {
-					cache.set(key, payload);
-					return reply(payload);
-				})
-				.catch((e) => reply(Boom.badImplementation(e)));
+			.then(transformProduct)
+			.then((payload) => {
+				cache.set(key, payload);
+				return reply(payload);
+			})
+			.catch((e) => reply(Boom.badImplementation(e)));
 		},
 	},
 
 };
+
+// vim: ts=2 sts=2 sw=2 noet
