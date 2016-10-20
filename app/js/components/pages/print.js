@@ -493,6 +493,7 @@ export default class Print extends ComponentTransition {
 		}
 
 		let {loadedPrint, selectedCombination: combo} = this.state;
+		let price = print.price ? print.price + '€' : '';
 
 		return (
 			<div className='print'>
@@ -500,35 +501,39 @@ export default class Print extends ComponentTransition {
 				<div className='print__infos'>
 					<h3 className='print__artist text'>{print.manufacturer}</h3>
 					<h3 className='print__location text'>{print.name}</h3>
-					<div className='print__price text text--small'>{print.price}€</div>
+					<div className='print__price text text--small'>{price}</div>
 					<p className='print__desc text text--small'>{print.description}</p>
 					<div className='print__serials'>
 						{(() => {
 
-							if (!print.forsale) {
-								return (<div className='text'>{translate('out_of_stock')}</div>);
-							}
-
-							return (
-								<div>
-									<div className='print__serial-wrapper'>
-										<div className='print__serial-opt text'>{translate('choose_edition')}</div>
-										<div className='print__select text'>
-											{() => {
-												if (combo) {
-											    return <div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
-												}
-												return null;
-											}()}
-											{this.createCombinationListElement(print)}
+							if (print.forsale) {
+								return (
+									<div>
+										<div className='print__serial-wrapper'>
+											<div className='print__serial-opt text'>{translate('choose_edition')}</div>
+											<div className='print__select text'>
+												{() => {
+													if (combo) {
+												    return <div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+													}
+													return null;
+												}()}
+												{this.createCombinationListElement(print)}
+											</div>
+										</div>
+										<div className='print__buy-wrapper'>
+											<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
+											{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 										</div>
 									</div>
-									<div className='print__buy-wrapper'>
-										<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
-										{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
-									</div>
-								</div>
-							);
+								);
+							} else if (print.forsale == false) {
+								return (<div className='text'>{translate('out_of_stock')}</div>);
+							} else {
+								return (
+									<div></div>
+								);
+							}
 
 						})()}
 					</div>
