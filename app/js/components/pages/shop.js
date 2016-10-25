@@ -6,7 +6,6 @@ import Utils from '../../utils/utils';
 import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
-import { intro } from '../../../data/shop';
 import Cart from '../modules/cart';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
@@ -138,16 +137,15 @@ export default class Shop extends ComponentTransition {
 		let pageClass = this.state.open ? '' : 'page--hidden';
 
 				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
-		// console.log(this.content.shop_intro_title)
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
 				{this.createSeoComponent(language)}
 				<div className='shop js-smooth'>
 					<div className='shop__intro'>
-						<h2 className='title'>{intro.title}</h2>
-						{Object.keys(intro.paragraphs).map((index) => {
+						<h2 className='title'>{this.content.shop_intro_title}</h2>
+						{Object.keys(this.content.shop_intro_paragraph).map((index) => {
 							return (
-								<p className='shop__paragraph paragraph text' key={index}>{intro.paragraphs[index]}</p>
+								<p className='shop__paragraph paragraph text' dangerouslySetInnerHTML={{ __html: this.content.shop_intro_paragraph[index] }} key={index}></p>
 							)
 						})}
 						<div className='shop__discover button' onClick={this.discover}>{this.content.shop_discover}</div>
