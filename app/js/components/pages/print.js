@@ -2,7 +2,6 @@ import React from 'react';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import Router, { Link } from 'react-router';
-import Cart from '../modules/cart';
 import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
@@ -132,7 +131,6 @@ export default class Print extends ComponentTransition {
 					{this.createBigPrintElement(print)}
 				</div>
 				{this.createMobilePrintElement(print)}
-				<Cart />
 			</div>
 		);
 	}

@@ -1,0 +1,16 @@
+.customer {
+	position: fixed;
+	top: 28px;
+	right: 294px;
+	z-index: 99;
+	width: 100px;
+	box-sizing: border-box;
+
+	border: 1px solid transparent;
+	font-size: 14px;
+	transition: border 0.4s ease-out;
+
+    a {
+        padding: 12px 20px;
+    }
+}

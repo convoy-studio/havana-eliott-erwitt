@@ -19,8 +19,6 @@ const env = process.env;
 const NODE_ENV = env.NODE_ENV || 'development';
 const WEBPACK_SERVER_PROXY = env.WEBPACK_SERVER_PROXY || 'localhost:4242';
 
-console.log(`NODE_ENV is ${NODE_ENV}`);
-
 acceptLanguage.languages(supportLanguages);
 
 const config = configs[NODE_ENV];

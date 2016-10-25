@@ -163,7 +163,6 @@ export default class Shop extends ComponentTransition {
 						})}
 					</div>
 				</div>
-				<Cart />
 			</div>
 		);
 	}
