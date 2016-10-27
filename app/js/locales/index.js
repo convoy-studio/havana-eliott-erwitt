@@ -167,9 +167,9 @@ export default {
 		discover_project: "Discover his project",
 
         my_account: "My Account",
-		cart: "Waitlist",
-		add_to_cart: "Book for me",
-		proceed_to_checkout: "See my waitlist",
+		cart: "Reserved prints",
+		add_to_cart: "Reserve for me",
+		proceed_to_checkout: "See my reservations",
         out_of_stock: "Out of Stock",
 		choose_edition: "Choose edition",
 
