@@ -20,7 +20,7 @@ export default class purchaseConditions extends ComponentTransition {
 
 		TweenMax.fromTo(logo, 0.3, {opacity:1}, {opacity:0, ease:Power2.easeIn});
 		this.enterTl = new TimelineMax({delay:0.3, onComplete:()=>{
-			logo.style.display = 'none';
+			logo.style.display = 'none'
 		}});
 		this.enterTl.fromTo(el, 0.3, {opacity:0}, {opacity:1, ease:Power2.easeIn}, 0);
 
