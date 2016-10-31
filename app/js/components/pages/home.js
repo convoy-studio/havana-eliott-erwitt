@@ -68,7 +68,9 @@ export default class Home extends ComponentTransition {
 		this.overlay = document.querySelector('.bg-video__overlay');
 		this.background = document.querySelector('.home__bg');
 
-		this.fontSize = 36;
+		const textLen = (this.content.home_desc_1 + ' ' + this.content.home_desc_2 + this.content.home_desc_3 + ' ' + this.content.home_desc_4).length
+
+		this.fontSize = (textLen > 100) ? 28 : 36;
 		this.fontSizeMobile = 24;
 		this.fontSizeLogoMobile = 20;
 
@@ -254,11 +256,11 @@ export default class Home extends ComponentTransition {
 		this.resetCanvas();
 
 		// crop logo
-		ctx.font = "400 "+this.fontSize+"px 'hc7modern'";
+		ctx.font = "400 "+'36'+"px 'hc7modern'";
 		ctx.textAlign = "center";
 		ctx.globalCompositeOperation = "destination-out";
 		ctx.fillText(this.content.header_title.toUpperCase(), this.vw/2, this.vh/2 - 7);
-		ctx.font = "400 "+this.fontSize+"px 'HC7Craft'";
+		ctx.font = "400 "+'36'+"px 'HC7Craft'";
 		ctx.fillText(this.content.header_subtitle.toUpperCase(), this.vw/2, this.vh/2 + 32);
 		ctx.beginPath();
 		ctx.rect(this.vw/2 - 244, this.vh/2 + 19, 118, 2);
