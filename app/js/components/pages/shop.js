@@ -32,7 +32,7 @@ class PrintPreview extends React.Component {
 							<div className='shop__detail'>
 								<div className='text'>{print.manufacturer}</div>
 								<div className='text'>{print.name}</div>
-								<div className='shop__price text'>{print.price}€</div>
+								<div className='shop__price text'>{print.price}€ (exclude VAT)</div>
 								<div className='shop__button button'>{content.shop_details}</div>
 							</div>
 						</div>

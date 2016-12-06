@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookie from 'react-cookie';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import Router, { Link } from 'react-router';
@@ -26,7 +27,8 @@ export default class Print extends ComponentTransition {
 			cartItems: CartStore.getCartItems(),
 			cartCount: 0,
 			bigImageShowed: false,
-			error: undefined
+			error: undefined,
+            userId: Cookie.load('userId')
 		};
 
 		// binded
@@ -228,7 +230,19 @@ export default class Print extends ComponentTransition {
 		});
 
 		CartActions.updateCartEnabled(true, true);
+
+        return false;
 	}
+
+    redirectToLogin(e) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        let language = AppStore.Lang();
+        window.location = `${config.prestashop.url}/${language}/login?back=my-account`
+    }
 
 	toggleList(e) {
 		e && e.preventDefault();
@@ -494,6 +508,7 @@ export default class Print extends ComponentTransition {
 
 		let {loadedPrint, selectedCombination: combo} = this.state;
 		let price = print.price ? print.price + '€' : '';
+        let clickCartButton = this.state.userId ? this.addToCart : this.redirectToLogin;
 
 		return (
 			<div className='print'>
@@ -522,7 +537,7 @@ export default class Print extends ComponentTransition {
 											</div>
 										</div>
 										<div className='print__buy-wrapper'>
-											<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
+											<a href='#' className='print__buy button' onClick={clickCartButton}>{translate('add_to_cart')}</a>
 											{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 										</div>
 									</div>
