@@ -207,7 +207,8 @@ server.register([
                                     </div>
 
                                     <div id="root" dangerouslySetInnerHTML={{__html: content}}/>
-
+                                    
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
                                     <script async src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
                                     <script src="/vendors/pdfmake.js" type="text/javascript"></script>
                                     <script src="/vendors/vfs_fonts.js" type="text/javascript"></script>
