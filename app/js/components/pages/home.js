@@ -157,7 +157,7 @@ export default class Home extends ComponentTransition {
 
 	initSplash() {
 
-		// this.resize();
+		this.resize();
 
 		let ctx = this.canvas.getContext('2d');
 		let vw = window.innerWidth;
