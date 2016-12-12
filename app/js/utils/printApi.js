@@ -8,7 +8,7 @@ const retrieve = (url, done) => {
 	if (!cache.has(url)) {
 		let promise = fetch(url)
 			.then((response) => response.clone().json())
-			.catch((ex) => console.log('parsing failed', ex))
+			.catch((ex) => console.log('parsing failed', ex));
 
 		cache.set(url, promise);
 	}
@@ -32,4 +32,24 @@ module.exports = {
 		return retrieve(url).then(PrintActions.receive);
 	},
 
+    checkSendMail: function(data) {
+        let language = data.language;
+
+        return fetch(`${config.siteurl}/api/${language}/cart/sendmail`, {
+            method: 'POST',
+            redirect: 'manual',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        .then(response => response.json())
+
+        .catch((e) => {
+            console.log(e.message);
+            console.log(e.stack);
+        });
+    }
 };

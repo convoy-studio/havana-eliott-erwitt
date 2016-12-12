@@ -83,7 +83,7 @@ export default class Print extends ComponentTransition {
 
 		this.body = document.querySelector('body');
 
-		PrintApi.getOneForSale(this.props.params.token)
+		PrintApi.getOneForSale(this.props.params.token);
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
@@ -229,9 +229,14 @@ export default class Print extends ComponentTransition {
 			quantity: 1
 		});
 
-		CartActions.updateCartEnabled(true, true);
+        let language = AppStore.Lang();
+        PrintApi.checkSendMail({
+            language: `${language}`,
+            product: print
+        });
 
-        return false;
+		CartActions.updateCartEnabled(true, true);
+        PrintApi.getOneForSale(print.id);
 	}
 
     redirectToLogin(e) {
@@ -537,7 +542,7 @@ export default class Print extends ComponentTransition {
 											</div>
 										</div>
 										<div className='print__buy-wrapper'>
-											<a href='#' className='print__buy button' onClick={clickCartButton}>{translate('add_to_cart')}</a>
+											<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
 											{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 										</div>
 									</div>
