@@ -11,6 +11,7 @@ export default {
         handler: (req, reply) => {
             let psconfig = config[NODE_ENV].prestashop;
             let url = `${psconfig.frontend.url}/rpc/check_sendmail.php`;
+            let data = {};
 
             fetch(url, {
                 method: 'POST',
@@ -18,14 +19,22 @@ export default {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: req
+                body: {data: req.payload}
             })
 
-            .then((response) => reply().code(204))
+            .then((response) => {
+                data = {...data, response};
+            })
+
+            .then((state) => {
+                let {response} = data;
+                let ready = response.status === 200;
+
+                reply({...state, ready}).code(response.status);
+            })
 
             .catch((e) => {
-              console.log(e.stack);
-              reply(Boom.badImplementation(e))
+                reply(Boom.badImplementation(e))
             });
   
         }
