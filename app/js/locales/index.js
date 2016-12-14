@@ -544,7 +544,7 @@ export default {
 		footer_terms_conditions_sale: "Términos y condiciones de venta.",
 
 		header_title: "Elliott Erwitt - Havana Club 7",
-		header_subtitle: "Comunidad",
+		header_subtitle: "Fellowship",
 
 		nav_label_news: 'Noticias',
 		nav_label_shop: 'Tienda',
