@@ -233,18 +233,20 @@ export default class Print extends ComponentTransition {
 		});
 
         let language = AppStore.Lang();
+        let sendEmail = false;
         let cartData = Cookie.load('productCart');
         if (!cartData) { cartData = []; }
         if (!cartData.includes(print.id)) {
             Cookie.remove('productCart', { path: '/' });
 
             cartData.push(print.id);
+            sendEmail = true;
 
             Cookie.save('productCart', JSON.stringify(cartData), { path: '/' });
         }
         PrintApi.checkSendMail({
             language: `${language}`,
-            cart: cartData,
+            sendmail: sendEmail,
             product: print,
             customer_id: Cookie.load('userId')
         });
