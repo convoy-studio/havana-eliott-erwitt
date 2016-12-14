@@ -4,7 +4,6 @@ import BrowserHistory from 'react-router/lib/BrowserHistory';
 import routes from './routes';
 import GEvents from './utils/globalEvents';
 import Seo from './components/modules/seo';
-import 'babel/polyfill';
 let FastClick = require('fastclick');
 let config = require('./config');
 // import history from './history';

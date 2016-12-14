@@ -13,10 +13,6 @@ let raf = Utils.raf();
 let _ = require('lodash');
 let offset = require('../../utils/offset');
 let config = require('../../config');
-// let Masonry;
-// if(typeof window !== 'undefined') {
-// 	Masonry = require('masonry-layout');
-// }
 
 class PrintPreview extends React.Component {
 
@@ -111,7 +107,7 @@ export default class Shop extends ComponentTransition {
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true;
 			_(this.state.prints).forEach((print, index) => {
-				file = new Image();
+			 	file = new Image();
 				file.onload = this.onImageLoaded;
 				file.src = print.image;
 			}).value();
@@ -121,7 +117,7 @@ export default class Shop extends ComponentTransition {
 
 	componentWillUnmount() {
 
-		if(typeof window !== 'undefined') {
+		if (typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
 		}
 		PrintStore.removeChangeListener(this.onStoreChange);
@@ -135,8 +131,6 @@ export default class Shop extends ComponentTransition {
 		let columns = this.columnize(prints, 3);
 
 		let pageClass = this.state.open ? '' : 'page--hidden';
-
-				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
 				{this.createSeoComponent(language)}
@@ -287,10 +281,19 @@ export default class Shop extends ComponentTransition {
 	 * @return {Array}
 	 */
 	columnize(items=[], n=3) {
-		let columns = _.range(n).map(() => []);
-		let distribute = (item, index) => columns[index % n].push(item);
 
-		items && items.length && _.each(items, distribute);
+		let columns = _.range(n).map(() => []);
+		if (items && items.length > 0) {
+			const elliott = items.filter((print) => { if (print.manufacturer === 'Elliot Erwitt') return print }) // Elliot
+			const ali = items.filter((print) => { if (print.manufacturer === '') return print }) // Ali
+			const prints = elliott.concat(ali)
+			let col = 0
+			for (let i = 0; i < prints.length; i++) {
+				columns[col].push(prints[i])
+				if (col >= n-1) col = -1
+				col++
+			}
+		}
 
 		return columns;
 	}
