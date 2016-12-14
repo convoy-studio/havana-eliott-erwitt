@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
+import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import { CheckoutForm } from './checkout';
 import { translate } from '../../utils/translation';
@@ -76,7 +77,8 @@ export default class Cart extends Component {
 		let itemLabel = (this.state.count > 1) ? 'items' : 'item';
 		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
-
+        let language = AppStore.Lang();
+        let backUrl = `/${language}/shop?open=true`;
 
 		return (
 			<li className={'cart' + visibility + isEmpty} ref='cart'>
@@ -115,11 +117,12 @@ export default class Cart extends Component {
 						<CheckoutForm />
 					</div>
 					{(() => {
-						if (this.body && this.body.classList.contains('js-mobile')) return (
-							<div className='cart__checkout cart__checkout--back'>
-								<Link to='/shop?open=true' className='button'>Back to shop</Link>
-							</div>
-						)
+						if (this.body && this.body.classList.contains('js-mobile'))
+                            return (
+                                <div className='cart__checkout cart__checkout--back'>
+                                    <Link to={backUrl} className='button'>Back to shop</Link>
+                                </div>
+                            )
 					})()}
 				</div>
 				<div className='cart__content cart__empty-wrapper'>
@@ -129,7 +132,7 @@ export default class Cart extends Component {
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
 							<div className='cart__checkout'>
-								<Link to='/shop?open=true' className='button'>Back to shop</Link>
+								<Link to={backUrl} className='button'>Back to shop</Link>
 							</div>
 						)
 					})()}

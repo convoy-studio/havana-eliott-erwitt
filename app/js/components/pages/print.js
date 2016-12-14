@@ -119,11 +119,14 @@ export default class Print extends ComponentTransition {
 
 		let {print, prints, next, prev} = this.state;
 		let links = this.createNextPreviousLinks(next, prev);
-
+        let language = AppStore.Lang();
+        let backUrl = `/${language}/shop?open=true`;
 		return (
 			<div className='page page--print' ref='view'>
 				{this.createSeoComponent(print)}
-				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
+				<div className='submenu'>
+                    <Link to={backUrl} className='button'>Back to shop</Link>
+                </div>
 				<div>
 					<div className='print__nav'>
 						{links.prev}
@@ -232,7 +235,8 @@ export default class Print extends ComponentTransition {
         let language = AppStore.Lang();
         PrintApi.checkSendMail({
             language: `${language}`,
-            product: print
+            product: print,
+            customer_id: Cookie.load('userId')
         });
 
 		CartActions.updateCartEnabled(true, true);
@@ -245,7 +249,6 @@ export default class Print extends ComponentTransition {
             e.preventDefault();
         }
 
-        let language = AppStore.Lang();
         window.location = `${config.prestashop.url}/${language}/login?back=my-account`
     }
 

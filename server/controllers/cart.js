@@ -19,7 +19,7 @@ export default {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: {data: req.payload}
+                body: JSON.stringify(req.payload)
             })
 
             .then((response) => {
@@ -36,7 +36,6 @@ export default {
             .catch((e) => {
                 reply(Boom.badImplementation(e))
             });
-  
         }
     }
 };
