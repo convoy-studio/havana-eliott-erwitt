@@ -545,7 +545,7 @@ export default class Print extends ComponentTransition {
 											</div>
 										</div>
 										<div className='print__buy-wrapper'>
-											<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')}</a>
+											<a href='#' className='print__buy button' onClick={clickCartButton}>{translate('add_to_cart')}</a>
 											{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 										</div>
 									</div>
