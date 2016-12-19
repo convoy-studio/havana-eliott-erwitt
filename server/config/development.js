@@ -35,7 +35,11 @@ const config = {
 				root: env.PRESTASHOP_WEBSERVICE_ROOT || '/api'
 			}
 		}
-	}
+	},
+
+    mandrill: {
+        key: env.MANDRILL_API_KEY
+    }
 };
 
 export default config;

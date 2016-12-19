@@ -4,7 +4,8 @@ let config = require('../config');
 module.exports = {
 
 	getAll : function() {
-		fetch(config.siteurl + '/api/openingShops')
+        let url = `${config.siteurl}/api/openingShops`;
+		fetch(url)
 			.then(function(response) {
 				return response.json();
 			}).then(function(json) {
@@ -15,7 +16,8 @@ module.exports = {
 	},
 
 	getOne : function(id) {
-		fetch(config.siteurl + '/api/openingShop/' + id)
+        let url = `${config.siteurl}/api/openingShop/${id}`;
+		fetch(url)
 			.then(function(response) {
 				return response.json();
 			}).then(function(json) {
@@ -26,7 +28,8 @@ module.exports = {
 	},
 
 	create : function(mail){
-		fetch(config.siteurl + '/api/openingShop', {
+        let url = `${config.siteurl}/api/openingShop`;
+		fetch(url, {
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',
@@ -36,10 +39,13 @@ module.exports = {
 		}).then(function(response) {
 			return response.json();
 		}).then(function(json) {
+            document.getElementById('mail').value = '';
+            let label = document.querySelector('label[for="mail"]');
+            label.textContent = json.message;
+
 			OpeningShopActions.created(json);
 		}).catch(function(err) {
 			console.log('parsing failed', err);
 		});
 	}
-
 };

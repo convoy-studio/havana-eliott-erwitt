@@ -129,13 +129,15 @@ export default class Contact extends ComponentTransition {
 				sended: true,
 				valid: true
 			});
-			MailApi.sendMail({
-				mail: mail,
-				name: name,
-				subject: subject,
-				country: country,
-				message: message.replace(/(\r\n|\n|\r)/g,'<br/>')
-			});
+
+            let mailContent = {
+                mail: mail,
+                name: name,
+                subject: subject,
+                country: country,
+                message: message.replace(/(\r\n|\n|\r)/g,'<br/>')
+            };
+			MailApi.sendMail(mailContent);
 		} else {
 			this.setState({
 				valid: false

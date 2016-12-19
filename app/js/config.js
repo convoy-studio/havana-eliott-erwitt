@@ -7,6 +7,12 @@ let config = {
 		'prestashop': {
 			'url': env.PRESTASHOP_FRONTEND_URL,
 		},
+    'mail': {
+        'key': 'yLxCSYWSZH8p8vNT83_i3w',
+        'newsletter_email': 'contact@havana-fellowship.com',
+        'reopening_email': 'support@havana-fellowship.com',
+        'contact_email': 'contact@havana-fellowship.com'
+    }
 };
 
 if(typeof window !== 'undefined') {
