@@ -261,6 +261,7 @@ export default class Print extends ComponentTransition {
             e.preventDefault();
         }
 
+		let language = AppStore.Lang();
         window.location = `${config.prestashop.url}/${language}/login?back=my-account`
     }
 
