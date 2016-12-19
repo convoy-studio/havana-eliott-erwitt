@@ -44,6 +44,7 @@ read -d '' DOCKER_COMPOSE_FILE <<-EOF
     - "4242"
   extra_hosts:
     - "${WEBPACK_SERVER_PROXY}:0.0.0.0"
+    - "shop.havana-fellowship.com:163.172.52.205"
   links:
     - ${PROJECT}_${ENVIRONMENT}_db
   volumes:

@@ -74,7 +74,7 @@ let CartStore = assign({}, EventEmitter.prototype, {
 	},
 	getCartTotal: function() {
 		return _items.reduce(function (total, item) {
-      let {product} = item;
+            let {product} = item;
 			return total + product.price;
 		}, 0).toFixed(2);
 	},
