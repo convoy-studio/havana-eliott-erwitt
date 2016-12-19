@@ -8,7 +8,7 @@ let config = {
 			'url': env.PRESTASHOP_FRONTEND_URL,
 		},
     'mail': {
-        'key': 'yLxCSYWSZH8p8vNT83_i3w',
+        'key': 'WQWpRUmtpFCK_9LBVuxH6w',
         'newsletter_email': 'contact@havana-fellowship.com',
         'reopening_email': 'support@havana-fellowship.com',
         'contact_email': 'contact@havana-fellowship.com'
