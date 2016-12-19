@@ -1,14 +1,16 @@
 import React from 'react';
+import Cookie from 'react-cookie';
 import ComponentTransition from '../componentTransition';
 import Seo from '../modules/seo';
 import Router, { Link } from 'react-router';
-import Cart from '../modules/cart';
 import AppStore from '../../stores/appStore';
 import PrintStore from '../../stores/printStore';
 import PrintApi from '../../utils/printApi';
+import PrintActions from '../../actions/printActions';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
 import Utils from '../../utils/utils';
+import {translate} from '../../utils/translation';
 
 let _ = require('lodash');
 let raf = Utils.raf();
@@ -17,7 +19,6 @@ let config = require('../../config');
 export default class Print extends ComponentTransition {
 
 	componentWillMount(){
-
 		// state
 		this.state = {
 			print: undefined,
@@ -26,7 +27,8 @@ export default class Print extends ComponentTransition {
 			cartItems: CartStore.getCartItems(),
 			cartCount: 0,
 			bigImageShowed: false,
-			error: undefined
+			error: undefined,
+            userId: Cookie.load('userId')
 		};
 
 		// binded
@@ -81,7 +83,7 @@ export default class Print extends ComponentTransition {
 
 		this.body = document.querySelector('body');
 
-		PrintApi.getOneForsale(this.props.params.token);
+		PrintApi.getOneForSale(this.props.params.token);
 		PrintApi.getForSale();
 		PrintStore.addChangeListener(this.onStoreChange);
 		CartStore.addChangeListener(this.onStoreChange);
@@ -90,13 +92,9 @@ export default class Print extends ComponentTransition {
 		document.addEventListener('touchstart', this.onTouchstart);
 		document.addEventListener('touchmove', this.onTouchmove);
 		document.addEventListener('touchend', this.onTouchend);
-
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-		if (!this.loaded) {
-			this.loadImage();
-		}
 
 		if (nextState.cartCount !== this.state.cartCount && nextState.cartCount < 3) {
 			this.setState({
@@ -109,23 +107,26 @@ export default class Print extends ComponentTransition {
 
 		PrintStore.removeChangeListener(this.onStoreChange);
 		CartStore.removeChangeListener(this.onStoreChange);
+		PrintActions.receive(null);
 
 		document.removeEventListener('mousemove', this.onMousemove);
 		document.removeEventListener('touchstart', this.onTouchstart);
 		document.removeEventListener('touchmove', this.onTouchmove);
 		document.removeEventListener('touchend', this.onTouchend);
-
 	}
 
 	render() {
 
 		let {print, prints, next, prev} = this.state;
 		let links = this.createNextPreviousLinks(next, prev);
-
+        let language = AppStore.Lang();
+        let backUrl = `/${language}/shop?open=true`;
 		return (
 			<div className='page page--print' ref='view'>
 				{this.createSeoComponent(print)}
-				<div className='submenu'><Link to='/shop?open=true' className='button'>Back to shop</Link></div>
+				<div className='submenu'>
+                    <Link to={backUrl} className='button'>Back to shop</Link>
+                </div>
 				<div>
 					<div className='print__nav'>
 						{links.prev}
@@ -135,7 +136,6 @@ export default class Print extends ComponentTransition {
 					{this.createBigPrintElement(print)}
 				</div>
 				{this.createMobilePrintElement(print)}
-				<Cart />
 			</div>
 		);
 	}
@@ -204,14 +204,15 @@ export default class Print extends ComponentTransition {
 		let combos = print.combinations;
 
 		if (combos.length) {
-			let result = combos.reduce((result, combo) => {
+
+			let defaultCombo = combos.reduce((result, combo) => {
 				if (result) {
 					return result;
 				}
 				return combo.stock > 0 ? combo : null;
-			});
+			}, null);
 
-			return result || combos[0];
+			return defaultCombo || combos[0];
 		}
 
 		return null;
@@ -223,24 +224,46 @@ export default class Print extends ComponentTransition {
 			e.preventDefault();
 		}
 
-		if (this.state.cartCount < 3) {
+		let {print, selectedCombination} = this.state;
 
-			let {print, selectedCombination} = this.state;
+		CartActions.addToCart({
+			product: print,
+			combination: selectedCombination,
+			quantity: 1
+		});
 
-			CartActions.addToCart({
-				product: print,
-				combination: selectedCombination,
-				quantity: 1,
-			});
+        let language = AppStore.Lang();
+        let sendEmail = false;
+        let cartData = Cookie.load('productCart');
+        if (!cartData) { cartData = []; }
+        if (!cartData.includes(print.id)) {
+            Cookie.remove('productCart', { path: '/' });
 
-			CartActions.updateCartEnabled(true, true);
+            cartData.push(print.id);
+            sendEmail = true;
 
-		} else {
-			this.setState({
-				error: 'Your cart is full (max 3)'
-			});
-		}
+            Cookie.save('productCart', JSON.stringify(cartData), { path: '/' });
+        }
+        PrintApi.checkSendMail({
+            language: `${language}`,
+            sendmail: sendEmail,
+            product: print,
+            customer_id: Cookie.load('userId')
+        });
+
+		CartActions.updateCartEnabled(true, true);
+        PrintApi.getOneForSale(print.id);
 	}
+
+    redirectToLogin(e) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+		let language = AppStore.Lang();
+        window.location = `${config.prestashop.url}/${language}/login?back=my-account`
+    }
 
 	toggleList(e) {
 		e && e.preventDefault();
@@ -253,39 +276,29 @@ export default class Print extends ComponentTransition {
 		}
 	}
 
-	loadImage() {
-		let {print} = this.state;
+	loadPrint() {
+
+		let print = this.state.print;
 
 		if (!print) {
-			return Promise.resolve();
+			return;
 		}
 
 		return new Promise((resolve) => {
-			let timeout = setTimeout(resolve, 15000);
 			let image = new Image();
 
-			image.onload = () => {
-				clearTimeout(timeout);
-				resolve(image);
-			};
-
+			image.onload = () => resolve(image);
 			image.src = print.image;
 		})
 
 		.then((image) => {
-			if (!image) {
-				return;
-			}
-
 			let orientation = image.height >= image.width * 1.2 ? 'portrait' : 'landscape';
-
-			this.loaded = true;
 
 			this.setState({
 				loadedPrint: (
 					<div className='print__left'>
 						<div className={'print__image print__image--'+orientation}>
-							<img className='print__file' src={print.image} alt={print.alt} onClick={this.zoomIn}></img>
+							<img className='print__file' src={print.image} alt={print.title} onClick={this.zoomIn}></img>
 						</div>
 					</div>
 				),
@@ -369,6 +382,8 @@ export default class Print extends ComponentTransition {
 			cartCount: CartStore.getCartCount(),
 			selectedCombination: selectedCombination,
 		});
+
+		this.loadPrint();
 	}
 
 	/**
@@ -492,9 +507,11 @@ export default class Print extends ComponentTransition {
 	 * @return {react:Element}
 	 */
 	createCombinationListElement(print) {
+		let combos = print.combinations || [];
+
 		return (
 			<ul className='print__serial-list'>
-				{print.combinations.map((combo, i) => {
+				{combos.map((combo, i) => {
 					return this.createCombinationElement(print, combo, i);
 				})}
 			</ul>
@@ -511,6 +528,8 @@ export default class Print extends ComponentTransition {
 		}
 
 		let {loadedPrint, selectedCombination: combo} = this.state;
+		let price = print.price ? print.price + '€' : '';
+        let clickCartButton = this.state.userId ? this.addToCart : this.redirectToLogin;
 
 		return (
 			<div className='print'>
@@ -518,30 +537,39 @@ export default class Print extends ComponentTransition {
 				<div className='print__infos'>
 					<h3 className='print__artist text'>{print.manufacturer}</h3>
 					<h3 className='print__location text'>{print.name}</h3>
-					<div className='print__price text text--small'>{print.price}€</div>
+					<div className='print__price text text--small'>{price}</div>
 					<p className='print__desc text text--small'>{print.description}</p>
 					<div className='print__serials'>
 						{(() => {
 
-							if (!print.forsale) {
-								return (<div className='text'>Out of stock</div>);
-							}
-
-							return (
-								<div>
-									<div className='print__serial-wrapper'>
-										<div className='print__serial-opt text'>Choose edition</div>
-										<div className='print__select text'>
-											<div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
-											{this.createCombinationListElement(print)}
+							if (print.forsale) {
+								return (
+									<div>
+										<div className='print__serial-wrapper'>
+											<div className='print__serial-opt text'>{translate('choose_edition')}</div>
+											<div className='print__select text'>
+												{() => {
+													if (combo) {
+												    return <div className='print__serial--selected' onClick={this.toggleList}>{combo.name}</div>
+													}
+													return null;
+												}()}
+												{this.createCombinationListElement(print)}
+											</div>
+										</div>
+										<div className='print__buy-wrapper'>
+											<a href='#' className='print__buy button' onClick={clickCartButton}>{translate('add_to_cart')}</a>
+											{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
 										</div>
 									</div>
-									<div className='print__buy-wrapper'>
-										<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart</a>
-										{(this.state.error) ? (<div className='text print__buy-error'>{this.state.error}</div>) : null}
-									</div>
-								</div>
-							);
+								);
+							} else if (print.forsale == false) {
+								return (<div className='text'>{translate('out_of_stock')}</div>);
+							} else {
+								return (
+									<div></div>
+								);
+							}
 
 						})()}
 					</div>
@@ -569,13 +597,13 @@ export default class Print extends ComponentTransition {
 						return (
 							<div>
 								<div className='print__serial-wrapper' onClick={this.toggleList}>
-									<div className='print__serial-opt text'>Choose edition</div>
+									<div className='print__serial-opt text'>{translate('choose_edition')}</div>
 									<div className='print__select text'>
 										<div className='print__serial--selected'>{this.state.selectedCombination.name}</div>
 										{this.createCombinationListElement(print)}
 									</div>
 								</div>
-								<a href='#' className='print__buy button' onClick={this.addToCart}>Add to cart ({this.state.cartCount})</a>
+								<a href='#' className='print__buy button' onClick={this.addToCart}>{translate('add_to_cart')} ({this.state.cartCount})</a>
 							</div>
 						);
 					} 
@@ -601,10 +629,11 @@ export default class Print extends ComponentTransition {
 
 		return (
 			<div className={'bigprint ' + bigPrintClass}>
-				<img className='bigprint__image' src={print.image} alt={print.alt} onClick={this.zoomOut}></img>
+				<img className='bigprint__image' src={print.image} alt={print.title} onClick={this.zoomOut}></img>
 			</div>
 		);
 	}
+
 }
 
 // vim: ts=2 sts=2 sw=2 noet

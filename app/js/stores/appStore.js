@@ -32,7 +32,7 @@ const AppStore = assign({}, EventEmitter.prototype, {
 	Lang: () => {
 		let lang = getLanguage((typeof window !== 'undefined') ? location.pathname : 'en')
 		if(typeof document !== 'undefined') document.getElementsByTagName('html')[0].setAttribute('lang', lang);
-		if (lang === undefined) lang = 'en'
+		lang = lang === undefined ? 'en' : lang
 		return lang
 	},
 

@@ -1,158 +1,55 @@
 import PrintActions from '../actions/printActions';
-let config = require('../config');
+import AppStore from '../stores/appStore';
+import LRU from 'lru-cache';
+const config = require('../config');
+const cache = new LRU({max: 50, maxAge: 15 * 60 * 1000});
 
+const retrieve = (url, done) => {
+	if (!cache.has(url)) {
+		let promise = fetch(url)
+			.then((response) => response.clone().json())
+			.catch((ex) => console.log('parsing failed', ex));
 
-module.exports = {
-	getAll : function() {
-		fetch(config.siteurl + '/api/prints')
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveAll(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getForSale : function() {
-		fetch(config.siteurl + '/api/prints/forsale')
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveForSale(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getUnsold : function() {
-		fetch(config.siteurl + '/api/prints/unsold')
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveUnsold(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getSlideshow : function(artist, id) {
-		fetch(config.siteurl + '/api/prints/' + artist + '/slideshow/' + id)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveSlideshow(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getByArtist : function(artist) {
-		fetch(config.siteurl + '/api/prints/' + artist)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receiveFromArtist(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getOne : function(id) {
-		fetch(config.siteurl + '/api/print/' + id)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receive(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	getOneForsale : function(id) {
-		fetch(config.siteurl + '/api/print/forsale/' + id)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				PrintActions.receive(json)
-			}).catch(function(ex) {
-				console.log('parsing failed', ex)
-			});
-	},
-
-	blockSerial: function (token, serial) {
-		fetch(config.siteurl + '/api/printBlocked/' + token, {
-			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				'serial' : serial
-			})
-		});
-	},
-
-	unblockSerial: function (token, serial) {
-		fetch(config.siteurl + '/api/printBlocked/' + token, {
-			method: 'delete',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				'serial' : serial
-			})
-		});
-	},
-
-	order : function(id, serial) {
-		fetch(config.siteurl + '/api/print/' + id, {
-			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				'serial' : serial
-			})
-		})
-	},
-
-	create : function(print){
-		let headers = {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-		};
-		if (userToken) {
-			headers['Authorization'] = 'Bearer ' + userToken;
-		}
-		fetch(config.siteurl + '/api/prints', {
-			method: 'post',
-			headers: headers,
-			body: JSON.stringify({
-				'print' : print
-			})
-		});
-	},
-
-	// ADMIN
-	update : function(token, print){
-		let userToken = localStorage.getItem('jwt');
-		let headers = {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-		};
-		if (userToken) {
-			headers['Authorization'] = 'Bearer ' + userToken;
-		}
-		fetch(config.siteurl + '/api/admin/print/' + token, {
-			method: 'post',
-			headers: headers,
-			body: JSON.stringify({
-				'print' : print
-			})
-		});
+		cache.set(url, promise);
 	}
 
+	return cache.get(url);
+};
+
+module.exports = {
+
+	getForSale : function() {
+		let language = AppStore.Lang();
+		let url = `${config.siteurl}/api/${language}/prints/forsale`;
+
+		return retrieve(url).then(PrintActions.receiveForSale);
+	},
+
+	getOneForSale : function(id) {
+		let language = AppStore.Lang();
+		let url = `${config.siteurl}/api/${language}/prints/forsale/${id}`;
+
+		return retrieve(url).then(PrintActions.receive);
+	},
+
+    checkSendMail: function(data) {
+        let language = data.language;
+
+        return fetch(`${config.siteurl}/api/${language}/cart/sendmail`, {
+            method: 'POST',
+            redirect: 'manual',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        .then(response => response.json())
+
+        .catch((e) => {
+            console.log(e.message);
+            console.log(e.stack);
+        });
+    }
 };

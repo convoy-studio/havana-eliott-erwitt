@@ -29,6 +29,11 @@ var controller = {
 	create : {
 		handler : function(request, reply){
 			OpeningShop.find({}, function (err, items) {
+                let response = {
+                    success: false,
+                    message: ''
+                };
+
 				if (!err) {
 					let alreadyExist = false,
 						index = 0;
@@ -39,11 +44,10 @@ var controller = {
 					}
 
 					if (alreadyExist) {
-						const response = {
+						response = {
 							success: false,
 							message: 'Email already subscribed.'
-						}
-						return reply(response);
+						};
 					} else {
 						var openingShop = new OpeningShop({
 							mail: request.payload.mail
@@ -51,31 +55,29 @@ var controller = {
 
 						openingShop.save( function(err, data) {
 							if (!err) {
-								const response = {
+								response = {
 									success: true,
 									message: 'Email successfully subscribed.'
-								}
-								return reply(response);
+								};
 							} else {
-								const response = {
+								response = {
 									success: false,
 									message: 'Error'
-								}
-								return reply(response); // HTTP 500
+								}; // HTTP 500
 							}
 						});
 					}
 				} else {
-					const response = {
+					response = {
 						success: false,
 						message: 'Error'
-					}
-					return reply(response); // HTTP 500
+					}; // HTTP 500
 				}
+
+                return reply(response);
 			});
 		}
 	}
-	
 };
 
 module.exports = controller;

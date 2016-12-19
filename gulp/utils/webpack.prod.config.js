@@ -2,6 +2,8 @@ import path from 'path';
 import webpack from 'webpack';
 import config from '../config';
 
+const env = process.env;
+
 const webpackConfig = {
 	target: 'web',
 	entry: config.entry.scripts,
@@ -19,6 +21,11 @@ const webpackConfig = {
 		extentions: ['js', 'jsx']
 	},
 	plugins : [
+		new webpack.DefinePlugin({
+			'process.env': {
+				PRESTASHOP_FRONTEND_URL: JSON.stringify(env.PRESTASHOP_FRONTEND_URL),
+			},
+		}),
 		new webpack.optimize.UglifyJsPlugin({ output: {comments: false} })
 	],
 	module: {

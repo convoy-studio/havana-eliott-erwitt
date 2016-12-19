@@ -6,7 +6,9 @@ import auth from './auth';
 import newsletter from './newsletter';
 import openingShop from './openingShop';
 import checkout from './checkout';
+import cache from './cache';
+import cart from './cart';
 
-const routes = [].concat(project, print, printBlocked, order, auth, newsletter, openingShop, checkout);
+const routes = [].concat(project, print, printBlocked, order, auth, newsletter, openingShop, checkout, cache, cart);
 
 export default routes;

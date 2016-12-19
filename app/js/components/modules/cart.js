@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
+import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import { CheckoutForm } from './checkout';
+import { translate } from '../../utils/translation';
 // import AppStore from 'AppStore'
 // import AppConstants from 'AppConstants'
 
@@ -75,67 +77,67 @@ export default class Cart extends Component {
 		let itemLabel = (this.state.count > 1) ? 'items' : 'item';
 		let visibility = (this.state.enabled.cartEnabled ? ' cart--enabled' : '') + (this.state.visible && this.state.hash === 'shop' ? 'cart--visible' : '');
 		let isEmpty = (this.state.count > 0) ? '' : ' cart--empty';
-
+        let language = AppStore.Lang();
+        let backUrl = `/${language}/shop?open=true`;
 
 		return (
-			<div>
-				<div className={'cart' + visibility + isEmpty} ref='cart'>
-					<div className='cart__count'>Cart —<span>{this.state.count}</span> {itemLabel}</div>
+			<li className={'cart' + visibility + isEmpty} ref='cart'>
+				<div className='cart__count'>{translate('cart')} — <span>{this.state.count}</span> {itemLabel}</div>
+				{(() => {
+					if (this.body && this.body.classList.contains('js-mobile')) return (
+						<div className='cart__toggle'>cart</div>
+					)
+				})()}
+				<div className='cart__content cart__products-wrapper'>
+					<ul className='cart__products'>
+						{Object.keys(this.state.items).map((index) => {
+							let {product, combination: combo, quantity} = this.state.items[index];
+
+							return (
+								<li key={index} className='cart__product'>
+									<div className='cart__column'>
+										<div className='cart__artist'>{product.manufacturer}</div>
+										<div className='cart__details'>{product.name}</div>
+										<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
+										<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
+									</div>
+									<div className='cart__column'>
+										<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
+										<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
+									</div>
+								</li>
+							)
+						}.bind(this))}
+					</ul>
+					<div className='cart__subtotal'>
+						<div className='cart__column'>Subtotal:</div>
+						<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
+					</div>
+					<div className='cart__checkout'>
+						<CheckoutForm />
+					</div>
+					{(() => {
+						if (this.body && this.body.classList.contains('js-mobile'))
+                            return (
+                                <div className='cart__checkout cart__checkout--back'>
+                                    <Link to={backUrl} className='button'>Back to shop</Link>
+                                </div>
+                            )
+					})()}
+				</div>
+				<div className='cart__content cart__empty-wrapper'>
+					<div className='cart__empty'>
+						You have no items in your cart.
+					</div>
 					{(() => {
 						if (this.body && this.body.classList.contains('js-mobile')) return (
-							<div className='cart__toggle'>cart</div>
+							<div className='cart__checkout'>
+								<Link to={backUrl} className='button'>Back to shop</Link>
+							</div>
 						)
 					})()}
-					<div className='cart__content cart__products-wrapper'>
-						<ul className='cart__products'>
-							{Object.keys(this.state.items).map((index) => {
-								let {product, combination: combo, quantity} = this.state.items[index];
-
-								return (
-									<li key={index} className='cart__product'>
-										<div className='cart__column'>
-											<div className='cart__artist'>{product.manufacturer}</div>
-											<div className='cart__details'>{product.name}</div>
-											<div className='cart__serial'>Edition <span className='cart__number'>{combo.name}</span></div>
-											<div className='cart__price'>{product.price}<span className='cart__currency'>€</span></div>
-										</div>
-										<div className='cart__column'>
-											<div className='cart__print'><img className='cart__image' src={product.image}></img></div>
-											<div className='cart__remove button' onClick={this.removeItem.bind(this, index)}>Remove item</div>
-										</div>
-									</li>
-								)
-							}.bind(this))}
-						</ul>
-						<div className='cart__subtotal'>
-							<div className='cart__column'>Subtotal:</div>
-							<div className='cart__column'>{this.state.total}<span className='cart__currency'>€</span></div>
-						</div>
-						<div className='cart__checkout'>
-							<CheckoutForm />
-						</div>
-						{(() => {
-							if (this.body && this.body.classList.contains('js-mobile')) return (
-								<div className='cart__checkout cart__checkout--back'>
-									<Link to='/shop?open=true' className='button'>Back to shop</Link>
-								</div>
-							)
-						})()}
-					</div>
-					<div className='cart__content cart__empty-wrapper'>
-						<div className='cart__empty'>
-							You have no items in your cart.
-						</div>
-						{(() => {
-							if (this.body && this.body.classList.contains('js-mobile')) return (
-								<div className='cart__checkout'>
-									<Link to='/shop?open=true' className='button'>Back to shop</Link>
-								</div>
-							)
-						})()}
-					</div>
 				</div>
-			</div>
+			</li>
 		);
 
 	}
@@ -163,7 +165,7 @@ export default class Cart extends Component {
 	removeItem(index) {
 
 		const print = this.state.items[index];
-		PrintApi.unblockSerial(print.token, print.serial);
+		//PrintApi.unblockSerial(print.token, print.serial);
 		CartActions.removeFromCart(index);
 	}
 

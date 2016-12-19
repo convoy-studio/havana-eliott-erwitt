@@ -74,8 +74,7 @@ let CartActions = {
 		// 	actionType: CartConstants.RECEIVE_CHECK,
 		// 	data: data
 		// })
-	}
-
-}
+    }
+};
 
 export default CartActions;

@@ -1,24 +1,17 @@
 import MailActions from '../actions/mailActions';
 let config = require('../config');
 
-const MAILCHIMP_KEY = 'qw7mssBl9En7cQMR_yQ-TQ';
-const MAILCHIMP_NEWSLETTER = 'contact@havana-fellowship.com ';
-const MAILCHIMP_REOPENING = 'support@havana-fellowship.com';
-const MAILCHIMP_CONTACT = 'contact@havana-fellowship.com';
-// const MAILCHIMP_CONTACT = 'nicolas.daniel.29@gmail.com';
-
-
 module.exports = {
 
 	// send mail to Havana from contact page
 	sendMail : function(data) {
 		const mailData = {
-			'key': MAILCHIMP_KEY,
+			'key': config.mail.key,
 			'message': {
 				'from_email': data.mail,
 				'from_name': data.name,
 				'to': [{
-					'email': MAILCHIMP_CONTACT,
+					'email': config.mail.contact_email,
 					'type': 'to'
 				}],
 				'subject': data.subject,
@@ -37,9 +30,9 @@ module.exports = {
 	},
 
 	// send templated mail to a specific person
-	sendTemplate : function(template, mail, from = 'contact@havana-fellowship.com') {
+	sendTemplate : function(template, mail, from = config.mail.contact_email) {
 		const mailData = {
-			'key': MAILCHIMP_KEY,
+			'key': config.mail.key,
 			'template_name': template,
 			'template_content': [{
 				'name': 'example name',
@@ -88,7 +81,7 @@ module.exports = {
 		}).value();
 
 		const mailData = {
-			'key': MAILCHIMP_KEY,
+			'key': config.mail.key,
 			'template_name': data.template,
 			'template_content': [{
 				'name': 'example name',
@@ -117,7 +110,7 @@ module.exports = {
 
 	getTemplates() {
 		const data = {
-			'key': MAILCHIMP_KEY,
+			'key': config.mail.key
 		};
 
 		fetch('https://mandrillapp.com/api/1.0/templates/list.json', {
@@ -135,5 +128,4 @@ module.exports = {
 			console.log('parsing failed', err);
 		});
 	}
-
 };

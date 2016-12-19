@@ -6,7 +6,6 @@ import Utils from '../../utils/utils';
 import AppStore from '../../stores/appStore';
 import PrintApi from '../../utils/printApi';
 import PrintStore from '../../stores/printStore';
-import { intro } from '../../../data/shop';
 import Cart from '../modules/cart';
 import CartActions from '../../actions/cartActions';
 import CartStore from '../../stores/cartStore';
@@ -14,10 +13,6 @@ let raf = Utils.raf();
 let _ = require('lodash');
 let offset = require('../../utils/offset');
 let config = require('../../config');
-// let Masonry;
-// if(typeof window !== 'undefined') {
-// 	Masonry = require('masonry-layout');
-// }
 
 class PrintPreview extends React.Component {
 
@@ -33,7 +28,7 @@ class PrintPreview extends React.Component {
 							<div className='shop__detail'>
 								<div className='text'>{print.manufacturer}</div>
 								<div className='text'>{print.name}</div>
-								<div className='shop__price text'>{print.price}€</div>
+								<div className='shop__price text'>{print.price}€ (exclude VAT)</div>
 								<div className='shop__button button'>{content.shop_details}</div>
 							</div>
 						</div>
@@ -112,7 +107,7 @@ export default class Shop extends ComponentTransition {
 		if (this.max > 0 && !this.loaded) {
 			this.loaded = true;
 			_(this.state.prints).forEach((print, index) => {
-				file = new Image();
+			 	file = new Image();
 				file.onload = this.onImageLoaded;
 				file.src = print.image;
 			}).value();
@@ -122,7 +117,7 @@ export default class Shop extends ComponentTransition {
 
 	componentWillUnmount() {
 
-		if(typeof window !== 'undefined') {
+		if (typeof window !== 'undefined') {
 			window.cancelAnimationFrame(this.scrollRaf);
 		}
 		PrintStore.removeChangeListener(this.onStoreChange);
@@ -136,17 +131,15 @@ export default class Shop extends ComponentTransition {
 		let columns = this.columnize(prints, 3);
 
 		let pageClass = this.state.open ? '' : 'page--hidden';
-
-				// <div className='submenu'><Link to='/shop-temp' className='button'>See temporary shop page</Link></div>
 		return (
 			<div className={'page page--shop ' + pageClass} onClick={this.discover} ref='view'>
 				{this.createSeoComponent(language)}
 				<div className='shop js-smooth'>
 					<div className='shop__intro'>
-						<h2 className='title'>{intro.title}</h2>
-						{Object.keys(intro.paragraphs).map((index) => {
+						<h2 className='title'>{this.content.shop_intro_title}</h2>
+						{Object.keys(this.content.shop_intro_paragraph).map((index) => {
 							return (
-								<p className='shop__paragraph paragraph text' key={index}>{intro.paragraphs[index]}</p>
+								<p className='shop__paragraph paragraph text' dangerouslySetInnerHTML={{ __html: this.content.shop_intro_paragraph[index] }} key={index}></p>
 							)
 						})}
 						<div className='shop__discover button' onClick={this.discover}>{this.content.shop_discover}</div>
@@ -164,7 +157,6 @@ export default class Shop extends ComponentTransition {
 						})}
 					</div>
 				</div>
-				<Cart />
 			</div>
 		);
 	}
@@ -289,10 +281,19 @@ export default class Shop extends ComponentTransition {
 	 * @return {Array}
 	 */
 	columnize(items=[], n=3) {
-		let columns = _.range(n).map(() => []);
-		let distribute = (item, index) => columns[index % n].push(item);
 
-		items && items.length && _.each(items, distribute);
+		let columns = _.range(n).map(() => []);
+		if (items && items.length > 0) {
+			const elliott = items.filter((print) => { if (print.manufacturer === 'Elliot Erwitt') return print }) // Elliot
+			const ali = items.filter((print) => { if (print.manufacturer === '') return print }) // Ali
+			const prints = elliott.concat(ali)
+			let col = 0
+			for (let i = 0; i < prints.length; i++) {
+				columns[col].push(prints[i])
+				if (col >= n-1) col = -1
+				col++
+			}
+		}
 
 		return columns;
 	}

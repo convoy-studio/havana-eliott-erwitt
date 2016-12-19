@@ -1,8 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import AppStore from '../../stores/appStore';
-import CheckoutStore from '../../stores/checkoutStore';
-import CheckoutApi from '../../utils/checkoutApi';
+import CartStore from '../../stores/cartStore';
+import { translate } from '../../utils/translation';
+
+import config from '../../config';
 
 /**
  * This form sends the browser to the PrestaShop checkout RPC URL via
@@ -25,10 +27,11 @@ export class CheckoutForm extends React.Component {
 			method: 'POST',
 
 			// the form action
-			next_rpc_url: null,
+			// FIXME: look up the base prestashop url from configuration
+			action: `${config.prestashop.url}/rpc/prepare-waitlist.php`,
 
 			// submit button text
-			button_text: 'Proceed to checkout',
+			button_text: translate('proceed_to_checkout') || 'Proceed to checkout',
 
 			...this.props,
 		};
@@ -41,46 +44,57 @@ export class CheckoutForm extends React.Component {
 		this.form = this.refs.form.getDOMNode();
 		this.button = this.refs.button.getDOMNode();
 		this.button.addEventListener('click', (e) => this.onClickSubmitButton(e));
-
-		CheckoutStore.on('change', () => this.onStoreChange());
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	render() {
-		let {method, next_rpc_url, button_text,
-				 cart_id, language_id, token} = (this.state || this.props);
+		let {method, action, button_text, items} = (this.state || this.props);
 
 		return (
 			<div>
 				<a ref='button' className="button">{button_text}</a>
-				<form ref='form' method={method} action={next_rpc_url} style={{'display': 'none'}}>
-					<input type="hidden" name="cart_id" value={cart_id}/>
-					<input type="hidden" name="language_id" value={language_id}/>
-					<input type="hidden" name="token" value={token}/>
+				<form ref='form' method={method} action={action} style={{'display': 'none'}}>
+					<input type="hidden" name="json" value="" />
 				</form>
 			</div>
 		);
 	}
 
 	/**
-	 * Populate form values, then submit the form
-	 * @param void
-	 * @return void
-	 */
-	onStoreChange() {
-		this.setState(CheckoutStore.getRemoteState());
-		this.state.ready && this.form.submit();
-	}
-
-	/**
 	 * @param {Event} e
 	 * @return void
 	 */
-	onClickSubmitButton (e) {
+	onClickSubmitButton(e) {
 		e && e.preventDefault();
-		CheckoutApi.acquireRemoteState();
+
+		let {form} = this;
+
+		if (form) {
+			form.elements.json.value = JSON.stringify(this.createJsonPayload());
+			console.log(this.createJsonPayload());
+			form.submit();
+		}
+	}
+
+	/**
+	 * @param void
+	 * @return {Object}
+	 */
+	createJsonPayload() {
+		let items = CartStore.getCartItems() || [];
+
+		return {
+			language: this.state.language,
+			items: items.map((item) => {
+				return {
+					product_id: item.product.id,
+					combination_id: item.combination.id,
+					quantity: item.quantity,
+				};
+			}),
+		};
 	}
 }
 

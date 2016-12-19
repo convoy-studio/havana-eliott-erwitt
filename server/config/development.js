@@ -20,11 +20,11 @@ const config = {
 	prestashop: {
 		languages: {
 			'en': 1,
-			'es': 2,
+			'es': 2
 		},
 
 		frontend: {
-			url: env.PRESTASHOP_FRONTEND_URL || 'https://your-prestashop-domain',
+			url: env.PRESTASHOP_FRONTEND_URL || 'https://your-prestashop-domain'
 		},
 
 		client: {
@@ -32,12 +32,14 @@ const config = {
 				key: env.PRESTASHOP_WEBSERVICE_KEY || 'your-prestashop-webservice-key',
 				scheme: env.PRESTASHOP_WEBSERVICE_SCHEME || 'https',
 				host: env.PRESTASHOP_WEBSERVICE_HOST || 'localhost',
-				root: env.PRESTASHOP_WEBSERVICE_ROOT || '/api',
-			},
-		},
+				root: env.PRESTASHOP_WEBSERVICE_ROOT || '/api'
+			}
+		}
 	},
+
+    mandrill: {
+        key: env.MANDRILL_API_KEY
+    }
 };
 
 export default config;
-
-// vim: ts=2 sts=2 sw=2 noet

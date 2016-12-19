@@ -5,6 +5,7 @@ import AppActions from '../actions/appActions';
 import PopupCookie from './modules/popupCookie';
 import CartActions from '../actions/cartActions';
 import languages from '../../data/languages'
+import Secondarymenu from './modules/secondarymenu';
 
 const Transition = React.addons.TransitionGroup;
 const content = AppStore.getContent()
@@ -122,6 +123,7 @@ export default class Wrapper extends React.Component {
 								
 							</ul>
 						</nav>
+                        <Secondarymenu />
 					</header>
 				)}
 

@@ -34,7 +34,6 @@ const transformProduct = (product) => {
 	let data = {product: stripHtml(product)};
 
 	return P.all([
-		product.manufacturer().first(),
 		product.combinations().list(),
 		product.images().first(),
 	])
@@ -42,8 +41,8 @@ const transformProduct = (product) => {
 	// fetch the names and quantities of each product combination
 	.then((result) => {
 
-		let [manufacturer, combos, image] = result;
-		data = {...data, manufacturer, combos, image};
+		let [combos, image] = result;
+		data = {...data, combos, image};
 
 		return P.all(combos.map((combo) => {
 			return P.all([
@@ -55,13 +54,14 @@ const transformProduct = (product) => {
 
 	// assign name and quantity properties to each combination
 	.then(() => {
-		let {product, manufacturer, image, combos} = data;
+		let {product, image, combos} = data;
 
 		let map_combo = (combo, i) => {
 			return {
 				id: combo.attrs.id,
 				product_id: product.attrs.id,
 				name: combo.povs ? combo.povs.attrs.name : '',
+				realstock: combo.stock ? combo.stock.attrs.quantity : 0,
 				stock: combo.stock ? combo.stock.attrs.quantity : 0,
 				logistic_id: combo.attrs.reference,
 			};
@@ -69,12 +69,10 @@ const transformProduct = (product) => {
 
 		combos = combos.map(map_combo).sort(sort.ascending((combo) => combo.name || combo.id));
 
-		let DEPRECATED = 'DEPRECATED';
-
 		let payload = {
 			'id': product.attrs.id,
 			'name': product.attrs.name,
-			'manufacturer': manufacturer ? manufacturer.attrs.name : '',
+			'manufacturer': product.attrs.manufacturer_name,
 			'image': image ? image.attrs.src : '',
 			'description': product.attrs.description,
 			'price': product.attrs.price,
@@ -87,65 +85,54 @@ const transformProduct = (product) => {
 	})
 };
 
-/**
- * Return a route handler function that replies with a list of print payloads
- * @param void
- * @return {Function}
- */
-const createListHandler = () => {
-	return (req, reply) => {
-		let client = req.server.app.prestashop.client;
-
-		return client.resource('products').list()
-		.then((products) => P.all(products.map(transformProduct)))
-		.then(reply)
-		.catch((e) => reply(Boom.badImplementation(e)));
-	};
-};
-
-/**
- * Return a route handler function that replies with a single 
- * @param {String} attribute - the PrestaShop product attribute
- * @param {Function} resolver - a function that resolves the value of the attribute given a request
- * @return {Function}
- */
-const createAttributeQueryHandler = (attribute, resolver) => {
-	return (req, reply) => {
-		let client = req.server.app.prestashop.client;
-		let id = req.params.token;
-
-		return client.resource('products').get(id)
-		.then(transformProduct)
-		.then(reply)
-		.catch((e) => reply(Boom.badImplementation(e)));
-	};
-};
-
-
 export default {
 
-	getAll: {
-		handler: createListHandler(),
-	},
-
-	getByArtist : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
-	},
-
 	getForSale : {
-		handler: createListHandler(),
-	},
+		handler: (req, reply) => {
+			let {client} = req.server.app.prestashop;
+			let {language} = req.params;
+			let {cache} = req.server.app;
+			let key = `${language}:prints:forsale`
+			let payload = cache.get(key);
 
-	getUnsold : {
-		handler: createListHandler(),
-	},
+			if (payload) {
+				return reply(payload);
+			}
 
-	getByToken : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
+			client.setLanguageIso(language);
+
+			return client.resource('products').list()
+			.then((products) => P.all(products.map(transformProduct)))
+			.then((payload) => {
+				cache.set(key, payload);
+				return reply(payload);
+			})
+			.catch((e) => reply(Boom.badImplementation(e)));
+		}
 	},
 
 	getOneForsale : {
-		handler : createAttributeQueryHandler('id', (req) => req.params.token),
+		handler : (req, reply) => {
+			let {client} = req.server.app.prestashop;
+			let {token: id, language} = req.params;
+			let {cache} = req.server.app;
+			let key = `${language}:print:${id}`;
+			let payload = cache.get(key);
+
+			if (payload) {
+				return reply(payload);
+			}
+
+			client.setLanguageIso(language);
+
+			return client.resource('products').get(id)
+			.then(transformProduct)
+			.then((payload) => {
+				cache.set(key, payload);
+				return reply(payload);
+			})
+			.catch((e) => reply(Boom.badImplementation(e)));
+		},
 	},
 
 };
