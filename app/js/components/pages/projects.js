@@ -149,11 +149,9 @@ export default class Projects extends ComponentTransition {
 	}
 
 	onStoreChange() {
-
 		this.setState({
 			projects: ProjectStore.getFirsts()
 		});
-
 	}
 
 	static fetchData() {

@@ -119,6 +119,44 @@
 	}
 }
 
+.contact-sheet__item--rect {
+	width: calc(25% - 24px);
+
+	&.contact-sheet__item--0:after { background-image: url('../assets/images/handwritings/handwriting_rect_0.png'); }
+	&.contact-sheet__item--1:after {
+		left: -6px;
+		top: -4px;
+		width: calc(100% + 20px);
+		height: calc(100% + 2px);
+		background-image: url('../assets/images/handwritings/handwriting_rect_1.png');
+	}
+	&.contact-sheet__item--2:after {
+		left: -20px;
+		top: -12px;
+		width: calc(100% + 27px);
+		height: calc(100% + 9px);
+		background-image: url('../assets/images/handwritings/handwriting_rect_2.png');
+	}
+	&.contact-sheet__item--3:after {
+		left: -12px;
+		top: -5px;
+		width: calc(100% + 18px);
+		height: calc(100% + 8px);
+		background-image: url('../assets/images/handwritings/handwriting_rect_3.png');
+	}
+	&.contact-sheet__item--4:after {
+		left: -14px;
+		top: -5px;
+		width: calc(100% + 22px);
+		height: calc(100% + 2px);
+		background-image: url('../assets/images/handwritings/handwriting_rect_4.png');
+	}
+	&.contact-sheet__item--5:after {
+		height: calc(100% + 6px);
+		background-image: url('../assets/images/handwritings/handwriting_rect_5.png');
+	}
+}
+
 .contact-sheet__item--disabled {
 	opacity: 0;
 	cursor: default;

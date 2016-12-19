@@ -44,7 +44,6 @@ server.connection({
 });
 
 //Database setup
-
 mongoose.connect('mongodb://' + config.database.host + '/' + config.database.name);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console,'Connection with database failed.'));

@@ -41,4 +41,14 @@ pm2 restart server
 
 ```
 
+### MongoDB
+
+```
+$mongo
+>show dbs
+>use havana
+>show collections
+
+```
+
 **Be sure to run `npm run stop ` when you stop working on it, because if you don't, MongoDB will still be running in the background.**

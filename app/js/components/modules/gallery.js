@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import Seo from '../modules/seo';
 import { Link } from 'react-router';
 import Utils from '../../utils/utils';
+import AppStore from '../../stores/appStore';
 // import Cursor from './cursor';
 let _ = require('lodash');
 let raf = Utils.raf();
@@ -202,11 +203,12 @@ export default class Gallery extends Component {
 				// <Cursor
 				// 	state={this.state.cursorState}
 				// />
+		// console.log('/photography/'+this.props.project+'/contact-sheet')
 		return (
 			<div>
 				{seoComponent}
 				<div className={'project__slideshow ' + slideshowClass}>
-					<div className='project__contact submenu'><Link to={'/photography/'+this.props.project+'/contact-sheet'} className='button'>Contact sheet</Link></div>
+					<div className='project__contact submenu'><Link to={ '/' + AppStore.Lang() + '/photography/'+this.props.project+'/contact-sheet'} className='button'>Contact sheet</Link></div>
 					<div className='project__content'>
 						<div className='project__prints'>
 							{Object.keys(this.props.prints).map((id, index) => {
