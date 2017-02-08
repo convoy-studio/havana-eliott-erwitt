@@ -14,7 +14,7 @@ This will start an instance of MongoDB (basically what the `mongod` command do b
 ## Development
 ```
 gulp webpack --watch
-npm run dev
+sudo npm run dev
 ```
 This will start differents gulp commands watching for changes in /src folder.
 
