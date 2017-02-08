@@ -23,7 +23,7 @@ This will start differents gulp commands watching for changes in /src folder.
 Just run 
 
 ```
-ssh admin@167.114.252.143 -t "cd /var/www/www.havana-fellowship.com/; bash --login"
+ssh ubuntu@137.74.29.206 -t "cd /var/www/www.havana-fellowship.com/; bash --login"
 npm run prod
 gulp webpack
 pm2 restart server
